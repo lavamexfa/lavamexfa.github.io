@@ -399,10 +399,35 @@ footer{border-top:1px solid var(--line);padding:52px 0 38px;color:var(--mut-2);f
   .navlinks a{padding:14px 22px;width:100%;border-bottom:1px solid var(--line)}
   .navlinks .btn{margin:10px 22px}
   .menutoggle{display:block}
-  .router,.steps,.calcgrid{grid-template-columns:1fr}
+  /* 2 columnas en móvil para no estirar tanto */
+  .router{grid-template-columns:1fr 1fr;gap:10px}
+  .steps{grid-template-columns:1fr 1fr;gap:10px}
+  .calcgrid{grid-template-columns:1fr 1fr;gap:14px}
   .foot-grid{grid-template-columns:1fr}
-  section{padding:58px 0}
-  .stats{gap:18px}.curios{flex-direction:column;text-align:center}
+  section{padding:46px 0}
+  .wrap{padding:0 18px}
+  /* globos compactos */
+  .globo{padding:15px 14px;gap:3px}
+  .globo .gic{font-size:1.35rem;margin-bottom:5px}
+  .globo .gt{font-size:1rem;line-height:1.05}
+  .globo .gsub{font-size:.76rem}
+  .globo .gmore{font-size:.56rem;margin-top:9px}
+  .gtag{font-size:.5rem;padding:3px 8px;margin-bottom:7px}
+  /* pasos compactos */
+  .step{padding:16px 14px}
+  .step h4{font-size:.95rem}
+  .step p{font-size:.78rem}
+  /* planes/jobs respiran */
+  .plan{padding:22px}
+  .job{padding:24px}
+  .stats{gap:16px row-gap:14px}
+  .stat .num{font-size:1.5rem}
+  .curios{flex-direction:column;text-align:center}
+  h2.disp{font-size:clamp(1.7rem,7vw,2.4rem)}
+  .lead{font-size:.95rem}
+  .videobox{max-width:290px}
+  .planes{gap:14px}
+  .gpanel-in{padding:20px}
 }
 </style>
 </head>
