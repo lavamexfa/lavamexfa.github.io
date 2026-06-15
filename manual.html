@@ -157,7 +157,7 @@ tr:last-child td{border-bottom:0}
 .ps-a{font-size:.92rem;font-weight:500} .ps-meta{display:flex;flex-wrap:wrap;gap:5px 14px;margin-top:7px;font-size:.78rem;color:var(--mut);font-family:var(--mono)}
 .sell-l{font-size:.85rem;margin:5px 0;color:var(--txt)} .sell-l b{color:var(--gold-2)}
 .fotobtn{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--surf);border:1px dashed var(--line-2);border-radius:14px;padding:34px 16px;color:var(--gold-2);font-family:var(--disp);text-transform:uppercase;letter-spacing:.03em;cursor:pointer;font-size:1rem;margin-bottom:14px}
-.fotoimg{width:100%;border-radius:13px;border:1px solid var(--line-2);margin-bottom:6px}
+.fotoimg{width:100%;max-height:44vh;object-fit:cover;border-radius:13px;border:1px solid var(--line-2);margin-bottom:6px}
 .mapwrap{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:10px;margin-bottom:12px}
 .mapsvg{width:100%;height:auto;display:block}
 .hot{cursor:pointer}
@@ -195,12 +195,11 @@ tr:last-child td{border-bottom:0}
       <button class="tile" onclick="nav('foto')"><div class="ic b">📷</div><h3>Identificar con foto</h3><p>Súbela y te guío</p></button>
       <button class="tile" onclick="nav('materials')"><div class="ic go">🧩</div><h3>Materiales</h3><p>Los 23 + cómo reconocerlos</p></button>
       <button class="tile" onclick="nav('products')"><div class="ic b">🧴</div><h3>Productos</h3><p>Marcas, precios y cuál usar</p></button>
-      <button class="tile" onclick="nav('panos')"><div class="ic v">🧻</div><h3>Paños y GSM</h3><p>Microfibra correcta</p></button>
       <button class="tile" onclick="nav('sellados')"><div class="ic b">💧</div><h3>Sellados</h3><p>Hidrófobo, antipolvo</p></button>
-      <button class="tile" onclick="nav('panos')"><div class="ic v">🧻</div><h3>Paños y GSM</h3><p>Microfibra correcta</p></button>
+      <button class="tile" onclick="nav('panos')"><div class="ic v">🧽</div><h3>Paños y GSM</h3><p>Microfibra correcta</p></button>
       <button class="tile" onclick="nav('equipos')"><div class="ic r">🔧</div><h3>Equipos</h3><p>Aspiradora, pulidora, medidor</p></button>
       <button class="tile" onclick="nav('orden')"><div class="ic go">🔢</div><h3>Orden del servicio</h3><p>Qué va primero</p></button>
-      <button class="tile" onclick="nav('procesos')"><div class="ic g">📋</div><h3>Paso a paso</h3><p>Flujos por servicio</p></button>
+      <button class="tile" onclick="nav('procesos')"><div class="ic g">👣</div><h3>Paso a paso</h3><p>Flujos por servicio</p></button>
       <button class="tile" onclick="nav('prov')"><div class="ic r">🏪</div><h3>Proveedores</h3><p>Dónde comprar e importar</p></button>
       <button class="tile" onclick="nav('glosario')"><div class="ic m">🔤</div><h3>Glosario</h3><p>Qué significan las siglas</p></button>
       <button class="tile big" onclick="nav('mapa')"><div class="ic v">🚗</div><h3>Mapa 360° del vehículo</h3><p>Toca una pieza del auto y ve su ficha al instante.</p></button>
@@ -238,6 +237,7 @@ tr:last-child td{border-bottom:0}
     <div id="mapInfo"></div>
   </section>
 
+  <section class="screen" id="scr-foto">
     <div class="sh"><span class="eb">Identificar</span><h2>Foto del material</h2><p>Saca o sube una foto de la superficie. Te muestro la foto y te guío con preguntas para identificarla.</p></div>
     <label class="fotobtn" id="fotoLabel">📷 Sacar o subir foto<input type="file" accept="image/*" capture="environment" id="fotoInput" onchange="onFoto(this)" hidden></label>
     <div id="fotoPrev"></div>
@@ -410,21 +410,21 @@ var TREE={
  wheel:{q:"¿Goma o aro?",step:"Paso 2 de 2",o:[
    {t:"La goma negra (neumático)",res:"neumaticos"},{t:"El aro (llanta)",res:"llantas"}]}
 };
-function renderTree(node){
-  node=node||"start"; var n=TREE[node], b=document.getElementById("treeBody");
+function renderTree(node,tgt){
+  node=node||"start"; tgt=tgt||"treeBody"; var n=TREE[node], b=document.getElementById(tgt);
   var h='<div class="tree-step">'+n.step+'</div><div class="tree-q">'+n.q+'</div><div class="tree-opts">';
-  n.o.forEach(function(o){var act=o.res?('treeResult(\''+o.res+'\')'):('renderTree(\''+o.go+'\')');
+  n.o.forEach(function(o){var act=o.res?('treeResult(\''+o.res+'\',\''+tgt+'\')'):('renderTree(\''+o.go+'\',\''+tgt+'\')');
     h+='<button class="topt" onclick="'+act+'">'+o.t+'<span class="ar">›</span></button>';});
-  h+='</div>'+(node==="start"?'':'<button class="tree-back" onclick="renderTree(\'start\')">↺ Empezar de nuevo</button>');
+  h+='</div>'+(node==="start"?'':'<button class="tree-back" onclick="renderTree(\'start\',\''+tgt+'\')">↺ Empezar de nuevo</button>');
   b.innerHTML=h;
 }
-function treeResult(k){
-  var s=byKey(k), b=document.getElementById("treeBody");
+function treeResult(k,tgt){
+  tgt=tgt||"treeBody"; var s=byKey(k), b=document.getElementById(tgt);
   b.innerHTML='<span class="result-badge">✓ Material identificado</span><div class="dh">'+s.n+'</div><div class="dwhat">'+s.what+'</div>'+
     fichaRows(s)+recsHTML(s.use)+
-    '<button class="btn-full" onclick="renderTree(\'start\')">Identificar otra superficie</button>'+
+    '<button class="btn-full" onclick="renderTree(\'start\',\''+tgt+'\')">Identificar otra superficie</button>'+
     '<button class="btn-ghost" onclick="nav(\'home\')">Volver al inicio</button>';
-  window.scrollTo(0,0);
+  if(tgt==="treeBody") window.scrollTo(0,0);
 }
 
 /* MATERIALS */
@@ -663,8 +663,10 @@ function onFoto(input){
  var f=input.files&&input.files[0]; if(!f)return;
  var url=URL.createObjectURL(f);
  document.getElementById('fotoPrev').innerHTML='<img class="fotoimg" src="'+url+'" alt="foto">'+
-  '<div class="call tip"><span class="ct">📷 Foto lista</span>Ahora te guío para identificar el material. Toca empezar y responde 2 preguntas.</div>'+
-  '<button class="btn-full" onclick="nav(\'tree\')">Identificar este material →</button>';
+  '<div class="call tip"><span class="ct">📷 Foto lista</span>Responde 2 preguntas y te digo qué material es y cómo tratarlo.</div>'+
+  '<div id="fotoTree"></div>';
+ renderTree('start','fotoTree');
+ document.getElementById('fotoLabel').scrollIntoView({block:"start"});
 }
 
 
