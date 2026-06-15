@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Sistema Detailing · Lavame x Fa</title>
+<meta name="description" content="Sistema operativo visual de detailing · Lavame x Fa">
+<link rel="icon" href="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAQDAwMDAgQDAwMEBAQFBgoGBgUFBgwICQcKDgwPDg4MDQ0PERYTDxAVEQ0NExoTFRcYGRkZDxIbHRsYHRYYGRj/2wBDAQQEBAYFBgsGBgsYEA0QGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBj/wAARCADwAWgDASIAAhEBAxEB/8QAHQAAAgIDAQEBAAAAAAAAAAAAAQIAAwYHCAUECf/EAFcQAAECBQMCBAMEBAcKDAQHAAECEQADBAUhBhIxB0ETIlFhCHGBFDKRoRUjQrEWF4LB0eHwGCQlQ1JiY3ODogkzNDVTZHKSsrO08Sc2N0ZUZXSEo8LT/8QAFwEBAQEBAAAAAAAAAAAAAAAAAAECA//EAB0RAQEBAAIDAQEAAAAAAAAAAAABEQISITFRQWH/2gAMAwEAAhEDEQA/AOCA47tEd4mCYgAeALYY5hkuzHhoHALcxBn5wBU5BbiIBg9h6QQcl/xiKLwDB8c+nMRjyPWIADziIM4aAPy/OD6YMADsIgGXIgDmCHfhvSCNrYH4QU/J8wADuX9OOIbaXOIIIbaoe0Ml9zMWbtAJ91sloZi23L+rQwZmYD6Qw2scE8cYiYAGKS6vm374ATuLM4Pp/biGGeHGe0OSnDjc557f1RQrKAcE/MdvcQm0u3mJ7+sWgsnv+H74iACpio5Dv6RJAgSCoA8N93iAHA7hvf8AtmLdjZAJcZBgEHcCR7Fh/P6worwANx55zzE2AsXJbt2i7Yw+6Th39IGAwAbvxFFedyi/HrCkBTkk/PuYsO1fYkxAlj/NAVMXbJHvBA7gHHYmLFJKRgEsW9Whdg2tln4HaAqYAEkj8IJwhwTthlDIcE/OIwZgkhu/9u8BUcD5YhTg5B+cWFOePwxE2hsfv4gK1YwH4yRE5x6wyh5gO3ygEHgJHPbvAVgDsBBKlM7fWCwcOcejRCMD1gKycsDAA4MN3LjPeB75gBls47PE7E94JIZ+8Bh6wCkNg/8AvEf0/KGx2aF7vAQ+rwv48w3MBoCYMSCPYZiQAZsCDxmISSf6YAY+xEAez5gj7rxAD6QeO31gIBjPpmCQ3ERhgt/TDM+WAgIGOCSH94IGQ+6BtfuIbBzt4xAMAO26D5e5JHf3iJBIZm+vMFKXDjI/KACRlwMw4HmbI94ZKQFDuW5iMlWCw7wAA83DgQwTn3H9UFIDKT+/MWJSCxy759mgK8BGRzjHcwQlHmBbnk8Q4IILhLcE9osCDtO1g8BU428ewaIlK9rh2H9miwSiCcMXB94bgttz8+8BVnaCQ/zggF+wDcExcAQpKSGHEDay+3GSO0ApBJ/nfj5xMqI8rEYbk/KLWS20D2Z2IgBG1QJBIILg8H2jIr8wKiWA5GXGO8QBSlNjGMfKHKAWDge39XeH2BLA5SS5BDxofMU52h2bB+WIIJyNpCfeL9rqUyckEkgvCLlEElg3doCpiSzD5OYKgMjIYZzDlJSspAAIPDwQk7cnADfWAqDE4BAHrmFyzfdPPEWlJ2YHsfR/SFIKifI/ZicxJR86h9SexiMkJJHLxeU7nDAuBz3hCnyK3gcvmKKskhw4hSku3f8AdFgQwYp/qiFOAAnLwHz7QVAKwOBBISACThosVLOGHfsIRSQzMMQFTP794GHxFjBJzzAUnPGICshjgGA4PMOxDbXb0iNlgx9xAVth24gcYh8B3x3gFiX+sAvL+0Ru7RP3wMA+8ABg8P8AKJB5PMSAgBw/EEJy/MQOBx9YjwBc8PBILe0ADvDpcEAF2gJn6cuIKfvNBLuwhkh1MzYaAUOx/DEMXGIPYgfIiGAJPf6wDJSCwBDc8cQU8uPwiJ5yHAIwYcB0gJHJ7+sAA/LY9u0OATwg88tiAAAxf5Q4St1AOP54AbQxIcdsiGIZP0dvWGAblQc49oYBRZiGGWb3iABHlADD0hkkJfdgHJ7viHShiC4BzyIHhpdySxVjEIIlJKgxBD/iYPl2kkAMcYhpbOxAZwMiLm82wbRn84goJSUpUBl2d/yhwjzcgFtuIsChsBAUrP7PMOnaUJUAnaR2PPv8oD5UhIcuCdrDDN84bbl3GR3i7YCpgcs7HlvX84sKQVBI2hm7dvf3gPlCVA7toxkuPf8AOD4a1I4BA7+sXK8gQ6WJcnPAeFDkBADDuHgKwkGY4CfoO/rB2ssONp4d4t2tkqLjs/eFUh1OWbuWx9ICk7Sg7eRn3OfWCA+CEsR2hwhKUgsCAcEcekGWdpCmftjt/VAfOwTMwl37evp9OYUBPmBLO+SYvUlRAKkhuw9/b0iBAG4K4UWYiA+ZQBKVgbe0KS6G9eQTF5JJ2pPLsG4ivaWJVz2JHMBSEnIwPzhTlQIIYZz+6PoCFEgbmduRxCFJCmxzkiLBSewfA/tiEOFOfTiLVhYLZCRw/wCUVqSzEnPBfvFCMrhhx3hCQ/DRaxdyBxCkFzyPV4CoAAkiEIPyPqItx29YVQdL+mSGgK+Eh35hWZ2ixIc/XmF+paAXALH8oB2+/wCEMB2xC4cmAXuGH4RIZ3DdokAQfUQQR/k94XhQeGwDjmAYAlfpBIYQqc/0wwDjh4Bgcd/qILbcjB/qgBgrOYZgonMAyAQ7jn1ixICnGQPaAAdzAwUgA5wBlxANsUc9h9IYOkhx3d4C3fKs+0WBIKC27PEBE/8AGbyQAAzH1hwApRIGH5PziJQSSRx69otSn7gLgPhswFYDjKD6botR3cDHf+eAylMCwHfODDqwAzuf8ntEogdkhv8ANGB/b6wzJ8RACnbLjMBEtSkORl+3HEMylKKeA+Q/HpEClKgpJJIDlh7/ANhFqQfEJ92AiFJSQ7Avzu/dFwR53YPyQ/8AZoAKQEgJLE+wyPn+UOgEFJOE857/ADhSCuUl1bUjzAjgYj1bHprUOpa9NJp2yXG8VK/8XQ0y5xHsSkED6tAyvJARsAS5AHDP9YiAFTEKYqPpwXjfOmvhD606hSidWWSh0/JVwq7VYQsJbP6tG5T/ADEbl038CFmlU4Op9eXKpnOd0q00iZaB/KmlSvyETtFyuI9qlKckqHLBsiESkMAlP3jyR29QY/QZPwMdLQklVz1iT6ifK/d4UY/fvgR0vMp1HTeuLzb6j9kXOllz5ZPzQEED5RO8XrXCxHnd9wDgf0QQQE+UAHhWHf8ApjorUvwb9YbNvmWqiteoZCUlv0dW7Zi/9nNCTx2cxpXUWi9W6Tn/AGbVOmbvZpv/AF+lXKSW9FEbfqDGpUxjrPLKUlny/q0NsI86Q5OTnEX+EFo43DseYr2AzAzA+p7wRX+yyycHJ9oRZCVqGwKB4+RhzL8igAxBcH+b+3pBUlO/a54BLZ9oD5yh1FlOezYeFdklJdj2GWj6UoKEFgABy/f3zFW3djcQXyD++AqCVhe5nzw0VGUQSfX1H4x9CgpBcHn7oHeKlEt5j+MBTtKpigonbyzQqi6X5xw3Ai7af+82IVQB5LtwHi6KePfEVlJKdz9+DFztgAO3eEKCA272cGKKtuSGPqX5aEb1cE9odTlWSeO8K/PeAQgkPmEVz6RZlS3b8IB+72EBVw3YwPyhiGLmFdyPfvARsc/INEgOw4bHeJAE5AxiIBh4LEFmAggEnEBGyM47xYEkhoQfeY8D3i0PgH8YAJJD8/WCxKSfN+6DsPLiLE8scNxABJVuyghhFiQSwx6wAckkg4wDDJB2upi7Y+UZFiUfs+gw3aCSZanJfsDw8KAoNkE4AhgN6s8Oz5/KAdJcMCc9mixLnYHUku0JLSZZ3AgM5yMmPokyJlTORLlSjMmTVBKEIBUpSiWAAGSfYQChLgeUP6ARamX5mK9oLcnjMbg0j8LfWzVkmVVSNITLPSTQ4qL3NFGGPfYXmf7uY3dpX4DpplpqNZ6/ASnKpFko9zexmzWA7fsxLyi5XGIBAP6zaGAxz9Y9K0WK96hrDSWG0V10qF4Eqhp1z1Y9kgtHeVH0v+ELppViRdau0X27owKe4VqrtUk+gppIIB/kRsq168rxbhRdNOi2pPsbNLm1siRp6jI7Fpp8Qj/ZxO3xeriPS3wm9btSqRNnablafpz5hNvVQmQSD/o07l++UxurS3wH0iwifrPXlRUqGVU9jo9iR6jxZrn67RG+vsXXO+p/v2/6O0bTq5RaaKbdqpI/1s8olA+/hmD/ABL2O5ofW2qtYaxUS6pd2u0yVTH2+z0/hy29iDGby/qyNfyul/wl9KVIl3hGnZ1fL+7Lu1cblVKV7SElRJ9giM2oOpk2otwo+mnSDV1xpAGlzZlAixUAHrunlJI9xLJjNtOaJ0dpCXt0rpSy2UHBVb6OXJUfmoDcfqY1n1d0zri+dQU1ul7Rf6hB09PpKasoL2KGVSXJU8GRPmJM1O5KEBb+RThTMXxNXK99NN10v0p6ms0foimPahkTbzUj+XM8OSD77TFiujku5FJ1brzX2oprPsmXddBI+kmkEtIH4/OMQp9K9QpPXG8Xevs16rrfOmSFUVbTXVMmTLmCiEubOCTP8qDO3ESjJU+4K8u1oxm2aB6s0nT6rt1daNRVizdrTOShV+2VlRJlqUa3eRVKlp3IO3chaBMJfw0sDEGz0fD50wXMV/gK7rmd1m+3EqH18eCnonZ6I7tMaw6gafnJyk0OoZ89A+cqo8RJHzEa5vGieqk6i02f0Lf6mikXC7TptuTeBOn01DN2/ZKaZM+1S/EmJIWQvevw9wypmOZdWrHrK79O7Bb9Lae1Eu4JSPEm2+9iTMtn6pI3qebLFVOBG1G5WwK3LUCPKb5Nep+h+t2nkhVs1hpnV1KD/wATf7aq31Cvb7RTEoJ9zLiVPUDUdNQLo9edGdSopD5Zs60JlX6kbuVIQ0wD5y3jGpOlupyurVfe6mRfBRz5dXMmTEXlPhrpV0EtFPRy5QWAiol1IWszAlI5Vv8AMw8Wm0T1VM/ptXzLdejc7Xb7fSXBNbcpK6SWuVPUamZP2zvEXMUggpUkL3HaCzEQw8jVaI+E3qfXzKdNPYLdd5uFU8mauy1u73kr2En+SYwnVPwJ2tRXUaM13WUW4fq5F4phOS3p4svaW9yk8946wvWnrBqSjNHqKx26705/xVxpZdQP98Fj8owxXRnS1CsztIXXUujZvYafusyXIf1NPN3yj8tohLi5HDepvhG63afUqZS6co9RSElxMs1Wmaogf6Ne1f0AJjTF8sF807c5lFf7PXWmp48GukLkKx6BQDx+pP6G602Uj9F6x0zqunTxJ1BbV0FQR6ePSkoJ9zKj5bjrC+GjXQ9ReiV5qqMYXOtKafUNKR67Btmgf7N412ZvF+V4U6SkjaDyfUQPDS/m9cD+eP0Drumfwh9RLiqkpJtt07dl4+zU9RMstSD/APp6gJBPsExhOp/gNqBLVV6K6gInSiCZcm8Umxw2AJ0pwfntizl9TrXF5RgKOecP7f1RWobkuMZ5J/KNx6s+GLrdpCRNqqvRE650ctLqqbLNTWpYd9qWWzf5sakqKebImqlT5a5MyUohcpYKVIIwUkHIPqORGmXxqQoFO1w/r39YCpTAkLduzxd6Dcz9wYrKHBbcW/CLBQAraxDD8IrWkhwAff2EfQpBdyGHOS8VKGOfYGKKlpLkuSecZeKtnnzjP4RezEhu+YRYZsuYCoAklL4hVMB3x+MO2HZjAUBggPAUkZb24hTyPxiw4HEI2fSAVsesSC3cCJAR3HEFLMWhSCFcwwByCYBhxhifeHBYMAPpCpSwBBy8OHKN2PwgGTnJZ+0FLkYA/GAOe0O6cuRiJom1O0jkN8n+UWAluAP3GFY7S7ZGIuAdWIoO1PID/WHZG7JA9Q7wqVbQA7sWEMlLdmO70/OM0Xo2HjJ7hs/1x+hXw+dGtLdGelv8ZWvEUkq/zKL7dU1takbbRT7dwlocHatiCpQySdo4zw300t1PdusmkbXVpEylqr1RyZiedyTOQ4+oxH6SdV6BWtOqugunFXK8SxVlRVX+7yv2KiVRbDKkrHdCp01BI7hIjPL4sUWm9dVOqSE3iwTpfT7SM/zUlXV0Sau8XGWeJwlTP1dMhQyncFrIy2Y9b+JTSlxUJusLlqbWUwl2v94nTZP0kSiiUPltMbHPo0YzrTX9g0Db6Cfepdwqp9yq00NBQWylVVVNXPIKtkuWnksHJJAEYl+N49GwaY05palFLpnT9rs8kBtlvpJdOG9ygAn6x6+0u557mNO3Drhe6eaEU3Sa7SXLAXe80VGv6ykKmrHy2vHxL66atSkt05kIV2CZ9yqvzlW8j84llNjePHJEeZqDUmnNJWtVy1TfrbZaNIcz7hUokJ+m4h/o8cs9QOsPWS8J8K0ams+hbeW8Rcqw3c1JD5aonURCD6FKIo0Do+Vd5qtSWzpjbOol0lLHj36v1b9uqwo58suupUIlnuwTiHX9p2bsldftJ3yYqR0805rDX0xJ2mbYLSsUoPvUzvDlt7gmPGuvV/X9G5qdH6C0qnONV61kJnD5yqdCmP8AKjUXxJJ6hal0JZbLZOmnUi03JNZMXPQa4VkmfTpkl0y/s00pICiCRsEcdXGxXuz1Ck3qw3Cgmg5+20cyUR9VpEbkjOv0NpOsPVC6VCJOn5/Q+/z1ED7Jb9UThOOf2QsAKPsOY+q9dfNQ6MWKfWlh0TRVYG5VFN1JNt1UR6plVVOAoe6Vke8fmvvpyMzJIUD6hxG09Idcayg06jRnUShla70WS36MuU56mif9ujqSd0pQ7JcpPGIvWHZ2RYfjO6RXC6C338XXT8wlvHmoRWUr/wCukKVj32xvaxahsGqLKi76cvFBd6BQ8tTRT0zUfUpPlPsY/MDXXSmkoNJjqJ02vatV6FnLCVVW0Jq7TMP+JrZQ+4ocCYPKrHDh8H0xrDUWi74i76U1JWWWtSQfGoqjwyr2UOFj2UCInX4Tk/YpmS0AMAePX5RxJ00+OebT+Bauq1ql1Mt9n6atISmYn/OmSHZXzQR/2Y620z1A0PrCwSb3prV1luNDO+7Ml1aEkHulSVEKSodwQDGLLG5dZLgnlhEz7N8o+QXG2rwi50Cv+zUoP88Xyp9PODSqmRMPomYk/uMZVYSR3AERJG5zkj0gmTNMvcmWpvVi0KkY7fjGtHn3qyWTUVIaTUNnt13pyGMq4UyKhP4LBaMHPRXRlFNNRpGq1BoyeTufTd2nU0p/enUVyiPbZGxFJO7H4QwSQ7gRNGobxX9XOl6V3yrrh1K0tITurZaKKXSXmjljKpsvwml1ISHJSyVekYh116PaU66dJB1G0CmkqNQfZPt1BX0oCRdJIDmVMxlTAhJV5kq8pwS3RwADF+7xq3pbbho7q/r7p/SShJscudSajtUgYTTorN6Z8pA7JE6SpQHbeY1LrOfj8rloYD1bLlj+HrFTgIUwAHL9xGX9TrdJtfWrV1uppeynp71Wy5aU4ASJ6mA/GMSmBywaOrmrfcCw7N84RThWQABDt5CxDgQkzGSXHGRFlFczKPnlyYqKHPAwfWL3P7RB7QikkJPAznPENFBz+6FLbXZj2h1DDF3dswmSA5+sUIQkjA/GKlD0AixWAXPMIX9oBTh4kEg54OfWJAAEvzDO3p6wGG5hiGfPp8oCAvy3MOCQzHA7QE+bD8+ghuAB7QBDu4VzDhkqJUcmFTgD1i0kMIYLE7XdSXDQQWOG5hE8AODh+IZvMB5cezQFktKighZAzjtDI3udw798d4ktlZ2s5bMWECXMBOfNw0QZp0iLde9Ejn/D1F/56Y/S+9P/AHUWlEjD6bu//qaSPzR6Rf8A180QrL/p+i4wf+OTH6ZXpIHxS6UIYvpq79v+sUkY5e1jPQSOS8c8/FFqefIrem2iLDSInamu+p6SroZreekTImpeYk9ior2n/NC3joUq8xwee0c+9ZEUOl/i16S9StQbEWFCamxzauZiXRVU0KMmYs8AHeQ542k9oxG7HQc6opbbJn1Sp0ujkIKlLmA+GGfktGjdVfF90l0vdVW/9L1N0moVtWaMlaUH0JAIf2d4178ZGvNQVF60z0S0lNMuuvpROrCiYUKWFzPCkySr9lCiFqUfRI7O/MM65WLSuqZOldOWK2SqVLomalvltRUVFeQC82SieDKkyCR5EpTuKSCpRJYWcWby+P0N0B8QfTjqMsydP6gMqqAzTVC9iw/Dg5APqQB7xlGu+oOlunGklak1refsFvTMElJUlc2ZMmF2QhAcqUwOB6EniPzC0/MqdUTJtdbLOiy6noUGdRXWySPs1PUTAHMidLHkTMWH2qQAFFkLSQpx1JNpbh8UXwEyl24+Jqmy1RXLkAt4k+SljKSTwJkqY6H4LJfDxbxJWW1HxFnWlzttf0r6Y621JNTJrpFJVTqBFLSrqFShtO9a2ITsJVkFnj7dC334o5t9KuoPTq3V9oXLV/e6bvSJmpUw2nzeUZ5HDHjEel0J1pbOofQK0Wy1JkUWpNMSZNJVWtafCVS1EgbASg5SiYAQS2N6wciNz2+vkXK2yqymCkImD7i8KlqBZSFeikkEEeojNWT61zWyq+rdVw+HWjrfVq20zCf+80ePUSbJTJed8KlxV6/ZLdZ6n/wzXMbfq59RIlbpFHMqy/3JcxCT/vED848Or1ZUUBP2nQ2rZqe6qSjlVTfSXOJP4RPStPV2vOh9nkTqXV3RHUGmKacky6iZW6L2ySghjumSAoEMTntzHv8ASodCtf6Ppzp616GvdXSJMqoEq3U/jFKFlCZq5akBQ3JCVO3KvWMmrOtOjLYlSbzS6us6APMa7TNehLe6ky1D845W6wal6Um+VfVjpHrmz23XdnuyJ6KanCqVdxply5YWDKUlO4pUVghvMkrBBYGL7T07FT006dKAKenulX7f4Ip3/wDBHm3/AEd0i05aZl11DozR1HTIBJmT7TTgqYOw8jnH9OBH16C1ZbOpXSmy6up5Cfs9zpRNXIJfwpgdMxH8laVD8I46+J+6HWHX6g6N6Xl0VqoqcIVc6o7ghcxSDOWuaXfwpMobikcl+4TCTatsZFrDr38LdBcFUtD0i0/ekpVtM6VbJCEH5KCWP0Jj69D3v4QeqNYm3Tendr07cJg8iAqbTP7pVLWn8QCB3IjmpOpaK2aqRp3TdpkaZtKUqSbhcaOWu41QCTtmzpk5ChLCiAfDlhKUuE+bk02akuXUG2Tps2wSqW60wCqO/wBupxSInVAymnnhG1BWsghExAC0q27nSXTucWNdQ6w6LUuk9ULl6Fquo+nEKKFW+qt+qETZFwdLmXLlzlIG8f8ARmclSgxRuePC0Z1m6j0N+qLKnqZU1FbRrMuotuqbYqrMnbyJ0oBFbIA7qR46U8kgRn/wodS19Sem1do7VaJFxmUKBLXLqZQWidLwWUghmILs2ClbABm2DqroDoi/1Ca6onzZf2dlSTXS0Vf2TbkGTPWUz5IDOGmslsNGbZPayKLJ15paQUMnqfZJelpdcwodRUdWK+xV7lh4dYgfqyf8maE+jvG35a0TZKZspaVy1AKStBCgoHggjBB5cRorRNR0stdprLLatdK1hTVEybLu8uVap1fSV2528RMmUuWZqR5TNBKlgfrNymUPOtNd/E71f0fpbRtXWV2idZVs2jkadrpM6XPs05Kd6p1KZyQv7NnzSzhJdjiM2b6alx0IdxmDIjCLW390zfir738F7dn1/vyqjOmAIJBjB7Yx+Ju/JKcfwWt2f/3lVDitfmR1fJ/j/wBbKy36drW4/wCmVGDq8zAKBb07mM76uqfr3rZQA3G/VoI/2yowdThLOxb5R2jkpOzazJ3D8YQrSpP3eG5HHyixyCWD4hEoO1QJz+6ArO5LkFLu0VqUku5LvFqgEq57gxSQCCQeCe0WBD5lOVN2eK1llEDn90XNuWMhvWKlgheCIorUxPbiEUefyaGPDA5aAU93HHpAVk4IeJBIcPtOBy0SADsWA5gj5iAVPlvzggEh+IB0sA+T6iHSpwM494QO2VFoYegPZ4nsWApYBjEScv7PAGSG9PeHQAAxB47w0WAYzDg4JLnDxWcsOBy4EXS0pCiPl8oUFH3myMjEXBSFKYvzkvCc9nPtBfOAXfth/aIM16Sl+vWi15H+HaLv/p0R+m153f3UulTj/wCWrv8A+opI/MbpGpSevWigUlhfaLn/AFyY/Q7qp1K0d0x+IHSF81tdVW6gnWK60qJwp1zv1ip9KQGQCeEHMY5LG6Sna6iRGk/iU6Ta46s9O6e0aN1NIo0yJni1FmqkhMi4kEFDzWJQpJdh90uXzmGHxcfD4rI16of9q21I/wD6RF/Fv0AQl0a6E0s+1NBUj8zLjMlbtlcTVlF1M6f9atI3jrFar3SyLXNk29NxrkGbLRSpC0DZOS6VhCZilDJLJ9o82zz710pvyKvU9Pbr1+g7gZFNp28J+001afDKTO2kumVsWhaFjCtyeY6z6gfE38PutNE3DSN6mLu9sr0bVoTMNOpKgXTMQpafKtJYg9vk4PHlZcqUTP0bT3TTeorJSgotx1Asipp5Tk+GJknaUpDnyhRTkskPHSVi4+62SronWVhvxuPiaboUm9p8EGVIo5Ute9cnw3OxYmESQC5UVIAJ7dL/AALVN1kdOtYzJVpXU00y6ySkpqESwlfg+ZICuWBTn5RyRdLhXV9qTaE3fSlttQneMKChn+BKVMAYLW6SuYoAlitSm7NGQ6K6ha/0baxYrB1XFgsap6p8yXaqtCvOptyglSQ5IA/aHAiWbCP0C1T050lftVJ1dVaFvVu1CMC92G7SbdVr9lTETkiZwPvAmEl2nUduM9druPV9Bnr8SZtVaq7craE7vO/ZI755OTHH181b0Q1lJpVa61p1U1DWyEMmoqtQ0WxJP3iiXtIQD/Yx5clHw0hf97XzqXLSBxLv1EG/BMZnFrXYFbVdTaeYTIv3V1GP8Zo+11P/AICI8So1D1Xkur+GHUKSUh/756UpnD/+JY/KOYU13QFH6uTrbqrLT2A1LSY+kfULz0akpBpep/V+nAx5dRUob/ei5E1vS+dWetNjtNRPt+rKyvqZSCqXS1fSy5UpmlnCd6VFKX4fiND6h67dStQUNxotd9H9O3dFwmeNONw07UypstXhpR+rmJUFIYIDEF3zH10+tOm9OlqfrX1qlAclOpaQgf78ehI6laRloPhdf+tDD/8APqNe3/fi4msy+E/qf+iOnN40beNV6a0wmhrjVUaNQomIM1E8eZKFGbLBCVIyGfzv3jVeu7jRzPjP1RNq9R2etp70KiiTd6CYDSJNVReDLXu3K2oSpSUqdRYboyKZ1M0dNB8br11am/626W6Z+RVGK389DNRz51yvnUDX1xuC5XhIqaqZbVgMDtCmUHDnhwTnMJPOmsf0zf7/ANP6ih1BqiRR3WbZquZT0emdQSvtKFTAlUuaVg+aWhDluQVAMO8fVbJ0pR05UVCSuRQ3Jeol3SUpSaejoJe0mllyn/VqE/eluVKXLAJeMeTfJlZIlU9/maP1CinSJNPV3CuMqpTLSGSgzZS0qUkDhKyvaMAtHy3e43Cus6bRIrtL2y0Cb44oLfWJlylzGYLWVFSpqgOCpRZyzRUdMfAfQVFVqjXN8mIKJKZVNLSkcCYtcxRH0S8dN9aKOsuPSaottPRXOuoaqrppV2kWpBmVUy3+I9SmUkEElSRsYZ2qUe0fnt0w6p616eS12KzdR7fp6yVFQamqVbhR1U9cxgl0+KA5YAB1MPQxvyk68aRq0j9LfEV1OplK7JkWqUPoUSzGOXHbrUrSuobx1z1lrGVakydSaVo5swyLXY0Kn2mhpJYfw6eUkbUFW0e6lEKOY2T8Nlpuuh/iwoKTqWahVzuVpqZFmnVU6ZPAnlSSpCVL4UUJXx/PGX1Orvhy1LRyFar+IvqFd0yZyZ0qRXXWdKEuaj7sxIp5AAUHLEFx7R72kNc/B3onUY1FaNTUk29JSUC7XE11dUpBDFpk1KtrgkOGwYu1cdQkjaCfxjBrZt/un78W/wDta2/+sqoxlXxT/D/tP/xIo34/5JU//wCcDpv1D0f1F+IHUl20Te5d2opGnbfTzJ0uUtATMFXUKKWWkE4UD9YzJYtsfnf1eWB8QGtUsP8An6tLf7ZTxhK1EIKSoEAO3rGddYypPX3XB2gBN+rcj/XKjAlTCQEkbQA4LYeOkc6UZyDhnbvCrUdxAJ9ciGwHBcuHEISxfOYorUEkgFR5gLS4fIY8jgwzuCWPsYRZxy5PaAqJIAB7u+IryC5cfnDu2HBb1MIr8Pcd4uBcMCQ8IS5wGxDEHY6eQHhC7HDAxQh7kN+MSAovhsCJAL5QfX6xYCPRvlCAFu34wchTMDAWJJ2k+8OCWI7EQiSWw0ELJOWiB3SGcfjFgbaO0Vchy3GYd1BILAY9YYHDkFxgiLEsknggdoRKc4IO7HMOCdzpZ4QW7k7hlLEQ6VbSljhvWEL7gUJHDOMxJeEgYd/m0QZv0jI/j90UCB/z7Rcf69MdL/8ACBunUegCku9PXu/+slRzT0fKf4+tE4f/AA9RYGf8cmOlP+EAf+EWgg7NTV//AJsqJ+r+ONnIUzl/eHU5HOOOeIrThWGf5wwVjDMzZjWI6t+BmdIreqOptOXC026tpam2S6szKqnTMXKXLnJQAjcCACJqn9wI0d1SqqrUPX7WlbItyJZF2qUmnoJJ2SkS1mWCEpHlDID9neMq6AdbbX0Tvd7vFXo9V+rbhTyqeTOl1Yp1U6ErK1jKVPuIQf5Ijaavi/0bKob+mxdEaSz115pZ1NU1tLWypa5hmJU6phTJBX5lbiHyYx51fGPV+CGVUL07rydVabprtb6bwJyGpUz6mbUbF/qpYUCCNgdvUjMY78bOiZNk6p2TVNuo5dJR3m3mnmpkyhLSmfILHAAAJQtH/dMY5ov4hNN6O+Gap6WUnT2pFZWU0xNVeaS5+AqbUK+7PISkLBSAgABXCQI9Lq/8SunOqnSSXo5HTmbbp9LMkzaG4T7gKg0xQAlTDYCdyAUlznkvEyzlpvhvu1Xif1X+C2j1Hp3Senv4SJqaSnn0sujQqWF09bJExsbmKAlbE8EiNO/G1qa2Tuodu0BarXa6OTapBr6uopadMpaps4EBDpA8oQApjl1e0Y10B+I6X0Y0veLFctOVV6pa6rRVyhJq0yPAXs2LHmSX3AIOPSNfal1/Raw+Iip6i6hshrbdVXZFbPtCpgO+nSUgU+9gPupSl2zmLJ5NfopoSxUd26P6ZotV6Pt0uruFhlqrplNbkCVJ3S0JKSogkLKVuM5KVHDRwr0coazp98bFn0xXUVNUzKW9zbHPl1svxEmWrdK3gHvtZQPqY2lVfGPp+f1NtGqkdO7vLRbrfU0SqRN4CULMxUsoVtCQh0BMwOUk/rMMwjA7x130bc/istPWKV06mypdJI3VVvNYjfVVYSpMuo3hLBSQUcjOwQmzVtjszU+gdGXrXWluotVTWyTSaUNw+0IFMhKJilIEsbkgMdi0qOR3xHOPxoXgac6p6Do7bYrVLlW2Sq7BP2VKRPm+OE+HMCQNyGlBxz5lesfBcvi7s9fZ7rak9PapFsuV5k3GbTquKTvlBUpc+SSEczFyiX4G44jDetvXvTXV/VGlruvQcyjmWepKq0T6xM41tMVpWZHlSAkOF5L/AHonGWezw7G6j1l407pulv8ApXSnTibIl0cytr5V9Ap1lKZaZm2nCEeYtuGe+31jjnVfX+zj4mJfVTR+h6ZdvNolW9dnvdJLSF/5akpluAo42qz7iNgap+LPpVrFdH/CzoMm9JoCTSfba2TM+zuz7Hl4wlP4CMGvPXzSl++KG3dV7t05XW26htqKWVaZ1VLJRPQ5RP3bNvlKnAI5zF47PZrrbVFPo7SdhuXXC5aVQiTL03KROssy2yt7iZ4stxt8kwGaZayzAZJG2ObfhZ1KdX/FpqWru2nbKEX+gqK2bSppQqVSqlrQtKZIUCEjzEH1DcR6kr4zbXM1NqSZd9BV9fYrxKlJTbJ1wQvwVCWZc9ypG0omDYdoAAIUf2jGuunHW3QvTXrhf9b2PpxUSbVW0YpLdbJVeN1ACUGZ+sUDu37fp6xJLDXSfU7qUOll2q6PqN0q09S6auyKylstxsyZVRVTlpQNhmylISJYIWCSCSDxGsPgjp50+m1uKzT1HdLfTSKecFrpRPqF1AC2kytwIykKLcvtzHPPVbW0rqD1SuupqGirLdQVc/x5dvn1aqgSFFICyknA3KBV5QBlo2d0++IXSmgvhzuHTiVoauNyuEmo+03ijuAp1TZ6woS5uBvSUDYAyv2ccmLZcN8sj+NnRMix9QNOawtVtRSUV3olUk+XKkiWlE+SXDhIACiiYH/7EcsFZCVAK7tHSXVj4mtLdS+h38A1dPq2mradNOqhuNRcET/s8yXtSqY23cdyd6S5zuy8c1lROWYHtGuMueUpd6gznk5jsX4At38JteKyQKShDf7WZHHCiO8dk/AEduoNeAf/AIWh/wDNmxOfontzZ1jz8QGuHTkX6ty/+mVGDeVIBcZHc/lGa9XVKHX/AFuFMT+nq4Ev/plRhJcJduzOO0VCrPlO1Pbh4U5V3ZsZhmJHAywDwqvv4Y5OfSATsHwX7RWspyeB394sJdJdvpFZYSyDyDiAqOQ+0+xEIfuA44h3UGS/5xWoZyx+UXQiVOkgBw8Idm0nv6NDk98AcmKlZ4EUBXfP9cSIMEuAYkBMl4PcwgP4wQQRGcDp4PEFJbAZ/aFJwWaGSzAmAYENzn3h0MUkfstCAdodK85V2ii1Kg55+ZPEMk4bGe0VguXcQyCR3BMUXiYdu10sc8cwEvjh+eMiESVchm9B3i0A7s4HPvGRmfSiok0vW7RlTPmoRLlX2iUpSuEp8dAc/jHV3x+6drV2zRmqZctSqSmnVVvnlnEtczbMQSez+GsfSOJpUxUpSVy5q5cxJ3IWkZQoZCh7vn6R+lXTvWmivil+Her0zqUoN0NMmnvVClQTOp5yW2Vcp+xUAtKuxdJ981Y/M8YPDBocFJGOPUxu7qL8KPVvQ16qRa7FU6qsyVEybjaJfiLUjt4kh96FeuCPQxpSrpKy3VqqO40tRRVCCxkVUpUqYD7pUAY3LKgA9mbtGadLjYJnU62UWodP0l9oq2dLojT1dQqnlyjMmIT4ylpUk+RO8tuA9TiMKJ284hgRtU43DlmeFHS+mNH9Kr38QuqpN705a7Jo20zE2aXIl3Ja0zaqbU+FKqZagsqP6s+IclAbJSDjztI6X6ZaV6f36o6pWiguE21alVa1T6OfMnVVXI8BR/UCVPSlI8QIKZykqSNxBB7a51P0j1FpXSlTqG53bTsyipxRKSKWrVNXOFZLVNk+EPDAUChKlKz5QD8o+iu6Ka1tvVmxdPaw2ZN3vUhE+gmiqH2eYFb2T4u3CnlqSQ2FYjIznTejtBV1t6ZKuVrtqZ1ztF1qKqTMufgfpGtlLX9jp56/E/UBYEvPk3PyHx9uk9FaduertUUd/wCn2nqCrotPU9TJtlPeDWy0VypwBSlqpB3KQVFUnxVbNrv2Ou5nRvVcq5y6U1unlUMy1KvCryK8ChTSJm+EqYqYUhQ/WeTbtcqLAHmDR9FNWVl4vFqm1em6YWmlpq6ZUVFcPAnU1QQmTOkrShW9CtyQ7Ahw/sabN0joDRF0s+rf09pCy2ytprrWoQufe/tFJQypdOFpkibLnpWkBZxOMuamYWThjGEdBtL6S1XrO4UuspVNUSJNt8SRKqKgyd05U6Wgr2+JL3hCVTFKSFpIAcbmY4gNBX1PVpPTqv8A0bRXxNeLUVVM5KZEudu2hPigEbSSACMZEe/q3otrLRujZ1/1DMs0qiQJaghNUVzJ++dMkpEtJR5jukzCRghLHvD0PX0lovTx+Lb+Bd2o6S4WCVW1ktSKqtRLlqkJlzFSlmcia3/RMQsu4fLiMwsOgNCVfVbTVuvmmbFRVVVpq4Vt7sVPdDUU1DVS932UpX9oB3zGlnwfFP3mcO41lcuimuqHqVa9ALprdPudyozcKcyqkKp/BCVqUorKcFHhr3BnBBDE4j5R0q1AZuoaWTVWKqVYqKTcqoUlWagTJU1QQkyghBKlOpIKCApL5HMEbI0xY9G1PVe86bv/AEtsUnZalXCUiZeViVJVKpFqQkNPLKnTjJJlmYsoyh+4o0LoTRmsOmerblOoLbabteJ1SrSlLNuRCqP7OjxVSyVKYpWT4QVNZ9rhzGo9ZaPuWida1mkbsaKdX0KkJnJoVeLLClpSsJSdqS7KS4bmPvtPTq+Xnq/L6cSJltRe5tUqi3T5zSPGSkqKSvachiOOQ0JF1tbR+iNE3Kv6VpuemLLOTdLLdZ14E25mX4lRKM3wDMacPDUyZXl8oPiHHpitLoE2bpVrubqOx2ibqChk22ooNlyRMVTmdNPioSlE1lkIZ0+YpfOY8Y9IdWKmaekoFpUu/UlTXSQuf4YpqemUpM2dUmYlPhITsUXL4GOQI+i29Eta3TUsuz21diq1zrPNvlBU09YFSK6llkhZp1hPmWCCCghJBDRRs3qTono1aNM3GfaRQW2qF3tNBUyU1qqibb0LTvqJ8hpihMkqQxD7ihaVpPKYxLrRozSmnNNUVXY7XaLXOXeaqklSqO6LrZtTQoSDT1KyZq0kTB5tyQjJKdvlePCHQ7WSNRafsU+dYqOvvVnXe6WROq9qpVMhG8+KAg7F7UqOwOfKfRownUen6jS+oV2qbX22uXslzvtFtnCdJUFp3AbtoO4OxSQCDgiMxK8jLt65hSoguH5w+IsyolgTFtDb6661Yo7ZR1VfUqPlkUspU6Yf5KQTG0fKSAk4zz7x3H8A+nayn09q7VU5KkUtbU09ukEjC1Sty1kfIzEj5vGlenPwl9V9b3almXy0T9JWRRCp1dc0hM7b3EqQ+9Sj23BI9T2PWPVDXWjvhp+Hun0vpRMqTczSKpbHbwoLmFZ+9VTe7AkrKj95TAe2OV3xGpHAfVWpk1nXPWVVTLTMkzL5WrQtPBHjKz9Yw4uxKgEhm54i4lW4LmrUtagSpRyVHu/1cxUr9YXBYNwO0axlWH8MgB2HY8fSEUoFBCSlx2AzEVMADNjg4b+whFNtbnuwgJMZnA5Jb1itSjt3OOeeWh1EEsGHfIitS2G0kOe/pFgrJLAnLvn1hCSW4ZuYY4AL/jC4btFCnyhmHEVqIfgcNzDFyPy4hDtd8fWACj2H5RIHr6RIBRxmGcDmAxGXiPhjAOMnPBh+3OGitJBI5+kP2cRMBS5A7+zQ6QQX/IwgLDhmh0Z4ih282DyOYsCCC5OfQQhP3cNDODiJodKi/dm7xaCp8FPMUoJ2d4dC2ADhicRBakMRgfhHpWO+3nTd/p7zp68VtpuMhzKrKOcZUxD8soevcHBjzAs7kgAufeLEKYDLj0MB0TpT40usdhXLk3ufatUSEjm40/gziP8AWytpf3IMbktvxh9GtfUCbd1W6ezaZKgxXUUsq7U/pg7RMT9EmOESGU75PeLAQ33yO/ETF13sOhfwm9XUeJoDUVJbateRLsVz2KBPY0s9z+AEa/1Z8B2rrfMVP0Xra23ZIymmuklVFOb0Ck7kH6tHJKQH37RuTwruD7GNk6P689X9ClEvT+ubommScUVcv7XTt6bJu5voRE638NZzrLTnxA6Z0to6w6w6YTa2yaQnGfTLl0yquRVMp0iomSVnelI8oHlZJIjG6n4hdW1+s9N6kulmslZd9NV1VW0k6oROMweOpSzKmfrAfDQpTpGCGDkuX29pP48dU0ahL1toi13JAICqm0T1Uc357Fbkn5OI2bK62fCl1glJp9bWe10NbNO0jUltTJW/tUy3H1KxD17McW0PU7UlPqW63O7KF/lXikVQV1DeJs6olTqbeJiZW4r8RIQpKShSVAgjk5f3rf141daNRXa82qkttBVVtFSW2nNImbJFup6VSVSZdPtmYAKA+/duy7uX6wu3wbdFta29d10DqS429ExLy5ttrkXKlH0USR/3xGl9UfBB1RsxXN0rd7HqSSDiWmYaOeR28sx0v8lw2VcrQN81LU3vWtbqlFJT26rq6s1vg0QUJcmcVBZKApSiBuzyc+0bVm9ROrnW25yqb9BUF8kWi6K1HUSSnwaOS6UpCaiYqYlKKcbCySpJda8l419qnph1F0RMV/C3Q99tUsK2+PNpFKkqA7iYl0n8Y3DabZf09COm0nQf8H06eVOmXzU90u1RJ+xJuCJ5RLl1qVK3LTJQlBRKY7iQQCYXEjzNYa86syK62ap11ou2mfYrzXUEqvqxMRM8eckzZlMlUuclW1AWFoWjKfKd7nK3HW3WKol6j1vV6JRSSrxpukVOuSFTpEyntsueESZyJvjCYpcyYlt6ypa2OCI31qFHSbW0iq0Xe9TafuNRS3Gnsk7UF0rJYnmdM/vmtqaVDhIXNW0oLHlBfcoIlpSfOorJ03/QMiim3PSKrGuTUajXp+lu8uqTV1MtfgUlG0yandT0ssKWQpaUrmKJHlBMTVrlC+9Qa/UXWVXUevtNtFeqrk10ykSiYqmXMlBITuCllRB2JJG7OeHj5tLa5umk+p1Hr2RT01fc6aqXWJTWhZlrnL3OpW1SSSCskMRn14jKdVaNr9fdVa+b0o0bXXOjnK3zJVio1KoaeaeZcmaAEKQkbXXhKlFZSNm2M70r8FfV2+bJuoJtl0vTqZxV1H2mcB3/AFcpwD81CNbExrj+OvUxr7BUT6C31K7PQ1dsP2vxqj7dS1SlGbJqCuYSoedQBBBAZjiLrf1x1FaNV0F2tVjsdGm3Ww2e122Wid4VFKM4TiUfrN65hWHKlqU7nHAjq2w/BT0m0rQC5681Pc7smX5pkyoqUWyk/I7iP5bx6Z6p/Cb0ck7NLyLDUVkrCUaeoBWz1EetQrD+5XGd/i40fpus+ILqB1CtWuLT0gkz62loKq3y6+qkz6CQpFSta1zDMXOQQoGbM2lBG0KwHAIzGV8GOrNa6l/Tmsb3pzSaVykJXbtNyJ1YolIYrVMmq80xRypZKiSXj59YfHfd54VL0PoWlpElPlq75UmfMHuJUth9CoxoPWPXvq9rgTJV91xc5dMof8jt0z7FTgHttlMT/KJi5TY6s/iM+FLpIEzde6ipblWS8mVfbmFqJ9qWQx+hBj5bh8YPRnQlpmW7pboOqqRL8ifstJLtVOT6uxmKHvtEcLrSFTVTXKZpJ3LJcn5mFWplqfAJ7fzQ6/U10Pq34zur9+EyRYzaNLyFuN1BT+NPHr+tmv8AiEiNCXe9XjUF7n3e/wByrLpcZ53TaytmqmzZh91HLDsOI+Ddhw+Twe0ItkodyM+sWSQ2otTywWAx3EUkjeoe3EOT5QoLOPU/uivcezDGY1EItnBSUuMjEKvy/eY494blId+O8KtRSHBHOMRQFKwTud8CKVkE8/lFils/3uXEVqJJck88nvECJUdrNmISBLAAyPQxC4fn6CKioggg/OKD5doJ7iKyU9zn2EEklLQh+85PbtATGT3iRMjJf3iQCn6xPngwAS3f5wSM5JJgHBL5x3gpBJ4cwpwHzy0F3H3cjMA4L9/pFksE9sd4qSWGSXixCsuX4aMhwfN3+kO/mYFwIrcE8e0RTYTxDBellFwpm7mCcHlXvFctnPKh6wz+pc/uiwWy1bSFAEng9otQtSlBh9QYoSQedz9zDJUgkAbg/cd4D6EnHYJy2IgIA3HLhsxSkAEAEu2WghizpVj1xEFxO4FBDMO5/pggDcVAEj1itJZRIcYb5xclRBUNqnJ4fiAYAbB90MeIfxCFqQkbg+ffMVjng5OPaFWyVnaSfNkvAezZr7etOVsuv07ebhaKoKfxaGpXIV9dpH5xuHS3xedbtNbEV19pNRyEhjKvFKla2H+lRtX+JMaLThKVMXbPrABDZCnbIiYsrufSfx16fq0in1xoq4WvcNq6m0TxVyj6vKXtU3sCqM2F3+D7qgr7ZVq0BU1a8qNfJTbqgH/OfwyT7uY/OIK/WF0keX15gKKVJeYncOzhxz/XDqa/Sb+Ij4UJqBORZNIrSzeW+Ha3owntFM2yfB506mJrZ1N05pZ8vKTNmor5oPqElUwk/SPzf8CmCtwp5LemwP27w3hoTLOwBIdmSAAfWJ1Nd96s+N3pxYpf6P0Rp+5aiMsbUqIFvpU/IEFRHyQI0Tqz4yusmofFlWWstel6ZRIT+jaYTJoHvNm7j9UgRzyF7T6pKse8HxHP7RHqO0XJDa9e9am1Fqq4Gt1NqC5XioUXMy4VSpx+gUSB9AI8pSQtyCCQGw0KhR3pYcYAHEDdw5L+xioYFkkAkOnuXeFW+0jcTwOcCAlAK1ZIATlu5/ngMAFHlhADYd5LqcYZ/wCzwC+0rB4wwODBJKiHBAB7wilMSC/MBAcjDdiREJJZL9nd3/ngK3M5Bwe8KXSreXB+UACGAIf0zCElnIPuBiCZilOog7jiACWABctwe0AqgcNn3PeKlJJDEs7QVEFyQQR3hSACMqPzzGgpB3d2eFVhPdh69oYkbnIIcxWoguQ8SgH094QnABHvBSccfzQpyQVEmKFCi+BClyp8CG4zCFicvAAlg/tiJEI8wDn5jtEgFEOFE9oQNwQDDOYA5OPrBDO2YUF0t7wwGc4gGB4ZmixLbHdhFQxwRDfIDMBYHBw+YgD4DP8AOAC+GEF9rjHLQFgUQFFmTxBSWcYIhUk5cjMFA8wf1jIuTtcZy3AiONwASPWKyxIYezQyVjdyAYouSXP3nw0ElJQkbXbhuIpThRGG5bmLEK8xKtvzIhgtBdxkk9hDeZjgA8O0VblJ3AMG9nMAzJig7j68wwXpS3qfQwxJDFg3GIRKhtO4gZ4bn6xFLdWC+eHzCD6A4SFdh3/mhSlSkJJYJDlnxClWQngAdzgZiSyphuCQB35iBwwYIyWYsf7ekA/dJfI9TxAZwVHb93gZaAT6Fh79oC37wCtoOWL9oKgAkAn3Pv8AKKFLCSQA47uGi0L/AFRZgT9X/qgAlJ3MRhRdhwIKtiQcHkkP6fhCBfLqYvxClRLl+cv2MBakhJSol2B5MTclnDcgYioFKVAKYYLwCSEnypI4LZIgLlrVtLHytkNxFalJCMlIc8+sA7fDBPLN5RFZUAtRbA7cQFitxJwRgZ9oQDzF29feEUt3DeXs/wC6E3lSxt47lIi4Ld3lcNC7h4eMZ7/vhSEn7xDc4gZGP394YCSAoFIDu3GP/aEUQV4BiBQfgD1eFcpDABmbIihGJLhxjgwSTtOS0DO7IGfygKcA4EQKVHc35wpUwLDu0H9vzHB7vCHb7Ed4oBJUe0ITkYg4he4IGPaAGNpO6ELN94fhDu+H9YUjGIBScxIIxhniQAcNEByxgcDPEHj0gD3xDZ5gMO5iAhvrAF2SzQwOIAUl3JYQXSQCD83gGBPY/SCCeTzCjjOPl3gnPeAsCgQcfhDg4+sVJZuzevpDOkEgH+uAbeR2c+8FBKmyT9IQOckn6iGT90ExKLeRzn90FIJDkDiK9xcCDvKmSTwlosFjvzlm7tmIQXYdy5ipycOSfnDpSQC7u3rzAXg7h5S59OIILORhjyzxSFMliScjsIs3OXBbPMQPvO4Nk5hiQEg5itwWGfoIhICQkbj9IgtSpyXPCcBoilN3PHLtCb9r+YuB3Ahd5O0hT4/H+iAdxntngwxWc89/rFQB3F1Z9MekQzQmWUuWJgLC/iYIyeYO4FKiAce0VbnJ827PBiJUAGdlRaLXcJLs47CEJS+e37LQpORtP/vA3HO7PuIgsKvf2aEmLAcIDDv6Qq1Pgn+qApe5hkDDdoC0gDCgA/EVHcCQpk5hxlJ3MfR+0JMyrKipj6wE3qOSRg+7wpUTkYEHyszM0I45B7ekaDFeMcs3EIpTIwfrEdk/tOzO0VkkuXJB/pgCVkvlsfL6Qqpjvkk+8QByTlhCHJL5gCVMXPrw0ISG7Qzjv68QFMztmAUkcDj5QuSMkt7QSA+DAySIBSQ4zEJMRsZf8IU7gpwYCeaJAfjvEgDjvA7xO3vBYkc9oCPEPzggY9Ygcl3gDyRl/wAobDe7d4UD3hnAAD5GICcq5huRjMIPqfaGTw4dmgLN2HCuOxEQKfv+EK+OG9YiQQ+fnAWE48vrxBT98ZLfKFSPmTEIL+UtEwWAeXkRAoYbJbvChwBke4gAnsef7cRRc4CSxPt2gJUQssQ3AxCEFskge8Quxchu/eAtBx354iwKIJD4fuYpcPkENBfIOAxcwD7/AClg7+0FLqT5YALp3YbtiA3lTlm5iaLSWGXJbAhN/fL44hSzegbiIVMlyTj0MQPvLFwWdmAbtEB3AucOxPcQu4L7nMQl3Ix8zANuSlagMkMD2aG3gL4LerRUMnGH4IgkEOGP0zCh1EKX5UnnJbmACNhDHjJipvM5zn5QzYcgmLgZwC7khnHeAVMl2fALQhff5X4ZoUOp+TiKHXNWU7XbtxBKyzu2fzhVAgHB93/dAKSQHG0P3iBdxZwol4ZnSPMH/OFwCzuAYgUHIxFELBvXu0KpXlOctBbzPCkH5H3gJub5/LMKognJ59uYgL8DBgKfnI9hAAs/1hS7HhoLHL5iKBY+WATv6QPTMMXbAAhS78vATk/SEfJd4ZveB34gIwYxIgBPESA//9k=">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0A0A0C; --surf:#141417; --surf-2:#1B1B21; --line:#26262E; --line-2:#363642;
+  --txt:#ECECEF; --mut:#9D9DA6; --mut-2:#6E6E78;
+  --gold:#D4A017; --gold-2:#E8C75A; --green:#22C55E; --green-2:#4ADE80;
+  --red:#F87171; --amber:#FBBF24; --blue:#7CB8FF; --violet:#A78BFA;
+  --disp:'Oswald',sans-serif; --body:'Inter',sans-serif; --mono:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{background:var(--bg)}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1.55;-webkit-font-smoothing:antialiased;font-size:16px;overflow-x:hidden}
+img{max-width:100%;display:block}
+.app{max-width:560px;margin:0 auto;min-height:100vh;position:relative;padding-bottom:46px}
+.top{position:sticky;top:0;z-index:30;background:rgba(10,10,12,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;padding:12px 14px;padding-top:max(12px,env(safe-area-inset-top))}
+.back{width:38px;height:38px;border-radius:10px;border:1px solid var(--line-2);background:var(--surf);color:var(--txt);font-size:1.15rem;cursor:pointer;display:none;flex:0 0 auto;line-height:1}
+.back.show{display:block}
+.top .lg{width:34px;height:34px;border-radius:8px;object-fit:cover;border:1px solid var(--line-2);flex:0 0 auto}
+.top .tt{flex:1;min-width:0}
+.top .tt b{font-family:var(--disp);font-weight:700;text-transform:uppercase;letter-spacing:.4px;font-size:1rem;display:block;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top .tt span{font-family:var(--mono);font-size:.54rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mut-2)}
+.top .sbtn{width:38px;height:38px;border-radius:10px;border:1px solid var(--line-2);background:var(--surf);color:var(--mut);font-size:1.05rem;cursor:pointer;flex:0 0 auto}
+.screen{display:none;padding:16px 14px 0;animation:fade .25s ease}
+.screen.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* HOME */
+.hero-h{padding:8px 2px 20px}
+.hero-h .eb{font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.hero-h h1{font-family:var(--disp);font-weight:700;text-transform:uppercase;font-size:clamp(1.7rem,8vw,2.3rem);line-height:1;margin-top:7px}
+.hero-h h1 span{color:var(--gold)}
+.hero-h p{color:var(--mut);font-size:.9rem;margin-top:9px}
+.qsearch{display:flex;align-items:center;gap:9px;background:var(--surf);border:1px solid var(--line-2);border-radius:12px;padding:13px 15px;color:var(--mut-2);font-size:.92rem;cursor:pointer;margin-bottom:18px}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.tile{border:1px solid var(--line);background:var(--surf);border-radius:15px;padding:17px 15px;cursor:pointer;text-align:left;transition:.18s;position:relative;overflow:hidden}
+.tile:hover{border-color:var(--line-2);transform:translateY(-2px)}
+.tile.big{grid-column:1/-1}
+.tile .ic{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:11px}
+.tile h3{font-family:var(--disp);font-weight:600;text-transform:uppercase;font-size:1.02rem;letter-spacing:.02em;line-height:1.05}
+.tile p{color:var(--mut);font-size:.78rem;margin-top:3px}
+.tile .soon{position:absolute;top:12px;right:12px;font-family:var(--mono);font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mut-2);border:1px solid var(--line-2);border-radius:20px;padding:2px 7px}
+.tile.dim{opacity:.62}
+.ic.g{background:rgba(34,197,94,.13);color:var(--green-2)} .ic.go{background:rgba(212,160,23,.13);color:var(--gold-2)}
+.ic.b{background:rgba(124,184,255,.13);color:var(--blue)} .ic.v{background:rgba(167,139,250,.13);color:var(--violet)}
+.ic.r{background:rgba(248,113,113,.13);color:var(--red)} .ic.m{background:rgba(157,157,166,.13);color:var(--mut)}
+.homefoot{text-align:center;color:var(--mut-2);font-size:.72rem;font-family:var(--mono);margin-top:24px}
+
+.sh{margin-bottom:14px}
+.sh .eb{font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.sh h2{font-family:var(--disp);font-weight:700;text-transform:uppercase;font-size:1.55rem;line-height:1.05;margin-top:5px}
+.sh p{color:var(--mut);font-size:.86rem;margin-top:7px}
+
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:10px;margin-bottom:6px;-webkit-overflow-scrolling:touch}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;font-family:var(--mono);font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;padding:8px 13px;border-radius:20px;border:1px solid var(--line-2);background:var(--surf);color:var(--mut);cursor:pointer;white-space:nowrap}
+.chip.on{background:var(--gold);border-color:var(--gold);color:#1a1205;font-weight:600}
+
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mcard{border:1px solid var(--line);background:var(--surf);border-radius:13px;padding:14px;cursor:pointer;transition:.16s}
+.mcard:hover{border-color:var(--gold);transform:translateY(-2px)}
+.mcard .mt{font-family:var(--disp);font-weight:600;font-size:1rem;line-height:1.05}
+.mcard .mw{color:var(--mut);font-size:.76rem;margin-top:5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.mcard .mcat{font-family:var(--mono);font-size:.54rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mut-2);margin-top:8px;display:block}
+
+.dh{font-family:var(--disp);font-weight:700;text-transform:uppercase;font-size:1.7rem;line-height:1.04}
+.dwhat{color:var(--mut);font-size:.92rem;margin:8px 0 16px}
+.drow{display:flex;gap:11px;padding:13px 0;border-top:1px solid var(--line);font-size:.9rem}
+.drow .lab{flex:0 0 80px;font-family:var(--mono);font-size:.58rem;letter-spacing:.06em;text-transform:uppercase;padding-top:3px;line-height:1.3}
+.drow .val{flex:1}
+.drow .val b{color:#fff}
+.drow.id .lab{color:var(--gold-2)} .drow.ok .lab{color:var(--green)} .drow.no .lab{color:var(--red)} .drow.tool .lab{color:var(--blue)} .drow.err .lab{color:var(--amber)} .drow.dura .lab{color:var(--violet)}
+
+/* recommended products block */
+.rec-h{font-family:var(--disp);font-weight:600;text-transform:uppercase;font-size:1.05rem;letter-spacing:.03em;margin:22px 0 4px;color:var(--gold-2)}
+.rec-cat{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mut-2);margin:16px 0 8px}
+.pitem{border:1px solid var(--line);background:var(--surf);border-radius:11px;padding:12px 13px;margin-bottom:8px}
+.pitem .pr-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.rolb{font-family:var(--mono);font-size:.52rem;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:20px;border:1px solid}
+.rolb.usamos{color:var(--green-2);border-color:rgba(34,197,94,.4);background:rgba(34,197,94,.08)}
+.rolb.mejor{color:var(--gold-2);border-color:rgba(212,160,23,.4);background:rgba(212,160,23,.08)}
+.rolb.premium{color:var(--violet);border-color:rgba(167,139,250,.4);background:rgba(167,139,250,.08)}
+.rolb.economico{color:var(--blue);border-color:rgba(124,184,255,.4);background:rgba(124,184,255,.08)}
+.pitem .pn{font-weight:600;font-size:.9rem}
+.pitem .pmeta{font-size:.78rem;color:var(--mut);margin-top:5px;display:flex;flex-wrap:wrap;gap:4px 12px}
+.pitem .pmeta b{color:var(--txt);font-weight:600}
+.pitem .pwhere{font-family:var(--mono);font-size:.62rem;color:var(--mut-2);margin-top:6px}
+.price{font-family:var(--mono);color:var(--green-2);font-weight:600}
+
+/* products catalog */
+.catblock{margin-bottom:8px}
+.catblock h3{font-family:var(--disp);font-weight:600;text-transform:uppercase;font-size:1.15rem;margin:20px 0 10px;letter-spacing:.02em}
+
+/* provider */
+.prov{border:1px solid var(--line);background:var(--surf);border-radius:13px;padding:15px;margin-bottom:11px}
+.prov h3{font-family:var(--disp);font-weight:600;font-size:1.12rem;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.prov .pz{font-family:var(--mono);font-size:.58rem;letter-spacing:.06em;text-transform:uppercase;color:var(--mut-2);margin-top:3px}
+.prov .pr-rep{font-size:.84rem;color:var(--gold-2);margin-top:9px}
+.prov .pr-vende{font-size:.84rem;color:var(--txt);margin-top:6px}
+.prov .pr-c{font-family:var(--mono);font-size:.66rem;color:var(--blue);margin-top:8px;word-break:break-word}
+
+/* table */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:11px;margin:14px 0;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;min-width:440px;font-size:.82rem}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+th{font-family:var(--mono);font-size:.56rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mut-2);background:var(--surf-2)}
+td b{color:#fff}
+tr:last-child td{border-bottom:0}
+
+.call{border-radius:11px;padding:13px 15px;margin:14px 0;font-size:.87rem;border:1px solid}
+.call .ct{font-family:var(--mono);font-size:.58rem;letter-spacing:.11em;text-transform:uppercase;margin-bottom:6px;display:block}
+.call.tip{border-color:rgba(212,160,23,.3);background:rgba(212,160,23,.06)} .call.tip .ct{color:var(--gold-2)}
+.call.warn{border-color:rgba(251,191,36,.3);background:rgba(251,191,36,.06)} .call.warn .ct{color:var(--amber)}
+.call b{color:#fff}
+
+.tree-step{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.tree-q{font-family:var(--disp);font-weight:600;text-transform:uppercase;font-size:1.35rem;line-height:1.1;margin:8px 0 4px}
+.tree-opts{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.topt{border:1px solid var(--line-2);background:var(--surf);border-radius:13px;padding:16px;text-align:left;cursor:pointer;font-size:1rem;color:var(--txt);display:flex;align-items:center;gap:12px;transition:.16s}
+.topt:hover{border-color:var(--gold);background:var(--surf-2)}
+.topt .ar{margin-left:auto;color:var(--mut-2)}
+.tree-back{margin-top:18px;background:none;border:0;color:var(--mut);font-size:.85rem;cursor:pointer;text-decoration:underline}
+.result-badge{display:inline-block;font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--green-2);background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);border-radius:20px;padding:4px 11px;margin-bottom:10px}
+.btn-full{display:block;width:100%;text-align:center;margin-top:18px;background:var(--gold);color:#1a1205;font-family:var(--disp);text-transform:uppercase;letter-spacing:.04em;font-weight:600;border:0;border-radius:12px;padding:15px;cursor:pointer;font-size:.95rem}
+.btn-ghost{display:block;width:100%;text-align:center;margin-top:10px;background:none;color:var(--mut);border:1px solid var(--line-2);border-radius:12px;padding:13px;cursor:pointer;font-size:.9rem}
+
+.sfield{width:100%;background:var(--surf);border:1px solid var(--line-2);border-radius:12px;padding:14px 15px;color:var(--txt);font-family:var(--body);font-size:.95rem;margin-bottom:14px}
+.sfield:focus{outline:none;border-color:var(--gold)}
+.sres-cat{font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mut-2);margin:16px 0 8px}
+.sres{border:1px solid var(--line);background:var(--surf);border-radius:11px;padding:13px 15px;margin-bottom:8px;cursor:pointer}
+.sres:hover{border-color:var(--gold)}
+.sres .rt{font-family:var(--disp);font-weight:600;font-size:1rem}
+.sres .rw{color:var(--mut);font-size:.78rem;margin-top:3px}
+.empty{text-align:center;color:var(--mut-2);padding:30px 10px;font-size:.88rem}
+.soonbox{border:1px dashed var(--line-2);border-radius:14px;padding:30px 20px;text-align:center;color:var(--mut-2);background:var(--surf)}
+.soonbox b{color:var(--mut);font-family:var(--disp);text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:6px}
+.lead2{color:var(--mut);font-size:.9rem;margin-bottom:14px}
+.usobox{background:var(--surf-2);border:1px solid var(--line);border-radius:11px;padding:12px 14px;margin-bottom:10px}
+.usol{font-size:.84rem;margin:3px 0;color:var(--mut)} .usol b{color:var(--gold-2)}
+.glo{display:flex;gap:13px;border:1px solid var(--line);background:var(--surf);border-radius:11px;padding:13px;margin-bottom:8px}
+.glo-s{flex:0 0 64px;font-family:var(--mono);font-weight:600;color:var(--gold-2);font-size:.95rem;padding-top:2px}
+.glo-x b{display:block;font-size:.9rem} .glo-x span{font-size:.82rem;color:var(--mut)}
+.step{display:flex;gap:13px;border:1px solid var(--line);background:var(--surf);border-radius:12px;padding:14px;margin-bottom:9px}
+.step-n{flex:0 0 30px;height:30px;border-radius:50%;background:rgba(212,160,23,.13);color:var(--gold-2);font-family:var(--disp);font-weight:600;display:flex;align-items:center;justify-content:center}
+.step-x b{display:block;font-size:.95rem} .step-x span{font-size:.83rem;color:var(--mut)}
+.pstep{display:flex;gap:13px;border:1px solid var(--line);background:var(--surf);border-radius:12px;padding:14px;margin-bottom:9px}
+.ps-n{flex:0 0 28px;height:28px;border-radius:8px;background:rgba(34,197,94,.13);color:var(--green-2);font-family:var(--disp);font-weight:600;display:flex;align-items:center;justify-content:center}
+.ps-a{font-size:.92rem;font-weight:500} .ps-meta{display:flex;flex-wrap:wrap;gap:5px 14px;margin-top:7px;font-size:.78rem;color:var(--mut);font-family:var(--mono)}
+.sell-l{font-size:.85rem;margin:5px 0;color:var(--txt)} .sell-l b{color:var(--gold-2)}
+.fotobtn{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--surf);border:1px dashed var(--line-2);border-radius:14px;padding:34px 16px;color:var(--gold-2);font-family:var(--disp);text-transform:uppercase;letter-spacing:.03em;cursor:pointer;font-size:1rem;margin-bottom:14px}
+.fotoimg{width:100%;border-radius:13px;border:1px solid var(--line-2);margin-bottom:6px}
+.mapwrap{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:10px;margin-bottom:12px}
+.mapsvg{width:100%;height:auto;display:block}
+.hot{cursor:pointer}
+.hot-c{fill:var(--gold);stroke:#1a1205;stroke-width:2;opacity:.92;transition:.15s}
+.hot:hover .hot-c,.hot:active .hot-c{fill:var(--green);r:15}
+.hot-t{fill:#1a1205;font-family:var(--mono);font-weight:600;font-size:13px;text-anchor:middle;pointer-events:none}
+.maphint{text-align:center;font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;color:var(--mut-2);margin-top:6px}
+.mapcard{border:1px solid var(--gold);background:rgba(212,160,23,.06);border-radius:13px;padding:15px;animation:fade .2s ease}
+.mapcard-n{font-family:var(--disp);font-weight:600;text-transform:uppercase;font-size:1.15rem;color:var(--gold-2)}
+.mapcard-t{font-size:.86rem;color:var(--mut);margin:8px 0 12px}.mapcard-t b{color:var(--txt)}
+.mapchips{display:flex;flex-wrap:wrap;gap:8px}
+.matchip{font-family:var(--body);font-size:.84rem;padding:9px 13px;border-radius:9px;border:1px solid var(--line-2);background:var(--surf);color:var(--txt);cursor:pointer}
+.matchip:hover{border-color:var(--gold);color:var(--gold)}
+@media(max-width:430px){.drow .lab{flex:0 0 70px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top">
+    <button class="back" id="backBtn" onclick="goBack()">‹</button>
+    <img class="lg" src="data:image/jpeg;base64,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" alt="">
+    <div class="tt"><b id="topTitle">Sistema Detailing</b><span id="topSub">Lavame x Fa · terreno</span></div>
+    <button class="sbtn" onclick="nav('search')" aria-label="Buscar">⌕</button>
+  </div>
+
+  <section class="screen active" id="scr-home">
+    <div class="hero-h">
+      <span class="eb">Sistema operativo · detailing</span>
+      <h1>Encuentra la <span>respuesta</span> en segundos</h1>
+      <p>Toca lo que necesitas. Sin textos largos: qué material es, qué producto usar, con qué paño y dónde comprarlo.</p>
+    </div>
+    <div class="qsearch" onclick="nav('search')"><span>⌕</span> Buscar material, producto o proveedor…</div>
+    <div class="tiles">
+      <button class="tile big" onclick="nav('tree')"><div class="ic g">🌳</div><h3>Árbol de decisión</h3><p>¿No sabes qué material es? Respóndelo en 2 toques y te digo qué usar.</p></button>
+      <button class="tile" onclick="nav('foto')"><div class="ic b">📷</div><h3>Identificar con foto</h3><p>Súbela y te guío</p></button>
+      <button class="tile" onclick="nav('materials')"><div class="ic go">🧩</div><h3>Materiales</h3><p>Los 23 + cómo reconocerlos</p></button>
+      <button class="tile" onclick="nav('products')"><div class="ic b">🧴</div><h3>Productos</h3><p>Marcas, precios y cuál usar</p></button>
+      <button class="tile" onclick="nav('panos')"><div class="ic v">🧻</div><h3>Paños y GSM</h3><p>Microfibra correcta</p></button>
+      <button class="tile" onclick="nav('sellados')"><div class="ic b">💧</div><h3>Sellados</h3><p>Hidrófobo, antipolvo</p></button>
+      <button class="tile" onclick="nav('panos')"><div class="ic v">🧻</div><h3>Paños y GSM</h3><p>Microfibra correcta</p></button>
+      <button class="tile" onclick="nav('equipos')"><div class="ic r">🔧</div><h3>Equipos</h3><p>Aspiradora, pulidora, medidor</p></button>
+      <button class="tile" onclick="nav('orden')"><div class="ic go">🔢</div><h3>Orden del servicio</h3><p>Qué va primero</p></button>
+      <button class="tile" onclick="nav('procesos')"><div class="ic g">📋</div><h3>Paso a paso</h3><p>Flujos por servicio</p></button>
+      <button class="tile" onclick="nav('prov')"><div class="ic r">🏪</div><h3>Proveedores</h3><p>Dónde comprar e importar</p></button>
+      <button class="tile" onclick="nav('glosario')"><div class="ic m">🔤</div><h3>Glosario</h3><p>Qué significan las siglas</p></button>
+      <button class="tile big" onclick="nav('mapa')"><div class="ic v">🚗</div><h3>Mapa 360° del vehículo</h3><p>Toca una pieza del auto y ve su ficha al instante.</p></button>
+    </div>
+    <div class="homefoot">v4 · app · materiales · productos · equipos · sellados · procesos</div>
+  </section>
+
+  <section class="screen" id="scr-tree"><div id="treeBody"></div></section>
+  <section class="screen" id="scr-materials">
+    <div class="sh"><span class="eb">Biblioteca</span><h2>Materiales</h2><p>Filtra por tipo y toca para ver ficha + productos recomendados.</p></div>
+    <div class="chips" id="matChips"></div><div class="mgrid" id="matGrid"></div>
+  </section>
+  <section class="screen" id="scr-mdetail"><div id="mdetailBody"></div></section>
+  <section class="screen" id="scr-products">
+    <div class="sh"><span class="eb">Catálogo</span><h2>Productos</h2><p>Por categoría: lo que usamos, la mejor opción calidad/precio y la premium. Precios referenciales CLP.</p></div>
+    <div id="prodBody"></div>
+  </section>
+  <section class="screen" id="scr-panos">
+    <div class="sh"><span class="eb">Guía visual</span><h2>Paños y GSM</h2><p>La microfibra correcta para cada tarea. El GSM es el grosor: más alto = más suave y absorbente.</p></div>
+    <div id="panosBody"></div>
+  </section>
+  <section class="screen" id="scr-prov">
+    <div class="sh"><span class="eb">Abastecimiento</span><h2>Proveedores</h2><p>Dónde comprar en Chile, quién representa cada marca y dónde importar.</p></div>
+    <div id="provBody"></div>
+  </section>
+  <section class="screen" id="scr-search">
+    <div class="sh"><span class="eb">Consulta rápida</span><h2>Buscar</h2></div>
+    <input class="sfield" id="sfield" type="search" placeholder="Escribe: cuero, vidrio, llanta, Soft99, Tonyin…" oninput="runSearch(this.value)" autocomplete="off">
+    <div id="searchRes"><div class="empty">Escribe para buscar en materiales, productos y proveedores.</div></div>
+  </section>
+  <section class="screen" id="scr-mapa">
+    <div class="sh"><span class="eb">Mapa 360°</span><h2>El vehículo</h2><p>Toca un punto marcado: te muestro la pieza, sus texturas posibles y su ficha.</p></div>
+    <div class="chips" id="mapChips"></div>
+    <div class="mapwrap" id="mapWrap"></div>
+    <div id="mapInfo"></div>
+  </section>
+
+    <div class="sh"><span class="eb">Identificar</span><h2>Foto del material</h2><p>Saca o sube una foto de la superficie. Te muestro la foto y te guío con preguntas para identificarla.</p></div>
+    <label class="fotobtn" id="fotoLabel">📷 Sacar o subir foto<input type="file" accept="image/*" capture="environment" id="fotoInput" onchange="onFoto(this)" hidden></label>
+    <div id="fotoPrev"></div>
+  </section>
+  <section class="screen" id="scr-glosario">
+    <div class="sh"><span class="eb">Traducción</span><h2>Glosario de siglas</h2><p>Las siglas que verás en productos y herramientas, en simple.</p></div>
+    <div id="glosBody"></div>
+  </section>
+  <section class="screen" id="scr-equipos">
+    <div class="sh"><span class="eb">Herramientas</span><h2>Equipos</h2><p>Aspiradoras, pulidoras y medidor de pintura: qué comprar, especificaciones y precios.</p></div>
+    <div class="chips" id="eqChips"></div><div id="eqBody"></div>
+  </section>
+  <section class="screen" id="scr-sellados">
+    <div class="sh"><span class="eb">Protección</span><h2>Sellados e hidrofóbicos</h2><p>Lo que hace que el auto se ensucie menos, brille y la lluvia resbale. De menos a más duración.</p></div>
+    <div id="sellBody"></div>
+  </section>
+  <section class="screen" id="scr-orden">
+    <div class="sh"><span class="eb">Flujo</span><h2>Orden del servicio</h2><p>Siempre en este orden para no contaminar lo limpio ni cometer errores.</p></div>
+    <div id="ordenBody"></div>
+  </section>
+  <section class="screen" id="scr-procesos">
+    <div class="sh"><span class="eb">Paso a paso</span><h2>Procesos</h2><p>Cada servicio en pasos: acción, producto, herramienta y tiempo.</p></div>
+    <div class="chips" id="procChips"></div><div id="procBody"></div>
+  </section>
+
+    <div class="soonbox"><b>En preparación</b>Próxima entrega: mapa 360° del vehículo (tocas la pieza y ves su ficha) y procesos paso a paso con tiempos.</div>
+    <button class="btn-ghost" onclick="nav('home')">Volver al inicio</button>
+  </section>
+</div>
+
+<script>
+/* ===== PRODUCT CATALOG (Chile, precios ref. CLP) ===== */
+var PRODCAT={
+ lavado_seco:{t:"Lavado en seco (waterless)",items:[
+   {rol:"usamos",n:"Lavado Ecológico Sin Agua 1L",marca:"Simoniz",precio:"$8.000",rinde:"8 lavadas",donde:"Lider · MercadoLibre"},
+   {rol:"mejor",n:"Waterless / V-Floc",marca:"Vonixx · Soft99",precio:"$10–18.000",rinde:"alto (diluible)",donde:"Soft99 Chile · Zona Detailers"},
+   {rol:"premium",n:"Wash & Wax Anywhere / ONR",marca:"Meguiar's",precio:"~$20.000",rinde:"medio",donde:"Detailing shops (importado)"}]},
+ vidrios:{t:"Vidrios",items:[
+   {rol:"usamos",n:"Limpia Vidrios Desempañante 2en1 350ml",marca:"Simoniz",precio:"~$4.000",rinde:"alto",donde:"Lider · ML"},
+   {rol:"mejor",n:"Glass Cleaner",marca:"Sonax · Soft99",precio:"$8–12.000",rinde:"alto",donde:"Soft99 Chile · Raceworks"},
+   {rol:"premium",n:"Invisible Glass / sellado Glaco",marca:"Stoner · Soft99",precio:"$12–25.000",rinde:"medio",donde:"Detailing shops"}]},
+ interior:{t:"Interior (tablero y plásticos)",items:[
+   {rol:"usamos",n:"Interior Detailer 473ml",marca:"Armor All",precio:"$9–12.000",rinde:"medio-alto",donde:"Autoplanet · ML"},
+   {rol:"mejor",n:"Original Finish / Interior",marca:"Ternnova · Vonixx",precio:"$10–18.000",rinde:"alto",donde:"Zona Detailers"},
+   {rol:"premium",n:"Total Interior",marca:"Chemical Guys · Koch Chemie",precio:"$15–25.000",rinde:"alto",donde:"Chemical Guys Chile · Tonyin"}]},
+ cuero:{t:"Cuero",items:[
+   {rol:"mejor",n:"Luxury Leather 500ml (limpia + acondiciona)",marca:"Soft99",precio:"$25–35.000",rinde:"alto (~20–30 autos)",donde:"Soft99 Chile · Raceworks"},
+   {rol:"premium",n:"Leather Care / Profiline",marca:"Sonax",precio:"$30–45.000",rinde:"alto",donde:"Zona Detailers · Austin Auto Spa"},
+   {rol:"economico",n:"Acond. interior/cuero 5L",marca:"Ternnova",precio:"$20–30.000 (5L)",rinde:"muy alto",donde:"Detailing shops"}]},
+ plasticos_ext:{t:"Plásticos, gomas y molduras exteriores",items:[
+   {rol:"mejor",n:"TN10 Plastic Restorer",marca:"Tonyin",precio:"$8–14.000",rinde:"alto",donde:"Tonyin (Recoleta)"},
+   {rol:"mejor",n:"Gummi (crema gomas/molduras)",marca:"Soft99",precio:"$12–18.000",rinde:"alto",donde:"Soft99 Chile"},
+   {rol:"premium",n:"C4 sellado de molduras (~1–2 años)",marca:"Gtechniq",precio:"$25–40.000",rinde:"medio",donde:"Detailing shops"}]},
+ neumaticos:{t:"Neumáticos (dressing)",items:[
+   {rol:"mejor",n:"Pneu Pro / dressing de goma",marca:"Vonixx · 3D",precio:"$8–15.000",rinde:"alto",donde:"Detailing shops"},
+   {rol:"premium",n:"Tire / acondicionador premium",marca:"Sonax · Gyeon",precio:"$15–25.000",rinde:"medio",donde:"Zona Detailers · Tonyin"},
+   {rol:"economico",n:"Apresto neumático genérico",marca:"genérico",precio:"$3–6.000",rinde:"medio",donde:"ML · Autoplanet"}]},
+ metales:{t:"Metales (cromo, aluminio, acero)",items:[
+   {rol:"mejor",n:"Pulimento Metal/Cromo 75ml",marca:"Sonax",precio:"$8–12.000",rinde:"muy alto",donde:"Sodimac · ML · Raceworks"},
+   {rol:"mejor",n:"Pulimento de Cromados 125ml",marca:"Soft99",precio:"$10–15.000",rinde:"alto",donde:"Soft99 Chile"},
+   {rol:"premium",n:"Metal Polish",marca:"Autosol · Mothers",precio:"$10–18.000",rinde:"alto",donde:"Autoplanet · ML"}]},
+ apc:{t:"APC (limpiador multipropósito)",items:[
+   {rol:"mejor",n:"All Clean APC 600ml",marca:"Toxic Shine",precio:"$6–10.000",rinde:"muy alto (diluible)",donde:"Detailing shops"},
+   {rol:"premium",n:"Green Star / APC",marca:"Koch Chemie · Meguiar's",precio:"$12–20.000",rinde:"muy alto",donde:"Tonyin · Chemical Guys Chile"},
+   {rol:"economico",n:"APC concentrado genérico",marca:"genérico",precio:"$4–8.000",rinde:"muy alto",donde:"ML · Sodimac"}]}
+};
+var ROLES={usamos:"Lo que usamos",mejor:"Mejor calidad/precio",premium:"Premium",economico:"Económico"};
+
+/* ===== SUPPLIERS ===== */
+var PROV=[
+ {n:"Tonyin (Best Fuels & Oils)",z:"Recoleta, Santiago",rep:"Importación directa · marca propia Tonyin · acceso mayorista",v:"Restauradores de plástico, APC, microfibras, cepillos, selladores",c:"+56 2 2735 6040 · ventas@tonyin.cl · tonyin.cl"},
+ {n:"Detailing Bulls",z:"Santiago",rep:"Representante IK Sprayers Chile · Bulls Academy (certificación) · marca propia Bulls",v:"Microfibras Top Quality, cepillos, pads, pulidoras, selladores",c:"detailingbulls.cl"},
+ {n:"Soft99 Chile",z:"Online · envíos a todo Chile",rep:"Representante Soft99 (Japón)",v:"Cuero, vidrios, gomas (Gummi), ceras, interior",c:"soft99chile.cl"},
+ {n:"Chemical Guys Chile",z:"Online",rep:"Representante Chemical Guys (USA)",v:"Interior, microfibras premium, químicos",c:"chemicalguys.cl"},
+ {n:"Austin Auto Spa",z:"Quilicura y San Ramón, Santiago",rep:"Multimarca (Adam's, Gyeon, Soft99, Sonax, Vonixx)",v:"Línea completa interior/exterior",c:"+56 9 4752 9390 · austinautospa.cl"},
+ {n:"Zona Detailers",z:"Valdivia · envíos a todo Chile",rep:"Multimarca (Carpro, Koch Chemie, Meguiar's, Sonax, SGCB)",v:"Línea completa + microfibras",c:"zonadetailers.cl"},
+ {n:"Detailing Shop Chile",z:"Online",rep:"Chemical Guys, Tonyin, Bigboi · mayorista",v:"Línea completa, 20% dscto. línea propia",c:"detailingshop.cl"},
+ {n:"3D Products Chile",z:"Online",rep:"Marca 3D (USA)",v:"Shampoo, pulidoras, pads, cepillos",c:"3dproductschile.cl"},
+ {n:"HEX Detailing",z:"Online",rep:"Microfibras propias por GSM",v:"Toallas de secado y pintura (hasta 1200 GSM)",c:"hexdetailing.cl"},
+ {n:"Básicos e importar",z:"—",rep:"Para volumen y económico",v:"Sodimac/Lider (básicos y Sonax), MercadoLibre (genéricos), AliExpress/Amazon (SGCB, Maxshine importado)",c:"—"}
+];
+
+/* ===== PAÑOS / GSM ===== */
+var PANOS={
+ gsm:[
+  ["200–300 GSM","Vidrios y limpieza ligera","Liviana, poca pelusa","Azul"],
+  ["300–400 GSM","Multiuso, interior, APC","La de todos los días","Verde / amarilla"],
+  ["400–500 GSM","Pintura, quitar sellador","Felpa media","Gris / roja"],
+  ["500–600 GSM","Pintura delicada y pulido","Suave, no raya","Gris / negra premium"],
+  ["1000–1200 GSM","Secado","Súper absorbente","La que tú quieras"]
+ ],
+ colores:"Asigna un color por uso y respétalo: <b>azul</b> vidrios, <b>verde</b> interior, <b>amarillo</b> aplicar producto, <b>gris/roja</b> pintura, <b>negra</b> llantas/sucio. Mezclar colores = mezclar mugre = rayas.",
+ bordes:"<b>Con costura</b>: económica, sirve para interior y trabajos sucios. <b>Borde ultrasónico (sin costura) o de seda</b>: no raya, úsala en pintura y vidrios.",
+ inicio:"<b>Para partir (12–15 paños):</b> 4 vidrios (300 GSM), 4 interior (400 GSM), 4 pintura (500 GSM), 2–3 llantas (las más viejas).",
+ pro:"<b>Profesional (30–40):</b> stock rotando por color/uso, así nunca trabajas con una sucia.",
+ lavado:"Lava con agua fría/tibia y detergente neutro, <b>sin suavizante</b> (tapa la fibra) y <b>sin secadora caliente</b>. Descártala cuando se pone dura o deja de absorber."
+};
+
+/* ===== MATERIALS (enriquecido) ===== */
+var SURF=[
+ {key:"plastico_liso",cat:"plastico",catL:"Plásticos",n:"Plástico interior liso",what:"Tableros y molduras brillantes/satinados.",id:"Se ve parejo, refleja un poco y al tocarlo es liso.",yes:"Producto al paño (nunca a la superficie), pasar y secar.",no:"Siliconas grasosas (atraen polvo) ni alcohol puro.",mf:"Microfibra gris/verde 300–400 GSM, 40×40.",brush:"Pincel de cerda suave para ranuras y rejillas.",err:"Echar producto directo al tablero: se chorrea a la electrónica.",dura:"Acabado y protección 1–3 semanas.",use:["interior","apc"]},
+ {key:"plastico_texturado",cat:"plastico",catL:"Plásticos",n:"Plástico interior texturado",what:"Tableros con grano o rugosidad.",id:"Tiene textura/relieve; la mugre se mete en el grano.",yes:"APC diluido, cepillar suave por partes y secar al toque.",no:"Cepillo duro (pule la textura y la deja brillante por zonas).",mf:"Microfibra 300–400 GSM.",brush:"Cepillo de cerda media + pincel de detalle.",err:"Dejar producto secándose en la textura: queda blanco.",dura:"—",use:["apc","interior"]},
+ {key:"plastico_exterior",cat:"plastico",catL:"Plásticos",n:"Plástico exterior",what:"Parachoques, espejos y molduras negras sin pintar.",id:"Negro/gris sin brillo de pintura; se aclara con el sol.",yes:"Limpiar con APC, secar y aplicar restaurador de plásticos.",no:"Aplicar sobre plástico sucio o mojado (no pega).",mf:"Microfibra + aplicador de espuma.",brush:"Pincel para uniones.",err:"Pasarlo a la pintura cercana: deja manchas.",dura:"Restaurador 1–4 semanas; sellado hasta 1–2 años.",use:["plasticos_ext","apc"]},
+ {key:"molduras",cat:"plastico",catL:"Plásticos",n:"Molduras y vinilos decorativos",what:"Tiras decorativas y vinilos de color.",id:"Plástico/vinilo fino, no es pintura; se raya fácil.",yes:"Lavado suave + sellador específico para vinilo/moldura.",no:"Pulido o ceras con solventes fuertes (manchan).",mf:"Microfibra suave.",brush:"—",err:"Pulir el vinilo creyendo que es pintura: lo quema.",dura:"Sellado de moldura ~1–2 años.",use:["plasticos_ext"]},
+ {key:"goma",cat:"goma",catL:"Gomas",n:"Gomas y burletes",what:"Sellos de puertas y ventanas.",id:"Goma flexible negra alrededor de puertas/vidrios.",yes:"Limpiar con APC suave y aplicar acondicionador de gomas (base agua).",no:"Productos a base de petróleo (las hinchan).",mf:"Microfibra.",brush:"Pincel.",err:"No tratarlas: la goma seca se rompe y la puerta suena.",dura:"Acondicionador 2–4 semanas.",use:["plasticos_ext"]},
+ {key:"neumaticos",cat:"rueda",catL:"Ruedas",n:"Neumáticos",what:"La goma negra de la rueda.",id:"Banda negra; se pone café/gris con los rayos UV.",yes:"Limpiar con APC + cepillo, luego dressing en el flanco.",no:"Dressing en la banda de rodadura (resbala) ni sobre goma sucia.",mf:"Aplicador de espuma.",brush:"Cepillo de neumático de cerda dura.",err:"Demasiado dressing: chorrea a la carrocería al andar.",dura:"Dressing 1–3 semanas (más si es premium).",use:["neumaticos","apc"]},
+ {key:"llantas",cat:"rueda",catL:"Ruedas",n:"Llantas",what:"El aro (aluminio pintado, cromo o negro).",id:"Parte metálica/pintada de la rueda; junta polvo de freno.",yes:"Limpiador pH neutro + cepillos; sellar para que se ensucie menos.",no:"Ácidos fuertes en llantas pintadas/selladas (las opacan).",mf:"Microfibra.",brush:"Cepillos de llanta de distinto largo + pincel de tuercas.",err:"Limpiar la llanta caliente o al sol: el producto se seca y mancha.",dura:"Sellado de llanta 3–6 meses.",use:["apc","metales"]},
+ {key:"cuero_natural",cat:"cuero",catL:"Cuero y telas",n:"Cuero natural",what:"Cuero real; se reseca y agrieta.",id:"Poro irregular, huele a cuero, se siente cálido y orgánico.",yes:"Limpiador de cuero suave + cepillo blando, luego acondicionador.",no:"APC fuerte, alcohol o exceso de agua (resecan y destiñen).",mf:"2 microfibras suaves 300–400 GSM (una limpia, una sella).",brush:"Cepillo de cuero de cerda blanda.",err:"Empapar el cuero: el agua entra por las costuras.",dura:"Acondicionado 3–6 semanas.",use:["cuero"]},
+ {key:"cuero_sintetico",cat:"cuero",catL:"Cuero y telas",n:"Cuero sintético (ecocuero)",what:"Imitación de cuero, más resistente.",id:"Poro parejo y uniforme, frío al tacto, costuras perfectas.",yes:"APC muy diluido + microfibra; acondicionador opcional.",no:"Cepillo duro y calor (lo cuartean).",mf:"Microfibra 300–400 GSM.",brush:"Pincel suave en costuras.",err:"Frotar fuerte zonas de desgaste: se levanta la capa.",dura:"—",use:["apc","cuero"]},
+ {key:"alcantara",cat:"cuero",catL:"Cuero y telas",n:"Alcántara / gamuza",what:"Tela aterciopelada premium (volante, asientos).",id:"Aterciopelada, con pelillo; se aplasta al frotar.",yes:"APC muy suave en espuma seca + cepillo blando; secar y peinar la fibra.",no:"Mojar en exceso, acondicionadores de cuero o siliconas.",mf:"Microfibra suave.",brush:"Cepillo de cerda muy suave.",err:"Frotar en círculos: deja brillo y aplasta el pelillo.",dura:"—",use:["apc"]},
+ {key:"telas",cat:"cuero",catL:"Cuero y telas",n:"Telas y tapices",what:"Asientos de tela.",id:"Tejido absorbente; se humedece al presionar.",yes:"APC/limpia-tapices + cepillo, extraer con paño y secar bien.",no:"Empapar (genera olor a humedad y hongos).",mf:"Microfibra absorbente.",brush:"Cepillo de tapiz.",err:"No secar: queda el cerco y el mal olor.",dura:"—",use:["apc"]},
+ {key:"alfombras",cat:"cuero",catL:"Cuero y telas",n:"Alfombras y pisos",what:"Alfombra fija y pedaleras de goma.",id:"Piso del auto; junta tierra y piedras.",yes:"Aspirar primero, luego APC + cepillo. Pedaleras: dressing mate.",no:"Dressing brillante en pedaleras (resbala el pie).",mf:"Microfibra.",brush:"Cepillo firme.",err:"Echar agua sin aspirar antes: se hace barro en la fibra.",dura:"—",use:["apc"]},
+ {key:"vidrios",cat:"vidrio",catL:"Vidrios y pantallas",n:"Vidrios",what:"Parabrisas y ventanas.",id:"Transparente y duro; marca huellas y lluvia.",yes:"Producto al paño, pulir con una microfibra seca aparte.",no:"Limpiar al sol o usar el paño grasoso del tablero.",mf:"2 microfibras de vidrio 300 GSM, sin pelusa (azul).",brush:"—",err:"Un solo paño deja velo: uno aplica, otro pule.",dura:"Sellado hidrofóbico 6–12 meses.",use:["vidrios"]},
+ {key:"espejos",cat:"vidrio",catL:"Vidrios y pantallas",n:"Espejos",what:"Retrovisores exteriores e interior.",id:"Superficie espejada con marco plástico alrededor.",yes:"Limpiavidrios al paño + microfibra.",no:"Rociar directo (entra agua al mecanismo).",mf:"Microfibra de vidrio.",brush:"—",err:"Producto directo: chorrea al motor del espejo.",dura:"—",use:["vidrios"]},
+ {key:"pantallas",cat:"vidrio",catL:"Vidrios y pantallas",n:"Pantallas",what:"Multimedia y tablero digital.",id:"Vidrio negro brillante que muestra info; deja huellas.",yes:"Detallador interior o limpiador de pantallas AL PAÑO.",no:"Limpiavidrios con amoníaco/alcohol (comen el antirreflejo).",mf:"Microfibra premium ultra suave 400+ GSM (la de pantallas).",brush:"—",err:"Rociar a la pantalla: el líquido entra por los bordes.",dura:"—",use:["interior"]},
+ {key:"cromo",cat:"metal",catL:"Metales",n:"Cromo",what:"Detalles espejados (parrillas, marcos).",id:"Metal tipo espejo; se mancha con agua y se pica.",yes:"Limpiavidrios o pulidor de cromo suave + microfibra.",no:"Esponjas abrasivas o ácidos (lo pican para siempre).",mf:"Microfibra suave.",brush:"—",err:"Frotar con algo abrasivo: lo raya fino y se opaca.",dura:"Pulido protege semanas.",use:["metales","vidrios"]},
+ {key:"acero",cat:"metal",catL:"Metales",n:"Acero inoxidable",what:"Molduras y escapes.",id:"Metal con veteado fino en una dirección.",yes:"APC suave o pulidor de acero, siguiendo el veteado.",no:"Limpiar contra el veteado (deja rayas).",mf:"Microfibra.",brush:"—",err:"Pulir en círculos: marca remolinos.",dura:"—",use:["apc","metales"]},
+ {key:"aluminio",cat:"metal",catL:"Metales",n:"Aluminio",what:"Estribos y detalles.",id:"Metal claro mate; se oxida blanco y se pica.",yes:"Limpiador/pulidor de aluminio + microfibra, sellar.",no:"Ácidos fuertes sin enjuague (lo manchan).",mf:"Microfibra.",brush:"Cepillo suave.",err:"Dejar el producto secar encima: manchas blancas.",dura:"Sellado protege meses.",use:["metales"]},
+ {key:"pintura_brillante",cat:"pintura",catL:"Pintura y protección",n:"Pintura brillante",what:"El color con barniz brillante (lo normal).",id:"Refleja como espejo; es lo más común.",yes:"Lavado en seco, una cara de paño por pasada. Sellar para proteger.",no:"Un solo paño para todo el auto, o frotar en seco con tierra.",mf:"Microfibra por panel 400–500 GSM, borde sin costura.",brush:"—",err:"Pasar el mismo paño sucio: la tierra raya el barniz.",dura:"Sellado 2–6 meses; coating 1–5 años.",use:["lavado_seco"]},
+ {key:"pintura_mate",cat:"pintura",catL:"Pintura y protección",n:"Pintura mate",what:"Acabado sin brillo (mate/satinado).",id:"No refleja; se ve apagada a propósito.",yes:"Solo productos 'matte'. Lavado suave sin presión.",no:"Ceras, pulidos o coatings brillantes (la arruinan).",mf:"Microfibra suave.",brush:"—",err:"Tratarla como pintura normal: brilla por partes, irreversible.",dura:"Coating mate 1–2 años.",use:["lavado_seco"]},
+ {key:"ppf",cat:"pintura",catL:"Pintura y protección",n:"PPF (lámina protectora)",what:"Film transparente sobre la pintura.",id:"Se siente un escalón/borde de lámina al pasar el dedo.",yes:"Lavado suave; productos compatibles con PPF.",no:"Pulidos fuertes o ceras con tinte en los bordes.",mf:"Microfibra suave.",brush:"—",err:"Rascar el borde con uña/espátula: levanta la lámina.",dura:"PPF dura 5–10 años.",use:["lavado_seco"]},
+ {key:"wrap",cat:"pintura",catL:"Pintura y protección",n:"Wrap (vinilo de color)",what:"El auto forrado en vinilo.",id:"Color uniforme con costuras/uniones; NO es pintura.",yes:"Lavado suave + sellador para vinilo. Secar las costuras.",no:"Ceras grasosas, solventes o pulido (despegan el vinilo).",mf:"Microfibra suave.",brush:"—",err:"Dejar agua en las costuras: se mete bajo el vinilo.",dura:"Sellador de vinilo semanas/meses.",use:["lavado_seco"]},
+ {key:"motor",cat:"motor",catL:"Motor",n:"Motor (vano)",what:"La zona del motor.",id:"Mezcla de plásticos, gomas, metal y electrónica.",yes:"Motor frío + APC diluido + pinceles; dressing mate al final.",no:"Chorro de agua a presión sobre conectores. Nada con motor caliente.",mf:"Microfibra.",brush:"Pinceles + bolsas para tapar conexiones.",err:"Mojar la electrónica: fallas eléctricas.",dura:"Dressing de vano semanas.",use:["apc","plasticos_ext"]}
+];
+function byKey(k){return SURF.find(function(s){return s.key===k;});}
+
+/* recommended products HTML from use[] */
+function recsHTML(use){
+  if(!use||!use.length) return '';
+  var h='<div class="rec-h">Productos recomendados</div>';
+  use.forEach(function(ck){
+    var c=PRODCAT[ck]; if(!c)return;
+    h+='<div class="rec-cat">'+c.t+'</div>';
+    c.items.forEach(function(p){
+      h+='<div class="pitem"><div class="pr-top"><span class="rolb '+p.rol+'">'+ROLES[p.rol]+'</span><span class="pn">'+p.n+'</span></div>'+
+         '<div class="pmeta"><span>Marca: <b>'+p.marca+'</b></span><span class="price">'+p.precio+'</span>'+(p.rinde?'<span>Rinde: <b>'+p.rinde+'</b></span>':'')+'</div>'+
+         '<div class="pwhere">📍 '+p.donde+'</div></div>';
+    });
+  });
+  return h;
+}
+function fichaRows(s){
+  return '<div class="drow id"><div class="lab">Reconocer</div><div class="val">'+s.id+'</div></div>'+
+    '<div class="drow ok"><div class="lab">Técnica</div><div class="val">'+s.yes+'</div></div>'+
+    '<div class="drow no"><div class="lab">No usar</div><div class="val">'+s.no+'</div></div>'+
+    '<div class="drow tool"><div class="lab">Microfibra</div><div class="val">'+s.mf+'</div></div>'+
+    (s.brush&&s.brush!=='—'?'<div class="drow tool"><div class="lab">Cepillo</div><div class="val">'+s.brush+'</div></div>':'')+
+    '<div class="drow err"><div class="lab">Error</div><div class="val">'+s.err+'</div></div>'+
+    (s.dura&&s.dura!=='—'?'<div class="drow dura"><div class="lab">Dura</div><div class="val">'+s.dura+'</div></div>':'');
+}
+
+/* TREE */
+var TREE={
+ start:{q:"¿Qué estás mirando?",step:"Paso 1 de 2",o:[
+   {t:"Carrocería / pintura",go:"paint"},{t:"Plástico o moldura",go:"plastic"},{t:"Vidrio o pantalla",go:"glass"},
+   {t:"Metal brillante",go:"metal"},{t:"Asiento o interior blando",go:"soft"},{t:"Rueda",go:"wheel"},{t:"Motor",res:"motor"}]},
+ paint:{q:"¿Cómo es el acabado?",step:"Paso 2 de 2",o:[
+   {t:"Brillante normal",res:"pintura_brillante"},{t:"Mate / satinada",res:"pintura_mate"},
+   {t:"Forrada en vinilo (wrap)",res:"wrap"},{t:"Con lámina transparente (PPF)",res:"ppf"}]},
+ plastic:{q:"¿Cuál plástico?",step:"Paso 2 de 2",o:[
+   {t:"Interior liso / brillante",res:"plastico_liso"},{t:"Interior con textura",res:"plastico_texturado"},
+   {t:"Exterior negro sin pintar",res:"plastico_exterior"},{t:"Goma o burlete",res:"goma"},{t:"Moldura o vinilo decorativo",res:"molduras"}]},
+ glass:{q:"¿Vidrio o pantalla?",step:"Paso 2 de 2",o:[
+   {t:"Vidrio o parabrisas",res:"vidrios"},{t:"Espejo",res:"espejos"},{t:"Pantalla (multimedia)",res:"pantallas"}]},
+ metal:{q:"¿Qué metal?",step:"Paso 2 de 2",o:[
+   {t:"Cromado (espejo)",res:"cromo"},{t:"Acero inoxidable (veteado)",res:"acero"},{t:"Aluminio",res:"aluminio"}]},
+ soft:{q:"¿Qué material blando?",step:"Paso 2 de 2",o:[
+   {t:"Cuero (poro irregular)",res:"cuero_natural"},{t:"Cuero sintético (poro parejo)",res:"cuero_sintetico"},
+   {t:"Alcántara / gamuza",res:"alcantara"},{t:"Tela de asiento",res:"telas"},{t:"Alfombra o piso",res:"alfombras"}]},
+ wheel:{q:"¿Goma o aro?",step:"Paso 2 de 2",o:[
+   {t:"La goma negra (neumático)",res:"neumaticos"},{t:"El aro (llanta)",res:"llantas"}]}
+};
+function renderTree(node){
+  node=node||"start"; var n=TREE[node], b=document.getElementById("treeBody");
+  var h='<div class="tree-step">'+n.step+'</div><div class="tree-q">'+n.q+'</div><div class="tree-opts">';
+  n.o.forEach(function(o){var act=o.res?('treeResult(\''+o.res+'\')'):('renderTree(\''+o.go+'\')');
+    h+='<button class="topt" onclick="'+act+'">'+o.t+'<span class="ar">›</span></button>';});
+  h+='</div>'+(node==="start"?'':'<button class="tree-back" onclick="renderTree(\'start\')">↺ Empezar de nuevo</button>');
+  b.innerHTML=h;
+}
+function treeResult(k){
+  var s=byKey(k), b=document.getElementById("treeBody");
+  b.innerHTML='<span class="result-badge">✓ Material identificado</span><div class="dh">'+s.n+'</div><div class="dwhat">'+s.what+'</div>'+
+    fichaRows(s)+recsHTML(s.use)+
+    '<button class="btn-full" onclick="renderTree(\'start\')">Identificar otra superficie</button>'+
+    '<button class="btn-ghost" onclick="nav(\'home\')">Volver al inicio</button>';
+  window.scrollTo(0,0);
+}
+
+/* MATERIALS */
+var matFilter="all";
+function renderMatChips(){
+  var cats=[{k:"all",l:"Todos"}],seen={};
+  SURF.forEach(function(s){if(!seen[s.cat]){seen[s.cat]=1;cats.push({k:s.cat,l:s.catL});}});
+  document.getElementById("matChips").innerHTML=cats.map(function(c){return '<button class="chip'+(c.k===matFilter?' on':'')+'" onclick="setMatFilter(\''+c.k+'\')">'+c.l+'</button>';}).join('');
+}
+function setMatFilter(k){matFilter=k;renderMatChips();renderMatGrid();}
+function renderMatGrid(){
+  document.getElementById("matGrid").innerHTML=SURF.filter(function(s){return matFilter==="all"||s.cat===matFilter;}).map(function(s){
+    return '<button class="mcard" onclick="openMaterial(\''+s.key+'\')"><div class="mt">'+s.n+'</div><div class="mw">'+s.id+'</div><span class="mcat">'+s.catL+'</span></button>';}).join('');
+}
+function openMaterial(k){
+  var s=byKey(k);
+  document.getElementById("mdetailBody").innerHTML='<div class="sh"><span class="eb">'+s.catL+'</span></div><div class="dh">'+s.n+'</div><div class="dwhat">'+s.what+'</div>'+fichaRows(s)+recsHTML(s.use);
+  nav("mdetail","Ficha");
+}
+
+/* PRODUCTS CATALOG */
+function renderProducts(){
+  var h='';
+  for(var ck in PRODCAT){var c=PRODCAT[ck];
+    h+='<div class="catblock"><h3>'+c.t+'</h3>';
+    if(USO[ck]){var u=USO[ck];h+='<div class="usobox"><div class="usol"><b>Qué logra:</b> '+u.logra+'</div><div class="usol"><b>Cómo aplicar:</b> '+u.aplicar+'</div><div class="usol"><b>Con qué paño:</b> '+u.pano+'</div></div>';}
+    c.items.forEach(function(p){
+      h+='<div class="pitem"><div class="pr-top"><span class="rolb '+p.rol+'">'+ROLES[p.rol]+'</span><span class="pn">'+p.n+'</span></div>'+
+         '<div class="pmeta"><span>Marca: <b>'+p.marca+'</b></span><span class="price">'+p.precio+'</span>'+(p.rinde?'<span>Rinde: <b>'+p.rinde+'</b></span>':'')+'</div>'+
+         '<div class="pwhere">📍 '+p.donde+'</div></div>';
+    });
+    h+='</div>';
+  }
+  h+='<div class="call warn"><span class="ct">⚠ Costos que ya manejamos</span>Shampoo seco <b>$8.000/L</b> (~8 lavadas) · Antiempañante <b>~$4.000</b> · Kit 5 paños <b>$20.000</b> · Auto S = <b>4 paños</b>.</div>';
+  document.getElementById("prodBody").innerHTML=h;
+}
+
+/* PAÑOS */
+function renderPanos(){
+  var p=PANOS;
+  var rows=p.gsm.map(function(r){return '<tr><td><b>'+r[0]+'</b></td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td></tr>';}).join('');
+  document.getElementById("panosBody").innerHTML=
+   '<div class="tablewrap"><table><thead><tr><th>GSM</th><th>Para qué</th><th>Tacto</th><th>Color sugerido</th></tr></thead><tbody>'+rows+'</tbody></table></div>'+
+   '<div class="call tip"><span class="ct">🎨 Código de colores</span>'+p.colores+'</div>'+
+   '<div class="call tip"><span class="ct">✂ Bordes</span>'+p.bordes+'</div>'+
+   '<div class="drow ok"><div class="lab">Inicio</div><div class="val">'+p.inicio+'</div></div>'+
+   '<div class="drow ok"><div class="lab">Pro</div><div class="val">'+p.pro+'</div></div>'+
+   '<div class="drow err"><div class="lab">Lavado</div><div class="val">'+p.lavado+'</div></div>';
+}
+
+/* PROVEEDORES */
+function renderProv(){
+  document.getElementById("provBody").innerHTML=PROV.map(function(p){
+    return '<div class="prov"><h3>'+p.n+'</h3><div class="pz">'+p.z+'</div>'+
+      '<div class="pr-rep">'+p.rep+'</div><div class="pr-vende">Vende: '+p.v+'</div>'+(p.c&&p.c!=='—'?'<div class="pr-c">'+p.c+'</div>':'')+'</div>';
+  }).join('')+'<div class="call tip"><span class="ct">💡 Estrategia de compra</span>Lo de <b>todos los días</b> (shampoo seco, microfibras, APC) cómpralo por <b>volumen</b> en Tonyin/Bulls. Lo <b>premium</b> (coating, cuero) en tiendas de marca. Lo <b>barato de probar</b>, importa por AliExpress.</div>';
+}
+
+/* SEARCH */
+function runSearch(q){
+  q=(q||'').trim().toLowerCase(); var box=document.getElementById("searchRes");
+  if(!q){box.innerHTML='<div class="empty">Escribe para buscar en materiales, productos y proveedores.</div>';return;}
+  var mm=SURF.filter(function(s){return (s.n+' '+s.what+' '+s.id+' '+s.yes+' '+s.catL).toLowerCase().indexOf(q)>=0;});
+  var pp=[]; for(var ck in PRODCAT){PRODCAT[ck].items.forEach(function(p){if((p.n+' '+p.marca+' '+PRODCAT[ck].t).toLowerCase().indexOf(q)>=0)pp.push({p:p,c:PRODCAT[ck].t});});}
+  var vv=PROV.filter(function(p){return (p.n+' '+p.rep+' '+p.v+' '+p.z).toLowerCase().indexOf(q)>=0;});
+  var h='';
+  if(mm.length){h+='<div class="sres-cat">Materiales ('+mm.length+')</div>'+mm.map(function(s){return '<div class="sres" onclick="openMaterial(\''+s.key+'\')"><div class="rt">'+s.n+'</div><div class="rw">'+s.catL+' · '+s.id+'</div></div>';}).join('');}
+  if(pp.length){h+='<div class="sres-cat">Productos ('+pp.length+')</div>'+pp.map(function(x){return '<div class="sres" onclick="nav(\'products\')"><div class="rt">'+x.p.n+'</div><div class="rw">'+x.p.marca+' · '+x.p.precio+' · '+x.c+'</div></div>';}).join('');}
+  if(vv.length){h+='<div class="sres-cat">Proveedores ('+vv.length+')</div>'+vv.map(function(p){return '<div class="sres" onclick="nav(\'prov\')"><div class="rt">'+p.n+'</div><div class="rw">'+p.z+'</div></div>';}).join('');}
+  if(!h)h='<div class="empty">Sin resultados para "'+q+'". Prueba: vidrio, cuero, Soft99, Tonyin, APC.</div>';
+  box.innerHTML=h;
+}
+
+/* ===== USO por categoría de producto (qué logra, cómo aplicar, paño) ===== */
+var USO={
+ lavado_seco:{logra:"Limpia y da brillo sin agua, encapsulando la tierra.",aplicar:"Rociar al panel, pasar una cara de microfibra y pulir con la cara seca.",pano:"Microfibra 400 GSM, una cara por pasada."},
+ vidrios:{logra:"Saca grasa y huellas sin dejar velo; desempaña.",aplicar:"Siempre al paño (no a la pantalla), pulir con una 2.ª microfibra seca.",pano:"2 microfibras de vidrio 300 GSM, color azul."},
+ interior:{logra:"Limpia y deja acabado satinado (no grasoso) y antiestático.",aplicar:"Al paño, nunca directo al tablero ni a la pantalla.",pano:"Microfibra gris/verde + pincel para ranuras."},
+ cuero:{logra:"Limpia y nutre el cuero para que no se reseque ni agriete.",aplicar:"A la microfibra, masajear, dejar penetrar y retirar exceso.",pano:"2 microfibras suaves + cepillo de cerda blanda."},
+ plasticos_ext:{logra:"Restaura el negro de plásticos/gomas y los protege del sol.",aplicar:"Superficie limpia y seca, capa fina con aplicador, retirar sobrante.",pano:"Aplicador de espuma + microfibra."},
+ neumaticos:{logra:"Deja el neumático negro parejo y lo protege de los rayos UV.",aplicar:"Neumático limpio y seco, en el flanco (no en la banda).",pano:"Aplicador de espuma."},
+ metales:{logra:"Saca opacado/oxidación y devuelve el brillo al metal.",aplicar:"Capa fina con microfibra, frotar suave, retirar el residuo negro.",pano:"Microfibra suave (sigue el veteado en el acero)."},
+ apc:{logra:"Limpia casi todo: plásticos, telas, motor, llantas. Es la base.",aplicar:"Diluir en agua (más suave para interior, más fuerte para llantas/motor).",pano:"Cepillo + microfibra según superficie."}
+};
+
+/* ===== GLOSARIO ===== */
+var GLOS=[
+ ["GSM","Gramos por m²","Grosor del paño. Más alto = más suave y absorbente."],
+ ["APC","All Purpose Cleaner","Limpiador multipropósito que se diluye en agua."],
+ ["PPF","Paint Protection Film","Lámina transparente que protege la pintura de rayones."],
+ ["DA","Dual Action","Pulidora de doble acción (gira y orbita): segura, no quema la pintura."],
+ ["OPM","Órbitas por minuto","Velocidad de la pulidora DA. Más alto = más corte."],
+ ["RPM","Revoluciones por minuto","Velocidad de la pulidora rotativa (más agresiva)."],
+ ["kPa","Kilopascales","Fuerza de succión de la aspiradora. Más kPa = aspira más fuerte."],
+ ["W","Watts","Potencia del motor."],
+ ["mAh","Miliamperios-hora","Tamaño de la batería. Más mAh = dura más."],
+ ["SiO2","Dióxido de silicio","Base de los selladores y coatings cerámicos (hidrofobia + dureza)."],
+ ["pH","Acidez","7 = neutro. En llantas y pintura usa pH neutro (no daña sellados)."],
+ ["IPA","Alcohol isopropílico","Desengrasa la pintura antes de sellar o aplicar coating."],
+ ["RTU","Ready To Use","Listo para usar, no se diluye."],
+ ["µm","Micrón","Milésima de milímetro. Mide el espesor de la pintura."],
+ ["HEPA","Filtro de alta eficiencia","Retiene el polvo fino; no lo devuelve al aire."],
+ ["BLDC","Motor sin escobillas","Más potente, silencioso y duradero (aspiradoras buenas)."]
+];
+function renderGlos(){
+ document.getElementById('glosBody').innerHTML=GLOS.map(function(g){
+  return '<div class="glo"><div class="glo-s">'+g[0]+'</div><div class="glo-x"><b>'+g[1]+'</b><span>'+g[2]+'</span></div></div>';}).join('');
+}
+
+/* ===== EQUIPOS ===== */
+var EQUIPOS={
+ aspiradoras:{t:"Aspiradoras (limpieza silenciosa)",intro:"Reemplaza la escoba (levanta polvo) por una aspiradora inalámbrica. Busca: succión ≥ 6–15 kPa, batería 20–30 min, filtro HEPA lavable, boquillas finas y bajo ruido.",
+  items:[
+   {rol:"economico",n:"Aspiradora de mano genérica / Carsun",specs:"~120 W · ~2000 mAh · 15–20 min",precio:"$15–30.000",donde:"MercadoLibre"},
+   {rol:"mejor",n:"Baseus / Worx / Lydsto (alta succión)",specs:"6–15 kPa · 2000–2500 mAh · 20–30 min · HEPA",precio:"$40–70.000",donde:"MercadoLibre · A3D (Invictus One)"},
+   {rol:"premium",n:"Aspiradora de taller con cable / Einhell",specs:"Mucho más potente, uso intensivo (con enchufe)",precio:"$70–150.000",donde:"Sodimac · MercadoLibre"}],
+  tip:"Para partir, una de mano de buena succión (~$40–60.000) cubre el 90%. La de cable cómprala cuando tengas local fijo."},
+ pulidoras:{t:"Pulidoras",intro:"Para corregir rayas, dar brillo o aplicar sellador parejo. Usa SIEMPRE doble acción (DA): gira y orbita, así no quema la pintura como la rotativa. El estándar en Chile es Maxshine.",
+  items:[
+   {rol:"mejor",n:"Maxshine M8S V2 (órbita 8 mm)",specs:"1000 W · 2.600–6.500 OPM · acabado y aplicar sellador",precio:"~$140–180.000",donde:"maxshine.cl · Zona Detailers · 360detailing"},
+   {rol:"mejor",n:"Maxshine M15 Pro (órbita 15 mm)",specs:"1000 W · 2.500–5.000 OPM · corta más rápido (corrección)",precio:"~$160–200.000",donde:"maxshine.cl · detailing shops"},
+   {rol:"economico",n:"Maxshine M312 (mini 3\")",specs:"Zonas chicas y difíciles (pilares, parachoques)",precio:"~$90–120.000",donde:"detailing shops"},
+   {rol:"premium",n:"Rupes / Flex",specs:"Nivel taller profesional",precio:"$300.000+",donde:"importado"}],
+  guia:[["Vel. 1–2","Esparcir el producto sin que salpique"],["Vel. 3–4","Aplicar sellador/coating y pulido fino (acabado)"],["Vel. 5–6","Corte / corrección con compuesto"]],
+  tip:"Producto: 4–5 gotas de compuesto en el pad por zona de ~40×40 cm. 3–4 pasadas lentas y cruzadas. Pad limpio = sin remolinos. Nunca pulir la pintura caliente o al sol."},
+ medidor:{t:"Medidor de espesor de pintura (PTG)",intro:"Mide en micrones (µm) cuánta pintura tiene el auto. Sirve para la inspección pre-compra (saber si fue chocado/repintado) y para pulir seguro sin pasarte.",
+  items:[
+   {rol:"economico",n:"Medidor magnético tipo lápiz",specs:"Indica grueso/delgado, sin número exacto",precio:"$5–15.000",donde:"MercadoLibre"},
+   {rol:"mejor",n:"Medidor digital (Fe / NFe)",specs:"Número exacto en µm, sirve en acero y aluminio",precio:"$140–215.000",donde:"MercadoLibre (el más vendido)"},
+   {rol:"premium",n:"Elcometer / marca pro",specs:"Calibración certificada",precio:"$250.000+",donde:"importado / instrumentos"}],
+  leer:[["90–180 µm","Pintura original de fábrica","✓ sano"],["180–250 µm","Repintado leve o doble barniz","⚠ revisar"],["+250 µm","Masilla / panel chocado y reparado","✗ ojo"]],
+  tip:"Mide varios puntos del mismo panel y compáralos con el resto del auto. Una zona muy distinta = ahí hubo reparación."}
+};
+var eqFilter="aspiradoras";
+function renderEqChips(){
+ var ks=[["aspiradoras","Aspiradoras"],["pulidoras","Pulidoras"],["medidor","Medidor pintura"]];
+ document.getElementById('eqChips').innerHTML=ks.map(function(k){return '<button class="chip'+(k[0]===eqFilter?' on':'')+'" onclick="setEq(\''+k[0]+'\')">'+k[1]+'</button>';}).join('');
+}
+function setEq(k){eqFilter=k;renderEqChips();renderEq();}
+function renderEq(){
+ var e=EQUIPOS[eqFilter],h='<p class="lead2">'+e.intro+'</p>';
+ e.items.forEach(function(p){
+  h+='<div class="pitem"><div class="pr-top"><span class="rolb '+p.rol+'">'+ROLES[p.rol]+'</span><span class="pn">'+p.n+'</span></div>'+
+     '<div class="pmeta"><span>'+p.specs+'</span><span class="price">'+p.precio+'</span></div><div class="pwhere">📍 '+p.donde+'</div></div>';});
+ if(e.guia){h+='<div class="rec-cat">Velocidades</div><div class="tablewrap"><table><tbody>'+e.guia.map(function(r){return '<tr><td><b>'+r[0]+'</b></td><td>'+r[1]+'</td></tr>';}).join('')+'</tbody></table></div>';}
+ if(e.leer){h+='<div class="rec-cat">Cómo leer el resultado</div><div class="tablewrap"><table><tbody>'+e.leer.map(function(r){return '<tr><td><b>'+r[0]+'</b></td><td>'+r[1]+'</td><td>'+r[2]+'</td></tr>';}).join('')+'</tbody></table></div>';}
+ h+='<div class="call tip"><span class="ct">💡 Tip</span>'+e.tip+'</div>';
+ document.getElementById('eqBody').innerHTML=h;
+}
+
+/* ===== SELLADOS ===== */
+var SELLADOS={
+ tipos:[
+  {n:"Cera (carnauba)",logra:"Brillo cálido y profundo.",dura:"2–6 semanas",aplicar:"Capa fina en pad/microfibra, dejar opacar y retirar.",precio:"$8–20.000",nivel:"básico"},
+  {n:"Sellador sintético (spray)",logra:"Protección + hidrofobia, fácil y rápido.",dura:"2–6 meses",aplicar:"Rociar al paño o a la pintura mojada tras lavar, pasar y secar.",precio:"$10–25.000",nivel:"el más rentable"},
+  {n:"Coating cerámico (SiO2)",logra:"Dureza, brillo y máxima hidrofobia.",dura:"1–5 años",aplicar:"Pintura descontaminada + IPA, aplicar con aplicador, nivelar con microfibra. No mojar 24–48 h.",precio:"$30–120.000",nivel:"premium"},
+  {n:"Spray cerámico / coating ecológico",logra:"Intermedio: buena hidrofobia y muy fácil.",dura:"3–12 meses",aplicar:"Como sellador en spray, sobre superficie limpia.",precio:"$15–35.000",nivel:"intermedio"}
+ ],
+ extra:[
+  {n:"Hidrofóbico de vidrios",logra:"La lluvia resbala sola sobre ~60 km/h; ves mejor de noche y con lluvia.",dura:"6–12 meses",aplicar:"Vidrio limpio y seco, aplicar en círculos, dejar opacar y pulir.",prod:"Soft99 Glaco · Sonax · Gyeon View",precio:"$8–25.000"},
+  {n:"Antiestático / antipolvo interior",logra:"Baja la carga estática del plástico: junta menos polvo.",dura:"semanas",aplicar:"Detallador interior al paño; nada de siliconas grasosas (atraen polvo).",prod:"Armor All Interior · Vonixx",precio:"incluido en el detallador"},
+  {n:"Impermeable de telas / alcántara",logra:"Repele líquidos: el café o agua resbala y no mancha.",dura:"meses",aplicar:"Tela limpia y seca, rociar parejo en lugar ventilado, dejar curar.",prod:"Soft99 · Vonixx · Nasiol",precio:"$12–30.000"}
+ ]
+};
+function renderSellados(){
+ var s=SELLADOS,h='<div class="rec-cat">Protección de la pintura</div>';
+ s.tipos.forEach(function(t){
+  h+='<div class="pitem"><div class="pr-top"><span class="rolb mejor">'+t.nivel+'</span><span class="pn">'+t.n+'</span></div>'+
+     '<div class="sell-l"><b>Logra:</b> '+t.logra+'</div><div class="sell-l"><b>Cómo aplicar:</b> '+t.aplicar+'</div>'+
+     '<div class="pmeta"><span>Dura: <b>'+t.dura+'</b></span><span class="price">'+t.precio+'</span></div></div>';});
+ h+='<div class="rec-cat">Hidrofóbico, antipolvo e impermeable</div>';
+ s.extra.forEach(function(t){
+  h+='<div class="pitem"><div class="pn" style="margin-bottom:6px">'+t.n+'</div>'+
+     '<div class="sell-l"><b>Logra:</b> '+t.logra+'</div><div class="sell-l"><b>Cómo aplicar:</b> '+t.aplicar+'</div>'+
+     '<div class="pmeta"><span>Productos: <b>'+t.prod+'</b></span></div>'+
+     '<div class="pmeta"><span>Dura: <b>'+t.dura+'</b></span><span class="price">'+t.precio+'</span></div></div>';});
+ document.getElementById('sellBody').innerHTML=h;
+}
+
+/* ===== ORDEN DEL SERVICIO ===== */
+var ORDEN=[
+ ["1","Ruedas y llantas primero","Es lo más sucio; así no contaminas lo limpio después."],
+ ["2","Lavado de carrocería","En seco por paneles, de arriba hacia abajo, una cara de paño por pasada."],
+ ["3","Descontaminar (si aplica)","Clay/férrico para sacar lo que el lavado no saca."],
+ ["4","Secar","La pintura debe quedar seca antes de proteger."],
+ ["5","Pulir (si aplica)","Corrección de rayas con pulidora DA."],
+ ["6","Desengrasar (IPA)","Limpia la pintura para que el sellado pegue bien."],
+ ["7","Sellar / coating","Protección de la pintura."],
+ ["8","Vidrios","Limpieza + hidrofóbico."],
+ ["9","Plásticos, gomas y neumáticos","Restaurador y dressing al final (antes se ensucian)."],
+ ["10","Interior","Aspirar → limpiar → proteger, de arriba hacia abajo."],
+ ["11","Detalles y entrega","Revisar, perfumar y mostrar el resultado al cliente."]
+];
+function renderOrden(){
+ document.getElementById('ordenBody').innerHTML=ORDEN.map(function(o){
+  return '<div class="step"><div class="step-n">'+o[0]+'</div><div class="step-x"><b>'+o[1]+'</b><span>'+o[2]+'</span></div></div>';}).join('')+
+  '<div class="call tip"><span class="ct">💡 Regla de oro</span>De arriba hacia abajo, de lo más sucio a lo más limpio, y <b>seco antes de proteger</b>.</div>';
+}
+
+/* ===== PROCESOS ===== */
+var PROCESOS={
+ eco:{t:"Lavado ecológico (en seco)",pasos:[
+  {a:"Sopla o sacude el polvo grueso",p:"—",h:"Pincel / soplador",tt:"1 min"},
+  {a:"Rocía el producto en una sección",p:"Simoniz Eco / waterless",h:"Pulverizador",tt:"—"},
+  {a:"Pasa la microfibra en una sola dirección (no de ida y vuelta)",p:"—",h:"Microfibra 400 GSM, cara limpia por pasada",tt:"2–4 s/panel"},
+  {a:"Da vuelta el paño y pule el brillo",p:"—",h:"Cara seca de la microfibra",tt:"—"},
+  {a:"Vidrios y llantas al final",p:"Limpiavidrios + dressing",h:"Microfibra vidrio + cepillo",tt:"5 min"}]},
+ interior:{t:"Limpieza interior",pasos:[
+  {a:"Saca objetos y aspira de arriba hacia abajo",p:"—",h:"Aspiradora + boquilla fina",tt:"5–10 min"},
+  {a:"Limpia plásticos y tablero (al paño)",p:"Armor All Interior",h:"Microfibra gris + pincel",tt:"5 min"},
+  {a:"Vidrios interiores",p:"Simoniz Desempañante",h:"2 microfibras de vidrio",tt:"3 min"},
+  {a:"Cuero o tela según material",p:"Limpiador de cuero / APC",h:"Cepillo blando + microfibra",tt:"5–10 min"},
+  {a:"Perfuma y revisa",p:"Aromatizante",h:"—",tt:"1 min"}]},
+ sellado:{t:"Sellado de pintura",pasos:[
+  {a:"Lava y seca el auto",p:"Lavado eco",h:"Microfibra",tt:"—"},
+  {a:"Desengrasa la pintura",p:"IPA diluido",h:"Microfibra",tt:"5 min"},
+  {a:"Aplica el sellador por secciones",p:"Sellador spray / coating",h:"Aplicador + microfibra",tt:"10–20 min"},
+  {a:"Nivela y retira el exceso",p:"—",h:"Microfibra limpia",tt:"—"},
+  {a:"Deja curar (no mojar)",p:"—",h:"—",tt:"24–48 h (coating)"}]}
+};
+var procFilter="eco";
+function renderProcChips(){
+ var ks=[["eco","Lavado eco"],["interior","Interior"],["sellado","Sellado"]];
+ document.getElementById('procChips').innerHTML=ks.map(function(k){return '<button class="chip'+(k[0]===procFilter?' on':'')+'" onclick="setProc(\''+k[0]+'\')">'+k[1]+'</button>';}).join('');
+}
+function setProc(k){procFilter=k;renderProcChips();renderProc();}
+function renderProc(){
+ var pr=PROCESOS[procFilter];
+ document.getElementById('procBody').innerHTML=pr.pasos.map(function(s,i){
+  return '<div class="pstep"><div class="ps-n">'+(i+1)+'</div><div class="ps-b"><div class="ps-a">'+s.a+'</div>'+
+   '<div class="ps-meta">'+(s.p&&s.p!=='—'?'<span>🧴 '+s.p+'</span>':'')+(s.h&&s.h!=='—'?'<span>🔧 '+s.h+'</span>':'')+(s.tt&&s.tt!=='—'?'<span>⏱ '+s.tt+'</span>':'')+'</div></div></div>';}).join('');
+}
+
+/* ===== FOTO ===== */
+function onFoto(input){
+ var f=input.files&&input.files[0]; if(!f)return;
+ var url=URL.createObjectURL(f);
+ document.getElementById('fotoPrev').innerHTML='<img class="fotoimg" src="'+url+'" alt="foto">'+
+  '<div class="call tip"><span class="ct">📷 Foto lista</span>Ahora te guío para identificar el material. Toca empezar y responde 2 preguntas.</div>'+
+  '<button class="btn-full" onclick="nav(\'tree\')">Identificar este material →</button>';
+}
+
+
+/* ===== MAPA 360° ===== */
+var MAP_ART={
+ exterior:'<path d="M14,142 L26,112 Q30,103 44,102 L120,99 L152,64 Q160,56 174,56 L232,56 Q252,58 262,75 L300,99 L330,107 Q346,111 346,130 L346,142 Z" fill="#1c1c22" stroke="#3a3a46" stroke-width="2"/>'+
+   '<path d="M128,99 L156,70 Q161,64 170,64 L208,64 L211,99 Z" fill="#2a3a4a" opacity=".8"/>'+
+   '<path d="M218,64 L230,64 Q246,66 253,80 L262,99 L218,99 Z" fill="#2a3a4a" opacity=".8"/>'+
+   '<circle cx="92" cy="142" r="27" fill="#0c0c0e" stroke="#3a3a46" stroke-width="2"/><circle cx="92" cy="142" r="13" fill="#2a2a32"/>'+
+   '<circle cx="286" cy="142" r="27" fill="#0c0c0e" stroke="#3a3a46" stroke-width="2"/><circle cx="286" cy="142" r="13" fill="#2a2a32"/>'+
+   '<path d="M150,70 l-16,-7 q-5,-2 -6,3 l-1,7 z" fill="#26262e"/>',
+ interior:'<rect x="14" y="40" width="332" height="36" rx="6" fill="#2a3a4a" opacity=".7"/>'+
+   '<path d="M14,86 Q14,78 24,78 L336,78 Q346,78 346,88 L346,150 Q346,160 336,160 L150,160 L120,182 L60,182 Q14,182 14,150 Z" fill="#1c1c22" stroke="#3a3a46" stroke-width="2"/>'+
+   '<circle cx="95" cy="118" r="33" fill="none" stroke="#3a3a46" stroke-width="6"/><circle cx="95" cy="118" r="7" fill="#2a2a32"/>'+
+   '<line x1="95" y1="118" x2="95" y2="85" stroke="#3a3a46" stroke-width="5"/><line x1="95" y1="118" x2="68" y2="135" stroke="#3a3a46" stroke-width="5"/><line x1="95" y1="118" x2="122" y2="135" stroke="#3a3a46" stroke-width="5"/>'+
+   '<rect x="150" y="92" width="74" height="46" rx="5" fill="#0c0c0e" stroke="#3a3a46" stroke-width="2"/>'+
+   '<path d="M256,150 Q256,104 286,104 Q316,104 316,150 Z" fill="#26262e" stroke="#3a3a46" stroke-width="2"/>'
+};
+var MAPV={
+ exterior:[
+  {x:300,y:100,label:"Capó y carrocería",tex:"Pintura brillante, mate, con PPF o vinilo (wrap).",mats:["pintura_brillante","pintura_mate","ppf","wrap"]},
+  {x:190,y:60,label:"Techo y carrocería",tex:"Pintura del auto.",mats:["pintura_brillante","pintura_mate"]},
+  {x:238,y:80,label:"Parabrisas",tex:"Vidrio templado.",mats:["vidrios"]},
+  {x:165,y:86,label:"Ventana lateral",tex:"Vidrio.",mats:["vidrios"]},
+  {x:228,y:96,label:"Espejo lateral",tex:"Vidrio + carcasa plástica.",mats:["espejos","plastico_exterior"]},
+  {x:338,y:118,label:"Parachoques y molduras",tex:"Plástico exterior, gomas y molduras.",mats:["plastico_exterior","molduras","goma"]},
+  {x:340,y:101,label:"Parrilla / cromados",tex:"Cromo o plástico cromado.",mats:["cromo"]},
+  {x:286,y:142,label:"Rueda delantera",tex:"Llanta (aro) + neumático.",mats:["llantas","neumaticos"]},
+  {x:92,y:142,label:"Rueda trasera",tex:"Llanta (aro) + neumático.",mats:["llantas","neumaticos"]}
+ ],
+ interior:[
+  {x:180,y:56,label:"Parabrisas y vidrios",tex:"Vidrio.",mats:["vidrios"]},
+  {x:120,y:96,label:"Tablero",tex:"Plástico liso o texturado.",mats:["plastico_liso","plastico_texturado"]},
+  {x:187,y:114,label:"Pantalla multimedia",tex:"Vidrio con antirreflejo.",mats:["pantallas"]},
+  {x:95,y:118,label:"Volante",tex:"Cuero, sintético o alcántara.",mats:["cuero_natural","cuero_sintetico","alcantara"]},
+  {x:286,y:126,label:"Asiento",tex:"Cuero, sintético, tela o alcántara.",mats:["cuero_natural","cuero_sintetico","telas","alcantara"]},
+  {x:90,y:170,label:"Alfombra / piso",tex:"Tela y gomas.",mats:["alfombras"]},
+  {x:55,y:120,label:"Panel de puerta",tex:"Plástico, molduras y vidrio.",mats:["plastico_liso","molduras","vidrios"]}
+ ]
+};
+var mapView="exterior";
+function renderMapChips(){
+ document.getElementById('mapChips').innerHTML=[["exterior","Exterior"],["interior","Interior"]].map(function(k){
+  return '<button class="chip'+(k[0]===mapView?' on':'')+'" onclick="setMapView(\''+k[0]+'\')">'+k[1]+'</button>';}).join('');
+}
+function setMapView(v){mapView=v;renderMapChips();renderMapa();document.getElementById('mapInfo').innerHTML='';}
+function renderMapa(){
+ var hots=MAPV[mapView],dots='';
+ hots.forEach(function(h,i){
+  dots+='<g class="hot" onclick="mapPick(\''+mapView+'\','+i+')"><circle cx="'+h.x+'" cy="'+h.y+'" r="13" class="hot-c"/><text x="'+h.x+'" y="'+(h.y+4)+'" class="hot-t">'+(i+1)+'</text></g>';
+ });
+ document.getElementById('mapWrap').innerHTML='<svg viewBox="0 0 360 195" class="mapsvg">'+MAP_ART[mapView]+dots+'</svg>'+
+  '<div class="maphint">Toca un número para ver la pieza</div>';
+}
+function mapPick(v,i){
+ var h=MAPV[v][i];
+ var chips=h.mats.map(function(k){var s=byKey(k);return '<button class="matchip" onclick="openMaterial(\''+k+'\')">'+s.n+' ›</button>';}).join('');
+ document.getElementById('mapInfo').innerHTML='<div class="mapcard"><div class="mapcard-n">'+(i+1)+' · '+h.label+'</div>'+
+  '<div class="mapcard-t"><b>Texturas posibles:</b> '+h.tex+'</div><div class="mapchips">'+chips+'</div></div>';
+ document.getElementById('mapInfo').scrollIntoView({block:"nearest"});
+}
+
+var histStack=["home"];
+var TITLES={home:["Sistema Detailing","Lavame x Fa · terreno"],tree:["Árbol de decisión","Identifica el material"],materials:["Materiales","Biblioteca"],mdetail:["Ficha","Material"],products:["Catálogo de productos","Marcas y precios"],panos:["Paños y GSM","Microfibras"],prov:["Proveedores","Dónde comprar"],search:["Buscar","Consulta rápida"],foto:["Identificar con foto","Sube y te guío"],glosario:["Glosario","Siglas en simple"],equipos:["Equipos","Aspiradora · pulidora · medidor"],sellados:["Sellados e hidrofóbicos","Protección"],orden:["Orden del servicio","Qué va primero"],procesos:["Paso a paso","Procesos"],mapa:["Mapa 360°","Toca una pieza"],soon:["Próximamente","En preparación"]};
+function nav(scr,subOverride){
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
+  document.getElementById('scr-'+scr).classList.add('active');
+  if(histStack[histStack.length-1]!==scr) histStack.push(scr);
+  var t=TITLES[scr]||["Sistema Detailing",""];
+  document.getElementById('topTitle').textContent=t[0];
+  document.getElementById('topSub').textContent=subOverride||t[1];
+  document.getElementById('backBtn').classList.toggle('show',scr!=='home');
+  window.scrollTo(0,0);
+  if(scr==='tree')renderTree('start');
+  if(scr==='materials'){renderMatChips();renderMatGrid();}
+  if(scr==='products')renderProducts();
+  if(scr==='panos')renderPanos();
+  if(scr==='prov')renderProv();
+  if(scr==='glosario')renderGlos();
+  if(scr==='equipos'){renderEqChips();renderEq();}
+  if(scr==='sellados')renderSellados();
+  if(scr==='orden')renderOrden();
+  if(scr==='procesos'){renderProcChips();renderProc();}
+  if(scr==='foto'){document.getElementById('fotoPrev').innerHTML='';}
+  if(scr==='mapa'){renderMapChips();renderMapa();document.getElementById('mapInfo').innerHTML='';}
+  if(scr==='search'){var f=document.getElementById('sfield');f.value='';runSearch('');setTimeout(function(){f.focus();},120);}
+}
+function goBack(){if(histStack.length>1){histStack.pop();var prev=histStack[histStack.length-1];histStack.pop();nav(prev);}else nav('home');}
+</script>
+</body>
+</html>
