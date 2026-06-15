@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Gotita y Lavame x Fa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sky:#4FC3F7; --sky2:#B3E5FC; --sun:#FFD54F; --bubble:#FF8FB1;
+    --ocean:#0D3B66; --foam:#FFFFFF; --grass:#7ED957;
+    --font:"Fredoka","Baloo 2",-apple-system,"Segoe UI Rounded","Arial Rounded MT Bold",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;height:100%;overflow:hidden;font-family:var(--font);
+    background:linear-gradient(#7ad3f7 0%,#bfeaff 55%,#dff6ff 100%);color:var(--ocean);
+    -webkit-user-select:none;user-select:none;touch-action:manipulation;}
+  #app{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;}
+
+  /* clouds */
+  .cloud{position:absolute;background:#fff;border-radius:50px;opacity:.85;filter:blur(.3px);}
+  .cloud::before,.cloud::after{content:"";position:absolute;background:#fff;border-radius:50%;}
+
+  /* top bar */
+  #top{width:100%;max-width:900px;display:flex;justify-content:space-between;align-items:center;
+    padding:10px 14px 4px;gap:8px;z-index:5;}
+  .brand{font-weight:700;font-size:clamp(18px,4.5vw,26px);letter-spacing:.3px;color:var(--ocean);
+    text-shadow:0 2px 0 #fff;}
+  .brand b{color:#0288D1;}
+  .scoreboard{display:flex;gap:8px;}
+  .stat{background:#fff;border-radius:16px;padding:6px 10px;min-width:60px;text-align:center;
+    box-shadow:0 4px 0 rgba(2,119,189,.25);}
+  .stat .n{font-weight:700;font-size:clamp(16px,4vw,22px);line-height:1;color:#0288D1;}
+  .stat .l{font-size:10px;font-weight:600;opacity:.7;}
+  #sound{background:#fff;border:none;border-radius:14px;font-size:20px;width:42px;height:42px;
+    box-shadow:0 4px 0 rgba(2,119,189,.25);cursor:pointer;}
+
+  /* stage */
+  #stage{position:relative;width:100%;max-width:900px;flex:1;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;padding:4px 10px 8px;}
+  #washWrap{position:relative;width:min(92vw,640px);aspect-ratio:5/3.4;background:#cfeeff;
+    border-radius:28px;box-shadow:inset 0 6px 18px rgba(2,119,189,.18),0 8px 0 rgba(2,119,189,.2);
+    overflow:hidden;border:5px solid #fff;}
+  #washWrap canvas{position:absolute;inset:0;width:100%;height:100%;display:block;}
+  #carCanvas{z-index:1;} #gritCanvas{z-index:2;touch-action:none;}
+  #floor{position:absolute;left:0;right:0;bottom:0;height:22%;
+    background:linear-gradient(#8ed0ff,#5bb8f0);z-index:0;}
+
+  /* Gotita */
+  #gotita{position:relative;margin-top:-6px;display:flex;align-items:flex-end;gap:8px;
+    width:min(92vw,640px);z-index:4;}
+  #drop{width:clamp(58px,15vw,90px);flex:none;animation:bob 1.8s ease-in-out infinite;transform-origin:bottom center;}
+  @keyframes bob{0%,100%{transform:translateY(0) rotate(-2deg);}50%{transform:translateY(-8px) rotate(2deg);}}
+  #bubble{background:#fff;border-radius:18px;padding:10px 14px;flex:1;position:relative;
+    box-shadow:0 5px 0 rgba(2,119,189,.18);font-weight:600;font-size:clamp(14px,3.6vw,18px);
+    min-height:46px;display:flex;align-items:center;}
+  #bubble::before{content:"";position:absolute;left:-12px;bottom:14px;border:8px solid transparent;
+    border-right-color:#fff;}
+
+  /* controls */
+  #controls{width:min(92vw,640px);display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;
+    justify-content:center;z-index:4;padding-bottom:14px;}
+  .btn{border:none;border-radius:20px;padding:14px 18px;font-family:var(--font);font-weight:700;
+    font-size:clamp(15px,4vw,19px);color:#fff;cursor:pointer;box-shadow:0 6px 0 rgba(0,0,0,.18);
+    transition:transform .06s, box-shadow .06s;display:flex;align-items:center;gap:8px;}
+  .btn:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(0,0,0,.18);}
+  .btn.main{background:linear-gradient(#FFD54F,#FFB300);color:#5a3d00;}
+  .btn.go{background:linear-gradient(#7ED957,#43A047);}
+  .btn.shine{background:linear-gradient(#FF8FB1,#EC407A);}
+  .btn.ghost{background:#fff;color:#0288D1;box-shadow:0 6px 0 rgba(2,119,189,.2);}
+
+  /* overlays */
+  .screen{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;z-index:30;text-align:center;padding:24px;
+    background:linear-gradient(#7ad3f7,#cdefff);}
+  .screen h1{font-size:clamp(30px,8vw,52px);margin:6px 0;color:#fff;text-shadow:0 4px 0 #0288D1;line-height:1;}
+  .screen p{font-size:clamp(16px,4vw,20px);font-weight:600;max-width:420px;margin:8px 0 18px;}
+  .bigdrop{width:clamp(120px,30vw,180px);animation:bob 1.8s ease-in-out infinite;}
+  .hidden{display:none!important;}
+
+  /* confetti */
+  .confetti{position:fixed;top:-40px;font-size:28px;z-index:40;pointer-events:none;
+    animation:fall linear forwards;}
+  @keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:.9;}}
+
+  .partLabel{position:absolute;background:#FFD54F;color:#5a3d00;font-weight:700;
+    padding:4px 10px;border-radius:12px;font-size:14px;z-index:3;box-shadow:0 3px 0 rgba(0,0,0,.15);
+    transform:translate(-50%,-50%);pointer-events:none;animation:pop .3s ease;}
+  @keyframes pop{from{transform:translate(-50%,-50%) scale(.3);}to{transform:translate(-50%,-50%) scale(1);}}
+
+  @media (prefers-reduced-motion: reduce){#drop,.bigdrop{animation:none;}}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="top">
+    <div class="brand">Lavame <b>x</b> Fa 💧</div>
+    <div class="scoreboard">
+      <div class="stat"><div class="n" id="sCars">0</div><div class="l">autos</div></div>
+      <div class="stat"><div class="n" id="sWater">0</div><div class="l">litros 💧</div></div>
+      <div class="stat"><div class="n" id="sDrops">0</div><div class="l">gotitas</div></div>
+    </div>
+    <button id="sound" title="sonido">🔊</button>
+  </div>
+
+  <div id="stage">
+    <div id="washWrap">
+      <div id="floor"></div>
+      <canvas id="carCanvas"></canvas>
+      <canvas id="gritCanvas"></canvas>
+    </div>
+
+    <div id="gotita">
+      <svg id="drop" viewBox="0 0 100 130" aria-hidden="true"></svg>
+      <div id="bubble">¡Hola! Soy Gotita 💧</div>
+    </div>
+
+    <div id="controls"></div>
+  </div>
+</div>
+
+<!-- START SCREEN -->
+<div class="screen" id="startScreen">
+  <svg class="bigdrop" id="bigdrop" viewBox="0 0 100 130"></svg>
+  <h1>Gotita y<br>Lavame x Fa</h1>
+  <p>Ayuda a lavar los autos <b>sin gastar agua</b> y salva muchas gotitas. ¡Frota con el dedo! 🫧</p>
+  <button class="btn main" id="playBtn" style="font-size:24px;padding:18px 34px;">¡A jugar! 🚗</button>
+</div>
+
+<input type="file" id="photoInput" accept="image/*" class="hidden">
+
+<script>
+(function(){
+  "use strict";
+  // ---------- Gotita SVG ----------
+  var dropSVG = '<defs><radialGradient id="dg" cx="38%" cy="30%" r="75%">'+
+    '<stop offset="0%" stop-color="#bff0ff"/><stop offset="55%" stop-color="#4FC3F7"/>'+
+    '<stop offset="100%" stop-color="#039BE5"/></radialGradient></defs>'+
+    '<path d="M50 6 C50 6 88 60 88 90 a38 38 0 0 1-76 0 C12 60 50 6 50 6 Z" fill="url(#dg)" stroke="#0288D1" stroke-width="3"/>'+
+    '<ellipse cx="37" cy="58" rx="11" ry="15" fill="#fff" opacity=".55"/>'+
+    '<circle cx="40" cy="86" r="7" fill="#fff"/><circle cx="40" cy="86" r="3.4" fill="#0D3B66"/>'+
+    '<circle cx="64" cy="86" r="7" fill="#fff"/><circle cx="64" cy="86" r="3.4" fill="#0D3B66"/>'+
+    '<circle cx="42" cy="84" r="1.6" fill="#fff"/><circle cx="66" cy="84" r="1.6" fill="#fff"/>'+
+    '<path d="M44 100 Q52 108 60 100" stroke="#0D3B66" stroke-width="3.5" fill="none" stroke-linecap="round"/>'+
+    '<circle cx="30" cy="98" r="5" fill="#FF8FB1" opacity=".7"/><circle cx="74" cy="98" r="5" fill="#FF8FB1" opacity=".7"/>';
+  document.getElementById('drop').innerHTML = dropSVG;
+  document.getElementById('bigdrop').innerHTML = dropSVG;
+
+  // ---------- Audio ----------
+  var AC=null, soundOn=true;
+  function ac(){ if(!AC){ try{AC=new (window.AudioContext||window.webkitAudioContext)();}catch(e){} } if(AC&&AC.state==='suspended')AC.resume(); return AC; }
+  function tone(freq,dur,type,vol){ if(!soundOn)return; var c=ac(); if(!c)return;
+    var o=c.createOscillator(),g=c.createGain(); o.type=type||'sine'; o.frequency.value=freq;
+    g.gain.value=vol||.18; o.connect(g); g.connect(c.destination); var t=c.currentTime;
+    g.gain.setValueAtTime(g.gain.value,t); g.gain.exponentialRampToValueAtTime(.001,t+dur);
+    o.start(t); o.stop(t+dur); }
+  var lastSqueak=0;
+  function squeak(){ var n=performance.now(); if(n-lastSqueak<90)return; lastSqueak=n;
+    tone(420+Math.random()*260,.09,'triangle',.10); }
+  function pop(){ tone(700,.08,'square',.12); }
+  function sparkle(){ tone(1200+Math.random()*500,.12,'sine',.10); }
+  function cheer(){ [523,659,784,1046].forEach(function(f,i){ setTimeout(function(){tone(f,.18,'triangle',.16);},i*110); }); }
+
+  document.getElementById('sound').addEventListener('click',function(){
+    soundOn=!soundOn; this.textContent=soundOn?'🔊':'🔇'; if(soundOn){ac();pop();}
+  });
+
+  // ---------- Canvas ----------
+  var wrap=document.getElementById('washWrap');
+  var carC=document.getElementById('carCanvas'), gritC=document.getElementById('gritCanvas');
+  var carX=carC.getContext('2d'), gritX=gritC.getContext('2d');
+  var W=0,H=0,DPR=Math.min(window.devicePixelRatio||1,2);
+
+  function resize(){
+    var r=wrap.getBoundingClientRect(); W=r.width; H=r.height;
+    [carC,gritC].forEach(function(cv){ cv.width=W*DPR; cv.height=H*DPR;
+      cv.getContext('2d').setTransform(DPR,0,0,DPR,0,0); });
+    drawCar(); if(phase!=='start') resetGrit();
+  }
+
+  // ---------- Car drawing ----------
+  var COLORS=['#E53935','#1E88E5','#43A047','#FB8C00','#8E24AA','#00ACC1','#FDD835','#EC407A'];
+  var carColor='#E53935', photoImg=null;
+
+  function rr(x,y,w,h,rad){ carX.beginPath(); carX.moveTo(x+rad,y);
+    carX.arcTo(x+w,y,x+w,y+h,rad); carX.arcTo(x+w,y+h,x,y+h,rad);
+    carX.arcTo(x,y+h,x,y,rad); carX.arcTo(x,y,x+w,y,rad); carX.closePath(); }
+
+  function drawCar(){
+    carX.clearRect(0,0,W,H);
+    if(photoImg){
+      // cover-fit the photo into the wash area
+      var ar=photoImg.width/photoImg.height, war=W/H, dw,dh,dx,dy;
+      if(ar>war){ dh=H; dw=H*ar; dx=(W-dw)/2; dy=0; } else { dw=W; dh=W/ar; dx=0; dy=(H-dh)/2; }
+      carX.drawImage(photoImg,dx,dy,dw,dh); return;
+    }
+    var cw=W*0.74, ch=H*0.42, cx=(W-cw)/2, cy=H*0.40;
+    // shadow
+    carX.fillStyle='rgba(0,0,0,.12)';
+    carX.beginPath(); carX.ellipse(W/2, cy+ch+H*0.04, cw*0.55, H*0.05, 0,0,7); carX.fill();
+    // body
+    carX.fillStyle=carColor; rr(cx,cy,cw,ch,ch*0.42); carX.fill();
+    // roof
+    carX.beginPath();
+    carX.moveTo(cx+cw*0.20, cy+2);
+    carX.quadraticCurveTo(cx+cw*0.30, cy-ch*0.55, cx+cw*0.46, cy-ch*0.55);
+    carX.lineTo(cx+cw*0.66, cy-ch*0.55);
+    carX.quadraticCurveTo(cx+cw*0.80, cy-ch*0.52, cx+cw*0.84, cy+2);
+    carX.closePath(); carX.fill();
+    // windows
+    carX.fillStyle='#cdeffe';
+    carX.beginPath();
+    carX.moveTo(cx+cw*0.26, cy-2);
+    carX.quadraticCurveTo(cx+cw*0.33, cy-ch*0.42, cx+cw*0.46, cy-ch*0.42);
+    carX.lineTo(cx+cw*0.46, cy-2); carX.closePath(); carX.fill();
+    carX.beginPath();
+    carX.moveTo(cx+cw*0.50, cy-ch*0.42); carX.lineTo(cx+cw*0.64, cy-ch*0.42);
+    carX.quadraticCurveTo(cx+cw*0.74, cy-ch*0.40, cx+cw*0.78, cy-2);
+    carX.lineTo(cx+cw*0.50, cy-2); carX.closePath(); carX.fill();
+    // door line
+    carX.strokeStyle='rgba(0,0,0,.18)'; carX.lineWidth=2;
+    carX.beginPath(); carX.moveTo(cx+cw*0.48, cy+ch*0.1); carX.lineTo(cx+cw*0.48, cy+ch*0.85); carX.stroke();
+    // headlight
+    carX.fillStyle='#FFF59D';
+    carX.beginPath(); carX.ellipse(cx+cw-6, cy+ch*0.4, cw*0.03, ch*0.18,0,0,7); carX.fill();
+    // wheels
+    carX.fillStyle='#263238';
+    [cx+cw*0.24, cx+cw*0.76].forEach(function(wx){
+      carX.beginPath(); carX.arc(wx, cy+ch, ch*0.36, 0,7); carX.fill();
+      carX.fillStyle='#B0BEC5'; carX.beginPath(); carX.arc(wx, cy+ch, ch*0.16,0,7); carX.fill();
+      carX.fillStyle='#263238';
+    });
+    // shine highlight (visible after polish)
+    if(polished){
+      carX.strokeStyle='rgba(255,255,255,.85)'; carX.lineWidth=5; carX.lineCap='round';
+      carX.beginPath(); carX.moveTo(cx+cw*0.30, cy+ch*0.22); carX.lineTo(cx+cw*0.42, cy+ch*0.18); carX.stroke();
+      carX.lineWidth=3; carX.beginPath(); carX.moveTo(cx+cw*0.30, cy+ch*0.34); carX.lineTo(cx+cw*0.38, cy+ch*0.31); carX.stroke();
+    }
+  }
+
+  // ---------- Dirt / foam layer ----------
+  var phase='start', polished=false, hasFoam=false;
+  function resetGrit(){
+    gritX.clearRect(0,0,W,H);
+    gritX.globalCompositeOperation='source-over';
+    // base dirt
+    gritX.fillStyle='rgba(120,95,60,.92)'; gritX.fillRect(0,0,W,H);
+    // darker blobs
+    for(var i=0;i<70;i++){
+      gritX.fillStyle='rgba('+(70+Math.random()*60|0)+','+(55+Math.random()*40|0)+',40,.6)';
+      gritX.beginPath(); gritX.arc(Math.random()*W,Math.random()*H,6+Math.random()*22,0,7); gritX.fill();
+    }
+    hasFoam=false;
+  }
+  function addFoam(){
+    if(hasFoam)return; hasFoam=true;
+    gritX.globalCompositeOperation='source-over';
+    for(var i=0;i<120;i++){
+      var r=8+Math.random()*20;
+      gritX.fillStyle='rgba(255,255,255,'+(0.5+Math.random()*0.4)+')';
+      gritX.beginPath(); gritX.arc(Math.random()*W,Math.random()*H,r,0,7); gritX.fill();
+    }
+    pop();
+  }
+
+  // polish layer = light haze that we wipe to make it shiny
+  var polishMode=false;
+  function startPolish(){
+    polishMode=true; gritX.clearRect(0,0,W,H);
+    gritX.globalCompositeOperation='source-over';
+    gritX.fillStyle='rgba(200,225,245,.55)'; gritX.fillRect(0,0,W,H);
+  }
+
+  // ---------- Scrubbing ----------
+  var scrubbing=false;
+  function erase(x,y){
+    gritX.globalCompositeOperation='destination-out';
+    var rad=Math.max(W,H)*0.07;
+    gritX.beginPath(); gritX.arc(x,y,rad,0,7); gritX.fill();
+    if(polishMode){ spawnSparkle(x,y); }
+  }
+  function pointerPos(e){
+    var r=gritC.getBoundingClientRect(), t=e.touches?e.touches[0]:e;
+    return {x:(t.clientX-r.left)*(W/r.width), y:(t.clientY-r.top)*(H/r.height)};
+  }
+  function down(e){ if(phase!=='wash'&&!polishMode)return; e.preventDefault(); scrubbing=true; var p=pointerPos(e); erase(p.x,p.y); squeak(); }
+  function move(e){ if(!scrubbing)return; e.preventDefault(); var p=pointerPos(e); erase(p.x,p.y);
+    if(Math.random()<0.4) squeak();
+    var now=performance.now(); if(now-lastCheck>220){ lastCheck=now; checkProgress(); } }
+  function up(){ if(!scrubbing)return; scrubbing=false; checkProgress(true); }
+  var lastCheck=0;
+  gritC.addEventListener('touchstart',down,{passive:false});
+  gritC.addEventListener('touchmove',move,{passive:false});
+  gritC.addEventListener('touchend',up);
+  gritC.addEventListener('mousedown',down);
+  gritC.addEventListener('mousemove',move);
+  window.addEventListener('mouseup',up);
+
+  function cleanedPct(){
+    var step=Math.max(6,(W*DPR/40)|0);
+    var d=gritX.getImageData(0,0,gritC.width,gritC.height).data;
+    var clear=0,total=0;
+    for(var i=3;i<d.length;i+=4*step){ total++; if(d[i]<40) clear++; }
+    return total? clear/total : 0;
+  }
+
+  // ---------- Sparkles (polish) ----------
+  function spawnSparkle(x,y){
+    if(Math.random()>0.25)return;
+    var s=document.createElement('div'); s.textContent='✨';
+    s.style.cssText='position:absolute;z-index:5;font-size:'+(14+Math.random()*14)+'px;pointer-events:none;left:0;top:0;';
+    var rect=gritC.getBoundingClientRect();
+    s.style.left=(rect.left + x*(rect.width/W))+'px';
+    s.style.top=(rect.top + y*(rect.height/H))+'px';
+    s.style.transition='transform .6s ease, opacity .6s ease';
+    document.body.appendChild(s);
+    requestAnimationFrame(function(){ s.style.transform='translateY(-26px) scale(1.4)'; s.style.opacity='0'; });
+    setTimeout(function(){ s.remove(); },650);
+    if(Math.random()<0.3) sparkle();
+  }
+
+  // ---------- Game flow ----------
+  var cars=0, water=0, drops=0, advancing=false;
+  function setStat(){ document.getElementById('sCars').textContent=cars;
+    document.getElementById('sWater').textContent=water;
+    document.getElementById('sDrops').textContent=drops; }
+
+  var FACTS=[
+    "Una manguera bota más de 100 litros para lavar un auto. ¡Nosotros casi nada! 💧",
+    "Lavar sin agua salva muchas gotitas como yo. 🌱",
+    "El barniz es una capa mágica que protege la pintura y la hace brillar. ✨",
+    "Las ruedas se llaman neumáticos. ¡Son cuatro! 🛞",
+    "El parabrisas es la ventana grande de adelante. 🪟",
+    "El capó tapa el motor, ¡el corazón del auto! ❤️",
+    "Cuidar el agua ayuda a todo el planeta. ♻️",
+    "Los espejos sirven para mirar atrás sin darse vuelta. 🔎",
+    "Un auto brillante se ve feliz, ¿no crees? 😄",
+    "Secamos con paños suaves para no rayar la pintura. 🧽"
+  ];
+  function say(t){ document.getElementById('bubble').textContent=t; }
+  function randomFact(){ return FACTS[(Math.random()*FACTS.length)|0]; }
+
+  var ctrls=document.getElementById('controls');
+  function setControls(html){ ctrls.innerHTML=html; }
+
+  function newCar(){
+    advancing=false; polished=false; polishMode=false; phase='wash';
+    if(!photoImg) carColor=COLORS[(Math.random()*COLORS.length)|0];
+    drawCar(); resetGrit();
+    say("¡Este auto está sucio! Échale shampoo 🫧 y frótalo con el dedo.");
+    setControls(
+      '<button class="btn main" id="foamBtn">Shampoo 🫧</button>'+
+      '<button class="btn ghost" id="photoBtn">Mi foto 📷</button>'
+    );
+    document.getElementById('foamBtn').onclick=function(){ addFoam(); say("¡Ahora frota fuerte para sacar la mugre! 💪"); };
+    document.getElementById('photoBtn').onclick=function(){ document.getElementById('photoInput').click(); };
+  }
+
+  function checkProgress(final){
+    if(phase==='wash' && !polishMode){
+      var p=cleanedPct();
+      if(p>0.82 && !advancing){ advancing=true; carClean(); }
+    } else if(polishMode){
+      var p2=cleanedPct();
+      if(p2>0.80 && !advancing){ advancing=true; carDone(); }
+    }
+  }
+
+  function carClean(){
+    phase='clean'; cheer();
+    say("¡Quedó limpiecito! 🌟 Ahora pásale el paño de brillo.");
+    showParts();
+    setControls('<button class="btn shine" id="polishBtn">Paño de brillo ✨</button>');
+    document.getElementById('polishBtn').onclick=function(){
+      advancing=false; polishMode=true; startPolish();
+      say("¡Frota para sacar brillo! ✨");
+    };
+  }
+
+  function showParts(){
+    if(photoImg)return;
+    var labels=[['Parabrisas',0.42,0.30],['Capó',0.78,0.46],['Rueda',0.24,0.78]];
+    var rect=wrap.getBoundingClientRect();
+    labels.forEach(function(l,i){
+      setTimeout(function(){
+        var el=document.createElement('div'); el.className='partLabel'; el.textContent=l[0];
+        el.style.left=(l[1]*100)+'%'; el.style.top=(l[2]*100)+'%';
+        wrap.appendChild(el); pop();
+        setTimeout(function(){el.remove();},1600);
+      }, i*500);
+    });
+  }
+
+  function carDone(){
+    phase='done'; polishMode=false; polished=true; drawCar();
+    gritX.clearRect(0,0,W,H);
+    cars++; water+=180; drops+=12; setStat();
+    cheer(); confetti();
+    say("¡Auto brillando! 🎉 Salvaste 12 gotitas y ahorraste 180 litros.");
+    setControls(
+      '<button class="btn go" id="nextBtn">Otro auto 🚗</button>'+
+      '<button class="btn ghost" id="photoBtn2">Mi foto 📷</button>'
+    );
+    document.getElementById('nextBtn').onclick=function(){ photoImg=null; newCar(); setTimeout(function(){say(randomFact());},900); };
+    document.getElementById('photoBtn2').onclick=function(){ document.getElementById('photoInput').click(); };
+  }
+
+  function confetti(){
+    var em=['💧','✨','🫧','🚗','🌟','♻️'];
+    for(var i=0;i<26;i++){
+      (function(){ var c=document.createElement('div'); c.className='confetti';
+        c.textContent=em[(Math.random()*em.length)|0];
+        c.style.left=(Math.random()*100)+'vw';
+        c.style.animationDuration=(2+Math.random()*1.8)+'s';
+        c.style.fontSize=(20+Math.random()*22)+'px';
+        document.body.appendChild(c); setTimeout(function(){c.remove();},4200);
+      })();
+    }
+  }
+
+  // ---------- Photo ----------
+  document.getElementById('photoInput').addEventListener('change',function(e){
+    var f=e.target.files&&e.target.files[0]; if(!f)return;
+    var rd=new FileReader();
+    rd.onload=function(ev){ var im=new Image(); im.onload=function(){ photoImg=im; newCar();
+      say("¡Tu foto está sucia! Échale shampoo y límpiala. 🫧"); }; im.src=ev.target.result; };
+    rd.readAsDataURL(f); e.target.value='';
+  });
+
+  // ---------- Start ----------
+  document.getElementById('playBtn').addEventListener('click',function(){
+    ac(); document.getElementById('startScreen').classList.add('hidden');
+    resize(); newCar(); cheer();
+  });
+
+  window.addEventListener('resize',function(){ if(phase!=='start') resize(); });
+  window.addEventListener('orientationchange',function(){ setTimeout(function(){ if(phase!=='start') resize(); },300); });
+
+  // initial sizing for when game starts
+  setStat();
+})();
+</script>
+</body>
+</html>
