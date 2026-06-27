@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Captador de Reseñas 5★ · Demo CO-DATA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --accent:#E0A53B;
+    --accent-ink:#1a1407;
+    --star:#F5B445;
+    --ink:#1A1710;
+    --muted:#857E6E;
+    --line:#EAE5D8;
+    --surface:#F6F3EA;
+    --card:#fff;
+    --display:"Bricolage Grotesque",system-ui,sans-serif;
+    --body:"Inter",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--body);color:var(--ink);
+    background:radial-gradient(70% 50% at 50% 0%,color-mix(in srgb,var(--accent) 18%,transparent),transparent 60%),var(--surface);
+    min-height:100vh;display:flex;flex-direction:column;align-items:center;-webkit-font-smoothing:antialiased;padding:24px 18px 50px}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  textarea{font-family:inherit}
+
+  .top{width:100%;max-width:760px;display:flex;align-items:center;gap:12px;margin-bottom:24px;flex-wrap:wrap}
+  .logo{display:flex;align-items:center;gap:11px}
+  .logo .m{width:36px;height:36px;border-radius:10px;background:var(--accent);display:grid;place-items:center;color:var(--accent-ink);font-family:var(--display);font-weight:800;font-size:17px;transition:background .35s}
+  .logo b{font-family:var(--display);font-size:19px;letter-spacing:-.02em;display:block;line-height:1}
+  .logo span{font-size:11.5px;color:var(--muted)}
+  .controls{margin-left:auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .brand-inp{height:36px;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:0 11px;color:var(--ink);font-size:13px;width:130px;outline:none}
+  .swatches{display:flex;gap:6px}
+  .sw{width:22px;height:22px;border-radius:999px;border:2px solid transparent;transition:.15s}
+  .sw.active{border-color:var(--ink);transform:scale(1.1)}
+
+  .lead{width:100%;max-width:760px;text-align:center;margin-bottom:18px}
+  .lead h1{font-family:var(--display);font-weight:800;font-size:clamp(22px,3vw,30px);margin:0 0 6px;letter-spacing:-.02em}
+  .lead p{font-size:14px;color:var(--muted);margin:0;max-width:60ch;margin-inline:auto}
+
+  .card{width:100%;max-width:420px;background:var(--card);border:1px solid var(--line);border-radius:22px;
+    box-shadow:0 20px 60px rgba(26,20,7,.10);padding:30px 26px;text-align:center;margin-top:6px}
+  .av{width:64px;height:64px;border-radius:18px;background:color-mix(in srgb,var(--accent) 14%,transparent);
+    display:grid;place-items:center;margin:0 auto 14px;font-family:var(--display);font-weight:800;font-size:28px;color:var(--accent);transition:color .35s}
+  .card h2{font-family:var(--display);font-weight:800;font-size:21px;margin:0 0 6px;letter-spacing:-.01em}
+  .card .sub{font-size:13.5px;color:var(--muted);margin:0 0 22px;line-height:1.45}
+
+  .stars{display:flex;justify-content:center;gap:8px;margin-bottom:8px}
+  .stars button{font-size:42px;line-height:1;color:var(--line);transition:transform .12s,color .12s}
+  .stars button:hover{transform:scale(1.12)}
+  .stars button.lit{color:var(--star)}
+  .stars-hint{font-size:12px;color:var(--muted);min-height:18px;margin-bottom:6px}
+
+  .step{display:none}
+  .step.on{display:block;animation:fade .3s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1}}
+
+  .gbtn{height:52px;border-radius:14px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:15px;width:100%;
+    display:flex;align-items:center;justify-content:center;gap:9px;margin-top:8px;transition:background .35s,filter .15s}
+  .gbtn:hover{filter:brightness(1.04)}
+  .gbtn svg{width:19px;height:19px}
+  .gbtn.google{background:#fff;border:1px solid var(--line);color:#1A1710}
+  .muted-btn{margin-top:12px;font-size:12.5px;color:var(--muted);text-decoration:underline}
+
+  .thanks .big{font-size:46px;margin-bottom:8px}
+  .thanks h3{font-family:var(--display);font-size:20px;margin:0 0 6px}
+  .thanks p{font-size:13.5px;color:var(--muted);margin:0 0 16px;line-height:1.5}
+
+  .priv textarea{width:100%;min-height:96px;border:1px solid var(--line);border-radius:12px;padding:11px 12px;font-size:14px;outline:none;resize:vertical;margin-bottom:6px}
+  .priv textarea:focus{border-color:var(--accent)}
+  .priv .note{font-size:11.5px;color:var(--muted);margin-bottom:12px;display:flex;gap:7px;align-items:flex-start;line-height:1.4}
+  .priv .note svg{width:14px;height:14px;stroke:var(--accent);fill:none;stroke-width:2;flex:0 0 auto;margin-top:1px}
+
+  .restart{margin-top:16px;font-size:12px;color:var(--muted);text-decoration:underline}
+
+  .info{width:100%;max-width:420px;margin-top:16px;display:flex;gap:10px}
+  .info .ic{flex:1;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px;text-align:center}
+  .info .ic b{font-family:var(--display);font-size:18px;display:block;color:var(--accent)}
+  .info .ic span{font-size:11px;color:var(--muted)}
+
+  .credit{font-size:12px;color:var(--muted);margin-top:22px;text-align:center}
+  .credit b{color:var(--ink)}
+</style>
+</head>
+<body>
+
+  <div class="top">
+    <div class="logo"><div class="m" id="logoMark">O</div><div><b id="brandLogo">Origen</b><span>Captador de reseñas · CO-DATA</span></div></div>
+    <div class="controls">
+      <input class="brand-inp" id="inpBrand" value="Origen" maxlength="18" aria-label="Nombre">
+      <div class="swatches" id="swatches"></div>
+    </div>
+  </div>
+
+  <div class="lead">
+    <h1>De cliente feliz a reseña 5★ — en un toque</h1>
+    <p>El cliente puntúa: si quedó contento va directo a Google; si no, su comentario llega en privado al dueño. Subes reputación y filtras lo malo antes de que sea público.</p>
+  </div>
+
+  <div class="card">
+    <!-- step rate -->
+    <div class="step on" id="stepRate">
+      <div class="av" id="av">O</div>
+      <h2 id="q">¿Cómo estuvo tu experiencia en Origen?</h2>
+      <div class="sub">Tu opinión nos ayuda un montón 🙏</div>
+      <div class="stars" id="stars"></div>
+      <div class="stars-hint" id="hint">Toca una estrella</div>
+    </div>
+
+    <!-- step google (4-5) -->
+    <div class="step thanks" id="stepGoogle">
+      <div class="big">🌟</div>
+      <h3>¡Qué bueno que te gustó!</h3>
+      <p>¿Nos dejas tu reseña en Google? Te toma 20 segundos y nos ayuda enormemente.</p>
+      <button class="gbtn google" id="toGoogle">
+        <svg viewBox="0 0 24 24" width="19" height="19"><path fill="#4285F4" d="M22 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.6a4.8 4.8 0 01-2 3.2v2.6h3.3c1.9-1.8 3-4.4 3-7.6z"/><path fill="#34A853" d="M12 22c2.7 0 5-1 6.6-2.4l-3.3-2.6c-.9.6-2 1-3.3 1-2.5 0-4.7-1.7-5.5-4H3.1v2.6A10 10 0 0012 22z"/><path fill="#FBBC05" d="M6.5 14c-.2-.6-.3-1.3-.3-2s.1-1.4.3-2V7.4H3.1A10 10 0 002 12c0 1.6.4 3.2 1.1 4.6L6.5 14z"/><path fill="#EA4335" d="M12 6c1.5 0 2.8.5 3.8 1.5l2.9-2.9A10 10 0 003.1 7.4L6.5 10c.8-2.3 3-4 5.5-4z"/></svg>
+        Dejar reseña en Google
+      </button>
+      <button class="restart" id="r1">‹ Volver</button>
+    </div>
+
+    <!-- step private (1-3) -->
+    <div class="step priv" id="stepPriv">
+      <div class="av">💬</div>
+      <h2 style="font-size:19px">Lamentamos no haber estado a la altura</h2>
+      <div class="sub">Cuéntanos qué pasó. Lo leemos en privado para mejorar.</div>
+      <textarea id="fb" placeholder="¿Qué podríamos mejorar?"></textarea>
+      <div class="note"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 100 18 9 9 0 000-18zM12 8v5M12 16h.01"/></svg> Este comentario llega solo al dueño — no se publica.</div>
+      <button class="gbtn" id="sendPriv">Enviar comentario</button>
+      <button class="restart" id="r2">‹ Volver</button>
+    </div>
+
+    <!-- step done private -->
+    <div class="step thanks" id="stepDone">
+      <div class="big">🙏</div>
+      <h3>¡Gracias por avisarnos!</h3>
+      <p>Tomamos tu comentario en serio y trabajaremos en eso.</p>
+      <button class="restart" id="r3">‹ Volver al inicio</button>
+    </div>
+  </div>
+
+  <div class="info">
+    <div class="ic"><b>+312%</b><span>reseñas en 3 meses</span></div>
+    <div class="ic"><b>4.9★</b><span>promedio Google</span></div>
+    <div class="ic"><b>QR/NFC</b><span>en mesa o caja</span></div>
+  </div>
+
+  <div class="credit">Captador de reseñas desarrollado por <b>CO-DATA</b> · Demo interactiva</div>
+
+<script>
+(function(){
+  "use strict";
+  function $(s){return document.querySelector(s);}
+  var brand="Origen";
+
+  function show(id){[].slice.call(document.querySelectorAll(".step")).forEach(function(e){e.classList.remove("on");});$("#"+id).classList.add("on");}
+
+  function buildStars(){
+    var s=$("#stars");s.innerHTML="";
+    for(var i=1;i<=5;i++){
+      var b=document.createElement("button");b.textContent="★";b.dataset.v=i;
+      b.onmouseover=(function(v){return function(){paint(v);$("#hint").textContent=labels[v-1];};})(i);
+      b.onmouseout=function(){paint(0);$("#hint").textContent="Toca una estrella";};
+      b.onclick=(function(v){return function(){pick(v);};})(i);
+      s.appendChild(b);
+    }
+  }
+  var labels=["Muy mala","Mala","Regular","Buena","¡Excelente!"];
+  function paint(n){[].slice.call(document.querySelectorAll("#stars button")).forEach(function(b){b.classList.toggle("lit",+b.dataset.v<=n);});}
+  function pick(v){
+    paint(v);
+    setTimeout(function(){ if(v>=4)show("stepGoogle"); else show("stepPriv"); },260);
+  }
+
+  $("#toGoogle").onclick=function(){window.open("https://www.google.com/search?q="+encodeURIComponent(brand+" reseñas"),"_blank");};
+  $("#sendPriv").onclick=function(){show("stepDone");};
+  ["r1","r2","r3"].forEach(function(id){$("#"+id).onclick=function(){paint(0);$("#hint").textContent="Toca una estrella";show("stepRate");};});
+
+  /* re-skin */
+  var swColors=[{c:"#E0A53B",ink:"#1a1407"},{c:"#0D9488",ink:"#fff"},{c:"#5B57E0",ink:"#fff"},{c:"#E5356B",ink:"#fff"},{c:"#16161A",ink:"#fff"}];
+  function applyAccent(o){
+    document.documentElement.style.setProperty("--accent",o.c);
+    document.documentElement.style.setProperty("--accent-ink",o.ink);
+    [].slice.call(document.querySelectorAll(".sw")).forEach(function(el){el.classList.toggle("active",el.dataset.c===o.c);});
+  }
+  function buildSwatches(){var s=$("#swatches");s.innerHTML="";swColors.forEach(function(o){var b=document.createElement("button");b.className="sw";b.style.background=o.c;b.dataset.c=o.c;b.onclick=function(){applyAccent(o);};s.appendChild(b);});}
+  function applyBrand(n){brand=n||"Marca";$("#brandLogo").textContent=brand;$("#logoMark").textContent=brand.charAt(0).toUpperCase();$("#av").textContent=brand.charAt(0).toUpperCase();$("#q").textContent="¿Cómo estuvo tu experiencia en "+brand+"?";}
+  $("#inpBrand").addEventListener("input",function(e){applyBrand(e.target.value);});
+
+  /* init */
+  buildSwatches();applyAccent(swColors[0]);applyBrand("Origen");buildStars();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Screening de Licitaciones IA · Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --accent:#2563EB;--accent-ink:#fff;--bad:#DC4B4B;--warn:#E0A53B;--ok:#2E9E66;
+    --ink:#13151B;--muted:#737A88;--line:#E6E8EE;--surface:#F3F5F9;--card:#fff;
+    --display:"Bricolage Grotesque",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--body);color:var(--ink);background:var(--surface);-webkit-font-smoothing:antialiased}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  textarea,input{font-family:inherit}
+  .shell{max-width:1080px;margin:0 auto;padding:26px 22px 56px}
+  .top{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+  .logo{display:flex;align-items:center;gap:11px}
+  .logo .m{width:36px;height:36px;border-radius:10px;background:var(--accent);display:grid;place-items:center;color:var(--accent-ink);font-family:var(--display);font-weight:800;font-size:17px;transition:background .35s}
+  .logo b{font-family:var(--display);font-size:19px;display:block;line-height:1}.logo span{font-size:11.5px;color:var(--muted)}
+  .controls{margin-left:auto;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .brand-inp{height:36px;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:0 11px;font-size:13px;width:130px;outline:none}
+  .swatches{display:flex;gap:6px}.sw{width:22px;height:22px;border-radius:999px;border:2px solid transparent}.sw.active{border-color:var(--ink);transform:scale(1.1)}
+  .lead{margin:0 0 20px}.lead h1{font-family:var(--display);font-weight:800;font-size:clamp(23px,3.2vw,32px);letter-spacing:-.02em;margin:0 0 5px}
+  .lead p{font-size:14.5px;color:var(--muted);margin:0;max-width:64ch}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+  @media(max-width:860px){.grid{grid-template-columns:1fr}}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 6px 22px rgba(20,18,30,.05)}
+  .ph{padding:14px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+  .ph b{font-family:var(--display);font-size:15px}.ph .lk{font-size:12px;color:var(--accent);font-weight:600}
+  .pb{padding:18px}
+  textarea{width:100%;min-height:280px;border:1px solid var(--line);border-radius:12px;padding:13px;font-size:13px;line-height:1.5;outline:none;resize:vertical;font-family:var(--mono);color:var(--ink)}
+  textarea:focus{border-color:var(--accent)}
+  .btn{height:50px;border-radius:13px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:15px;width:100%;display:flex;align-items:center;justify-content:center;gap:9px;margin-top:14px;transition:background .35s,filter .15s}
+  .btn:hover{filter:brightness(1.05)}.btn:disabled{opacity:.5;cursor:not-allowed}
+  .btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.9}
+  .empty{color:var(--muted);font-size:13.5px;text-align:center;padding:60px 20px;line-height:1.6}
+  .empty svg{width:42px;height:42px;stroke:var(--line);stroke-width:1.4;margin-bottom:12px;fill:none}
+  .skel{height:13px;background:linear-gradient(90deg,var(--surface),var(--line),var(--surface));background-size:200% 100%;border-radius:6px;animation:sh 1.2s infinite;margin-bottom:10px}
+  @keyframes sh{to{background-position:-200% 0}}
+  .res-sum{font-size:14px;line-height:1.5;background:color-mix(in srgb,var(--accent) 7%,transparent);border-left:3px solid var(--accent);padding:12px 14px;border-radius:0 10px 10px 0;margin-bottom:16px}
+  .block{margin-bottom:16px}
+  .block .bl{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:9px;display:flex;align-items:center;gap:8px}
+  .block .bl .ic{width:20px;height:20px;border-radius:6px;display:grid;place-items:center}
+  .block .bl .ic svg{width:13px;height:13px;fill:none;stroke-width:2}
+  .ic.bad{background:color-mix(in srgb,var(--bad) 14%,transparent)}.ic.bad svg{stroke:var(--bad)}
+  .ic.warn{background:color-mix(in srgb,var(--warn) 16%,transparent)}.ic.warn svg{stroke:#B07D18}
+  .ic.ok{background:color-mix(in srgb,var(--ok) 14%,transparent)}.ic.ok svg{stroke:var(--ok)}
+  .li{font-size:13.5px;line-height:1.45;padding:8px 0;border-bottom:1px dashed var(--line);display:flex;gap:9px}
+  .li:last-child{border:none}.li::before{content:"•";color:var(--accent);font-weight:700}
+  .reco{font-size:14px;font-weight:600;background:color-mix(in srgb,var(--ok) 9%,transparent);border-radius:12px;padding:13px 15px;line-height:1.45}
+  .credit{text-align:center;font-size:12px;color:var(--muted);margin-top:24px}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top">
+    <div class="logo"><div class="m" id="lm">L</div><div><b id="bl">Licita</b><span>Screening de licitaciones · demo</span></div></div>
+    <div class="controls"><input class="brand-inp" id="ib" value="Licita" maxlength="16"><div class="swatches" id="sw"></div></div>
+  </div>
+  <div class="lead"><h1>Lee 500 páginas de bases en 15 segundos</h1>
+    <p>Pega las bases de la licitación y la IA te extrae lo que importa: multas, plazos, garantías, riesgos y si conviene postular. Lo que antes tomaba 2 días.</p></div>
+
+  <div class="grid">
+    <div class="panel">
+      <div class="ph"><b>Bases de la licitación</b><button class="lk" id="ex">Cargar ejemplo</button></div>
+      <div class="pb">
+        <textarea id="txt" placeholder="Pega aquí el texto de las bases administrativas y técnicas…"></textarea>
+        <button class="btn" id="go"><svg viewBox="0 0 24 24"><path d="M12 3l2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2z"/></svg> Analizar con IA</button>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="ph"><b>Resultado del screening</b><span class="ph" style="border:none;padding:0;font-size:11px;color:var(--muted)">IA en vivo</span></div>
+      <div class="pb" id="out">
+        <div class="empty"><svg viewBox="0 0 24 24"><path d="M14 3v5h5M7 3h7l5 5v11a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2z"/></svg>Pega las bases y toca <b>Analizar</b>.<br>Te resumo multas, plazos, garantías y riesgos.</div>
+      </div>
+    </div>
+  </div>
+  <div class="credit">Demo interactiva · solución re-skineable · análisis con IA real</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  function $(s){return document.querySelector(s);}
+  function esc(s){return String(s).replace(/[&<>]/g,function(m){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[m];});}
+
+  var sample=
+"LICITACIÓN PÚBLICA N° 4521-2026 — SERVICIO DE MANTENCIÓN E INSPECCIÓN DE SISTEMAS DE SEGURIDAD EN ALTURA.\n\n"+
+"BASES ADMINISTRATIVAS\n"+
+"1. Plazo de presentación de ofertas: hasta el 18 de julio de 2026, 15:00 hrs, vía portal electrónico.\n"+
+"2. Apertura: 19 de julio de 2026, 10:00 hrs.\n"+
+"3. Garantía de seriedad de la oferta: 3% del valor ofertado, vigencia mínima 90 días.\n"+
+"4. Garantía de fiel cumplimiento: 10% del contrato, vigencia contrato + 60 días.\n"+
+"5. Plazo de ejecución: 12 meses renovables.\n"+
+"6. Multa por atraso en entrega de informes: 5 UF por día hábil de atraso.\n"+
+"7. Multa por incumplimiento de protocolo de seguridad: 20 UF por evento.\n"+
+"8. Causal de término anticipado: 3 multas acumuladas en un trimestre.\n\n"+
+"REQUISITOS TÉCNICOS\n"+
+"- Experiencia mínima 3 años en servicios similares (acreditar 2 contratos).\n"+
+"- Personal con certificación de trabajo en altura vigente.\n"+
+"- Disponer de equipos calibrados con certificado de laboratorio.\n"+
+"- Presentar plan de trabajo y matriz de riesgos.\n";
+
+  $("#ex").onclick=function(){$("#txt").value=sample;};
+
+  $("#go").onclick=function(){
+    var t=$("#txt").value.trim();if(!t){$("#txt").focus();return;}
+    $("#go").disabled=true;
+    $("#out").innerHTML='<div class="skel" style="width:90%;height:40px;margin-bottom:16px"></div><div class="skel" style="width:60%"></div><div class="skel" style="width:100%"></div><div class="skel" style="width:85%"></div><div class="skel" style="width:70%;margin-top:14px"></div><div class="skel" style="width:95%"></div>';
+    var sys="Eres analista experto en licitaciones públicas chilenas. Lee las bases y entrega un screening ejecutivo. "+
+      "Responde SOLO con JSON válido, sin markdown, forma exacta:\n"+
+      '{"resumen":"...","multas":["..."],"plazos":["..."],"garantias":["..."],"riesgos":["..."],"recomendacion":"..."}\n'+
+      "resumen: 1-2 frases de qué se licita. multas/plazos/garantias/riesgos: listas cortas de viñetas con lo concreto encontrado (montos, fechas, %). "+
+      "recomendacion: 1 frase clara (postular / postular con cuidado / no postular) con el porqué. Español de Chile, preciso, solo lo que esté en el texto.";
+    fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1000,system:sys,messages:[{role:"user",content:t.slice(0,8000)}]})
+    }).then(function(r){return r.json();}).then(function(d){
+      var raw="";if(d&&d.content)raw=d.content.filter(function(i){return i.type==="text";}).map(function(i){return i.text;}).join("").trim();
+      raw=raw.replace(/```json|```/g,"").trim();var o=JSON.parse(raw);render(o);
+    }).catch(function(){
+      $("#out").innerHTML='<div class="empty">No se pudo analizar ahora ⚠️.<br>Reintenta en unos segundos.</div>';
+    }).then(function(){$("#go").disabled=false;});
+  };
+
+  function listBlock(label,cls,icon,items){
+    if(!items||!items.length)return"";
+    return '<div class="block"><div class="bl"><span class="ic '+cls+'"><svg viewBox="0 0 24 24">'+icon+'</svg></span>'+label+'</div>'+
+      items.map(function(x){return '<div class="li">'+esc(x)+'</div>';}).join("")+'</div>';
+  }
+  function render(o){
+    var warn='<path d="M10.3 3.9l-8 14A2 2 0 004 21h16a2 2 0 001.7-3l-8-14a2 2 0 00-3.4 0zM12 9v4M12 17h.01"/>';
+    var clock='<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>';
+    var shield='<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/>';
+    var alert='<path d="M12 8v5M12 16h.01"/><circle cx="12" cy="12" r="9"/>';
+    $("#out").innerHTML=
+      '<div class="res-sum">'+esc(o.resumen||"")+'</div>'+
+      listBlock("Multas y penalidades","bad",warn,o.multas)+
+      listBlock("Plazos clave","warn",clock,o.plazos)+
+      listBlock("Garantías exigidas","ok",shield,o.garantias)+
+      listBlock("Riesgos / requisitos","bad",alert,o.riesgos)+
+      (o.recomendacion?'<div class="reco">📌 '+esc(o.recomendacion)+'</div>':'');
+  }
+
+  var SW=[{c:"#2563EB"},{c:"#0D9488"},{c:"#7C3AED"},{c:"#E8852C"},{c:"#16161A"}];
+  function ac(o){document.documentElement.style.setProperty("--accent",o.c);var h=o.c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
+    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#13151B":"#fff");
+    [].slice.call(document.querySelectorAll(".sw")).forEach(function(e){e.classList.toggle("active",e.dataset.c===o.c);});}
+  function bsw(){var s=$("#sw");s.innerHTML="";SW.forEach(function(o){var b=document.createElement("button");b.className="sw";b.style.background=o.c;b.dataset.c=o.c;b.onclick=function(){ac(o);};s.appendChild(b);});}
+  function ab(n){$("#bl").textContent=n||"Marca";$("#lm").textContent=(n||"M").charAt(0).toUpperCase();}
+  $("#ib").addEventListener("input",function(e){ab(e.target.value);});
+  bsw();ac(SW[0]);ab("Licita");
+})();
+</script>
+</body>
+</html>

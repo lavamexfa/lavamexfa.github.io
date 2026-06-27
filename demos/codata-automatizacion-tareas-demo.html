@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Automatización de Tareas · Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --accent:#12B886;--accent-2:#3DD9A4;--accent-ink:#04140E;--bad:#E0533D;
+    --ink:#E7F1EC;--muted:#8597A0;--line:#22303A;--card:#15202A;--bg:#0A1117;
+    --display:"Bricolage Grotesque",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--body);color:var(--ink);
+    background:radial-gradient(90% 60% at 50% -10%,color-mix(in srgb,var(--accent) 18%,transparent),transparent 55%),var(--bg);
+    min-height:100vh;-webkit-font-smoothing:antialiased}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  input{font-family:inherit}
+  .shell{max-width:980px;margin:0 auto;padding:26px 22px 56px}
+  .top{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+  .logo{display:flex;align-items:center;gap:11px}
+  .logo .m{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;color:var(--accent-ink);font-family:var(--display);font-weight:800;font-size:18px}
+  .logo b{font-family:var(--display);font-size:20px;display:block;line-height:1;color:#fff}.logo span{font-size:11.5px;color:var(--muted)}
+  .controls{margin-left:auto;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .ti{height:36px;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:0 11px;font-size:13px;width:120px;outline:none;color:#fff}
+  .swatches{display:flex;gap:6px}.sw{width:22px;height:22px;border-radius:999px;border:2px solid transparent}.sw.active{border-color:#fff;transform:scale(1.1)}
+  .lead{margin:0 0 18px}.lead h1{font-family:var(--display);font-weight:800;font-size:clamp(24px,3.4vw,34px);letter-spacing:-.02em;margin:0 0 5px;color:#fff}
+  .lead p{font-size:14.5px;color:var(--muted);margin:0;max-width:60ch}
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+  @media(max-width:560px){.compare{grid-template-columns:1fr}}
+  .cc{border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:var(--card)}
+  .cc.before{opacity:.85}
+  .cc .l{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .cc .big{font-family:var(--display);font-weight:800;font-size:26px;line-height:1}
+  .cc.before .big{color:var(--bad)}.cc.after .big{color:var(--accent)}
+  .cc .row{font-size:12.5px;color:var(--muted);margin-top:6px;display:flex;justify-content:space-between}
+  .flow{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px 18px;margin-bottom:18px;position:relative;overflow-x:auto}
+  .track{display:flex;align-items:stretch;gap:0;min-width:560px}
+  .node{flex:1;display:flex;flex-direction:column;align-items:center;gap:10px;position:relative;padding:0 6px}
+  .node .box{width:100%;background:#0F1820;border:1.5px solid var(--line);border-radius:14px;padding:14px 10px;text-align:center;transition:.3s;position:relative}
+  .node.active .box{border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 16%,transparent);transform:translateY(-3px)}
+  .node.done .box{border-color:color-mix(in srgb,var(--accent) 55%,transparent)}
+  .node .ic{width:40px;height:40px;border-radius:11px;background:#15222B;display:grid;place-items:center;margin:0 auto 9px;transition:.3s}
+  .node.active .ic,.node.done .ic{background:linear-gradient(135deg,var(--accent),var(--accent-2))}
+  .node .ic svg{width:20px;height:20px;stroke:var(--muted);fill:none;stroke-width:1.8;transition:.3s}
+  .node.active .ic svg,.node.done .ic svg{stroke:var(--accent-ink)}
+  .node b{font-size:12.5px;color:#fff;display:block}
+  .node .st{font-size:10.5px;color:var(--muted);font-family:var(--mono);min-height:14px;margin-top:3px}
+  .node.active .st{color:var(--accent-2)}.node.done .st{color:var(--accent)}
+  .conn{position:absolute;top:34px;right:-50%;width:100%;height:2px;background:var(--line);z-index:0}
+  .conn .fill{position:absolute;inset:0;width:0;background:var(--accent);transition:width .4s}
+  .node:last-child .conn{display:none}
+  .ctrls{display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap}
+  .btn{height:52px;padding:0 28px;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:var(--accent-ink);font-weight:700;font-size:15px;display:inline-flex;align-items:center;gap:9px;transition:filter .15s}
+  .btn:hover{filter:brightness(1.08)}.btn:disabled{opacity:.55;cursor:not-allowed}
+  .btn svg{width:18px;height:18px;fill:currentColor}
+  .result{font-size:13.5px;color:var(--muted);min-height:20px}
+  .result b{color:var(--accent)}
+  .credit{text-align:center;font-size:12px;color:var(--muted);margin-top:24px}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top">
+    <div class="logo"><div class="m" id="lm">F</div><div><b id="bl">Fluyo</b><span>Automatización de tareas · demo</span></div></div>
+    <div class="controls"><input class="ti" id="ib" value="Fluyo" maxlength="16"><div class="swatches" id="sw"></div></div>
+  </div>
+  <div class="lead"><h1>Esa tarea que repites todos los días, hecha sola</h1>
+    <p>Mira un flujo real ejecutándose: recibe, lee, procesa, genera y envía — sin que nadie mueva un dedo.</p></div>
+
+  <div class="compare">
+    <div class="cc before"><div class="l">Hoy · manual</div><div class="big">~45 min</div><div class="row"><span>por cada vez</span><span style="color:var(--bad)">errores frecuentes</span></div></div>
+    <div class="cc after"><div class="l">Con automatización</div><div class="big" id="autoTime">2,3 seg</div><div class="row"><span>desatendido</span><span style="color:var(--accent)">0 errores</span></div></div>
+  </div>
+
+  <div class="flow"><div class="track" id="track"></div></div>
+
+  <div class="ctrls">
+    <button class="btn" id="run"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Ejecutar flujo</button>
+    <span class="result" id="result">Caso: facturas que llegan por correo → registradas y respondidas solas.</span>
+  </div>
+  <div class="credit">Demo interactiva · solución re-skineable · flujo de ejemplo</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  function $(s){return document.querySelector(s);}
+  var steps=[
+    {n:"Disparador",ic:'<path d="M13 2L3 14h7l-1 8 10-12h-7z"/>',st:"correo recibido"},
+    {n:"Leer datos",ic:'<path d="M4 6h16M4 12h16M4 18h10"/>',st:"extrae monto y RUT"},
+    {n:"Procesar",ic:'<circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 01-.5 2.5l1.7 1-2 3.4-1.9-.8a7 7 0 01-2.3 1.3l-.3 2h-4l-.3-2a7 7 0 01-2.3-1.3l-1.9.8-2-3.4 1.7-1A7 7 0 015 12a7 7 0 01.5-2.5l-1.7-1 2-3.4 1.9.8A7 7 0 0110 4.8l.3-2h4l.3 2a7 7 0 012.3 1.3l1.9-.8 2 3.4-1.7 1A7 7 0 0119 12z"/>',st:"valida y registra"},
+    {n:"Generar",ic:'<path d="M14 3v5h5M7 3h7l5 5v11a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2z"/>',st:"comprobante listo"},
+    {n:"Enviar",ic:'<path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/>',st:"respuesta enviada"}
+  ];
+  var running=false;
+  function build(){
+    $("#track").innerHTML=steps.map(function(s,i){
+      return '<div class="node" data-i="'+i+'"><div class="box"><div class="ic"><svg viewBox="0 0 24 24">'+s.ic+'</svg></div><b>'+s.n+'</b><div class="st"></div></div><div class="conn"><div class="fill"></div></div></div>';
+    }).join("");
+  }
+  function reset(){[].slice.call(document.querySelectorAll(".node")).forEach(function(nd){nd.classList.remove("active","done");nd.querySelector(".st").textContent="";var f=nd.querySelector(".fill");if(f)f.style.width="0";});}
+
+  function run(){
+    if(running)return;running=true;reset();$("#run").disabled=true;$("#result").textContent="Ejecutando…";
+    var i=0;
+    function next(){
+      if(i>0){var prev=document.querySelector('.node[data-i="'+(i-1)+'"]');prev.classList.remove("active");prev.classList.add("done");var f=prev.querySelector(".fill");if(f)f.style.width="100%";}
+      if(i>=steps.length){
+        $("#result").innerHTML='<b>✓ Tarea completada en 2,3 s · 0 errores.</b> Esto corría 45 min a mano.';
+        $("#run").disabled=false;running=false;return;
+      }
+      var nd=document.querySelector('.node[data-i="'+i+'"]');nd.classList.add("active");
+      nd.querySelector(".st").textContent=steps[i].st;
+      i++;setTimeout(next,720);
+    }
+    next();
+  }
+  $("#run").onclick=run;
+
+  var SW=[{c:"#12B886",c2:"#3DD9A4",ink:"#04140E"},{c:"#4E46E5",c2:"#8B7BF5",ink:"#fff"},{c:"#2563EB",c2:"#5B8DEF",ink:"#fff"},{c:"#C2410C",c2:"#EA7A3C",ink:"#fff"},{c:"#B0418A",c2:"#D86BB0",ink:"#fff"}];
+  function ac(o){document.documentElement.style.setProperty("--accent",o.c);document.documentElement.style.setProperty("--accent-2",o.c2);document.documentElement.style.setProperty("--accent-ink",o.ink);
+    [].slice.call(document.querySelectorAll(".sw")).forEach(function(e){e.classList.toggle("active",e.dataset.c===o.c);});}
+  function bsw(){var s=$("#sw");s.innerHTML="";SW.forEach(function(o){var b=document.createElement("button");b.className="sw";b.style.background=o.c;b.dataset.c=o.c;b.onclick=function(){ac(o);};s.appendChild(b);});}
+  function ab(n){$("#bl").textContent=n||"Marca";$("#lm").textContent=(n||"M").charAt(0).toUpperCase();}
+  $("#ib").addEventListener("input",function(e){ab(e.target.value);});
+  bsw();ac(SW[0]);ab("Fluyo");build();
+})();
+</script>
+</body>
+</html>

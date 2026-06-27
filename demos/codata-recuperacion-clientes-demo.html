@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recuperación de Clientes · Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --accent:#B0418A;--accent-2:#D86BB0;--accent-ink:#fff;--ok:#2E9E66;--warn:#E0A53B;--bad:#E0533D;
+    --ink:#1A131A;--muted:#857685;--line:#EEE4EC;--surface:#F8F1F6;--card:#fff;
+    --display:"Bricolage Grotesque",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--body);color:var(--ink);background:var(--surface);-webkit-font-smoothing:antialiased}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  input,textarea{font-family:inherit}
+  .shell{max-width:1080px;margin:0 auto;padding:24px 20px 50px}
+  .top{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+  .logo{display:flex;align-items:center;gap:11px}
+  .logo .m{width:36px;height:36px;border-radius:10px;background:var(--accent);display:grid;place-items:center;color:var(--accent-ink);font-family:var(--display);font-weight:800;font-size:17px;transition:background .35s}
+  .logo b{font-family:var(--display);font-size:19px;display:block;line-height:1}.logo span{font-size:11.5px;color:var(--muted)}
+  .controls{margin-left:auto;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .ti{height:36px;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:0 11px;font-size:13px;width:120px;outline:none}
+  .swatches{display:flex;gap:6px}.sw{width:22px;height:22px;border-radius:999px;border:2px solid transparent}.sw.active{border-color:var(--ink);transform:scale(1.1)}
+  .lead{margin:0 0 18px}.lead h1{font-family:var(--display);font-weight:800;font-size:clamp(22px,3vw,30px);letter-spacing:-.02em;margin:0 0 4px}
+  .lead p{font-size:14px;color:var(--muted);margin:0;max-width:60ch}
+  .grid{display:grid;grid-template-columns:1fr 360px;gap:18px;align-items:start}
+  @media(max-width:860px){.grid{grid-template-columns:1fr}}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 6px 22px rgba(20,18,30,.05)}
+  .ph{padding:13px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .ph b{font-family:var(--display);font-size:15px}
+  .seg{display:flex;gap:7px}
+  .seg button{font-size:11.5px;border:1px solid var(--line);border-radius:999px;padding:5px 11px;color:var(--muted);font-weight:600}
+  .seg button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .cli{display:flex;align-items:center;gap:11px;padding:11px 16px;border-bottom:1px solid var(--line)}
+  .cli .ck{width:20px;height:20px;border-radius:6px;border:2px solid var(--line);flex:0 0 auto;display:grid;place-items:center;cursor:pointer}
+  .cli .ck.on{background:var(--accent);border-color:var(--accent)}.cli .ck.on::after{content:"✓";color:#fff;font-size:12px;font-weight:700}
+  .cli .inf{flex:1;min-width:0}.cli .inf b{font-size:13.5px;display:block}.cli .inf span{font-size:11.5px;color:var(--muted)}
+  .cli .v{font-family:var(--mono);font-size:12.5px;color:var(--ink);font-weight:600}
+  .pill{font-size:10px;font-weight:700;padding:3px 8px;border-radius:999px;margin-left:6px}
+  .p3{background:color-mix(in srgb,var(--warn) 16%,transparent);color:#9A6A12}
+  .p6{background:color-mix(in srgb,var(--bad) 14%,transparent);color:var(--bad)}
+  .p12{background:color-mix(in srgb,#777 18%,transparent);color:#555}
+  .cb{padding:16px}
+  label{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:7px}
+  input.in,textarea{width:100%;border:1px solid var(--line);border-radius:11px;padding:11px 12px;font-size:14px;outline:none}
+  input.in:focus,textarea:focus{border-color:var(--accent)}
+  textarea{min-height:120px;line-height:1.5;resize:vertical;margin-top:4px}
+  .btn{height:46px;border-radius:12px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:14px;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px;transition:background .35s,filter .15s}
+  .btn:hover{filter:brightness(1.05)}.btn:disabled{opacity:.5;cursor:not-allowed}
+  .btn-ai{background:var(--card);border:1px solid var(--accent);color:var(--accent);height:40px;font-size:13px}
+  .sel-info{font-size:12.5px;color:var(--muted);margin:6px 0 0;text-align:center}
+  .result{background:color-mix(in srgb,var(--ok) 9%,transparent);border:1px solid color-mix(in srgb,var(--ok) 30%,transparent);border-radius:12px;padding:14px;margin-top:12px;display:none}
+  .result.on{display:block;animation:f .25s ease}@keyframes f{from{opacity:0}to{opacity:1}}
+  .result .big{font-family:var(--display);font-weight:800;font-size:24px;color:var(--ok)}
+  .result span{font-size:12.5px;color:var(--muted)}
+  .skel{height:13px;background:linear-gradient(90deg,var(--surface),var(--line),var(--surface));background-size:200% 100%;border-radius:6px;animation:sh 1.2s infinite;margin-bottom:9px}
+  @keyframes sh{to{background-position:-200% 0}}
+  .credit{text-align:center;font-size:12px;color:var(--muted);margin-top:22px}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top">
+    <div class="logo"><div class="m" id="lm">R</div><div><b id="bl">Reconecta</b><span>Recuperación de clientes · demo</span></div></div>
+    <div class="controls"><input class="ti" id="ib" value="Reconecta" maxlength="16"><div class="swatches" id="sw"></div></div>
+  </div>
+  <div class="lead"><h1>Despierta a los clientes que dejaron de comprar</h1>
+    <p>Segmenta tu base dormida, deja que la IA redacte el mensaje y lanza la campaña. Ingresos que ya tenías, de vuelta.</p></div>
+
+  <div class="grid">
+    <div class="panel">
+      <div class="ph"><b>Clientes inactivos</b><div class="seg" id="seg">
+        <button data-f="all" class="on">Todos</button><button data-f="3">+3m</button><button data-f="6">+6m</button><button data-f="12">+12m</button>
+      </div></div>
+      <div id="list"></div>
+    </div>
+
+    <div class="panel">
+      <div class="ph"><b>Campaña de reactivación</b></div>
+      <div class="cb">
+        <label>Oferta gancho</label>
+        <input class="in" id="offer" value="20% de descuento en tu próxima compra">
+        <button class="btn-ai btn" id="ai"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 3l2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2z"/></svg> Redactar mensaje con IA</button>
+        <label style="margin-top:14px">Mensaje</label>
+        <textarea id="msg" placeholder="El mensaje de reactivación aparecerá aquí…"></textarea>
+        <div class="sel-info" id="selInfo">0 clientes seleccionados</div>
+        <button class="btn" id="send" disabled>Enviar campaña</button>
+        <div class="result" id="result"></div>
+      </div>
+    </div>
+  </div>
+  <div class="credit">Demo interactiva · solución re-skineable · base de ejemplo · IA real</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  function $(s){return document.querySelector(s);}
+  function clp(n){return "$"+Math.round(n).toLocaleString("es-CL");}
+  var brand="Reconecta";
+  var clients=[
+    {n:"Camila Reyes",last:3,v:45000,sel:false},
+    {n:"Distribuidora Lonco",last:6,v:280000,sel:false},
+    {n:"Tomás Vega",last:3,v:38000,sel:false},
+    {n:"Almacén San Pedro",last:12,v:120000,sel:false},
+    {n:"Andrea Fuentes",last:6,v:64000,sel:false},
+    {n:"Taller Mecánico Sur",last:12,v:210000,sel:false},
+    {n:"Mauricio Lara",last:3,v:52000,sel:false},
+    {n:"Comercial Aysén",last:6,v:175000,sel:false}
+  ];
+  var filter="all";
+
+  function pill(m){var c=m>=12?"p12":m>=6?"p6":"p3";return '<span class="pill '+c+'">'+m+'m</span>';}
+  function render(){
+    var arr=clients.filter(function(c){return filter==="all"||c.last>=+filter;});
+    $("#list").innerHTML=arr.map(function(c){var i=clients.indexOf(c);
+      return '<div class="cli"><div class="ck '+(c.sel?"on":"")+'" data-ck="'+i+'"></div><div class="inf"><b>'+c.n+pill(c.last)+'</b><span>Última compra hace '+c.last+' meses</span></div><span class="v">'+clp(c.v)+'</span></div>';
+    }).join("");
+    [].slice.call($("#list").querySelectorAll("[data-ck]")).forEach(function(b){b.onclick=function(){clients[+b.dataset.ck].sel=!clients[+b.dataset.ck].sel;render();info();};});
+    info();
+  }
+  function selected(){return clients.filter(function(c){return c.sel;});}
+  function info(){var s=selected();$("#selInfo").textContent=s.length+" clientes seleccionados · "+clp(s.reduce(function(a,c){return a+c.v;},0))+" en juego";$("#send").disabled=s.length===0;}
+
+  $("#ai").onclick=function(){
+    var offer=$("#offer").value.trim();var btn=$("#ai");btn.disabled=true;
+    $("#msg").value="";$("#msg").placeholder="Redactando con IA…";
+    var sys="Eres redactor de marketing. Escribe un mensaje breve y cálido de WhatsApp para reactivar a un cliente que no compra hace tiempo, ofreciendo el gancho indicado. "+
+      "Español de Chile, cercano, sin sonar spam, con un llamado a la acción claro. Usa {nombre} como marcador. Máximo 4 líneas. Responde solo el mensaje.";
+    fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1000,system:sys,messages:[{role:"user",content:"Oferta gancho: "+offer}]})
+    }).then(function(r){return r.json();}).then(function(d){
+      var t="";if(d&&d.content)t=d.content.filter(function(i){return i.type==="text";}).map(function(i){return i.text;}).join("").trim();
+      $("#msg").value=t.replace(/```/g,"").trim();
+    }).catch(function(){$("#msg").placeholder="No pude redactar. Reintenta.";}).then(function(){btn.disabled=false;});
+  };
+
+  $("#send").onclick=function(){
+    var s=selected();var pot=s.reduce(function(a,c){return a+c.v;},0);
+    var recov=Math.round(s.length*0.28);var money=Math.round(pot*0.28);
+    var r=$("#result");r.classList.add("on");
+    r.innerHTML='<div class="big">'+recov+' clientes</div><span>reactivación estimada (~28%) · ≈ '+clp(money)+' recuperados</span>';
+    clients.forEach(function(c){c.sel=false;});render();
+  };
+
+  [].slice.call($("#seg").querySelectorAll("button")).forEach(function(b){b.onclick=function(){filter=b.dataset.f;[].slice.call($("#seg").querySelectorAll("button")).forEach(function(x){x.classList.remove("on");});b.classList.add("on");render();};});
+
+  var SW=[{c:"#B0418A",c2:"#D86BB0"},{c:"#0D9488",c2:"#2DD4BF"},{c:"#2563EB",c2:"#5B8DEF"},{c:"#C2410C",c2:"#EA7A3C"},{c:"#16161A",c2:"#444"}];
+  function ac(o){document.documentElement.style.setProperty("--accent",o.c);document.documentElement.style.setProperty("--accent-2",o.c2);
+    var h=o.c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
+    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#1A131A":"#fff");
+    [].slice.call(document.querySelectorAll(".sw")).forEach(function(e){e.classList.toggle("active",e.dataset.c===o.c);});}
+  function bsw(){var s=$("#sw");s.innerHTML="";SW.forEach(function(o){var b=document.createElement("button");b.className="sw";b.style.background=o.c;b.dataset.c=o.c;b.onclick=function(){ac(o);};s.appendChild(b);});}
+  function ab(n){brand=n||"Marca";$("#bl").textContent=brand;$("#lm").textContent=brand.charAt(0).toUpperCase();}
+  $("#ib").addEventListener("input",function(e){ab(e.target.value);});
+  bsw();ac(SW[0]);ab("Reconecta");render();
+})();
+</script>
+</body>
+</html>

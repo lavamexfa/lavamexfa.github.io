@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Documentación Legal · Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --accent:#324A8C;--accent-2:#5A77C8;--accent-ink:#fff;--ok:#2E9E66;--warn:#E0A53B;--bad:#E0533D;
+    --ink:#15171F;--muted:#727686;--line:#E6E8F0;--surface:#F3F4F9;--card:#fff;
+    --display:"Bricolage Grotesque",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--body);color:var(--ink);background:var(--surface);-webkit-font-smoothing:antialiased}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  input{font-family:inherit}
+  .shell{max-width:1000px;margin:0 auto;padding:24px 20px 50px}
+  .top{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+  .logo{display:flex;align-items:center;gap:11px}
+  .logo .m{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:800;font-size:18px}
+  .logo b{font-family:var(--display);font-size:20px;display:block;line-height:1}.logo span{font-size:11.5px;color:var(--muted)}
+  .controls{margin-left:auto;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .ti{height:36px;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:0 11px;font-size:13px;width:120px;outline:none}
+  .swatches{display:flex;gap:6px}.sw{width:22px;height:22px;border-radius:999px;border:2px solid transparent}.sw.active{border-color:var(--ink);transform:scale(1.1)}
+  .lead{margin:0 0 18px}.lead h1{font-family:var(--display);font-weight:800;font-size:clamp(22px,3vw,30px);letter-spacing:-.02em;margin:0 0 4px}
+  .lead p{font-size:14px;color:var(--muted);margin:0;max-width:58ch}
+  .hero{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;margin-bottom:18px;box-shadow:0 6px 22px rgba(20,18,30,.05)}
+  @media(max-width:560px){.hero{grid-template-columns:1fr;text-align:center;justify-items:center}}
+  .ring{position:relative;width:120px;height:120px}
+  .ring svg{width:120px;height:120px;transform:rotate(-90deg)}
+  .ring .pc{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+  .ring .pc b{font-family:var(--display);font-weight:800;font-size:30px;line-height:1}.ring .pc span{font-size:10px;color:var(--muted)}
+  .hero .t b{font-family:var(--display);font-size:18px;display:block;margin-bottom:6px}
+  .hero .t p{font-size:13.5px;color:var(--muted);margin:0 0 12px;line-height:1.5}
+  .hero .mini{display:flex;gap:18px;flex-wrap:wrap}
+  .hero .mini div{font-size:12px;color:var(--muted)}.hero .mini b{font-family:var(--display);font-size:17px;display:block}
+  .mini .ok b{color:var(--ok)}.mini .wn b{color:var(--warn)}.mini .bd b{color:var(--bad)}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 6px 22px rgba(20,18,30,.05)}
+  .ph{padding:13px 16px;border-bottom:1px solid var(--line);font-family:var(--display);font-size:15px}
+  .doc{display:flex;align-items:center;gap:13px;padding:13px 16px;border-bottom:1px solid var(--line)}
+  .doc:last-child{border:none}
+  .doc .ic{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;flex:0 0 auto}
+  .doc .ic svg{width:18px;height:18px;fill:none;stroke-width:1.8}
+  .ic.ok{background:color-mix(in srgb,var(--ok) 13%,transparent)}.ic.ok svg{stroke:var(--ok)}
+  .ic.warn{background:color-mix(in srgb,var(--warn) 16%,transparent)}.ic.warn svg{stroke:#B07D18}
+  .ic.bad{background:color-mix(in srgb,var(--bad) 13%,transparent)}.ic.bad svg{stroke:var(--bad)}
+  .doc .inf{flex:1;min-width:0}.doc .inf b{font-size:14px;display:block}.doc .inf span{font-size:11.5px;color:var(--muted)}
+  .doc .badge{font-size:10px;font-weight:700;padding:4px 9px;border-radius:999px;white-space:nowrap}
+  .b-ok{background:color-mix(in srgb,var(--ok) 14%,transparent);color:var(--ok)}
+  .b-warn{background:color-mix(in srgb,var(--warn) 18%,transparent);color:#9A6A12}
+  .b-bad{background:color-mix(in srgb,var(--bad) 14%,transparent);color:var(--bad)}
+  .doc .dl{font-size:12px;font-weight:700;color:var(--accent);padding:0 4px}
+  .credit{text-align:center;font-size:12px;color:var(--muted);margin-top:22px}
+  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;font-size:13px;font-weight:600;padding:11px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:.25s;z-index:50}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top">
+    <div class="logo"><div class="m" id="lm">N</div><div><b id="bl">Norma</b><span>Documentación legal · demo</span></div></div>
+    <div class="controls"><input class="ti" id="ib" value="Norma" maxlength="16"><div class="swatches" id="sw"></div></div>
+  </div>
+  <div class="lead"><h1>Tu carpeta legal siempre lista para fiscalización</h1>
+    <p>RIOHS, matriz de riesgos, planes y reglamentos — todos centralizados, con su vigencia controlada y alerta cuando algo caduca.</p></div>
+
+  <div class="hero">
+    <div class="ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" fill="none" stroke="var(--surface)" stroke-width="11"/><circle id="ringFill" cx="60" cy="60" r="52" fill="none" stroke="var(--accent)" stroke-width="11" stroke-linecap="round" stroke-dasharray="327" stroke-dashoffset="327" style="transition:stroke-dashoffset .8s"/></svg><div class="pc"><b id="pct">0%</b><span>cumplimiento</span></div></div>
+    <div class="t">
+      <b>Estado de cumplimiento documental</b>
+      <p>Vigencia de tus documentos obligatorios. Mantenlo en verde y nunca te pilla una fiscalización.</p>
+      <div class="mini"><div class="ok"><b id="mOk">0</b>vigentes</div><div class="wn"><b id="mWarn">0</b>por vencer</div><div class="bd"><b id="mBad">0</b>vencidos / faltan</div></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="ph">Documentos legales</div>
+    <div id="list"></div>
+  </div>
+  <div class="credit">Demo interactiva · solución re-skineable · documentos de ejemplo</div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  "use strict";
+  function $(s){return document.querySelector(s);}
+  var docs=[
+    {n:"RIOHS (Reglamento Interno)",sub:"Actualizado 03/2026",st:"ok"},
+    {n:"Matriz de identificación de riesgos",sub:"Vence en 12 días",st:"warn"},
+    {n:"Plan de emergencia",sub:"Vigente",st:"ok"},
+    {n:"Programa de capacitación anual",sub:"Vigente",st:"ok"},
+    {n:"Registro de entrega de EPP",sub:"Vencido hace 5 días",st:"bad"},
+    {n:"Procedimiento de trabajo seguro",sub:"Vigente",st:"ok"},
+    {n:"Acta comité paritario",sub:"Falta cargar última sesión",st:"bad"},
+    {n:"Política de seguridad y salud",sub:"Vigente",st:"ok"}
+  ];
+  function ico(s){return s==="ok"?'<path d="M5 13l4 4L19 7"/>':s==="warn"?'<path d="M10.3 3.9l-8 14A2 2 0 004 21h16a2 2 0 001.7-3l-8-14a2 2 0 00-3.4 0zM12 9v4M12 17h.01"/>':'<path d="M12 8v5M12 16h.01"/><circle cx="12" cy="12" r="9"/>';}
+  function badge(s){return s==="ok"?'<span class="badge b-ok">Vigente</span>':s==="warn"?'<span class="badge b-warn">Por vencer</span>':'<span class="badge b-bad">Acción</span>';}
+
+  function render(){
+    $("#list").innerHTML=docs.map(function(d){
+      return '<div class="doc"><div class="ic '+d.st+'"><svg viewBox="0 0 24 24">'+ico(d.st)+'</svg></div><div class="inf"><b>'+d.n+'</b><span>'+d.sub+'</span></div>'+badge(d.st)+'<button class="dl" data-d="'+encodeURIComponent(d.n)+'">↓</button></div>';
+    }).join("");
+    [].slice.call($("#list").querySelectorAll("[data-d]")).forEach(function(b){b.onclick=function(){
+      var name=decodeURIComponent(b.dataset.d);
+      var bl=new Blob(["DOCUMENTO LEGAL\n"+name+"\n(Documento de demostración)"],{type:"text/plain"}),u=URL.createObjectURL(bl),a=document.createElement("a");a.href=u;a.download=name.replace(/[^\wáéíóúñ ]/gi,"").replace(/\s+/g,"_")+".txt";document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u);
+      toast("Descargando "+name);
+    };});
+    var ok=docs.filter(function(d){return d.st==="ok";}).length,wn=docs.filter(function(d){return d.st==="warn";}).length,bd=docs.filter(function(d){return d.st==="bad";}).length;
+    $("#mOk").textContent=ok;$("#mWarn").textContent=wn;$("#mBad").textContent=bd;
+    var pct=Math.round(ok/docs.length*100);
+    $("#pct").textContent=pct+"%";
+    $("#ringFill").style.strokeDashoffset=327*(1-pct/100);
+    $("#ringFill").style.stroke=pct>=80?"var(--ok)":pct>=50?"var(--warn)":"var(--bad)";
+  }
+  function toast(m){var t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show");},1800);}
+
+  var SW=[{c:"#324A8C",c2:"#5A77C8"},{c:"#0D9488",c2:"#2DD4BF"},{c:"#7C3AED",c2:"#A855F7"},{c:"#C2410C",c2:"#EA7A3C"},{c:"#16161A",c2:"#444"}];
+  function ac(o){document.documentElement.style.setProperty("--accent",o.c);document.documentElement.style.setProperty("--accent-2",o.c2);
+    var h=o.c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
+    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#15171F":"#fff");
+    [].slice.call(document.querySelectorAll(".sw")).forEach(function(e){e.classList.toggle("active",e.dataset.c===o.c);});render();}
+  function bsw(){var s=$("#sw");s.innerHTML="";SW.forEach(function(o){var b=document.createElement("button");b.className="sw";b.style.background=o.c;b.dataset.c=o.c;b.onclick=function(){ac(o);};s.appendChild(b);});}
+  function ab(n){$("#bl").textContent=n||"Marca";$("#lm").textContent=(n||"M").charAt(0).toUpperCase();}
+  $("#ib").addEventListener("input",function(e){ab(e.target.value);});
+  bsw();ac(SW[0]);ab("Norma");render();
+})();
+</script>
+</body>
+</html>

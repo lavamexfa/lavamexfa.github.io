@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agente de Atención IA · Demo CO-DATA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --accent:#2E5BD6;
+    --accent-ink:#fff;
+    --ink:#14141A;
+    --ink-soft:#3A3942;
+    --muted:#6E6B76;
+    --line:#E7E4EC;
+    --surface:#FAFAFC;
+    --surface-2:#F1F0F6;
+    --card:#FFFFFF;
+    --bot:#F1F0F6;
+    --radius:16px;
+    --shadow:0 1px 2px rgba(20,18,30,.04),0 10px 30px rgba(20,18,30,.08);
+    --shadow-lg:0 30px 70px rgba(20,18,30,.22);
+    --display:"Bricolage Grotesque",system-ui,sans-serif;
+    --body:"Inter",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--body);color:var(--ink);background:
+    radial-gradient(120% 90% at 90% 0%,color-mix(in srgb,var(--accent) 9%,transparent),transparent 60%),
+    var(--surface);min-height:100vh;-webkit-font-smoothing:antialiased}
+  button{font-family:inherit;cursor:pointer;border:none;background:none}
+  textarea,input{font-family:inherit}
+  .shell{max-width:1180px;margin:0 auto;padding:30px 22px 50px}
+
+  /* topbar */
+  .top{display:flex;align-items:center;gap:14px;margin-bottom:26px;flex-wrap:wrap}
+  .top .logo{display:flex;align-items:center;gap:10px}
+  .top .logo .m{width:34px;height:34px;border-radius:9px;background:var(--ink);display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:800;font-size:16px}
+  .top .logo b{font-family:var(--display);font-size:18px;letter-spacing:-.02em}
+  .top .logo span{font-size:12px;color:var(--muted);display:block;margin-top:-2px}
+  .top .tag{margin-left:auto;font-size:12px;color:var(--muted);background:var(--card);border:1px solid var(--line);
+    padding:7px 13px;border-radius:999px;display:flex;align-items:center;gap:7px}
+  .top .tag .d{width:7px;height:7px;border-radius:999px;background:#2F9E5B;box-shadow:0 0 0 3px rgba(47,158,91,.18)}
+
+  .lead{margin:0 0 24px}
+  .lead h1{font-family:var(--display);font-weight:800;font-size:clamp(26px,4vw,40px);letter-spacing:-.03em;margin:0 0 8px;line-height:1.05}
+  .lead h1 em{font-style:normal;color:var(--accent);transition:color .35s}
+  .lead p{font-size:15.5px;color:var(--ink-soft);max-width:60ch;margin:0}
+
+  .layout{display:grid;grid-template-columns:380px 1fr;gap:22px;align-items:start}
+
+  /* config panel */
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+  .panel-head{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+  .panel-head svg{width:18px;height:18px;stroke:var(--accent);fill:none;stroke-width:1.7}
+  .panel-head b{font-family:var(--display);font-size:15px}
+  .panel-body{padding:18px}
+  .fld{margin-bottom:16px}
+  .fld label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:7px}
+  .fld input[type=text]{width:100%;height:40px;border:1px solid var(--line);border-radius:10px;padding:0 12px;font-size:14px;background:var(--surface);outline:none}
+  .fld input[type=text]:focus,.fld textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 14%,transparent)}
+  .fld textarea{width:100%;min-height:168px;border:1px solid var(--line);border-radius:10px;padding:11px 12px;font-size:13px;line-height:1.5;background:var(--surface);outline:none;resize:vertical;color:var(--ink-soft)}
+  .swatches{display:flex;gap:8px}
+  .sw{width:28px;height:28px;border-radius:999px;border:2px solid transparent;transition:.15s}
+  .sw.active{border-color:var(--ink);transform:scale(1.08)}
+  .presets{display:flex;flex-direction:column;gap:8px}
+  .preset{border:1px solid var(--line);border-radius:11px;padding:11px 12px;text-align:left;display:flex;align-items:center;gap:11px;transition:.15s;background:var(--surface)}
+  .preset:hover{border-color:var(--ink);transform:translateY(-1px)}
+  .preset .pc{width:26px;height:26px;border-radius:7px;flex:0 0 auto}
+  .preset b{font-size:13px;display:block;font-family:var(--display)}
+  .preset span{font-size:11px;color:var(--muted)}
+  .apply-note{font-size:11.5px;color:var(--muted);margin-top:4px;display:flex;gap:6px;align-items:flex-start;line-height:1.4}
+  .apply-note svg{width:13px;height:13px;stroke:var(--accent);flex:0 0 auto;margin-top:2px;fill:none;stroke-width:2}
+
+  /* chat */
+  .chat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);
+    display:flex;flex-direction:column;height:640px;overflow:hidden}
+  .chat-head{padding:15px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;
+    background:linear-gradient(180deg,var(--surface-2),var(--card))}
+  .chat-head .av{width:40px;height:40px;border-radius:999px;background:var(--accent);display:grid;place-items:center;
+    color:var(--accent-ink);font-family:var(--display);font-weight:800;font-size:17px;transition:background .35s;flex:0 0 auto}
+  .chat-head .who b{font-family:var(--display);font-size:15px;display:block;line-height:1.1}
+  .chat-head .who span{font-size:12px;color:#2F9E5B;display:flex;align-items:center;gap:6px;margin-top:2px}
+  .chat-head .who span .d{width:6px;height:6px;border-radius:999px;background:#2F9E5B}
+  .chat-head .brain{margin-left:auto;font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px;text-align:right}
+  .chat-head .brain svg{width:15px;height:15px;stroke:var(--accent);fill:none;stroke-width:1.6}
+
+  .stream{flex:1;overflow-y:auto;padding:20px 18px;display:flex;flex-direction:column;gap:14px}
+  .msg{max-width:80%;font-size:14px;line-height:1.5;padding:11px 14px;border-radius:15px;white-space:pre-wrap;word-wrap:break-word}
+  .msg.bot{background:var(--bot);color:var(--ink);border-bottom-left-radius:5px;align-self:flex-start}
+  .msg.user{background:var(--accent);color:var(--accent-ink);border-bottom-right-radius:5px;align-self:flex-end;transition:background .35s}
+  .typing{display:flex;gap:4px;padding:14px;background:var(--bot);border-radius:15px;border-bottom-left-radius:5px;align-self:flex-start;width:fit-content}
+  .typing i{width:7px;height:7px;border-radius:999px;background:var(--muted);opacity:.5;animation:bop 1.2s infinite}
+  .typing i:nth-child(2){animation-delay:.18s}.typing i:nth-child(3){animation-delay:.36s}
+  @keyframes bop{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-5px);opacity:1}}
+  @media (prefers-reduced-motion:reduce){.typing i{animation:none}}
+
+  .chips{display:flex;gap:8px;flex-wrap:wrap;padding:0 18px 12px}
+  .chip{font-size:12.5px;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:8px 13px;
+    color:var(--ink-soft);transition:.15s}
+  .chip:hover{border-color:var(--accent);color:var(--accent)}
+
+  .composer{border-top:1px solid var(--line);padding:12px 14px;display:flex;gap:10px;align-items:flex-end;background:var(--card)}
+  .composer textarea{flex:1;border:1px solid var(--line);border-radius:12px;padding:11px 13px;font-size:14px;
+    resize:none;max-height:120px;outline:none;background:var(--surface);line-height:1.4}
+  .composer textarea:focus{border-color:var(--accent)}
+  .send{width:44px;height:44px;border-radius:12px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;
+    flex:0 0 auto;transition:.15s,background .35s}
+  .send:hover{filter:brightness(1.05)}
+  .send:disabled{opacity:.4;cursor:not-allowed}
+  .send svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2}
+
+  .foot-credit{text-align:center;font-size:12px;color:var(--muted);margin-top:24px}
+  .foot-credit b{color:var(--ink)}
+
+  @media (max-width:900px){
+    .layout{grid-template-columns:1fr}
+    .chat{height:70vh;min-height:520px}
+    .top .tag{margin-left:0}
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <div class="top">
+    <div class="logo">
+      <div class="m">C</div>
+      <div><b>CO-DATA</b><span>Inteligencia digital y automatización</span></div>
+    </div>
+    <div class="tag"><span class="d"></span> Demo · IA en vivo</div>
+  </div>
+
+  <div class="lead">
+    <h1>Tu cliente atendido 24/7 por <em id="leadBrand">Aurora</em></h1>
+    <p>Un agente que responde <b>solo</b> con la información del negocio. No inventa precios ni datos: si no lo sabe, lo dice y deriva a contacto. Edita la base de conocimiento abajo y pruébalo al instante.</p>
+  </div>
+
+  <div class="layout">
+
+    <!-- config -->
+    <div class="panel">
+      <div class="panel-head">
+        <svg viewBox="0 0 24 24"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="3.4"/></svg>
+        <b>Configura el agente</b>
+      </div>
+      <div class="panel-body">
+        <div class="fld">
+          <label>Nombre del negocio</label>
+          <input type="text" id="inpBrand" value="Aurora" maxlength="24">
+        </div>
+        <div class="fld">
+          <label>Color de marca</label>
+          <div class="swatches" id="swatches"></div>
+        </div>
+        <div class="fld">
+          <label>Base de conocimiento (lo único que sabe)</label>
+          <textarea id="inpKnow"></textarea>
+          <div class="apply-note">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7"/></svg>
+            El agente responde solo con esto. Cámbialo y la próxima respuesta ya usa la info nueva.
+          </div>
+        </div>
+        <div class="fld" style="margin-bottom:0">
+          <label>Cargar ejemplo de rubro</label>
+          <div class="presets" id="presets"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- chat -->
+    <div class="chat">
+      <div class="chat-head">
+        <div class="av" id="chatAv">A</div>
+        <div class="who">
+          <b id="chatName">Asistente Aurora</b>
+          <span><span class="d"></span> En línea · responde al instante</span>
+        </div>
+        <div class="brain">
+          <svg viewBox="0 0 24 24"><path d="M9 3a3 3 0 00-3 3 3 3 0 00-2 5 3 3 0 001 5 3 3 0 005 1.5V3z"/><path d="M15 3a3 3 0 013 3 3 3 0 012 5 3 3 0 01-1 5 3 3 0 01-5 1.5V3z"/></svg>
+          Conocimiento<br>cerrado
+        </div>
+      </div>
+      <div class="stream" id="stream"></div>
+      <div class="chips" id="chips"></div>
+      <div class="composer">
+        <textarea id="input" rows="1" placeholder="Escribe tu pregunta…"></textarea>
+        <button class="send" id="send" aria-label="Enviar"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="foot-credit">Motor de atención desarrollado por <b>CO-DATA</b> · Esta demo usa IA real</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  function $(s){return document.querySelector(s);}
+
+  var brand="Aurora";
+  var messages=[]; // {role, content}
+  var busy=false;
+
+  var swColors=[
+    {c:"#2E5BD6",n:"Cobalto"},{c:"#B7791F",n:"Oro"},{c:"#3E7C59",n:"Bosque"},
+    {c:"#C0392B",n:"Carmesí"},{c:"#6D4AAF",n:"Violeta"},{c:"#14141A",n:"Grafito"}
+  ];
+
+  var defaultKnow=
+"NEGOCIO: Aurora.cl — tienda premium de productos de alta calidad con despacho a todo Chile.\n"+
+"HORARIO ATENCIÓN: Lunes a viernes de 9:00 a 18:00 hrs.\n"+
+"DESPACHO: Gratis en compras sobre $40.000. A todo Chile vía Chilexpress, Starken y Blue Express. Llega en 24 a 72 hrs hábiles.\n"+
+"GARANTÍA: 2 años en todos los productos. Garantía de satisfacción: 10 días para cambio o devolución.\n"+
+"PAGOS: Webpay con 3 a 6 cuotas precio contado. También transferencia.\n"+
+"PRODUCTOS: 3 líneas. Pro (alto rendimiento, $160.000 a $500.000), Esencial (equilibrio calidad-precio, $65.000 a $120.000) y Compacta (portátil y regalos, $35.000 a $95.000).\n"+
+"REGALOS EMPRESA: Hacemos despacho corporativo y personalización para regalos sobre 10 unidades.\n"+
+"CONTACTO: ventas@aurora.cl · +56 2 0000 0000.\n"+
+"DEVOLUCIONES: El producto debe estar sin uso y con su embalaje. El reembolso se hace al medio de pago original.";
+
+  var presets=[
+    {brand:"Aurora", accent:"#2E5BD6", chips:["¿Tienen despacho gratis?","¿Cuánto demora el envío?","¿Qué garantía tienen?","Quiero un regalo para empresa"], know:defaultKnow},
+    {brand:"Ferrolux", accent:"#C0392B",
+     chips:["¿Venden al por mayor?","¿Tienen retiro en tienda?","¿Hacen factura?","¿Manejan EPP?"],
+     know:
+"NEGOCIO: Ferrolux — ferretería y equipamiento profesional para obra, taller y construcción.\n"+
+"HORARIO: Lunes a viernes 8:30 a 19:00, sábado 9:00 a 14:00.\n"+
+"RETIRO: Retiro en tienda gratis el mismo día (Av. Industrial 1200, Santiago). Despacho a RM en 24 hrs.\n"+
+"MAYORISTA: Sí, precios por volumen sobre 20 unidades o compras sobre $300.000. Pide cotización a ventas@ferrolux.cl.\n"+
+"FACTURA: Emitimos boleta y factura. Para factura necesitamos razón social, RUT y giro.\n"+
+"EPP: Manejamos línea completa de seguridad: cascos, arnés, guantes, lentes, calzado de seguridad.\n"+
+"GARANTÍA: Herramientas con garantía de fábrica de 1 año. Despacho a regiones por pagar.\n"+
+"PAGOS: Webpay, transferencia y crédito directo a empresas con convenio."},
+    {brand:"Cumbre", accent:"#3E7C59",
+     chips:["¿Qué llevo para trekking?","¿Tienen tallas?","¿Hacen cambios?","¿Despachan a regiones?"],
+     know:
+"NEGOCIO: Cumbre — tienda outdoor de equipo de trekking, camping y montaña de alto rendimiento.\n"+
+"HORARIO: Lunes a domingo 10:00 a 20:00 en tienda Mall Plaza; online 24/7.\n"+
+"DESPACHO: Gratis sobre $50.000. A todo Chile en 2 a 5 días hábiles. Despacho express en RM (24 hrs) con costo adicional.\n"+
+"TALLAS: Ropa de XS a XXL. Calzado del 36 al 46. Tenemos guía de tallas en cada producto.\n"+
+"CAMBIOS: 30 días para cambio de talla sin costo dentro de RM. Producto sin uso con etiqueta.\n"+
+"ASESORÍA: Asesoramos armado de equipo según destino (cordillera, sur de Chile, alta montaña).\n"+
+"GARANTÍA: Productos técnicos con garantía del fabricante. Arriendo de equipo no disponible por ahora.\n"+
+"CONTACTO: hola@cumbre.cl · +56 9 0000 0000."}
+  ];
+
+  function applyAccent(c){
+    document.documentElement.style.setProperty("--accent",c);
+    var h=c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
+    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#14141A":"#fff");
+    [].slice.call(document.querySelectorAll(".sw")).forEach(function(el){el.classList.toggle("active",el.dataset.c===c);});
+  }
+  function applyBrand(name){
+    brand=name||"el negocio";
+    $("#leadBrand").textContent=brand;
+    $("#chatName").textContent="Asistente "+brand;
+    $("#chatAv").textContent=brand.charAt(0).toUpperCase();
+  }
+
+  function buildSwatches(){
+    var s=$("#swatches");s.innerHTML="";
+    swColors.forEach(function(o){
+      var b=document.createElement("button");b.className="sw";b.style.background=o.c;b.dataset.c=o.c;b.title=o.n;
+      b.onclick=function(){applyAccent(o.c);};s.appendChild(b);
+    });
+  }
+  function buildPresets(){
+    var p=$("#presets");p.innerHTML="";
+    presets.forEach(function(pr){
+      var b=document.createElement("button");b.className="preset";
+      b.innerHTML='<div class="pc" style="background:'+pr.accent+'"></div><div><b>'+pr.brand+'</b><span>Cargar negocio de ejemplo</span></div>';
+      b.onclick=function(){loadPreset(pr);};p.appendChild(b);
+    });
+  }
+  function loadPreset(pr){
+    $("#inpBrand").value=pr.brand;applyBrand(pr.brand);
+    applyAccent(pr.accent);
+    $("#inpKnow").value=pr.know;
+    resetChat(pr.chips);
+  }
+
+  function buildChips(list){
+    var c=$("#chips");c.innerHTML="";
+    list.forEach(function(q){
+      var b=document.createElement("button");b.className="chip";b.textContent=q;
+      b.onclick=function(){ if(!busy){ send(q); } };
+      c.appendChild(b);
+    });
+  }
+
+  function addMsg(role,text){
+    var d=document.createElement("div");d.className="msg "+(role==="user"?"user":"bot");d.textContent=text;
+    $("#stream").appendChild(d);scrollDown();return d;
+  }
+  function scrollDown(){var s=$("#stream");s.scrollTop=s.scrollHeight;}
+
+  function resetChat(chips){
+    messages=[];$("#stream").innerHTML="";
+    addMsg("bot","¡Hola! 👋 Soy el asistente de "+brand+". Puedo ayudarte con dudas sobre despachos, garantía, productos y más. ¿En qué te ayudo?");
+    buildChips(chips || presets[0].chips);
+  }
+
+  function showTyping(){
+    var t=document.createElement("div");t.className="typing";t.id="typing";
+    t.innerHTML="<i></i><i></i><i></i>";$("#stream").appendChild(t);scrollDown();
+  }
+  function hideTyping(){var t=$("#typing");if(t)t.remove();}
+
+  function systemPrompt(){
+    var know=$("#inpKnow").value.trim();
+    return "Eres el asistente virtual de atención al cliente del negocio \""+brand+"\". "+
+    "Respondes preguntas de clientes de forma cercana, clara y breve, en español de Chile, con tono amable y profesional (puedes usar uno o dos emojis con moderación).\n\n"+
+    "REGLA MÁS IMPORTANTE: responde ÚNICAMENTE con la información de la BASE DE CONOCIMIENTO de abajo. "+
+    "Si la respuesta no está en la base de conocimiento, NO la inventes: di honestamente que no manejas ese dato y ofrece derivar al contacto del negocio. "+
+    "Nunca inventes precios, plazos, stock ni políticas que no estén escritas. No hables de otros temas ajenos al negocio.\n\n"+
+    "BASE DE CONOCIMIENTO:\n"+ (know || "(sin información cargada)");
+  }
+
+  function send(text){
+    if(busy)return;
+    var msg=(text!==undefined)?text:$("#input").value.trim();
+    if(!msg)return;
+    $("#input").value="";autoGrow();
+    addMsg("user",msg);
+    messages.push({role:"user",content:msg});
+    busy=true;$("#send").disabled=true;
+    showTyping();
+
+    fetch("https://api.anthropic.com/v1/messages",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        model:"claude-sonnet-4-6",
+        max_tokens:1000,
+        system:systemPrompt(),
+        messages:messages
+      })
+    }).then(function(r){return r.json();}).then(function(data){
+      hideTyping();
+      var txt="";
+      if(data && data.content){
+        txt=data.content.filter(function(i){return i.type==="text";}).map(function(i){return i.text;}).join("\n").trim();
+      }
+      if(!txt) txt="Disculpa, no pude generar una respuesta en este momento. ¿Puedes reformular tu pregunta?";
+      addMsg("bot",txt);
+      messages.push({role:"assistant",content:txt});
+    }).catch(function(){
+      hideTyping();
+      addMsg("bot","No pude conectarme en este momento ⚠️. Reintenta en unos segundos. (En un sitio publicado, esto corre con la conexión segura de tu negocio.)");
+    }).then(function(){
+      busy=false;$("#send").disabled=false;$("#input").focus();
+    });
+  }
+
+  function autoGrow(){
+    var t=$("#input");t.style.height="auto";t.style.height=Math.min(t.scrollHeight,120)+"px";
+  }
+
+  // events
+  $("#send").onclick=function(){send();};
+  $("#input").addEventListener("input",autoGrow);
+  $("#input").addEventListener("keydown",function(e){
+    if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send();}
+  });
+  $("#inpBrand").addEventListener("input",function(e){applyBrand(e.target.value);});
+
+  // init
+  buildSwatches();
+  buildPresets();
+  applyAccent("#2E5BD6");
+  $("#inpKnow").value=defaultKnow;
+  applyBrand("Aurora");
+  resetChat(presets[0].chips);
+})();
+</script>
+</body>
+</html>

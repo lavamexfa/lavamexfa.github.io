@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRM / Pipeline de Ventas · Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --accent:#3056D3;--accent-ink:#fff;--ok:#2E9E66;--warn:#E0A53B;
+    --ink:#14161E;--muted:#747A8A;--line:#E6E8F0;--surface:#F3F5FA;--card:#fff;
+    --display:"Bricolage Grotesque",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--body);color:var(--ink);background:var(--surface);-webkit-font-smoothing:antialiased}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  input{font-family:inherit}
+  .shell{max-width:1140px;margin:0 auto;padding:24px 20px 50px}
+  .top{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+  .logo{display:flex;align-items:center;gap:11px}
+  .logo .m{width:36px;height:36px;border-radius:10px;background:var(--accent);display:grid;place-items:center;color:var(--accent-ink);font-family:var(--display);font-weight:800;font-size:17px;transition:background .35s}
+  .logo b{font-family:var(--display);font-size:19px;display:block;line-height:1}.logo span{font-size:11.5px;color:var(--muted)}
+  .controls{margin-left:auto;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .ti{height:36px;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:0 11px;font-size:13px;width:120px;outline:none}
+  .swatches{display:flex;gap:6px}.sw{width:22px;height:22px;border-radius:999px;border:2px solid transparent}.sw.active{border-color:var(--ink);transform:scale(1.1)}
+  .lead{margin:0 0 16px}.lead h1{font-family:var(--display);font-weight:800;font-size:clamp(22px,3vw,30px);letter-spacing:-.02em;margin:0 0 4px}
+  .lead p{font-size:14px;color:var(--muted);margin:0;max-width:60ch}
+  .kpis{display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 16px;flex:1;min-width:130px}
+  .kpi b{font-family:var(--display);font-size:21px;display:block;line-height:1}.kpi span{font-size:11.5px;color:var(--muted)}
+  .board{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;align-items:start}
+  @media(max-width:980px){.board{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:640px){.board{grid-template-columns:1fr 1fr}}
+  @media(max-width:460px){.board{grid-template-columns:1fr}}
+  .col{background:color-mix(in srgb,var(--accent) 4%,var(--card));border:1px solid var(--line);border-radius:14px;padding:10px;min-height:120px;transition:.15s}
+  .col.drag{background:color-mix(in srgb,var(--accent) 11%,transparent);border-color:var(--accent)}
+  .colh{display:flex;align-items:center;justify-content:space-between;padding:4px 6px 10px}
+  .colh b{font-size:12.5px;font-family:var(--display)}.colh .ct{font-size:11px;font-family:var(--mono);color:var(--muted);background:var(--surface);padding:2px 7px;border-radius:999px}
+  .colh .dot{width:8px;height:8px;border-radius:999px;display:inline-block;margin-right:5px}
+  .deal{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:11px;margin-bottom:9px;cursor:grab;transition:.12s}
+  .deal:hover{box-shadow:0 8px 20px rgba(20,18,30,.1);border-color:var(--accent)}
+  .deal.dragging{opacity:.4}
+  .deal b{font-size:13px;display:block;line-height:1.2}
+  .deal .v{font-family:var(--mono);font-size:12px;color:var(--accent);font-weight:700;margin-top:5px}
+  .deal .foot{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+  .deal .who{font-size:10.5px;color:var(--muted)}
+  .deal .adv{font-size:11px;font-weight:700;color:var(--accent);border:1px solid var(--line);border-radius:7px;padding:3px 7px}
+  .deal .adv:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .credit{text-align:center;font-size:12px;color:var(--muted);margin-top:22px}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top">
+    <div class="logo"><div class="m" id="lm">E</div><div><b id="bl">Embudo</b><span>CRM / pipeline · demo</span></div></div>
+    <div class="controls"><input class="ti" id="ib" value="Embudo" maxlength="16"><div class="swatches" id="sw"></div></div>
+  </div>
+  <div class="lead"><h1>Ningún cliente se te escapa</h1>
+    <p>Arrastra cada oportunidad por su etapa. Ves el valor de tu pipeline y qué mover hoy, sin cuadernos ni planillas.</p></div>
+
+  <div class="kpis">
+    <div class="kpi"><b id="kTotal">$0</b><span>pipeline total</span></div>
+    <div class="kpi"><b id="kOpen">0</b><span>oportunidades abiertas</span></div>
+    <div class="kpi"><b id="kWon">$0</b><span>ganado</span></div>
+    <div class="kpi"><b id="kRate">0%</b><span>tasa de cierre</span></div>
+  </div>
+
+  <div class="board" id="board"></div>
+  <div class="credit">Demo interactiva · solución re-skineable · oportunidades de ejemplo</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  function $(s){return document.querySelector(s);}
+  function clp(n){return "$"+Math.round(n).toLocaleString("es-CL");}
+  var stages=[["prospecto","Prospecto","#94A3B8"],["contactado","Contactado","#3056D3"],["reunion","Reunión","#7C3AED"],["propuesta","Propuesta","#E0A53B"],["cerrado","Cerrado","#2E9E66"]];
+  var deals=[
+    {n:"Constructora del Valle",v:1200000,who:"M. Pérez",s:0},
+    {n:"Servicios Andinos",v:650000,who:"J. Soto",s:1},
+    {n:"Logística Centro",v:480000,who:"C. Díaz",s:1},
+    {n:"Minera Las Cumbres",v:2400000,who:"R. Fuentes",s:2},
+    {n:"Taller Norte",v:320000,who:"A. Rojas",s:0},
+    {n:"Transportes Lira",v:890000,who:"P. Vera",s:3},
+    {n:"Comercial Surtido",v:540000,who:"L. Mena",s:2},
+    {n:"Ingeniería Pacífico",v:1750000,who:"S. Lagos",s:3},
+    {n:"Almacén El Roble",v:210000,who:"D. Cruz",s:4},
+    {n:"Áridos del Maipo",v:980000,who:"F. Reyes",s:4}
+  ];
+
+  function render(){
+    var b=$("#board");b.innerHTML="";
+    stages.forEach(function(st,si){
+      var col=document.createElement("div");col.className="col";col.dataset.s=si;
+      var inCol=deals.filter(function(d){return d.s===si;});
+      col.innerHTML='<div class="colh"><b><span class="dot" style="background:'+st[2]+'"></span>'+st[1]+'</b><span class="ct">'+inCol.length+'</span></div>';
+      inCol.forEach(function(d){
+        var di=deals.indexOf(d);
+        var el=document.createElement("div");el.className="deal";el.draggable=true;el.dataset.i=di;
+        el.innerHTML='<b>'+d.n+'</b><div class="v">'+clp(d.v)+'</div><div class="foot"><span class="who">'+d.who+'</span>'+(si<4?'<button class="adv" data-adv="'+di+'">Avanzar ›</button>':'<span class="who" style="color:var(--ok);font-weight:700">✓ Ganado</span>')+'</div>';
+        col.appendChild(el);
+      });
+      b.appendChild(col);
+    });
+    wire();stats();
+  }
+  function stats(){
+    var open=deals.filter(function(d){return d.s<4;});
+    var won=deals.filter(function(d){return d.s===4;});
+    $("#kTotal").textContent=clp(open.reduce(function(a,d){return a+d.v;},0));
+    $("#kOpen").textContent=open.length;
+    $("#kWon").textContent=clp(won.reduce(function(a,d){return a+d.v;},0));
+    $("#kRate").textContent=Math.round(won.length/deals.length*100)+"%";
+  }
+  function wire(){
+    var dragI=null;
+    [].slice.call(document.querySelectorAll(".deal")).forEach(function(el){
+      el.addEventListener("dragstart",function(){dragI=+el.dataset.i;el.classList.add("dragging");});
+      el.addEventListener("dragend",function(){el.classList.remove("dragging");});
+    });
+    [].slice.call(document.querySelectorAll(".col")).forEach(function(col){
+      col.addEventListener("dragover",function(e){e.preventDefault();col.classList.add("drag");});
+      col.addEventListener("dragleave",function(){col.classList.remove("drag");});
+      col.addEventListener("drop",function(e){e.preventDefault();col.classList.remove("drag");if(dragI!==null){deals[dragI].s=+col.dataset.s;render();}});
+    });
+    [].slice.call(document.querySelectorAll("[data-adv]")).forEach(function(b){b.onclick=function(e){e.stopPropagation();var i=+b.dataset.adv;if(deals[i].s<4){deals[i].s++;render();}};});
+  }
+
+  var SW=[{c:"#3056D3"},{c:"#0D9488"},{c:"#7C3AED"},{c:"#C2410C"},{c:"#16161A"}];
+  function ac(o){document.documentElement.style.setProperty("--accent",o.c);var h=o.c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
+    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#14161E":"#fff");
+    [].slice.call(document.querySelectorAll(".sw")).forEach(function(e){e.classList.toggle("active",e.dataset.c===o.c);});}
+  function bsw(){var s=$("#sw");s.innerHTML="";SW.forEach(function(o){var b=document.createElement("button");b.className="sw";b.style.background=o.c;b.dataset.c=o.c;b.onclick=function(){ac(o);};s.appendChild(b);});}
+  function ab(n){$("#bl").textContent=n||"Marca";$("#lm").textContent=(n||"M").charAt(0).toUpperCase();}
+  $("#ib").addEventListener("input",function(e){ab(e.target.value);});
+  bsw();ac(SW[0]);ab("Embudo");render();
+})();
+</script>
+</body>
+</html>

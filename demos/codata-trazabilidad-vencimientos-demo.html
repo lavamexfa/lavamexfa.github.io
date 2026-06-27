@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trazabilidad y Vencimientos · Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --accent:#0E7C6B;--accent-2:#1CB89C;--accent-ink:#fff;--ok:#2E9E66;--warn:#E0A53B;--bad:#E0533D;
+    --ink:#13191A;--muted:#6E7A78;--line:#E4ECEA;--surface:#F2F7F5;--card:#fff;
+    --display:"Bricolage Grotesque",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--body);color:var(--ink);background:var(--surface);-webkit-font-smoothing:antialiased}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  input{font-family:inherit}
+  .shell{max-width:1000px;margin:0 auto;padding:24px 20px 50px}
+  .top{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+  .logo{display:flex;align-items:center;gap:11px}
+  .logo .m{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:800;font-size:18px}
+  .logo b{font-family:var(--display);font-size:20px;display:block;line-height:1}.logo span{font-size:11.5px;color:var(--muted)}
+  .controls{margin-left:auto;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .ti{height:36px;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:0 11px;font-size:13px;width:120px;outline:none}
+  .swatches{display:flex;gap:6px}.sw{width:22px;height:22px;border-radius:999px;border:2px solid transparent}.sw.active{border-color:var(--ink);transform:scale(1.1)}
+  .lead{margin:0 0 16px}.lead h1{font-family:var(--display);font-weight:800;font-size:clamp(22px,3vw,30px);letter-spacing:-.02em;margin:0 0 4px}
+  .lead p{font-size:14px;color:var(--muted);margin:0;max-width:58ch}
+  .alert{display:none;align-items:center;gap:11px;background:color-mix(in srgb,var(--warn) 12%,transparent);border:1px solid color-mix(in srgb,var(--warn) 34%,transparent);border-radius:13px;padding:12px 16px;margin-bottom:16px;font-size:13.5px;color:#9A6A12;font-weight:600}
+  .alert.on{display:flex}
+  .alert svg{width:20px;height:20px;stroke:#B07D18;fill:none;stroke-width:2;flex:0 0 auto}
+  .kpis{display:flex;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 16px;flex:1;min-width:110px}
+  .kpi b{font-family:var(--display);font-size:21px;display:block;line-height:1}.kpi span{font-size:11px;color:var(--muted)}
+  .kpi.ok b{color:var(--ok)}.kpi.warn b{color:var(--warn)}.kpi.bad b{color:var(--bad)}
+  .filters{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+  .chip{height:34px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-size:13px;font-weight:600;color:var(--muted)}
+  .chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 6px 22px rgba(20,18,30,.05)}
+  .row{display:flex;align-items:center;gap:13px;padding:13px 16px;border-bottom:1px solid var(--line)}
+  .row:last-child{border:none}
+  .row .qr{width:40px;height:40px;border:1px solid var(--line);border-radius:9px;background:#fff;display:grid;place-items:center;flex:0 0 auto;cursor:pointer}
+  .row .qr svg{width:32px;height:32px}
+  .row .inf{flex:1;min-width:0}.row .inf b{font-size:14px;display:block}.row .inf span{font-size:11.5px;color:var(--muted)}
+  .count{text-align:right;min-width:96px}
+  .count .n{font-family:var(--mono);font-weight:700;font-size:16px;line-height:1}
+  .count .badge{font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:999px;display:inline-block;margin-top:3px}
+  .b-ok{background:color-mix(in srgb,var(--ok) 14%,transparent);color:var(--ok)}
+  .b-warn{background:color-mix(in srgb,var(--warn) 18%,transparent);color:#9A6A12}
+  .b-bad{background:color-mix(in srgb,var(--bad) 14%,transparent);color:var(--bad)}
+  .ov{position:fixed;inset:0;background:rgba(18,26,24,.5);display:none;place-items:center;z-index:50;padding:20px}.ov.on{display:grid}
+  .qrcard{background:var(--card);border-radius:18px;padding:24px;text-align:center;max-width:300px}
+  .qrcard .big{width:150px;height:150px;background:#fff;border:1px solid var(--line);border-radius:14px;display:grid;place-items:center;margin:0 auto 12px}
+  .qrcard .big svg{width:124px;height:124px}
+  .qrcard b{font-size:15px}.qrcard .id{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:3px}
+  .qrcard .tl{text-align:left;margin-top:14px;font-size:12.5px;color:var(--muted)}
+  .qrcard .tl div{padding:5px 0;border-top:1px dashed var(--line)}
+  .qrcard button{margin-top:14px;height:42px;width:100%;border-radius:11px;background:var(--accent);color:#fff;font-weight:700}
+  .credit{text-align:center;font-size:12px;color:var(--muted);margin-top:22px}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top">
+    <div class="logo"><div class="m" id="lm">V</div><div><b id="bl">Vigía</b><span>Trazabilidad y vencimientos · demo</span></div></div>
+    <div class="controls"><input class="ti" id="ib" value="Vigía" maxlength="16"><div class="swatches" id="sw"></div></div>
+  </div>
+  <div class="lead"><h1>Cero sorpresas por algo vencido</h1>
+    <p>Cada certificado y equipo con su cuenta regresiva. Te avisa antes de que caduque y deja la trazabilidad de cada uno con su QR.</p></div>
+
+  <div class="alert" id="alert"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg><span id="alertTxt"></span></div>
+
+  <div class="kpis">
+    <div class="kpi"><b id="kTot">0</b><span>elementos</span></div>
+    <div class="kpi ok"><b id="kOk">0</b><span>vigentes</span></div>
+    <div class="kpi warn"><b id="kWarn">0</b><span>por vencer</span></div>
+    <div class="kpi bad"><b id="kBad">0</b><span>vencidos</span></div>
+  </div>
+
+  <div class="filters" id="filters"></div>
+  <div class="panel" id="list"></div>
+  <div class="credit">Demo interactiva · solución re-skineable · semilla de SaaS de recertificación · datos de ejemplo</div>
+</div>
+
+<div class="ov" id="ov"><div class="qrcard" id="qrcard"></div></div>
+
+<script>
+(function(){
+  "use strict";
+  function $(s){return document.querySelector(s);}
+  var items=[
+    {n:"Certificado arnés #A-204",cat:"EPP",days:6,code:"TRZ-204"},
+    {n:"Calibración esmeril #E-07",cat:"Equipo",days:42,code:"TRZ-E07"},
+    {n:"Examen ocupacional · D. Morales",cat:"Personal",days:-3,code:"TRZ-DM1"},
+    {n:"Extintor pasillo 2",cat:"Equipo",days:18,code:"TRZ-EX2"},
+    {n:"Certificación línea de vida",cat:"Equipo",days:120,code:"TRZ-LV9"},
+    {n:"Curso altura · C. Reyes",cat:"Personal",days:2,code:"TRZ-CR3"},
+    {n:"Inspección eslingas",cat:"EPP",days:-12,code:"TRZ-ESL"}
+  ];
+  var filter="Todos";
+  function status(d){if(d<0)return["bad","Vencido"];if(d<=15)return["warn","Por vencer"];return["ok","Vigente"];}
+
+  function qrSvg(code){var c="",g=10,s=12,seed=code.length*41+71;for(var y=0;y<g;y++)for(var x=0;x<g;x++){seed=(seed*1103515245+12345)&0x7fffffff;if((seed>>6)%2===0)c+='<rect x="'+(x*s)+'" y="'+(y*s)+'" width="'+s+'" height="'+s+'" fill="#13191A"/>';}
+    function cor(a,b){return '<rect x="'+a+'" y="'+b+'" width="33" height="33" fill="#13191A"/><rect x="'+(a+5)+'" y="'+(b+5)+'" width="23" height="23" fill="#fff"/><rect x="'+(a+11)+'" y="'+(b+11)+'" width="11" height="11" fill="#13191A"/>';}
+    return '<svg viewBox="0 0 121 121">'+c+cor(0,0)+cor(88,0)+cor(0,88)+'</svg>';}
+
+  function chips(){
+    var cats=["Todos","EPP","Equipo","Personal"];
+    $("#filters").innerHTML="";cats.forEach(function(c){var b=document.createElement("button");b.className="chip"+(filter===c?" on":"");b.textContent=c;b.onclick=function(){filter=c;chips();render();};$("#filters").appendChild(b);});
+  }
+  function render(){
+    var arr=items.filter(function(it){return filter==="Todos"||it.cat===filter;}).slice().sort(function(a,b){return a.days-b.days;});
+    $("#list").innerHTML=arr.map(function(it){var i=items.indexOf(it);var st=status(it.days);
+      var txt=it.days<0?Math.abs(it.days)+" d vencido":it.days+" días";
+      return '<div class="row"><div class="qr" data-qr="'+i+'">'+qrSvg(it.code)+'</div><div class="inf"><b>'+it.n+'</b><span>'+it.cat+' · '+it.code+'</span></div><div class="count"><div class="n" style="color:var(--'+(st[0]==="ok"?"ink":st[0]==="warn"?"warn":"bad")+')">'+txt+'</div><span class="badge b-'+st[0]+'">'+st[1]+'</span></div></div>';
+    }).join("");
+    [].slice.call($("#list").querySelectorAll("[data-qr]")).forEach(function(b){b.onclick=function(){openQR(items[+b.dataset.qr]);};});
+    var ok=items.filter(function(i){return i.days>15;}).length,wn=items.filter(function(i){return i.days>=0&&i.days<=15;}).length,bd=items.filter(function(i){return i.days<0;}).length;
+    $("#kTot").textContent=items.length;$("#kOk").textContent=ok;$("#kWarn").textContent=wn;$("#kBad").textContent=bd;
+    if(wn+bd>0){$("#alert").classList.add("on");$("#alertTxt").textContent="⏰ "+bd+" vencido(s) y "+wn+" por vencer en los próximos 15 días. Programa la renovación.";}
+    else $("#alert").classList.remove("on");
+  }
+  function openQR(it){var st=status(it.days);
+    $("#qrcard").innerHTML='<div class="big">'+qrSvg(it.code)+'</div><b>'+it.n+'</b><div class="id">'+it.code+'</div><div class="tl"><div>Categoría: '+it.cat+'</div><div>Estado: '+st[1]+'</div><div>'+(it.days<0?"Venció hace "+Math.abs(it.days)+" días":"Vence en "+it.days+" días")+'</div></div><button id="qx">Cerrar</button>';
+    $("#ov").classList.add("on");$("#qx").onclick=function(){$("#ov").classList.remove("on");};}
+  $("#ov").onclick=function(e){if(e.target===$("#ov"))$("#ov").classList.remove("on");};
+
+  var SW=[{c:"#0E7C6B",c2:"#1CB89C"},{c:"#2563EB",c2:"#5B8DEF"},{c:"#7C3AED",c2:"#A855F7"},{c:"#C2410C",c2:"#EA7A3C"},{c:"#16161A",c2:"#444"}];
+  function ac(o){document.documentElement.style.setProperty("--accent",o.c);document.documentElement.style.setProperty("--accent-2",o.c2);
+    var h=o.c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
+    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#13191A":"#fff");
+    [].slice.call(document.querySelectorAll(".sw")).forEach(function(e){e.classList.toggle("active",e.dataset.c===o.c);});}
+  function bsw(){var s=$("#sw");s.innerHTML="";SW.forEach(function(o){var b=document.createElement("button");b.className="sw";b.style.background=o.c;b.dataset.c=o.c;b.onclick=function(){ac(o);};s.appendChild(b);});}
+  function ab(n){$("#bl").textContent=n||"Marca";$("#lm").textContent=(n||"M").charAt(0).toUpperCase();}
+  $("#ib").addEventListener("input",function(e){ab(e.target.value);});
+  bsw();ac(SW[0]);ab("Vigía");chips();render();
+})();
+</script>
+</body>
+</html>

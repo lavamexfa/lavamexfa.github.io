@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>App de Fidelización · Demo CO-DATA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --accent:#7C3AED;
+    --accent-2:#A855F7;
+    --accent-ink:#fff;
+    --ink:#17151D;
+    --muted:#7E7A88;
+    --line:#ECEAF1;
+    --screen:#FBFAFD;
+    --card:#fff;
+    --bg:#1A1622;
+    --display:"Bricolage Grotesque",system-ui,sans-serif;
+    --body:"Inter",system-ui,sans-serif;
+    --mono:"JetBrains Mono",monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--body);color:var(--ink);
+    background:radial-gradient(80% 60% at 50% 0%,color-mix(in srgb,var(--accent) 22%,transparent),transparent 60%),var(--bg);
+    min-height:100vh;-webkit-font-smoothing:antialiased}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  input{font-family:inherit}
+
+  .stage{max-width:1040px;margin:0 auto;padding:26px 22px 50px;display:grid;grid-template-columns:1fr auto;gap:44px;align-items:center}
+  @media (max-width:860px){.stage{grid-template-columns:1fr;justify-items:center;gap:26px}}
+
+  .pitch .logo{display:flex;align-items:center;gap:11px;margin-bottom:22px}
+  .pitch .logo .m{width:38px;height:38px;border-radius:11px;background:var(--accent);display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:800;font-size:18px;transition:background .35s}
+  .pitch .logo b{font-family:var(--display);font-size:20px;color:#fff;display:block;line-height:1}
+  .pitch .logo span{font-size:11.5px;color:#ABA6B8}
+  .pitch h1{font-family:var(--display);font-weight:800;font-size:clamp(28px,4vw,40px);color:#fff;letter-spacing:-.02em;line-height:1.06;margin:0 0 16px}
+  .pitch h1 em{font-style:normal;color:var(--accent-2);transition:color .35s}
+  .pitch p{font-size:15px;color:#B9B4C6;max-width:40ch;margin:0 0 24px;line-height:1.55}
+  .feats{display:flex;flex-direction:column;gap:13px;margin-bottom:26px}
+  .feat{display:flex;gap:12px;align-items:center;font-size:14px;color:#D6D2E0}
+  .feat .fi{width:32px;height:32px;border-radius:9px;background:rgba(255,255,255,.06);display:grid;place-items:center;flex:0 0 auto}
+  .feat .fi svg{width:17px;height:17px;stroke:var(--accent-2);fill:none;stroke-width:1.7}
+  .reskin{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .reskin input{height:36px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:9px;padding:0 12px;color:#fff;font-size:13px;width:140px;outline:none}
+  .swatches{display:flex;gap:6px}
+  .sw{width:22px;height:22px;border-radius:999px;border:2px solid transparent;transition:.15s}
+  .sw.active{border-color:#fff;transform:scale(1.1)}
+
+  /* phone */
+  .phone{width:380px;max-width:92vw;background:#0C0A12;border-radius:46px;padding:13px;box-shadow:0 40px 90px rgba(0,0,0,.5),inset 0 0 0 2px rgba(255,255,255,.06)}
+  .screen{background:var(--screen);border-radius:34px;overflow:hidden;height:760px;max-height:80vh;display:flex;flex-direction:column;position:relative}
+  .notch{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:118px;height:26px;background:#0C0A12;border-radius:0 0 16px 16px;z-index:9}
+  .statusbar{height:30px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;font-size:12px;font-weight:600;flex:0 0 auto}
+
+  .view{flex:1;overflow-y:auto;padding:0 18px 18px}
+  .view::-webkit-scrollbar{width:0}
+
+  /* app header */
+  .apphead{display:flex;align-items:center;gap:11px;padding:6px 2px 16px}
+  .apphead .m{width:34px;height:34px;border-radius:10px;background:var(--accent);display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:800;font-size:15px;transition:background .35s}
+  .apphead .h b{font-family:var(--display);font-size:15px;display:block;line-height:1}
+  .apphead .h span{font-size:11px;color:var(--muted)}
+  .tier{margin-left:auto;font-size:11px;font-weight:700;color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent);padding:6px 11px;border-radius:999px}
+
+  /* points card */
+  .pcard{border-radius:20px;padding:20px;color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent-2));margin-bottom:16px;position:relative;overflow:hidden;transition:background .35s}
+  .pcard::after{content:"";position:absolute;right:-30px;top:-30px;width:120px;height:120px;border-radius:999px;background:rgba(255,255,255,.12)}
+  .pcard .lbl{font-size:12px;opacity:.85}
+  .pcard .pts{font-family:var(--display);font-weight:800;font-size:42px;line-height:1;margin:4px 0 2px}
+  .pcard .pts small{font-size:16px;font-weight:600;opacity:.8}
+  .pcard .next{font-size:12px;opacity:.9;margin-top:12px}
+  .pcard .pbar{height:7px;background:rgba(255,255,255,.25);border-radius:999px;margin-top:8px;overflow:hidden}
+  .pcard .pfill{height:100%;background:#fff;border-radius:999px;width:0;transition:width .5s}
+
+  .sec-t{font-family:var(--display);font-size:15px;margin:18px 2px 11px}
+
+  /* promo */
+  .promo{border:1px solid var(--line);border-radius:16px;padding:15px;display:flex;gap:13px;align-items:center;background:var(--card);margin-bottom:6px}
+  .promo .pe{width:46px;height:46px;border-radius:12px;background:color-mix(in srgb,var(--accent) 12%,transparent);display:grid;place-items:center;font-size:22px;flex:0 0 auto}
+  .promo b{font-size:14px;display:block}
+  .promo span{font-size:12px;color:var(--muted)}
+
+  .cta{height:52px;border-radius:14px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:15px;
+    width:100%;display:flex;align-items:center;justify-content:center;gap:9px;margin-top:14px;transition:background .35s,filter .15s}
+  .cta:hover{filter:brightness(1.06)}
+  .cta svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:2}
+
+  /* stamps */
+  .stampcard{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:14px}
+  .stampcard .st-h{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px}
+  .stampcard .st-h b{font-family:var(--display);font-size:16px}
+  .stampcard .st-h span{font-size:12px;color:var(--muted)}
+  .stamps{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .stamp{aspect-ratio:1/1;border-radius:14px;border:2px dashed var(--line);display:grid;place-items:center;font-size:22px;color:var(--line);transition:.25s}
+  .stamp.on{border-style:solid;border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,transparent);color:var(--accent);animation:stamp .3s ease}
+  .stamp.reward{border-color:var(--accent);background:var(--accent);color:#fff}
+  @keyframes stamp{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
+  .st-hint{font-size:12px;color:var(--muted);text-align:center;margin-top:14px}
+
+  /* rewards */
+  .reward{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:11px;display:flex;align-items:center;gap:13px}
+  .reward .re{width:46px;height:46px;border-radius:12px;background:color-mix(in srgb,var(--accent) 11%,transparent);display:grid;place-items:center;font-size:22px;flex:0 0 auto}
+  .reward .ri{flex:1}
+  .reward .ri b{font-size:14px;display:block}
+  .reward .ri span{font-size:12px;color:var(--muted);font-family:var(--mono)}
+  .reward .rb{height:36px;padding:0 14px;border-radius:10px;font-size:12.5px;font-weight:700;background:var(--accent);color:var(--accent-ink);transition:background .35s,filter .15s}
+  .reward .rb:disabled{background:var(--surface,#eee);color:var(--muted);cursor:not-allowed;border:1px solid var(--line)}
+
+  /* qr / member */
+  .member{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px;text-align:center;margin-top:8px}
+  .member .qr{width:170px;height:170px;margin:0 auto 16px;background:#fff;border:1px solid var(--line);border-radius:16px;display:grid;place-items:center}
+  .member .qr svg{width:140px;height:140px}
+  .member h3{font-family:var(--display);font-size:18px;margin:0 0 3px}
+  .member .id{font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:14px}
+  .member .mrow{display:flex;justify-content:space-between;font-size:13px;padding:9px 0;border-top:1px solid var(--line)}
+  .member .mrow span{color:var(--muted)}
+  .member .mrow b{font-weight:600}
+
+  /* tabbar */
+  .tabbar{display:flex;border-top:1px solid var(--line);background:var(--card);flex:0 0 auto;padding:6px 6px 10px}
+  .tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 0;color:var(--muted);font-size:10.5px;font-weight:600;transition:.15s}
+  .tab svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.7}
+  .tab.on{color:var(--accent)}
+
+  /* toast */
+  .toast{position:absolute;left:50%;bottom:84px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;
+    font-size:13px;font-weight:600;padding:11px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:.25s;z-index:20;white-space:nowrap;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  .credit{grid-column:1/-1;text-align:center;font-size:12px;color:#9A95A8;margin-top:8px}
+  .credit b{color:#D6D2E0}
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <div class="pitch">
+    <div class="logo"><div class="m" id="logoMark">N</div><div><b id="brandLogo">Nodo</b><span>App de fidelización · CO-DATA</span></div></div>
+    <h1>Tus clientes vuelven, porque les <em>conviene</em>.</h1>
+    <p>Tarjeta de sellos digital, puntos por cada compra y premios que se canjean. Sirve para cafés, lavados, peluquerías — cualquier negocio con clientes que repiten.</p>
+    <div class="feats">
+      <div class="feat"><span class="fi"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg></span> Tarjeta de sellos digital</div>
+      <div class="feat"><span class="fi"><svg viewBox="0 0 24 24"><path d="M12 2l2.6 6.6L21 9l-5 4.3 1.6 6.7L12 16.8 6.4 20 8 13.3 3 9l6.4-.4z"/></svg></span> Puntos y premios canjeables</div>
+      <div class="feat"><span class="fi"><svg viewBox="0 0 24 24"><path d="M4 7V4h3M20 7V4h-3M4 17v3h3M20 17v3h-3M8 12h8"/></svg></span> QR de socio en terreno</div>
+    </div>
+    <div class="reskin">
+      <input id="inpBrand" value="Nodo" maxlength="16" aria-label="Nombre">
+      <div class="swatches" id="swatches"></div>
+    </div>
+  </div>
+
+  <!-- PHONE -->
+  <div class="phone"><div class="screen">
+    <div class="notch"></div>
+    <div class="statusbar"><span id="clock">9:41</span><span>◍ ▮▮▮ ⌁</span></div>
+    <div class="view" id="view"></div>
+    <div class="tabbar" id="tabbar"></div>
+    <div class="toast" id="toast"></div>
+  </div></div>
+
+  <div class="credit">App de fidelización desarrollada por <b>CO-DATA</b> · Demo interactiva</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  function $(s,r){return (r||document).querySelector(s);}
+  function pad2(n){return String(n).padStart(2,"0");}
+
+  var STAMP_GOAL=8, STAMP_PTS=30;
+  var state={tab:"home",points:320,stamps:5,memberSince:"mar 2026",freebies:0};
+  var brand="Nodo";
+
+  var rewards=[
+    {id:"r1",emoji:"☕",name:"Producto gratis",cost:250},
+    {id:"r2",emoji:"🏷️",name:"20% en tu próxima compra",cost:400},
+    {id:"r3",emoji:"🎁",name:"Producto sorpresa",cost:600},
+    {id:"r4",emoji:"⭐",name:"Combo dúo para compartir",cost:800}
+  ];
+
+  function tier(){return state.points>=700?"Oro":state.points>=350?"Plata":"Bronce";}
+
+  var tabs=[
+    {id:"home",lb:"Inicio",ic:'<path d="M3 11l9-8 9 8M5 10v10h14V10"/>'},
+    {id:"stamps",lb:"Sellos",ic:'<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>'},
+    {id:"rewards",lb:"Premios",ic:'<path d="M12 2l2.6 6.6L21 9l-5 4.3 1.6 6.7L12 16.8 6.4 20 8 13.3 3 9l6.4-.4z"/>'},
+    {id:"qr",lb:"Mi QR",ic:'<path d="M4 7V4h3M20 7V4h-3M4 17v3h3M20 17v3h-3M8 12h8"/>'}
+  ];
+
+  function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show");},1700);}
+
+  function render(){
+    renderTabs();
+    var v=$("#view");v.scrollTop=0;
+    if(state.tab==="home")renderHome(v);
+    if(state.tab==="stamps")renderStamps(v);
+    if(state.tab==="rewards")renderRewards(v);
+    if(state.tab==="qr")renderQR(v);
+  }
+  function head(){
+    return '<div class="apphead"><div class="m">'+brand.charAt(0).toUpperCase()+'</div>'+
+      '<div class="h"><b>Hola 👋</b><span>'+brand+' · socio</span></div>'+
+      '<div class="tier">'+tier()+'</div></div>';
+  }
+
+  function renderHome(v){
+    var pct=Math.min(100,Math.round(state.points/ (rewards[0].cost) *100));
+    var toNext=Math.max(0,rewards[0].cost-state.points);
+    v.innerHTML=head()+
+      '<div class="pcard"><div class="lbl">Tus puntos</div><div class="pts">'+state.points+' <small>pts</small></div>'+
+        '<div class="next">'+(toNext>0?("Te faltan "+toNext+" pts para "+rewards[0].name.toLowerCase()):"¡Puedes canjear un premio!")+'</div>'+
+        '<div class="pbar"><div class="pfill" style="width:'+pct+'%"></div></div></div>'+
+      '<div class="sec-t">Tu tarjeta de sellos</div>'+
+      '<div class="promo"><div class="pe">🎫</div><div style="flex:1"><b>'+state.stamps+' de '+STAMP_GOAL+' sellos</b><span>Junta '+STAMP_GOAL+' y gana un producto gratis</span></div></div>'+
+      '<div class="sec-t">Beneficio del día</div>'+
+      '<div class="promo"><div class="pe">🔥</div><div style="flex:1"><b>2×1 entre semana</b><span>De lunes a jueves, todo el día</span></div></div>'+
+      '<button class="cta" id="buy"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg> Simular compra (+1 sello)</button>';
+    $("#buy").onclick=doPurchase;
+  }
+
+  function renderStamps(v){
+    v.innerHTML=head()+
+      '<div class="stampcard"><div class="st-h"><b>Tarjeta de sellos</b><span>'+state.stamps+'/'+STAMP_GOAL+'</span></div>'+
+      '<div class="stamps" id="stampGrid"></div>'+
+      '<div class="st-hint">Al completar '+STAMP_GOAL+' sellos ganas un producto gratis 🎉</div></div>'+
+      '<button class="cta" id="buy2"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg> Simular compra (+1 sello)</button>';
+    var g=$("#stampGrid");
+    for(var i=0;i<STAMP_GOAL;i++){
+      var on=i<state.stamps;var rw=(i===STAMP_GOAL-1);
+      g.insertAdjacentHTML("beforeend",'<div class="stamp'+(on?" on":"")+(rw?" reward":"")+'">'+(rw?"🎁":(on?"✓":"•"))+'</div>');
+    }
+    $("#buy2").onclick=doPurchase;
+  }
+
+  function renderRewards(v){
+    v.innerHTML=head()+'<div class="sec-t" style="margin-top:6px">Canjea tus '+state.points+' puntos</div>'+
+      rewards.map(function(r){
+        var ok=state.points>=r.cost;
+        return '<div class="reward"><div class="re">'+r.emoji+'</div><div class="ri"><b>'+r.name+'</b><span>'+r.cost+' pts</span></div>'+
+          '<button class="rb" data-r="'+r.id+'"'+(ok?"":" disabled")+'>'+(ok?"Canjear":"Faltan "+(r.cost-state.points))+'</button></div>';
+      }).join("");
+    [].slice.call(v.querySelectorAll("[data-r]")).forEach(function(b){
+      b.onclick=function(){var r=rewards.find(function(x){return x.id===b.dataset.r;});if(state.points>=r.cost){state.points-=r.cost;toast("🎉 Canjeaste: "+r.name);render();}};
+    });
+  }
+
+  function renderQR(v){
+    v.innerHTML=head()+
+      '<div class="member"><div class="qr">'+qrSVG()+'</div>'+
+      '<h3>'+(brand)+' · Socio</h3><div class="id">ID '+memberId()+'</div>'+
+      '<div class="mrow"><span>Nivel</span><b>'+tier()+'</b></div>'+
+      '<div class="mrow"><span>Puntos</span><b>'+state.points+' pts</b></div>'+
+      '<div class="mrow"><span>Sellos</span><b>'+state.stamps+'/'+STAMP_GOAL+'</b></div>'+
+      '<div class="mrow"><span>Socio desde</span><b>'+state.memberSince+'</b></div></div>'+
+      '<div class="st-hint" style="margin-top:14px">Muestra este código en caja para sumar puntos.</div>';
+  }
+  function memberId(){return "NB-"+(1000+ (brand.length*137) % 9000);}
+  function qrSVG(){
+    var cells="",g=11,s=12,seed=brand.length*53+19;
+    for(var y=0;y<g;y++)for(var x=0;x<g;x++){seed=(seed*1103515245+12345)&0x7fffffff;if((seed>>7)%2===0)cells+='<rect x="'+(x*s)+'" y="'+(y*s)+'" width="'+s+'" height="'+s+'" fill="#17151D"/>';}
+    function corner(cx,cy){return '<rect x="'+cx+'" y="'+cy+'" width="36" height="36" fill="#17151D"/><rect x="'+(cx+6)+'" y="'+(cy+6)+'" width="24" height="24" fill="#fff"/><rect x="'+(cx+12)+'" y="'+(cy+12)+'" width="12" height="12" fill="#17151D"/>';}
+    return '<svg viewBox="0 0 132 132">'+cells+corner(0,0)+corner(96,0)+corner(0,96)+'</svg>';
+  }
+
+  function doPurchase(){
+    state.points+=STAMP_PTS;
+    state.stamps++;
+    if(state.stamps>=STAMP_GOAL){
+      state.stamps=0;state.freebies++;
+      toast("🎉 ¡Tarjeta completa! Ganaste un producto gratis");
+    } else {
+      toast("+1 sello · +"+STAMP_PTS+" pts");
+    }
+    render();
+  }
+
+  function renderTabs(){
+    var t=$("#tabbar");t.innerHTML="";
+    tabs.forEach(function(tb){
+      var b=document.createElement("button");b.className="tab"+(state.tab===tb.id?" on":"");
+      b.innerHTML='<svg viewBox="0 0 24 24">'+tb.ic+'</svg>'+tb.lb;
+      b.onclick=function(){state.tab=tb.id;render();};t.appendChild(b);
+    });
+  }
+
+  /* ---- re-skin ---- */
+  var swColors=[{c:"#7C3AED",c2:"#A855F7"},{c:"#0D9488",c2:"#2DD4BF"},{c:"#E5356B",c2:"#FF7BA3"},{c:"#E8852C",c2:"#F5B445"},{c:"#2E5BD6",c2:"#6E8FF5"}];
+  function applyAccent(o){
+    document.documentElement.style.setProperty("--accent",o.c);
+    document.documentElement.style.setProperty("--accent-2",o.c2);
+    var h=o.c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
+    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#17151D":"#fff");
+    [].slice.call(document.querySelectorAll(".sw")).forEach(function(el){el.classList.toggle("active",el.dataset.c===o.c);});
+  }
+  function buildSwatches(){var s=$("#swatches");s.innerHTML="";swColors.forEach(function(o){var b=document.createElement("button");b.className="sw";b.style.background=o.c;b.dataset.c=o.c;b.onclick=function(){applyAccent(o);};s.appendChild(b);});}
+  function applyBrand(n){brand=n||"Marca";$("#brandLogo").textContent=brand;$("#logoMark").textContent=brand.charAt(0).toUpperCase();render();}
+  $("#inpBrand").addEventListener("input",function(e){applyBrand(e.target.value);});
+
+  /* ---- init ---- */
+  (function(){var d=new Date();$("#clock").textContent=pad2(d.getHours())+":"+pad2(d.getMinutes());})();
+  buildSwatches();applyAccent(swColors[0]);applyBrand("Nodo");
+  render();
+})();
+</script>
+</body>
+</html>

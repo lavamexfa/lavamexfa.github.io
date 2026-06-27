@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asistencia, Turnos y Horas · Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --accent:#0E8A74;--accent-2:#1CB89C;--accent-ink:#fff;--ok:#2E9E66;--warn:#E0A53B;--bad:#E0533D;
+    --ink:#E7F0EE;--muted:#85978F;--line:#21302C;--card:#15211D;--bg:#0A1310;
+    --display:"Bricolage Grotesque",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--body);color:var(--ink);
+    background:radial-gradient(85% 60% at 50% 0%,color-mix(in srgb,var(--accent) 22%,transparent),transparent 56%),var(--bg);
+    min-height:100vh;-webkit-font-smoothing:antialiased}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  input{font-family:inherit}
+  .shell{max-width:920px;margin:0 auto;padding:24px 22px 50px}
+  .top{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+  .logo{display:flex;align-items:center;gap:11px}
+  .logo .m{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:800;font-size:18px}
+  .logo b{font-family:var(--display);font-size:20px;color:#fff;display:block;line-height:1}.logo span{font-size:11.5px;color:var(--muted)}
+  .controls{margin-left:auto;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .ti{height:36px;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:0 11px;font-size:13px;width:120px;outline:none;color:#fff}
+  .swatches{display:flex;gap:6px}.sw{width:22px;height:22px;border-radius:999px;border:2px solid transparent}.sw.active{border-color:#fff;transform:scale(1.1)}
+  .grid{display:grid;grid-template-columns:340px 1fr;gap:18px;align-items:start}
+  @media(max-width:780px){.grid{grid-template-columns:1fr}}
+  .clockcard{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px 22px;text-align:center;position:relative;overflow:hidden}
+  .clockcard::before{content:"";position:absolute;inset:-40% 30% auto;height:160px;background:radial-gradient(closest-side,color-mix(in srgb,var(--accent) 30%,transparent),transparent);filter:blur(10px)}
+  .geo{position:relative;display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:600;background:color-mix(in srgb,var(--ok) 15%,transparent);color:#7DEAB9;padding:6px 12px;border-radius:999px;margin-bottom:18px}
+  .geo .d{width:8px;height:8px;border-radius:999px;background:var(--ok);box-shadow:0 0 8px var(--ok)}
+  .clock{position:relative;font-family:var(--mono);font-weight:700;font-size:48px;letter-spacing:1px;color:#fff;line-height:1}
+  .date{position:relative;font-size:13px;color:var(--muted);margin:6px 0 6px;text-transform:capitalize}
+  .turno{position:relative;font-size:12.5px;color:var(--muted);margin-bottom:20px}
+  .turno b{color:var(--accent-2);font-family:var(--mono)}
+  .mark{position:relative;height:60px;width:100%;border-radius:16px;font-weight:700;font-size:17px;display:flex;align-items:center;justify-content:center;gap:10px;transition:.2s;color:#fff}
+  .mark.in{background:linear-gradient(135deg,var(--accent),var(--accent-2))}
+  .mark.out{background:linear-gradient(135deg,#C0392B,#E0533D)}
+  .mark svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2}
+  .status{position:relative;font-size:12.5px;color:var(--muted);margin-top:14px;min-height:18px}
+  .status b{color:var(--ok)}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+  .ph{padding:14px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+  .ph b{font-family:var(--display);font-size:15px;color:#fff}
+  .kpis{display:flex;gap:10px;padding:14px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .kpi{flex:1;min-width:90px}.kpi b{font-family:var(--display);font-size:20px;display:block;line-height:1;color:#fff}.kpi span{font-size:10.5px;color:var(--muted)}
+  .kpi.ex b{color:var(--warn)}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);padding:10px 18px}
+  td{padding:10px 18px;border-top:1px solid var(--line);font-family:var(--mono)}
+  td:first-child{font-family:var(--body);color:var(--ink)}
+  .tag{font-size:10px;font-weight:700;padding:3px 8px;border-radius:999px}
+  .t-ok{background:color-mix(in srgb,var(--ok) 14%,transparent);color:var(--ok)}
+  .t-ex{background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn)}
+  .t-au{background:color-mix(in srgb,var(--bad) 14%,transparent);color:var(--bad)}
+  .t-now{background:color-mix(in srgb,var(--accent) 20%,transparent);color:var(--accent-2)}
+  .credit{text-align:center;font-size:12px;color:var(--muted);margin-top:22px}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top">
+    <div class="logo"><div class="m" id="lm">M</div><div><b id="bl">Marca</b><span>Asistencia, turnos y horas · demo</span></div></div>
+    <div class="controls"><input class="ti" id="ib" value="Marca" maxlength="16"><div class="swatches" id="sw"></div></div>
+  </div>
+
+  <div class="grid">
+    <div class="clockcard">
+      <div class="geo"><span class="d"></span> En faena · Frente Norte</div>
+      <div class="clock" id="clock">00:00:00</div>
+      <div class="date" id="date">—</div>
+      <div class="turno">Turno asignado: <b>08:00 – 17:00</b></div>
+      <button class="mark in" id="mark"><svg viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg> Marcar entrada</button>
+      <div class="status" id="status">Aún no marcas entrada hoy.</div>
+    </div>
+
+    <div class="panel">
+      <div class="ph"><b>Cartola semanal</b><span style="font-size:12px;color:var(--muted)">Semana actual</span></div>
+      <div class="kpis">
+        <div class="kpi"><b id="kHrs">0</b><span>horas trabajadas</span></div>
+        <div class="kpi ex"><b id="kExt">0</b><span>horas extra</span></div>
+        <div class="kpi"><b id="kDias">0</b><span>días asistidos</span></div>
+        <div class="kpi"><b id="kAtr">0</b><span>atrasos</span></div>
+      </div>
+      <table><thead><tr><th>Día</th><th>Entrada</th><th>Salida</th><th>Horas</th><th></th></tr></thead><tbody id="rows"></tbody></table>
+    </div>
+  </div>
+  <div class="credit">Demo interactiva · solución re-skineable · registros de ejemplo</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  function $(s){return document.querySelector(s);}
+  var week=[
+    {d:"Lunes",in_:"07:58",out:"17:04",h:9.1,tag:["t-ok","OK"]},
+    {d:"Martes",in_:"08:12",out:"17:00",h:8.8,tag:["t-au","Atraso"]},
+    {d:"Miércoles",in_:"07:55",out:"19:10",h:11.2,tag:["t-ex","+2 extra"]},
+    {d:"Jueves",in_:"08:00",out:"17:02",h:9.0,tag:["t-ok","OK"]},
+    {d:"Viernes",in_:"—",out:"—",h:0,tag:["t-now","Hoy"]}
+  ];
+  var marked=false,inTime=null;
+
+  function renderRows(){
+    $("#rows").innerHTML=week.map(function(r){
+      return '<tr><td>'+r.d+'</td><td>'+r.in_+'</td><td>'+r.out+'</td><td>'+(r.h?r.h.toFixed(1):"—")+'</td><td><span class="tag '+r.tag[0]+'">'+r.tag[1]+'</span></td></tr>';
+    }).join("");
+    var done=week.filter(function(r){return r.h>0;});
+    var hrs=done.reduce(function(a,r){return a+r.h;},0);
+    var ext=done.reduce(function(a,r){return a+Math.max(0,r.h-9);},0);
+    $("#kHrs").textContent=hrs.toFixed(1);
+    $("#kExt").textContent=ext.toFixed(1);
+    $("#kDias").textContent=done.length;
+    $("#kAtr").textContent=week.filter(function(r){return r.tag[1]==="Atraso";}).length;
+  }
+
+  function tick(){
+    var d=new Date();
+    $("#clock").textContent=[d.getHours(),d.getMinutes(),d.getSeconds()].map(function(x){return ("0"+x).slice(-2);}).join(":");
+    $("#date").textContent=d.toLocaleDateString("es-CL",{weekday:"long",day:"numeric",month:"long"});
+  }
+
+  $("#mark").onclick=function(){
+    var d=new Date(),hhmm=("0"+d.getHours()).slice(-2)+":"+("0"+d.getMinutes()).slice(-2);
+    var today=week[week.length-1];
+    if(!marked){
+      marked=true;inTime=hhmm;today.in_=hhmm;today.tag=["t-now","En curso"];
+      var b=$("#mark");b.className="mark out";b.innerHTML='<svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg> Marcar salida';
+      $("#status").innerHTML='<b>Entrada marcada a las '+hhmm+'</b> ✓';
+    } else {
+      today.out=hhmm;
+      var h=Math.max(0.1,(d-parseHM(inTime,d))/3600000);today.h=Math.round(h*10)/10;
+      today.tag=h>9?["t-ex","+extra"]:["t-ok","OK"];
+      var b=$("#mark");b.className="mark in";b.innerHTML='<svg viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg> Marcar entrada';
+      $("#status").innerHTML='<b>Salida marcada a las '+hhmm+'</b> · jornada registrada';
+      marked=false;
+    }
+    renderRows();
+  };
+  function parseHM(hm,ref){var p=hm.split(":");var x=new Date(ref);x.setHours(+p[0],+p[1],0,0);return x;}
+
+  var SW=[{c:"#0E8A74",c2:"#1CB89C"},{c:"#2563EB",c2:"#5B8DEF"},{c:"#7C3AED",c2:"#A855F7"},{c:"#C2410C",c2:"#EA7A3C"},{c:"#16161A",c2:"#444"}];
+  function ac(o){document.documentElement.style.setProperty("--accent",o.c);document.documentElement.style.setProperty("--accent-2",o.c2);
+    var h=o.c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
+    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#0A1310":"#fff");
+    [].slice.call(document.querySelectorAll(".sw")).forEach(function(e){e.classList.toggle("active",e.dataset.c===o.c);});}
+  function bsw(){var s=$("#sw");s.innerHTML="";SW.forEach(function(o){var b=document.createElement("button");b.className="sw";b.style.background=o.c;b.dataset.c=o.c;b.onclick=function(){ac(o);};s.appendChild(b);});}
+  function ab(n){$("#bl").textContent=n||"Marca";$("#lm").textContent=(n||"M").charAt(0).toUpperCase();}
+  $("#ib").addEventListener("input",function(e){ab(e.target.value);});
+  bsw();ac(SW[0]);ab("Marca");renderRows();tick();setInterval(tick,1000);
+})();
+</script>
+</body>
+</html>

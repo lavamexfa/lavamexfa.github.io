@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cotizador Inteligente · Demo CO-DATA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  :root{
+    --accent:#0F8A5F;
+    --accent-ink:#fff;
+    --ink:#15171A;
+    --ink-soft:#3C4147;
+    --muted:#717A82;
+    --line:#E6E3DD;
+    --surface:#F6F4EF;
+    --card:#FFFFFF;
+    --paper:#FFFFFF;
+    --radius:14px;
+    --shadow:0 1px 2px rgba(20,20,18,.04),0 12px 30px rgba(20,20,18,.07);
+    --shadow-lg:0 30px 70px rgba(20,20,18,.16);
+    --display:"Bricolage Grotesque",system-ui,sans-serif;
+    --body:"Inter",system-ui,sans-serif;
+    --mono:"JetBrains Mono",monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--body);color:var(--ink);background:var(--surface);-webkit-font-smoothing:antialiased}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  input{font-family:inherit}
+  .shell{max-width:1200px;margin:0 auto;padding:26px 22px 56px}
+
+  .top{display:flex;align-items:center;gap:14px;margin-bottom:22px;flex-wrap:wrap}
+  .logo{display:flex;align-items:center;gap:11px}
+  .logo .m{width:36px;height:36px;border-radius:10px;background:var(--accent);display:grid;place-items:center;color:var(--accent-ink);font-family:var(--display);font-weight:800;font-size:17px;transition:background .35s}
+  .logo b{font-family:var(--display);font-size:19px;letter-spacing:-.02em;display:block;line-height:1}
+  .logo span{font-size:11.5px;color:var(--muted)}
+  .controls{margin-left:auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .brand-inp{height:36px;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:0 11px;color:var(--ink);font-size:13px;width:140px;outline:none}
+  .brand-inp:focus{border-color:var(--accent)}
+  .swatches{display:flex;gap:6px}
+  .sw{width:22px;height:22px;border-radius:999px;border:2px solid transparent;transition:.15s}
+  .sw.active{border-color:var(--ink);transform:scale(1.1)}
+
+  .lead{margin:0 0 22px}
+  .lead h1{font-family:var(--display);font-weight:800;font-size:clamp(24px,3.2vw,34px);letter-spacing:-.02em;margin:0 0 6px}
+  .lead p{font-size:14.5px;color:var(--muted);margin:0;max-width:64ch}
+
+  .app{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start}
+
+  /* configurator */
+  .config{display:flex;flex-direction:column;gap:16px}
+  .block{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+  .block > .bh{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+  .block .num{width:24px;height:24px;border-radius:7px;background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--accent);
+    font-family:var(--mono);font-weight:700;font-size:12px;display:grid;place-items:center;flex:0 0 auto}
+  .block .bh b{font-family:var(--display);font-size:15px}
+  .opts{display:grid;gap:9px}
+  .opt{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:11px;padding:12px 13px;transition:.15s;cursor:pointer}
+  .opt:hover{border-color:var(--ink-soft)}
+  .opt.sel{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 6%,transparent)}
+  .opt .rad{width:18px;height:18px;border-radius:999px;border:2px solid var(--line);flex:0 0 auto;display:grid;place-items:center;transition:.15s}
+  .opt.sel .rad{border-color:var(--accent)}
+  .opt.sel .rad::after{content:"";width:8px;height:8px;border-radius:999px;background:var(--accent)}
+  .opt .chk{width:18px;height:18px;border-radius:5px;border:2px solid var(--line);flex:0 0 auto;display:grid;place-items:center;transition:.15s}
+  .opt.sel .chk{border-color:var(--accent);background:var(--accent)}
+  .opt.sel .chk svg{width:12px;height:12px;stroke:#fff;stroke-width:3;fill:none}
+  .opt .chk svg{opacity:0}
+  .opt.sel .chk svg{opacity:1}
+  .opt .txt{flex:1}
+  .opt .txt b{font-size:13.5px;display:block}
+  .opt .txt span{font-size:12px;color:var(--muted)}
+  .opt .pr{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--ink-soft)}
+
+  .seg{display:flex;gap:8px;flex-wrap:wrap}
+  .seg button{flex:1;min-width:64px;border:1px solid var(--line);border-radius:10px;padding:10px 6px;font-size:13px;font-weight:600;color:var(--ink-soft);transition:.15s;background:var(--card)}
+  .seg button.sel{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .seg small{display:block;font-size:10.5px;color:var(--muted);font-weight:500;margin-top:2px}
+  .seg button.sel small{color:rgba(255,255,255,.7)}
+
+  .stepper{display:flex;align-items:center;gap:14px}
+  .stepper button{width:38px;height:38px;border-radius:10px;border:1px solid var(--line);font-size:20px;color:var(--ink-soft);background:var(--card);transition:.15s}
+  .stepper button:hover{border-color:var(--accent);color:var(--accent)}
+  .stepper .qv{font-family:var(--display);font-weight:800;font-size:24px;min-width:46px;text-align:center}
+  .stepper .ql{font-size:12px;color:var(--muted)}
+
+  .recur{display:flex;align-items:center;gap:13px}
+  .toggle{width:48px;height:28px;border-radius:999px;background:var(--line);position:relative;flex:0 0 auto;transition:.2s}
+  .toggle.on{background:var(--accent)}
+  .toggle::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:999px;background:#fff;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+  .toggle.on::after{left:23px}
+  .recur .rt b{font-size:13.5px;display:block}
+  .recur .rt span{font-size:12px;color:var(--muted)}
+  .recur .rp{margin-left:auto;font-family:var(--mono);font-size:13px;font-weight:700;color:var(--accent)}
+
+  /* live quote paper */
+  .quote-wrap{position:sticky;top:22px}
+  .paper{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-lg);overflow:hidden}
+  .paper-head{padding:22px 24px;border-bottom:2px solid var(--accent);display:flex;justify-content:space-between;align-items:flex-start;gap:14px;transition:border-color .35s}
+  .paper-head .pb b{font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:-.02em;display:block}
+  .paper-head .pb span{font-size:11.5px;color:var(--muted)}
+  .paper-head .pm{text-align:right}
+  .paper-head .pm .t{font-family:var(--display);font-weight:700;font-size:15px;color:var(--accent);transition:color .35s}
+  .paper-head .pm .code{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-top:3px}
+  .paper-head .pm .date{font-size:11px;color:var(--muted)}
+  .paper-meta{padding:14px 24px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:14px;font-size:12px;flex-wrap:wrap}
+  .paper-meta .cli label{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:3px}
+  .paper-meta .cli input{border:none;border-bottom:1px dashed var(--line);font-size:13px;font-weight:600;padding:2px 0;outline:none;color:var(--ink);min-width:160px;background:transparent}
+  .paper-meta .cli input:focus{border-color:var(--accent)}
+  .paper-meta .val{text-align:right;color:var(--muted)}
+  .lines{padding:8px 24px;min-height:120px}
+  .ln{display:grid;grid-template-columns:1fr auto;gap:10px;padding:11px 0;border-bottom:1px dashed var(--line);font-size:13px;animation:fadein .25s ease}
+  @keyframes fadein{from{opacity:0;transform:translateY(-3px)}to{opacity:1}}
+  .ln .d b{font-size:13px;display:block}
+  .ln .d span{font-size:11.5px;color:var(--muted)}
+  .ln .a{font-family:var(--mono);font-weight:700;text-align:right;white-space:nowrap}
+  .ln.recur .a{color:var(--accent)}
+  .ln-empty{color:var(--muted);font-size:13px;text-align:center;padding:36px 0}
+  .totals{padding:14px 24px 4px}
+  .tr{display:flex;justify-content:space-between;font-size:13px;padding:5px 0;color:var(--ink-soft)}
+  .tr.grand{font-family:var(--display);font-weight:800;font-size:24px;color:var(--ink);padding-top:12px;margin-top:6px;border-top:2px solid var(--line)}
+  .tr .mono{font-family:var(--mono)}
+  .recur-note{margin:10px 24px 0;padding:11px 13px;background:color-mix(in srgb,var(--accent) 9%,transparent);
+    border-radius:10px;font-size:12px;color:var(--ink-soft);display:flex;gap:9px;align-items:flex-start}
+  .recur-note svg{width:15px;height:15px;stroke:var(--accent);fill:none;stroke-width:2;flex:0 0 auto;margin-top:1px}
+  .paper-foot{padding:14px 24px 20px;font-size:10.5px;color:var(--muted);line-height:1.5;border-top:1px solid var(--line);margin-top:12px}
+  .actions{display:flex;gap:10px;padding:16px 24px;border-top:1px solid var(--line);background:var(--surface);flex-wrap:wrap}
+  .btn{height:46px;padding:0 20px;border-radius:11px;font-weight:600;font-size:14px;display:inline-flex;align-items:center;gap:9px;transition:.15s,background .35s}
+  .btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.9}
+  .btn-pri{background:var(--accent);color:var(--accent-ink);flex:1;justify-content:center}
+  .btn-pri:hover{filter:brightness(1.05)}
+  .btn-gh{background:var(--card);border:1px solid var(--line);color:var(--ink)}
+  .btn-gh:hover{border-color:var(--ink)}
+
+  .credit{text-align:center;font-size:12px;color:var(--muted);margin-top:26px}
+  .credit b{color:var(--ink)}
+
+  @media (max-width:900px){
+    .app{grid-template-columns:1fr}
+    .quote-wrap{position:static}
+    .controls{width:100%}
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <div class="top">
+    <div class="logo">
+      <div class="m" id="logoMark">A</div>
+      <div><b id="brandLogo">Altora</b><span>Cotizador inteligente · CO-DATA</span></div>
+    </div>
+    <div class="controls">
+      <input class="brand-inp" id="inpBrand" value="Altora" maxlength="20" aria-label="Nombre">
+      <div class="swatches" id="swatches"></div>
+    </div>
+  </div>
+
+  <div class="lead">
+    <h1>Arma tu cotización en segundos</h1>
+    <p>Selecciona el servicio y mira el documento construirse en vivo. Al final, descarga el PDF con código único — listo para enviar. Cambia el nombre y color arriba para verlo con cualquier marca.</p>
+  </div>
+
+  <div class="app">
+
+    <!-- CONFIGURATOR -->
+    <div class="config">
+
+      <div class="block">
+        <div class="bh"><span class="num">1</span><b>Servicio base</b></div>
+        <div class="opts" id="baseOpts"></div>
+      </div>
+
+      <div class="block">
+        <div class="bh"><span class="num">2</span><b>Escala del proyecto</b></div>
+        <div class="seg" id="scaleSeg"></div>
+      </div>
+
+      <div class="block">
+        <div class="bh"><span class="num">3</span><b>Cantidad de unidades / puntos</b></div>
+        <div class="stepper">
+          <button id="qMinus" aria-label="Menos">−</button>
+          <div><div class="qv" id="qVal">1</div></div>
+          <button id="qPlus" aria-label="Más">+</button>
+          <div class="ql">Multiplica el servicio base y la escala</div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="bh"><span class="num">4</span><b>Adicionales</b></div>
+        <div class="opts" id="addOpts"></div>
+      </div>
+
+      <div class="block">
+        <div class="bh"><span class="num">5</span><b>Urgencia</b></div>
+        <div class="seg" id="urgSeg"></div>
+      </div>
+
+      <div class="block">
+        <div class="bh"><span class="num">6</span><b>Plan recurrente</b></div>
+        <div class="recur">
+          <div class="toggle" id="recurToggle" role="switch" aria-checked="false"></div>
+          <div class="rt"><b>Programa de inspección / recertificación anual</b><span>El activo digital que genera ingreso recurrente</span></div>
+          <div class="rp" id="recurPrice">+$240.000/año</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- LIVE QUOTE -->
+    <div class="quote-wrap">
+      <div class="paper">
+        <div class="paper-head">
+          <div class="pb"><b id="pBrand">Altora</b><span>Ingeniería y seguridad industrial</span></div>
+          <div class="pm"><div class="t">COTIZACIÓN</div><div class="code" id="pCode">COT-…</div><div class="date" id="pDate"></div></div>
+        </div>
+        <div class="paper-meta">
+          <div class="cli"><label>Cliente</label><input id="cliName" value="Constructora Pehuén SpA" maxlength="40"></div>
+          <div class="val">Validez: 15 días<br>Moneda: CLP</div>
+        </div>
+        <div class="lines" id="lines"></div>
+        <div class="recur-note" id="recurNote" style="display:none">
+          <svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 11-3-6.7M21 4v5h-5"/></svg>
+          <span>Incluye <b>plan recurrente anual</b>. Este ítem se factura cada 12 meses y asegura la continuidad del servicio.</span>
+        </div>
+        <div class="totals" id="totals"></div>
+        <div class="paper-foot">
+          Precios en pesos chilenos, no incluyen traslados fuera de la RM salvo indicación. Cotización referencial generada automáticamente. Sujeta a visita técnica de validación.
+        </div>
+        <div class="actions">
+          <button class="btn btn-pri" id="dlPdf"><svg viewBox="0 0 24 24"><path d="M12 3v12M8 11l4 4 4-4M5 21h14"/></svg> Descargar PDF</button>
+          <button class="btn btn-gh" id="waBtn"><svg viewBox="0 0 24 24"><path d="M4 20l1.5-4A8 8 0 1112 20a8 8 0 01-4-1z"/></svg> WhatsApp</button>
+          <button class="btn btn-gh" id="resetBtn"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 11-3-6.7M21 4v5h-5"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="credit">Motor de cotización desarrollado por <b>CO-DATA</b> · Genera documentos reales descargables</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  function $(s){return document.querySelector(s);}
+  function clp(n){return "$"+Math.round(n).toLocaleString("es-CL");}
+
+  /* ---- catalog ---- */
+  var bases=[
+    {id:"diag",name:"Diagnóstico / evaluación técnica",desc:"Visita, levantamiento y reporte",price:180000},
+    {id:"inst",name:"Instalación estándar",desc:"Suministro e instalación certificada",price:650000},
+    {id:"proy",name:"Proyecto integral",desc:"Diseño, instalación y puesta en marcha",price:1450000}
+  ];
+  var scales=[{id:"s",l:"S",m:1,d:"Pequeño"},{id:"m",l:"M",m:1.6,d:"Mediano"},{id:"l",l:"L",m:2.4,d:"Grande"},{id:"xl",l:"XL",m:3.5,d:"Industrial"}];
+  var adds=[
+    {id:"cert",name:"Certificado de ensayo de laboratorio",desc:"Documentación técnica formal",price:120000},
+    {id:"cap",name:"Capacitación de personal",desc:"Inducción y uso seguro",price:240000},
+    {id:"insp",name:"Visita de inspección adicional",desc:"Control en terreno extra",price:90000},
+    {id:"sop",name:"Soporte prioritario 12 meses",desc:"Atención preferente",price:180000}
+  ];
+  var urgs=[{id:"norm",l:"Normal",mult:1,d:"Plazo estándar"},{id:"exp",l:"Express",mult:1.15,d:"+15%"},{id:"crit",l:"Crítica",mult:1.30,d:"+30%"}];
+  var RECUR=240000, IVA=0.19;
+
+  /* ---- state ---- */
+  var st={base:"inst",scale:"m",qty:1,adds:{},urg:"norm",recur:false};
+  var code="COT-"+fmtDate(new Date())+"-"+Math.floor(1000+Math.random()*9000);
+
+  function fmtDate(d){return ""+d.getFullYear()+String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0");}
+  function human(d){return d.toLocaleDateString("es-CL",{day:"2-digit",month:"long",year:"numeric"});}
+
+  /* ---- render config ---- */
+  function renderBase(){
+    var c=$("#baseOpts");c.innerHTML="";
+    bases.forEach(function(b){
+      var el=document.createElement("div");el.className="opt"+(st.base===b.id?" sel":"");
+      el.innerHTML='<div class="rad"></div><div class="txt"><b>'+b.name+'</b><span>'+b.desc+'</span></div><div class="pr">'+clp(b.price)+'</div>';
+      el.onclick=function(){st.base=b.id;renderBase();update();};c.appendChild(el);
+    });
+  }
+  function renderScale(){
+    var c=$("#scaleSeg");c.innerHTML="";
+    scales.forEach(function(s){
+      var b=document.createElement("button");b.className=(st.scale===s.id?"sel":"");
+      b.innerHTML=s.l+'<small>'+s.d+' ×'+s.m+'</small>';b.onclick=function(){st.scale=s.id;renderScale();update();};c.appendChild(b);
+    });
+  }
+  function renderAdds(){
+    var c=$("#addOpts");c.innerHTML="";
+    adds.forEach(function(a){
+      var on=!!st.adds[a.id];
+      var el=document.createElement("div");el.className="opt"+(on?" sel":"");
+      el.innerHTML='<div class="chk"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg></div><div class="txt"><b>'+a.name+'</b><span>'+a.desc+'</span></div><div class="pr">+'+clp(a.price)+'</div>';
+      el.onclick=function(){st.adds[a.id]=!on;renderAdds();update();};c.appendChild(el);
+    });
+  }
+  function renderUrg(){
+    var c=$("#urgSeg");c.innerHTML="";
+    urgs.forEach(function(u){
+      var b=document.createElement("button");b.className=(st.urg===u.id?"sel":"");
+      b.innerHTML=u.l+'<small>'+u.d+'</small>';b.onclick=function(){st.urg=u.id;renderUrg();update();};c.appendChild(b);
+    });
+  }
+
+  /* ---- compute & render quote ---- */
+  function calc(){
+    var base=bases.find(function(b){return b.id===st.base;});
+    var scale=scales.find(function(s){return s.id===st.scale;});
+    var urg=urgs.find(function(u){return u.id===st.urg;});
+    var items=[];
+    var baseLine=base.price*scale.m*st.qty;
+    items.push({t:base.name,s:scale.l+" · ×"+st.qty+" · escala ×"+scale.m,v:baseLine});
+    adds.forEach(function(a){ if(st.adds[a.id]) items.push({t:a.name,s:"Adicional",v:a.price}); });
+    var sub0=items.reduce(function(s,i){return s+i.v;},0);
+    var urgFee=sub0*(urg.mult-1);
+    if(urgFee>0) items.push({t:"Recargo por urgencia "+urg.l,s:urg.d,v:urgFee});
+    var sub=items.reduce(function(s,i){return s+i.v;},0);
+    var iva=sub*IVA;
+    var total=sub+iva;
+    return {items:items,sub:sub,iva:iva,total:total,recur:st.recur?RECUR:0};
+  }
+
+  function renderQuote(){
+    var r=calc();
+    var L=$("#lines");L.innerHTML="";
+    r.items.forEach(function(it){
+      var d=document.createElement("div");d.className="ln";
+      d.innerHTML='<div class="d"><b>'+it.t+'</b><span>'+it.s+'</span></div><div class="a">'+clp(it.v)+'</div>';
+      L.appendChild(d);
+    });
+    if(r.recur){
+      var d=document.createElement("div");d.className="ln recur";
+      d.innerHTML='<div class="d"><b>Plan de recertificación anual</b><span>Recurrente · cada 12 meses</span></div><div class="a">'+clp(r.recur)+'/año</div>';
+      L.appendChild(d);
+    }
+    $("#recurNote").style.display=r.recur?"flex":"none";
+    var T=$("#totals");
+    T.innerHTML=
+      '<div class="tr"><span>Subtotal</span><span class="mono">'+clp(r.sub)+'</span></div>'+
+      '<div class="tr"><span>IVA (19%)</span><span class="mono">'+clp(r.iva)+'</span></div>'+
+      '<div class="tr grand"><span>Total</span><span>'+clp(r.total)+'</span></div>'+
+      (r.recur?'<div class="tr" style="color:var(--accent);margin-top:6px"><span>+ Plan recurrente</span><span class="mono">'+clp(r.recur)+'/año</span></div>':'');
+    return r;
+  }
+
+  function update(){
+    $("#recurToggle").classList.toggle("on",st.recur);
+    $("#recurToggle").setAttribute("aria-checked",st.recur?"true":"false");
+    renderQuote();
+  }
+
+  /* ---- re-skin ---- */
+  var swColors=[{c:"#0F8A5F"},{c:"#B7791F"},{c:"#2E5BD6"},{c:"#C0392B"},{c:"#6D4AAF"}];
+  function applyAccent(c){
+    document.documentElement.style.setProperty("--accent",c);
+    var h=c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
+    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#15171A":"#fff");
+    [].slice.call(document.querySelectorAll(".sw")).forEach(function(el){el.classList.toggle("active",el.dataset.c===c);});
+    accentRGB=[r,g,b];
+  }
+  var accentRGB=[15,138,95];
+  function buildSwatches(){
+    var s=$("#swatches");s.innerHTML="";
+    swColors.forEach(function(o){var b=document.createElement("button");b.className="sw";b.style.background=o.c;b.dataset.c=o.c;b.onclick=function(){applyAccent(o.c);};s.appendChild(b);});
+  }
+  function applyBrand(n){n=n||"Tu Marca";$("#brandLogo").textContent=n;$("#pBrand").textContent=n;$("#logoMark").textContent=n.charAt(0).toUpperCase();}
+
+  /* ---- PDF ---- */
+  function downloadPDF(){
+    try{
+      var jsPDF=window.jspdf&&window.jspdf.jsPDF;
+      if(!jsPDF){alert("El generador de PDF no cargó. Reintenta con conexión.");return;}
+      var r=calc();var doc=new jsPDF({unit:"pt",format:"a4"});
+      var brand=$("#brandLogo").textContent,cli=$("#cliName").value||"Cliente";
+      var W=595,m=44,y=54;var A=accentRGB;
+      doc.setFillColor(A[0],A[1],A[2]);doc.rect(0,0,W,8,"F");
+      doc.setFont("helvetica","bold");doc.setFontSize(22);doc.setTextColor(20,20,20);
+      doc.text(brand,m,y);
+      doc.setFont("helvetica","normal");doc.setFontSize(9);doc.setTextColor(120,120,120);
+      doc.text("Cotización de servicios",m,y+15);
+      doc.setFont("helvetica","bold");doc.setFontSize(13);doc.setTextColor(A[0],A[1],A[2]);
+      doc.text("COTIZACIÓN",W-m,y-6,{align:"right"});
+      doc.setFont("courier","normal");doc.setFontSize(9);doc.setTextColor(120,120,120);
+      doc.text(code,W-m,y+9,{align:"right"});
+      doc.text(human(new Date()),W-m,y+22,{align:"right"});
+      y+=46;doc.setDrawColor(225,222,215);doc.line(m,y,W-m,y);y+=22;
+      doc.setFont("helvetica","bold");doc.setFontSize(10);doc.setTextColor(40,40,40);
+      doc.text("Cliente: ",m,y);doc.setFont("helvetica","normal");doc.text(cli,m+46,y);
+      doc.text("Validez: 15 días",W-m,y,{align:"right"});
+      y+=24;
+      doc.setFillColor(245,243,238);doc.rect(m,y-12,W-m*2,22,"F");
+      doc.setFont("helvetica","bold");doc.setFontSize(9);doc.setTextColor(90,90,90);
+      doc.text("DETALLE",m+8,y+3);doc.text("MONTO",W-m-8,y+3,{align:"right"});
+      y+=24;
+      doc.setFont("helvetica","normal");doc.setTextColor(40,40,40);
+      r.items.forEach(function(it){
+        doc.setFontSize(10);doc.setTextColor(30,30,30);doc.text(it.t,m+8,y);
+        doc.setFontSize(10);doc.text(clp(it.v),W-m-8,y,{align:"right"});
+        doc.setFontSize(8);doc.setTextColor(140,140,140);doc.text(it.s,m+8,y+12);
+        y+=28;doc.setDrawColor(235,232,225);doc.line(m,y-8,W-m,y-8);
+      });
+      if(r.recur){
+        doc.setFontSize(10);doc.setTextColor(A[0],A[1],A[2]);
+        doc.text("Plan de recertificación anual (recurrente)",m+8,y);
+        doc.text(clp(r.recur)+"/año",W-m-8,y,{align:"right"});y+=24;
+      }
+      y+=10;
+      function tot(lbl,val,big){
+        doc.setFont("helvetica",big?"bold":"normal");doc.setFontSize(big?15:10);
+        doc.setTextColor(big?20:90,big?20:90,big?20:90);
+        doc.text(lbl,W-m-150,y);doc.text(val,W-m-8,y,{align:"right"});y+=big?24:18;
+      }
+      tot("Subtotal",clp(r.sub),false);tot("IVA (19%)",clp(r.iva),false);
+      doc.setDrawColor(200,200,200);doc.line(W-m-160,y-6,W-m,y-6);y+=6;
+      tot("TOTAL",clp(r.total),true);
+      y+=14;doc.setFont("helvetica","normal");doc.setFontSize(8);doc.setTextColor(140,140,140);
+      var foot="Precios en CLP. Cotización referencial generada automáticamente, sujeta a visita técnica de validación. Documento de demostración.";
+      doc.text(doc.splitTextToSize(foot,W-m*2),m,y);
+      doc.save(code+".pdf");
+    }catch(e){alert("No se pudo generar el PDF: "+e.message);}
+  }
+
+  /* ---- events ---- */
+  $("#qMinus").onclick=function(){st.qty=Math.max(1,st.qty-1);$("#qVal").textContent=st.qty;update();};
+  $("#qPlus").onclick=function(){st.qty=Math.min(99,st.qty+1);$("#qVal").textContent=st.qty;update();};
+  $("#recurToggle").onclick=function(){st.recur=!st.recur;update();};
+  $("#recurPrice").textContent="+"+clp(RECUR)+"/año";
+  $("#dlPdf").onclick=downloadPDF;
+  $("#cliName").addEventListener("input",function(){});
+  $("#waBtn").onclick=function(){
+    var r=calc();var brand=$("#brandLogo").textContent;
+    var txt="Hola! Te comparto la cotización "+code+" de "+brand+". Total: "+clp(r.total)+(r.recur?" + plan anual "+clp(r.recur):"")+".";
+    window.open("https://wa.me/?text="+encodeURIComponent(txt),"_blank");
+  };
+  $("#resetBtn").onclick=function(){st={base:"inst",scale:"m",qty:1,adds:{},urg:"norm",recur:false};$("#qVal").textContent=1;renderBase();renderScale();renderAdds();renderUrg();update();};
+  $("#inpBrand").addEventListener("input",function(e){applyBrand(e.target.value);});
+
+  /* ---- init ---- */
+  $("#pCode").textContent=code;$("#pDate").textContent=human(new Date());
+  buildSwatches();applyAccent("#0F8A5F");applyBrand("Altora");
+  renderBase();renderScale();renderAdds();renderUrg();update();
+})();
+</script>
+</body>
+</html>

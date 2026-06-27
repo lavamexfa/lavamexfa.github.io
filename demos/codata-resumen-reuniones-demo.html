@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resumen de Reuniones con IA · Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --accent:#0E8A6E;--accent-ink:#fff;--warn:#E0A53B;
+    --ink:#13191A;--muted:#6F7B79;--line:#E5ECEA;--surface:#F2F7F5;--card:#fff;
+    --display:"Bricolage Grotesque",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--body);color:var(--ink);background:var(--surface);-webkit-font-smoothing:antialiased}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  textarea,input{font-family:inherit}
+  .shell{max-width:1060px;margin:0 auto;padding:26px 22px 56px}
+  .top{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+  .logo{display:flex;align-items:center;gap:11px}
+  .logo .m{width:36px;height:36px;border-radius:10px;background:var(--accent);display:grid;place-items:center;color:var(--accent-ink);font-family:var(--display);font-weight:800;font-size:17px;transition:background .35s}
+  .logo b{font-family:var(--display);font-size:19px;display:block;line-height:1}.logo span{font-size:11.5px;color:var(--muted)}
+  .controls{margin-left:auto;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .ti{height:36px;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:0 11px;font-size:13px;width:120px;outline:none}
+  .swatches{display:flex;gap:6px}.sw{width:22px;height:22px;border-radius:999px;border:2px solid transparent}.sw.active{border-color:var(--ink);transform:scale(1.1)}
+  .lead{margin:0 0 20px}.lead h1{font-family:var(--display);font-weight:800;font-size:clamp(23px,3.2vw,32px);letter-spacing:-.02em;margin:0 0 5px}
+  .lead p{font-size:14.5px;color:var(--muted);margin:0;max-width:62ch}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+  @media(max-width:860px){.grid{grid-template-columns:1fr}}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 6px 22px rgba(20,18,30,.05)}
+  .ph{padding:13px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+  .ph b{font-family:var(--display);font-size:15px}.ph .lk{font-size:12px;color:var(--accent);font-weight:600}
+  .pb{padding:18px}
+  textarea{width:100%;min-height:300px;border:1px solid var(--line);border-radius:12px;padding:13px;font-size:13.5px;line-height:1.55;outline:none;resize:vertical}
+  textarea:focus{border-color:var(--accent)}
+  .btn{height:50px;border-radius:13px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:15px;width:100%;display:flex;align-items:center;justify-content:center;gap:9px;margin-top:14px;transition:background .35s,filter .15s}
+  .btn:hover{filter:brightness(1.05)}.btn:disabled{opacity:.5;cursor:not-allowed}
+  .btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.9}
+  .empty{color:var(--muted);font-size:13.5px;text-align:center;padding:54px 20px;line-height:1.6}
+  .empty svg{width:40px;height:40px;stroke:var(--line);stroke-width:1.4;fill:none;margin-bottom:12px}
+  .skel{height:13px;background:linear-gradient(90deg,var(--surface),var(--line),var(--surface));background-size:200% 100%;border-radius:6px;animation:sh 1.2s infinite;margin-bottom:10px}
+  @keyframes sh{to{background-position:-200% 0}}
+  .sum{font-size:14.5px;line-height:1.55;background:color-mix(in srgb,var(--accent) 8%,transparent);border-left:3px solid var(--accent);padding:13px 15px;border-radius:0 10px 10px 0;margin-bottom:18px}
+  .block{margin-bottom:18px}
+  .block .bl{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+  .li{font-size:13.5px;line-height:1.45;padding:8px 0;border-bottom:1px dashed var(--line);display:flex;gap:9px}
+  .li:last-child{border:none}.li .b{color:var(--accent);font-weight:800}
+  .task{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px dashed var(--line);font-size:13.5px}
+  .task:last-child{border:none}
+  .task .ck{width:18px;height:18px;border-radius:5px;border:2px solid var(--accent);flex:0 0 auto;margin-top:2px}
+  .task .who{font-size:11px;font-weight:700;color:var(--accent);background:color-mix(in srgb,var(--accent) 11%,transparent);padding:3px 8px;border-radius:999px;white-space:nowrap;margin-left:auto}
+  .credit{text-align:center;font-size:12px;color:var(--muted);margin-top:24px}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top">
+    <div class="logo"><div class="m" id="lm">R</div><div><b id="bl">Resumo</b><span>Resumen de reuniones · demo</span></div></div>
+    <div class="controls"><input class="ti" id="ib" value="Resumo" maxlength="16"><div class="swatches" id="sw"></div></div>
+  </div>
+  <div class="lead"><h1>De un acta larga a lo que importa, en 1 minuto</h1>
+    <p>Pega la transcripción o las notas de una reunión y la IA te entrega el resumen, los acuerdos y las tareas con responsable. Nada se pierde.</p></div>
+
+  <div class="grid">
+    <div class="panel">
+      <div class="ph"><b>Acta / transcripción</b><button class="lk" id="ex">Cargar ejemplo</button></div>
+      <div class="pb">
+        <textarea id="txt" placeholder="Pega aquí las notas o la transcripción de la reunión…"></textarea>
+        <button class="btn" id="go"><svg viewBox="0 0 24 24"><path d="M12 3l2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2z"/></svg> Resumir con IA</button>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="ph"><b>Resultado</b><span style="font-size:11px;color:var(--muted)">IA en vivo</span></div>
+      <div class="pb" id="out"><div class="empty"><svg viewBox="0 0 24 24"><path d="M9 11h6M9 15h4M7 3h7l5 5v11a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2z"/></svg>Pega el acta y toca <b>Resumir</b>.<br>Te entrego resumen, acuerdos y tareas.</div></div>
+    </div>
+  </div>
+  <div class="credit">Demo interactiva · solución re-skineable · IA real</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  function $(s){return document.querySelector(s);}
+  function esc(s){return String(s).replace(/[&<>]/g,function(m){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[m];});}
+  var sample=
+"Reunión de coordinación semanal — 24/06.\nParticipan: Marcela (jefa de proyecto), Iván (terreno), Sofía (administración).\n\n"+
+"Marcela abre indicando que el avance de la obra va en 58%, levemente bajo lo planificado por las lluvias de la semana pasada. "+
+"Iván comenta que faltan dos certificados de los equipos y que sin eso no puede ingresar la cuadrilla nueva el lunes. "+
+"Sofía dice que el pago del segundo estado quedó pendiente porque falta la factura del proveedor de andamios. "+
+"Se acuerda que Iván gestiona los certificados antes del viernes. "+
+"Marcela hablará con el mandante para reprogramar el hito de entrega al 15 de julio. "+
+"Sofía solicitará la factura al proveedor mañana y emitirá el estado de pago apenas llegue. "+
+"Se decide además sumar un turno extra el sábado para recuperar el atraso. Próxima reunión: martes 1 de julio.";
+
+  $("#ex").onclick=function(){$("#txt").value=sample;};
+
+  $("#go").onclick=function(){
+    var t=$("#txt").value.trim();if(!t){$("#txt").focus();return;}
+    $("#go").disabled=true;
+    $("#out").innerHTML='<div class="skel" style="width:90%;height:36px;margin-bottom:16px"></div><div class="skel" style="width:60%"></div><div class="skel" style="width:100%"></div><div class="skel" style="width:80%"></div><div class="skel" style="width:70%;margin-top:14px"></div><div class="skel" style="width:95%"></div>';
+    var sys="Eres asistente que resume reuniones. Lee el acta/transcripción y responde SOLO con JSON válido, sin markdown, forma exacta:\n"+
+      '{"resumen":"...","puntos":["..."],"acuerdos":["..."],"tareas":[{"tarea":"...","responsable":"..."}]}\n'+
+      "resumen: 2-3 frases. puntos: lo clave conversado. acuerdos: decisiones tomadas. tareas: accionables con su responsable (si no hay responsable, pon 'Equipo'). Español de Chile, fiel al texto.";
+    fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1000,system:sys,messages:[{role:"user",content:t.slice(0,8000)}]})
+    }).then(function(r){return r.json();}).then(function(d){
+      var raw="";if(d&&d.content)raw=d.content.filter(function(i){return i.type==="text";}).map(function(i){return i.text;}).join("").trim();
+      raw=raw.replace(/```json|```/g,"").trim();render(JSON.parse(raw));
+    }).catch(function(){
+      $("#out").innerHTML='<div class="empty">No se pudo resumir ahora ⚠️. Reintenta en unos segundos.</div>';
+    }).then(function(){$("#go").disabled=false;});
+  };
+
+  function render(o){
+    var puntos=(o.puntos||[]).map(function(x){return '<div class="li"><span class="b">›</span>'+esc(x)+'</div>';}).join("");
+    var acuerdos=(o.acuerdos||[]).map(function(x){return '<div class="li"><span class="b">✓</span>'+esc(x)+'</div>';}).join("");
+    var tareas=(o.tareas||[]).map(function(x){return '<div class="task"><span class="ck"></span><span>'+esc(x.tarea||"")+'</span><span class="who">'+esc(x.responsable||"Equipo")+'</span></div>';}).join("");
+    $("#out").innerHTML=
+      '<div class="sum">'+esc(o.resumen||"")+'</div>'+
+      (puntos?'<div class="block"><div class="bl">📌 Puntos clave</div>'+puntos+'</div>':'')+
+      (acuerdos?'<div class="block"><div class="bl">🤝 Acuerdos</div>'+acuerdos+'</div>':'')+
+      (tareas?'<div class="block"><div class="bl">✅ Tareas</div>'+tareas+'</div>':'');
+  }
+
+  var SW=[{c:"#0E8A6E"},{c:"#2563EB"},{c:"#7C3AED"},{c:"#E8852C"},{c:"#16161A"}];
+  function ac(o){document.documentElement.style.setProperty("--accent",o.c);var h=o.c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
+    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#13191A":"#fff");
+    [].slice.call(document.querySelectorAll(".sw")).forEach(function(e){e.classList.toggle("active",e.dataset.c===o.c);});}
+  function bsw(){var s=$("#sw");s.innerHTML="";SW.forEach(function(o){var b=document.createElement("button");b.className="sw";b.style.background=o.c;b.dataset.c=o.c;b.onclick=function(){ac(o);};s.appendChild(b);});}
+  function ab(n){$("#bl").textContent=n||"Marca";$("#lm").textContent=(n||"M").charAt(0).toUpperCase();}
+  $("#ib").addEventListener("input",function(e){ab(e.target.value);});
+  bsw();ac(SW[0]);ab("Resumo");
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compras y Proveedores · Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --accent:#C2410C;--accent-2:#EA7A3C;--accent-ink:#fff;--ok:#2E9E66;--warn:#E0A53B;
+    --ink:#1B1410;--muted:#867A70;--line:#ECE5DC;--surface:#F7F2EC;--card:#fff;
+    --display:"Bricolage Grotesque",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--body);color:var(--ink);background:var(--surface);-webkit-font-smoothing:antialiased}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  input{font-family:inherit}
+  .shell{max-width:1000px;margin:0 auto;padding:24px 20px 50px}
+  .top{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+  .logo{display:flex;align-items:center;gap:11px}
+  .logo .m{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:800;font-size:18px}
+  .logo b{font-family:var(--display);font-size:20px;display:block;line-height:1}.logo span{font-size:11.5px;color:var(--muted)}
+  .controls{margin-left:auto;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .ti{height:36px;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:0 11px;font-size:13px;width:120px;outline:none}
+  .swatches{display:flex;gap:6px}.sw{width:22px;height:22px;border-radius:999px;border:2px solid transparent}.sw.active{border-color:var(--ink);transform:scale(1.1)}
+  .lead{margin:0 0 16px}.lead h1{font-family:var(--display);font-weight:800;font-size:clamp(22px,3vw,30px);letter-spacing:-.02em;margin:0 0 4px}
+  .lead p{font-size:14px;color:var(--muted);margin:0;max-width:58ch}
+  .req{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .req .ic{width:46px;height:46px;border-radius:12px;background:color-mix(in srgb,var(--accent) 12%,transparent);display:grid;place-items:center;font-size:22px;flex:0 0 auto}
+  .req .inf b{font-family:var(--display);font-size:16px;display:block}.req .inf span{font-size:12.5px;color:var(--muted)}
+  .req .st{margin-left:auto;font-size:11.5px;font-weight:700;color:var(--accent);background:color-mix(in srgb,var(--accent) 11%,transparent);padding:6px 12px;border-radius:999px}
+  .ql{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+  .quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:720px){.quotes{grid-template-columns:1fr}}
+  .quote{background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:18px;position:relative;transition:.2s}
+  .quote.best{border-color:var(--ok);box-shadow:0 14px 36px rgba(46,158,102,.14)}
+  .quote .tagbest{position:absolute;top:-11px;left:16px;background:var(--ok);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:999px;text-transform:uppercase;letter-spacing:.5px}
+  .quote h3{font-family:var(--display);font-size:16px;margin:0 0 2px}
+  .quote .rating{font-size:11.5px;color:var(--warn);margin-bottom:14px}
+  .quote .price{font-family:var(--display);font-weight:800;font-size:26px;line-height:1}
+  .quote .price.best{color:var(--ok)}
+  .quote .meta{font-size:12.5px;color:var(--muted);margin:10px 0 4px;display:flex;flex-direction:column;gap:6px}
+  .quote .meta div{display:flex;justify-content:space-between}.quote .meta b{color:var(--ink);font-family:var(--mono)}
+  .quote .pick{margin-top:14px;height:42px;width:100%;border-radius:11px;font-weight:700;font-size:13.5px;transition:.15s}
+  .quote .pick.b{background:var(--ok);color:#fff}.quote .pick.g{background:var(--surface);border:1px solid var(--line);color:var(--ink)}
+  .quote.adj{outline:2px solid var(--accent)}
+  .result{margin-top:18px;background:color-mix(in srgb,var(--accent) 9%,transparent);border:1px solid color-mix(in srgb,var(--accent) 28%,transparent);border-radius:13px;padding:14px 16px;font-size:14px;font-weight:600;display:none}
+  .result.on{display:block;animation:f .25s ease}@keyframes f{from{opacity:0}to{opacity:1}}
+  .credit{text-align:center;font-size:12px;color:var(--muted);margin-top:22px}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top">
+    <div class="logo"><div class="m" id="lm">P</div><div><b id="bl">Provee</b><span>Compras y proveedores · demo</span></div></div>
+    <div class="controls"><input class="ti" id="ib" value="Provee" maxlength="16"><div class="swatches" id="sw"></div></div>
+  </div>
+  <div class="lead"><h1>Compra ordenada y al mejor precio</h1>
+    <p>Una solicitud, varias cotizaciones comparadas lado a lado. El sistema te marca la mejor — tú adjudicas con un clic.</p></div>
+
+  <div class="req">
+    <div class="ic">🧰</div>
+    <div class="inf"><b>Solicitud SC-0142 · 50 arneses de seguridad</b><span>Solicita: Bodega central · Necesario en 10 días</span></div>
+    <div class="st">3 cotizaciones</div>
+  </div>
+
+  <div class="ql">Cotizaciones recibidas</div>
+  <div class="quotes" id="quotes"></div>
+  <div class="result" id="result"></div>
+  <div class="credit">Demo interactiva · solución re-skineable · proveedores de ejemplo</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  function $(s){return document.querySelector(s);}
+  function clp(n){return "$"+n.toLocaleString("es-CL");}
+  var quotes=[
+    {prov:"Suministros Andes",rating:"★★★★☆",price:1480000,plazo:"7 días",pago:"30 días",garantia:"12 meses"},
+    {prov:"Ferretería Industrial Sur",rating:"★★★★★",price:1390000,plazo:"5 días",pago:"contado",garantia:"18 meses"},
+    {prov:"Importadora Pacífico",rating:"★★★☆☆",price:1620000,plazo:"12 días",pago:"60 días",garantia:"12 meses"}
+  ];
+  // score: menor precio + menor plazo + mayor garantía → marcamos best por precio (criterio principal)
+  var bestIdx=quotes.reduce(function(b,q,i){return q.price<quotes[b].price?i:b;},0);
+  var adj=null;
+
+  function render(){
+    $("#quotes").innerHTML=quotes.map(function(q,i){
+      var best=i===bestIdx;
+      return '<div class="quote '+(best?"best":"")+'" data-i="'+i+'">'+(best?'<span class="tagbest">Mejor opción</span>':'')+
+        '<h3>'+q.prov+'</h3><div class="rating">'+q.rating+'</div>'+
+        '<div class="price '+(best?"best":"")+'">'+clp(q.price)+'</div>'+
+        '<div class="meta"><div><span>Plazo entrega</span><b>'+q.plazo+'</b></div><div><span>Pago</span><b>'+q.pago+'</b></div><div><span>Garantía</span><b>'+q.garantia+'</b></div></div>'+
+        '<button class="pick '+(best?"b":"g")+'" data-pick="'+i+'">Adjudicar</button></div>';
+    }).join("");
+    [].slice.call($("#quotes").querySelectorAll("[data-pick]")).forEach(function(b){b.onclick=function(){adjudicar(+b.dataset.pick);};});
+  }
+  function adjudicar(i){
+    adj=i;
+    [].slice.call($("#quotes").querySelectorAll(".quote")).forEach(function(el,k){el.classList.toggle("adj",k===i);});
+    var q=quotes[i],saved=quotes.reduce(function(m,x){return Math.max(m,x.price);},0)-q.price;
+    var r=$("#result");r.classList.add("on");
+    r.innerHTML='✓ Adjudicado a <b>'+q.prov+'</b> por '+clp(q.price)+(i===bestIdx&&saved>0?' · ahorras '+clp(saved)+' vs la más cara.':'.')+' Orden de compra generada.';
+  }
+
+  var SW=[{c:"#C2410C",c2:"#EA7A3C"},{c:"#0D9488",c2:"#2DD4BF"},{c:"#2563EB",c2:"#5B8DEF"},{c:"#7C3AED",c2:"#A855F7"},{c:"#16161A",c2:"#444"}];
+  function ac(o){document.documentElement.style.setProperty("--accent",o.c);document.documentElement.style.setProperty("--accent-2",o.c2);
+    var h=o.c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
+    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#1B1410":"#fff");
+    [].slice.call(document.querySelectorAll(".sw")).forEach(function(e){e.classList.toggle("active",e.dataset.c===o.c);});}
+  function bsw(){var s=$("#sw");s.innerHTML="";SW.forEach(function(o){var b=document.createElement("button");b.className="sw";b.style.background=o.c;b.dataset.c=o.c;b.onclick=function(){ac(o);};s.appendChild(b);});}
+  function ab(n){$("#bl").textContent=n||"Marca";$("#lm").textContent=(n||"M").charAt(0).toUpperCase();}
+  $("#ib").addEventListener("input",function(e){ab(e.target.value);});
+  bsw();ac(SW[0]);ab("Provee");render();
+})();
+</script>
+</body>
+</html>

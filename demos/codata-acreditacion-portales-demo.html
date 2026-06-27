@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Automatizador de Acreditación · Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --accent:#1463C4;--accent-2:#3F8AE0;--accent-ink:#fff;--ok:#1FB47A;
+    --ink:#16202C;--muted:#74808E;--line:#E2E8F0;--surface:#EEF3F8;--card:#fff;
+    --display:"Bricolage Grotesque",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--body);color:var(--ink);background:var(--surface);-webkit-font-smoothing:antialiased}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  input{font-family:inherit}
+  .shell{max-width:1080px;margin:0 auto;padding:24px 20px 50px}
+  .top{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+  .logo{display:flex;align-items:center;gap:11px}
+  .logo .m{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:800;font-size:18px}
+  .logo b{font-family:var(--display);font-size:20px;display:block;line-height:1}.logo span{font-size:11.5px;color:var(--muted)}
+  .controls{margin-left:auto;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .ti{height:36px;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:0 11px;font-size:13px;width:120px;outline:none}
+  .swatches{display:flex;gap:6px}.sw{width:22px;height:22px;border-radius:999px;border:2px solid transparent}.sw.active{border-color:var(--ink);transform:scale(1.1)}
+  .lead{margin:0 0 16px}.lead h1{font-family:var(--display);font-weight:800;font-size:clamp(23px,3.2vw,32px);letter-spacing:-.02em;margin:0 0 4px}
+  .lead p{font-size:14.5px;color:var(--muted);margin:0;max-width:60ch}
+  .barx{display:flex;align-items:center;gap:14px;margin-bottom:16px;flex-wrap:wrap}
+  .btn{height:50px;padding:0 24px;border-radius:13px;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:var(--accent-ink);font-weight:700;font-size:15px;display:inline-flex;align-items:center;gap:9px;transition:filter .15s}
+  .btn:hover{filter:brightness(1.06)}.btn:disabled{opacity:.5;cursor:not-allowed}
+  .btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9}
+  .prog{flex:1;min-width:160px}
+  .prog .pl{font-size:12px;color:var(--muted);margin-bottom:5px;display:flex;justify-content:space-between}
+  .prog .bar{height:9px;background:var(--card);border:1px solid var(--line);border-radius:999px;overflow:hidden}
+  .prog .fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));width:0;transition:width .4s}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+  @media(max-width:760px){.grid{grid-template-columns:1fr}}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 6px 22px rgba(20,30,45,.06)}
+  .ph{padding:13px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px;font-family:var(--display);font-size:15px}
+  .ph .tagx{font-size:10px;font-weight:700;background:var(--surface);color:var(--muted);padding:3px 8px;border-radius:999px;margin-left:auto;font-family:var(--body)}
+  table{width:100%;border-collapse:collapse;font-size:12.5px}
+  th{text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);padding:9px 14px;border-bottom:1px solid var(--line)}
+  td{padding:9px 14px;border-bottom:1px solid var(--line);font-family:var(--mono)}
+  tr.cur{background:color-mix(in srgb,var(--accent) 8%,transparent)}
+  tr.ok td:first-child::before{content:"✓ ";color:var(--ok);font-weight:700}
+  .portal{padding:18px}
+  .portal .url{font-family:var(--mono);font-size:11px;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:7px 11px;margin-bottom:16px;display:flex;align-items:center;gap:7px}
+  .portal .url .dot{width:8px;height:8px;border-radius:999px;background:var(--ok)}
+  .field{margin-bottom:13px}
+  .field label{font-size:11px;font-weight:700;color:var(--muted);display:block;margin-bottom:5px}
+  .field .inp{height:42px;border:1.5px solid var(--line);border-radius:10px;padding:0 12px;font-size:13.5px;font-family:var(--mono);display:flex;align-items:center;color:var(--ink);background:var(--surface);transition:border .2s}
+  .field .inp.typing{border-color:var(--accent);background:#fff}
+  .field .inp .car{width:2px;height:18px;background:var(--accent);margin-left:1px;animation:blink 1s steps(2) infinite}
+  @keyframes blink{50%{opacity:0}}
+  .stamp{margin-top:16px;text-align:center;height:60px;display:flex;align-items:center;justify-content:center}
+  .stamp .s{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--ok);color:var(--ok);font-family:var(--display);font-weight:800;font-size:17px;padding:9px 18px;border-radius:12px;transform:rotate(-4deg) scale(0);transition:transform .3s cubic-bezier(.3,1.5,.6,1);text-transform:uppercase;letter-spacing:1px}
+  .stamp .s.show{transform:rotate(-4deg) scale(1)}
+  .stamp .s svg{width:20px;height:20px;stroke:var(--ok);fill:none;stroke-width:2.5}
+  .credit{text-align:center;font-size:12px;color:var(--muted);margin-top:22px}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top">
+    <div class="logo"><div class="m" id="lm">A</div><div><b id="bl">Andex</b><span>Automatizador de acreditación · demo</span></div></div>
+    <div class="controls"><input class="ti" id="ib" value="Andex" maxlength="16"><div class="swatches" id="sw"></div></div>
+  </div>
+  <div class="lead"><h1>Acredita a 100 trabajadores sin tipear uno</h1>
+    <p>Lee tu planilla y rellena el portal por ti, persona por persona. Lo que tomaba horas de digitación, en segundos.</p></div>
+
+  <div class="barx">
+    <button class="btn" id="run"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> Acreditar a todos</button>
+    <div class="prog"><div class="pl"><span id="progTxt">Listo para acreditar</span><span id="progN">0 / 0</span></div><div class="bar"><div class="fill" id="fill"></div></div></div>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <div class="ph">📋 Planilla de personal <span class="tagx" id="rowsTag"></span></div>
+      <table><thead><tr><th>Nombre</th><th>RUT</th><th>Cargo</th><th>Curso</th></tr></thead><tbody id="rows"></tbody></table>
+    </div>
+    <div class="panel">
+      <div class="ph">🌐 Portal de acreditación</div>
+      <div class="portal">
+        <div class="url"><span class="dot"></span> portal-acreditacion.cl/ingreso</div>
+        <div class="field"><label>Nombre completo</label><div class="inp" id="fName"></div></div>
+        <div class="field"><label>RUT</label><div class="inp" id="fRut"></div></div>
+        <div class="field"><label>Cargo</label><div class="inp" id="fCargo"></div></div>
+        <div class="field"><label>Curso acreditado</label><div class="inp" id="fCurso"></div></div>
+        <div class="stamp"><div class="s" id="stamp"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> Acreditado</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="credit">Demo interactiva · solución re-skineable · personal de ejemplo</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  function $(s){return document.querySelector(s);}
+  var people=[
+    {n:"Diego Morales",rut:"12.345.678-9",cargo:"Operador",curso:"Trabajo en altura"},
+    {n:"Camila Reyes",rut:"15.111.222-3",cargo:"Rigger",curso:"Izaje de cargas"},
+    {n:"Mauricio Lara",rut:"9.876.543-2",cargo:"Supervisor",curso:"Líder de seguridad"},
+    {n:"Andrea Fuentes",rut:"17.555.666-4",cargo:"Técnico",curso:"Espacios confinados"},
+    {n:"Tomás Vega",rut:"13.999.888-7",cargo:"Operador",curso:"Trabajo en altura"}
+  ];
+  var running=false;
+
+  function build(){
+    $("#rows").innerHTML=people.map(function(p,i){return '<tr data-i="'+i+'"><td>'+p.n+'</td><td>'+p.rut+'</td><td>'+p.cargo+'</td><td>'+p.curso+'</td></tr>';}).join("");
+    $("#rowsTag").textContent=people.length+" filas";$("#progN").textContent="0 / "+people.length;
+  }
+  function clearForm(){["fName","fRut","fCargo","fCurso"].forEach(function(id){$("#"+id).innerHTML="";$("#"+id).classList.remove("typing");});$("#stamp").classList.remove("show");}
+
+  function type(el,text){
+    return new Promise(function(res){
+      el.classList.add("typing");el.innerHTML='<span class="t"></span><span class="car"></span>';
+      var t=el.querySelector(".t"),i=0;
+      var iv=setInterval(function(){
+        i++;t.textContent=text.slice(0,i);
+        if(i>=text.length){clearInterval(iv);setTimeout(function(){el.innerHTML=text;el.classList.remove("typing");res();},150);}
+      },28);
+    });
+  }
+  function delay(ms){return new Promise(function(r){setTimeout(r,ms);});}
+
+  async function run(){
+    if(running)return;running=true;$("#run").disabled=true;
+    [].slice.call(document.querySelectorAll("#rows tr")).forEach(function(r){r.classList.remove("ok","cur");});
+    for(var i=0;i<people.length;i++){
+      var p=people[i],row=document.querySelector('#rows tr[data-i="'+i+'"]');
+      clearForm();row.classList.add("cur");
+      $("#progTxt").textContent="Acreditando a "+p.n+"…";
+      await type($("#fName"),p.n);
+      await type($("#fRut"),p.rut);
+      await type($("#fCargo"),p.cargo);
+      await type($("#fCurso"),p.curso);
+      $("#stamp").classList.add("show");
+      row.classList.remove("cur");row.classList.add("ok");
+      $("#progN").textContent=(i+1)+" / "+people.length;
+      $("#fill").style.width=((i+1)/people.length*100)+"%";
+      await delay(520);
+    }
+    $("#progTxt").textContent="✓ "+people.length+" trabajadores acreditados";
+    $("#run").disabled=false;running=false;
+  }
+  $("#run").onclick=run;
+
+  var SW=[{c:"#1463C4",c2:"#3F8AE0"},{c:"#0D9488",c2:"#2DD4BF"},{c:"#7C3AED",c2:"#A855F7"},{c:"#C2410C",c2:"#EA7A3C"},{c:"#16161A",c2:"#444"}];
+  function ac(o){document.documentElement.style.setProperty("--accent",o.c);document.documentElement.style.setProperty("--accent-2",o.c2);
+    var h=o.c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
+    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#16202C":"#fff");
+    [].slice.call(document.querySelectorAll(".sw")).forEach(function(e){e.classList.toggle("active",e.dataset.c===o.c);});}
+  function bsw(){var s=$("#sw");s.innerHTML="";SW.forEach(function(o){var b=document.createElement("button");b.className="sw";b.style.background=o.c;b.dataset.c=o.c;b.onclick=function(){ac(o);};s.appendChild(b);});}
+  function ab(n){$("#bl").textContent=n||"Marca";$("#lm").textContent=(n||"M").charAt(0).toUpperCase();}
+  $("#ib").addEventListener("input",function(e){ab(e.target.value);});
+  bsw();ac(SW[0]);ab("Andex");build();
+})();
+</script>
+</body>
+</html>

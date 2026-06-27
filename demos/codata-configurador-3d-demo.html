@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Configurador 3D · Demo CO-DATA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+  :root{
+    --accent:#C2683B;
+    --accent-ink:#fff;
+    --ink:#15140F;
+    --muted:#8A8578;
+    --line:#2A2823;
+    --panel:#1C1A16;
+    --panel-2:#23211C;
+    --text:#F3F0E8;
+    --display:"Bricolage Grotesque",system-ui,sans-serif;
+    --body:"Inter",system-ui,sans-serif;
+    --mono:"JetBrains Mono",monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--body);color:var(--text);background:#100F0C;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  input{font-family:inherit}
+  .shell{max-width:1200px;margin:0 auto;padding:22px 22px 40px}
+
+  .top{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+  .logo{display:flex;align-items:center;gap:11px}
+  .logo .m{width:36px;height:36px;border-radius:10px;background:var(--accent);display:grid;place-items:center;color:var(--accent-ink);font-family:var(--display);font-weight:800;font-size:17px;transition:background .35s}
+  .logo b{font-family:var(--display);font-size:19px;letter-spacing:-.02em;display:block;line-height:1}
+  .logo span{font-size:11.5px;color:var(--muted)}
+  .controls{margin-left:auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .brand-inp{height:36px;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:0 11px;color:var(--text);font-size:13px;width:120px;outline:none}
+  .brand-inp:focus{border-color:var(--accent)}
+  .swatches{display:flex;gap:6px}
+  .sw{width:22px;height:22px;border-radius:999px;border:2px solid transparent;transition:.15s}
+  .sw.active{border-color:#fff;transform:scale(1.1)}
+
+  .stage{display:grid;grid-template-columns:1fr 340px;gap:18px;align-items:stretch}
+  @media (max-width:880px){.stage{grid-template-columns:1fr}}
+
+  .canvas-wrap{position:relative;border:1px solid var(--line);border-radius:18px;overflow:hidden;
+    background:radial-gradient(80% 80% at 50% 30%,#26241E,#100F0C);min-height:440px}
+  #scene{display:block;width:100%;height:100%;cursor:grab;touch-action:none}
+  #scene:active{cursor:grabbing}
+  .badge3d{position:absolute;top:14px;left:14px;font-size:11px;font-weight:700;letter-spacing:.04em;
+    background:rgba(0,0,0,.4);border:1px solid var(--line);color:var(--text);padding:6px 11px;border-radius:999px;backdrop-filter:blur(6px);display:flex;align-items:center;gap:7px}
+  .badge3d .d{width:7px;height:7px;border-radius:999px;background:var(--accent)}
+  .hint3d{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);font-size:11.5px;color:var(--muted);
+    background:rgba(0,0,0,.35);padding:6px 13px;border-radius:999px;backdrop-filter:blur(6px);white-space:nowrap}
+  .loaderr{position:absolute;inset:0;display:none;place-items:center;text-align:center;padding:30px;color:var(--muted);font-size:13px}
+
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px;display:flex;flex-direction:column}
+  .pname{font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:-.02em;margin:0}
+  .ptag{font-size:12.5px;color:var(--muted);margin:2px 0 18px}
+  .grp{margin-bottom:18px}
+  .grp .gl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+  .colors{display:flex;gap:10px;flex-wrap:wrap}
+  .cc{width:34px;height:34px;border-radius:999px;border:2px solid transparent;cursor:pointer;transition:.15s;position:relative}
+  .cc.on{border-color:#fff;transform:scale(1.08)}
+  .cc .plus{position:absolute;top:-5px;right:-5px;font-size:9px;background:var(--accent);color:#fff;border-radius:999px;padding:1px 4px;font-weight:700}
+  .mats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+  .mat{border:1px solid var(--line);border-radius:11px;padding:11px 8px;text-align:center;background:var(--panel-2);transition:.15s}
+  .mat.on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,var(--panel-2))}
+  .mat b{font-size:12.5px;display:block;font-family:var(--display)}
+  .mat span{font-size:10.5px;color:var(--muted)}
+  .toggles{display:flex;gap:9px}
+  .tg{flex:1;border:1px solid var(--line);border-radius:11px;padding:11px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;font-weight:600;background:var(--panel-2);transition:.15s}
+  .tg.on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 14%,var(--panel-2));color:var(--text)}
+  .tg svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8}
+
+  .foot{margin-top:auto;padding-top:18px;border-top:1px solid var(--line)}
+  .priceline{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px}
+  .priceline .pl{font-size:12px;color:var(--muted)}
+  .priceline .pv{font-family:var(--display);font-weight:800;font-size:30px;transition:color .2s}
+  .buy{height:52px;border-radius:14px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:15px;width:100%;display:flex;align-items:center;justify-content:center;gap:9px;transition:background .35s,filter .15s}
+  .buy:hover{filter:brightness(1.07)}
+  .buy svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:2}
+
+  .credit{text-align:center;font-size:12px;color:var(--muted);margin-top:24px}
+  .credit b{color:var(--text)}
+  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--accent);color:#fff;
+    font-size:13px;font-weight:700;padding:12px 20px;border-radius:999px;opacity:0;pointer-events:none;transition:.25s;z-index:50}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <div class="top">
+    <div class="logo"><div class="m" id="logoMark">H</div><div><b id="brandLogo">Halo</b><span>Configurador de producto 3D · CO-DATA</span></div></div>
+    <div class="controls">
+      <input class="brand-inp" id="inpBrand" value="Halo" maxlength="16" aria-label="Nombre">
+      <div class="swatches" id="swatches"></div>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="canvas-wrap">
+      <canvas id="scene"></canvas>
+      <div class="badge3d"><span class="d"></span> 3D · gíralo con el dedo</div>
+      <div class="hint3d" id="hint">Arrastra para rotar · rueda para acercar</div>
+      <div class="loaderr" id="loaderr">No se pudo cargar el motor 3D.<br>Reintenta con conexión a internet.</div>
+    </div>
+
+    <div class="panel">
+      <h2 class="pname" id="pName">Lámpara Halo</h2>
+      <div class="ptag">Edición de autor · personalízala</div>
+
+      <div class="grp">
+        <div class="gl">Color</div>
+        <div class="colors" id="colors"></div>
+      </div>
+
+      <div class="grp">
+        <div class="gl">Material</div>
+        <div class="mats" id="mats"></div>
+      </div>
+
+      <div class="grp">
+        <div class="gl">Opciones</div>
+        <div class="toggles">
+          <button class="tg" id="tgLight"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 00-4 10c1 1 1 2 1 3h6c0-1 0-2 1-3a6 6 0 00-4-10z"/></svg> Encender</button>
+          <button class="tg on" id="tgSpin"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 11-3-6.7M21 4v5h-5"/></svg> Girar</button>
+        </div>
+      </div>
+
+      <div class="foot">
+        <div class="priceline"><span class="pl">Precio configurado</span><span class="pv" id="price">$89.000</span></div>
+        <button class="buy" id="buy"><svg viewBox="0 0 24 24"><path d="M6 6h15l-1.5 9h-12z"/><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M6 6L5 3H2"/></svg> Añadir al carrito</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="credit">Configurador 3D desarrollado por <b>CO-DATA</b> · Geometría en tiempo real con WebGL</div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  "use strict";
+  function $(s){return document.querySelector(s);}
+  function clp(n){return "$"+n.toLocaleString("es-CL");}
+  if(!window.THREE){$("#loaderr").style.display="grid";return;}
+
+  var BASE=89000;
+  var colors=[
+    {name:"Arena",hex:0xE7DCC8,ui:"#E7DCC8",add:0},
+    {name:"Terracota",hex:0xC2683B,ui:"#C2683B",add:0},
+    {name:"Oliva",hex:0x6F7B46,ui:"#6F7B46",add:0},
+    {name:"Carbón",hex:0x2B2B30,ui:"#2B2B30",add:0},
+    {name:"Marfil perla",hex:0xF3EFE6,ui:"#F3EFE6",add:10000}
+  ];
+  var materials=[
+    {name:"Mate",sub:"Suave",metal:0.0,rough:0.85,add:0},
+    {name:"Metálico",sub:"Brillo",metal:0.9,rough:0.25,add:40000},
+    {name:"Cerámico",sub:"Satinado",metal:0.1,rough:0.45,add:25000}
+  ];
+
+  var state={color:0,mat:0,light:false,spin:true};
+
+  /* ---- three setup ---- */
+  var canvas=$("#scene"),wrap=canvas.parentElement;
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(38,1,0.1,100);
+  camera.position.set(0,1.0,5.2);
+
+  // lights
+  var amb=new THREE.AmbientLight(0xffffff,0.55);scene.add(amb);
+  var hemi=new THREE.HemisphereLight(0xffffff,0x3a3630,0.5);scene.add(hemi);
+  var key=new THREE.DirectionalLight(0xffffff,0.95);key.position.set(3,6,4);key.castShadow=true;
+  key.shadow.mapSize.width=1024;key.shadow.mapSize.height=1024;
+  key.shadow.camera.near=1;key.shadow.camera.far=20;key.shadow.camera.left=-4;key.shadow.camera.right=4;key.shadow.camera.top=4;key.shadow.camera.bottom=-4;
+  scene.add(key);
+  var bulbLight=new THREE.PointLight(0xffd9a0,0,6,2);bulbLight.position.set(0,1.15,0);scene.add(bulbLight);
+
+  // ground
+  var groundMat=new THREE.MeshStandardMaterial({color:0x1a1813,roughness:1,metalness:0});
+  var ground=new THREE.Mesh(new THREE.CircleGeometry(6,48),groundMat);
+  ground.rotation.x=-Math.PI/2;ground.position.y=-0.96;ground.receiveShadow=true;scene.add(ground);
+
+  // product group (lamp)
+  var lamp=new THREE.Group();scene.add(lamp);
+  var bodyMat=new THREE.MeshStandardMaterial({color:colors[0].hex,roughness:0.85,metalness:0});
+  var stemMat=new THREE.MeshStandardMaterial({color:0x2b2b30,roughness:0.4,metalness:0.7});
+
+  function mkMesh(geo,mat,y){var m=new THREE.Mesh(geo,mat);m.position.y=y;m.castShadow=true;m.receiveShadow=true;return m;}
+  // base
+  var base=mkMesh(new THREE.CylinderGeometry(0.5,0.58,0.13,48),bodyMat,-0.9);lamp.add(base);
+  // stem
+  var stem=mkMesh(new THREE.CylinderGeometry(0.045,0.045,1.5,24),stemMat,-0.1);lamp.add(stem);
+  // neck joint
+  var joint=mkMesh(new THREE.SphereGeometry(0.09,24,16),stemMat,0.66);lamp.add(joint);
+  // shade (cone, open)
+  var shadeGeo=new THREE.CylinderGeometry(0.3,0.62,0.55,48,1,true);
+  var shade=mkMesh(shadeGeo,bodyMat,1.0);shade.material=bodyMat;lamp.add(shade);
+  shade.material.side=THREE.DoubleSide;
+  // shade top cap
+  var cap=mkMesh(new THREE.CircleGeometry(0.3,48),bodyMat,1.275);cap.rotation.x=-Math.PI/2;lamp.add(cap);
+  // bulb
+  var bulbMat=new THREE.MeshStandardMaterial({color:0xfff3df,emissive:0x000000,emissiveIntensity:0,roughness:0.3});
+  var bulb=mkMesh(new THREE.SphereGeometry(0.13,24,18),bulbMat,1.0);lamp.add(bulb);
+
+  function applyColor(){
+    bodyMat.color.setHex(colors[state.color].hex);
+  }
+  function applyMat(){
+    var m=materials[state.mat];
+    bodyMat.metalness=m.metal;bodyMat.roughness=m.rough;
+    bodyMat.needsUpdate=true;
+  }
+  function applyLight(){
+    if(state.light){
+      bulbLight.intensity=1.9;bulbMat.emissive.setHex(0xffd9a0);bulbMat.emissiveIntensity=1.0;
+      amb.intensity=0.42;hemi.intensity=0.4;
+    } else {
+      bulbLight.intensity=0;bulbMat.emissive.setHex(0x000000);bulbMat.emissiveIntensity=0;
+      amb.intensity=0.55;hemi.intensity=0.5;
+    }
+  }
+
+  /* ---- orbit (custom) ---- */
+  var rotY=0.5,rotX=0.05,dist=5.2,dragging=false,lx=0,ly=0;
+  function down(e){dragging=true;var p=e.touches?e.touches[0]:e;lx=p.clientX;ly=p.clientY;}
+  function move(e){if(!dragging)return;var p=e.touches?e.touches[0]:e;rotY+=(p.clientX-lx)*0.008;rotX+=(p.clientY-ly)*0.006;rotX=Math.max(-0.4,Math.min(0.7,rotX));lx=p.clientX;ly=p.clientY;if(e.touches)e.preventDefault();}
+  function up(){dragging=false;}
+  canvas.addEventListener("mousedown",down);window.addEventListener("mousemove",move);window.addEventListener("mouseup",up);
+  canvas.addEventListener("touchstart",down,{passive:true});canvas.addEventListener("touchmove",move,{passive:false});canvas.addEventListener("touchend",up);
+  canvas.addEventListener("wheel",function(e){e.preventDefault();dist=Math.max(3.6,Math.min(7.5,dist+e.deltaY*0.002));},{passive:false});
+
+  /* ---- resize ---- */
+  function resize(){
+    var w=wrap.clientWidth,h=wrap.clientHeight;
+    renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();
+  }
+  window.addEventListener("resize",resize);
+
+  /* ---- loop ---- */
+  var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+  function tick(){
+    requestAnimationFrame(tick);
+    if(state.spin&&!dragging&&!reduce)rotY+=0.004;
+    lamp.rotation.y=rotY;lamp.rotation.x=rotX*0.6;
+    var tx=Math.sin(rotY)*0,tz=Math.cos(rotY)*0;
+    camera.position.x=Math.sin(0)*dist;camera.position.z=dist;
+    camera.position.y=1.0;camera.lookAt(0,0.2,0);
+    renderer.render(scene,camera);
+  }
+
+  /* ---- price ---- */
+  function price(){return BASE+colors[state.color].add+materials[state.mat].add;}
+  function renderPrice(){$("#price").textContent=clp(price());}
+
+  /* ---- UI ---- */
+  function buildColors(){
+    var c=$("#colors");c.innerHTML="";
+    colors.forEach(function(col,i){
+      var b=document.createElement("button");b.className="cc"+(state.color===i?" on":"");b.style.background=col.ui;b.title=col.name;
+      if(col.add>0)b.innerHTML='<span class="plus">+</span>';
+      b.onclick=function(){state.color=i;applyColor();buildColors();renderPrice();};c.appendChild(b);
+    });
+  }
+  function buildMats(){
+    var m=$("#mats");m.innerHTML="";
+    materials.forEach(function(mt,i){
+      var b=document.createElement("button");b.className="mat"+(state.mat===i?" on":"");
+      b.innerHTML='<b>'+mt.name+'</b><span>'+(mt.add>0?"+"+clp(mt.add):mt.sub)+'</span>';
+      b.onclick=function(){state.mat=i;applyMat();buildMats();renderPrice();};m.appendChild(b);
+    });
+  }
+  $("#tgLight").onclick=function(){state.light=!state.light;this.classList.toggle("on",state.light);applyLight();};
+  $("#tgSpin").onclick=function(){state.spin=!state.spin;this.classList.toggle("on",state.spin);};
+  $("#buy").onclick=function(){
+    var t=$("#toast");t.textContent="Agregado · "+colors[state.color].name+" "+materials[state.mat].name+" · "+clp(price());
+    t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show");},2000);
+  };
+
+  /* ---- re-skin ---- */
+  var swColors=[{c:"#C2683B"},{c:"#1A8F6B"},{c:"#2E5BD6"},{c:"#7C3AED"},{c:"#B7791F"}];
+  function applyAccent(c){
+    document.documentElement.style.setProperty("--accent",c);
+    var h=c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
+    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#15140F":"#fff");
+    [].slice.call(document.querySelectorAll(".sw")).forEach(function(el){el.classList.toggle("active",el.dataset.c===c);});
+  }
+  function buildSwatches(){var s=$("#swatches");s.innerHTML="";swColors.forEach(function(o){var b=document.createElement("button");b.className="sw";b.style.background=o.c;b.dataset.c=o.c;b.onclick=function(){applyAccent(o.c);};s.appendChild(b);});}
+  function applyBrand(n){n=n||"Marca";$("#brandLogo").textContent=n;$("#logoMark").textContent=n.charAt(0).toUpperCase();$("#pName").textContent="Lámpara "+n;}
+  $("#inpBrand").addEventListener("input",function(e){applyBrand(e.target.value);});
+
+  /* ---- init ---- */
+  buildSwatches();applyAccent("#C2683B");applyBrand("Halo");
+  buildColors();buildMats();renderPrice();
+  applyColor();applyMat();applyLight();
+  resize();tick();
+})();
+</script>
+</body>
+</html>

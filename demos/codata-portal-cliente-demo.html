@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal de Cliente · Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --accent:#1E5FA8;--accent-ink:#fff;--ok:#2E9E66;--warn:#E0A53B;
+    --ink:#14171C;--muted:#6F7783;--line:#E5E9EF;--surface:#F2F5F9;--card:#fff;
+    --display:"Bricolage Grotesque",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--body);color:var(--ink);background:var(--surface);-webkit-font-smoothing:antialiased}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  input{font-family:inherit}
+  .nav{background:var(--card);border-bottom:1px solid var(--line)}
+  .nav .in{max-width:1000px;margin:0 auto;padding:14px 22px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .logo{display:flex;align-items:center;gap:11px}
+  .logo .m{width:34px;height:34px;border-radius:10px;background:var(--accent);display:grid;place-items:center;color:var(--accent-ink);font-family:var(--display);font-weight:800;font-size:16px;transition:background .35s}
+  .logo b{font-family:var(--display);font-size:18px;display:block;line-height:1}.logo span{font-size:11px;color:var(--muted)}
+  .nav .right{margin-left:auto;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .ti{height:34px;background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:0 10px;font-size:13px;width:120px;outline:none}
+  .swatches{display:flex;gap:6px}.sw{width:20px;height:20px;border-radius:999px;border:2px solid transparent}.sw.active{border-color:var(--ink);transform:scale(1.1)}
+  .who{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:600}
+  .who .a{width:30px;height:30px;border-radius:999px;background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--accent);display:grid;place-items:center;font-weight:700;font-size:12px}
+  .wrap{max-width:1000px;margin:0 auto;padding:24px 22px 56px}
+  .hello{margin-bottom:20px}
+  .hello h1{font-family:var(--display);font-weight:800;font-size:clamp(22px,3vw,30px);letter-spacing:-.02em;margin:0 0 4px}
+  .hello p{font-size:14px;color:var(--muted);margin:0}
+  .grid{display:grid;grid-template-columns:1.5fr 1fr;gap:18px;align-items:start}
+  @media(max-width:820px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 6px 22px rgba(20,18,30,.05);overflow:hidden;margin-bottom:18px}
+  .ch{padding:14px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+  .ch b{font-family:var(--display);font-size:15px}
+  .badge{font-size:11px;font-weight:700;padding:5px 10px;border-radius:999px;background:color-mix(in srgb,var(--accent) 13%,transparent);color:var(--accent)}
+  .cb{padding:18px}
+  .steps{display:flex;justify-content:space-between;position:relative;margin:4px 0}
+  .steps::before{content:"";position:absolute;top:13px;left:6%;right:6%;height:2px;background:var(--line)}
+  .stp{display:flex;flex-direction:column;align-items:center;gap:8px;position:relative;z-index:1;flex:1;text-align:center}
+  .stp .d{width:28px;height:28px;border-radius:999px;background:var(--card);border:2px solid var(--line);display:grid;place-items:center;font-size:13px;color:var(--muted)}
+  .stp.done .d{background:var(--ok);border-color:var(--ok);color:#fff}
+  .stp.now .d{background:var(--accent);border-color:var(--accent);color:#fff}
+  .stp span{font-size:11px;font-weight:600;color:var(--muted)}
+  .stp.done span,.stp.now span{color:var(--ink)}
+  .pay .row{display:flex;justify-content:space-between;font-size:13.5px;padding:8px 0;border-bottom:1px dashed var(--line)}
+  .pay .row b{font-family:var(--mono)}
+  .pay .bar{height:9px;background:var(--surface);border-radius:999px;overflow:hidden;margin:12px 0}
+  .pay .fill{height:100%;background:var(--accent);width:50%}
+  .pay .st{font-size:12px;color:var(--muted);margin-bottom:12px}
+  .pay .st b.ok{color:var(--ok)}.pay .st b.pend{color:var(--warn)}
+  .btn{height:46px;border-radius:12px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:14px;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .35s,filter .15s}
+  .btn:hover{filter:brightness(1.05)}
+  .note{font-size:11.5px;color:var(--muted);text-align:center;margin-top:10px;display:flex;gap:6px;align-items:center;justify-content:center}
+  .note svg{width:13px;height:13px;stroke:var(--accent);fill:none;stroke-width:2}
+  .doc{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+  .doc:last-child{border:none}
+  .doc .i{width:34px;height:34px;border-radius:9px;background:color-mix(in srgb,var(--accent) 11%,transparent);display:grid;place-items:center;flex:0 0 auto}
+  .doc .i svg{width:16px;height:16px;stroke:var(--accent);fill:none;stroke-width:1.7}
+  .doc .dl{margin-left:auto;font-size:12px;color:var(--accent);font-weight:700}
+  .upd{display:flex;gap:11px;padding:11px 0;border-bottom:1px solid var(--line)}
+  .upd:last-child{border:none}
+  .upd .dot{width:9px;height:9px;border-radius:999px;background:var(--accent);margin-top:5px;flex:0 0 auto}
+  .upd b{font-size:13.5px;display:block}.upd span{font-size:11.5px;color:var(--muted)}
+  .credit{text-align:center;font-size:12px;color:var(--muted);margin-top:8px}
+  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;font-size:13px;font-weight:600;padding:11px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:.25s;z-index:50}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+  <div class="nav"><div class="in">
+    <div class="logo"><div class="m" id="lm">A</div><div><b id="bl">Acceso</b><span>Portal de cliente · demo</span></div></div>
+    <div class="right">
+      <input class="ti" id="ib" value="Acceso" maxlength="16"><div class="swatches" id="sw"></div>
+      <div class="who"><div class="a">CR</div> Camila Reyes</div>
+    </div>
+  </div></div>
+
+  <div class="wrap">
+    <div class="hello"><h1>Hola, Camila 👋</h1><p>Este es el estado de tu proyecto en tiempo real.</p></div>
+
+    <div class="grid">
+      <div>
+        <div class="card">
+          <div class="ch"><b>Proyecto: Tienda online + agenda</b><span class="badge">En desarrollo</span></div>
+          <div class="cb">
+            <div class="steps">
+              <div class="stp done"><div class="d">✓</div><span>Acordado</span></div>
+              <div class="stp now"><div class="d">2</div><span>En desarrollo</span></div>
+              <div class="stp"><div class="d">3</div><span>Revisión</span></div>
+              <div class="stp"><div class="d">4</div><span>Entrega</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="ch"><b>Documentos</b></div>
+          <div class="cb">
+            <div class="doc"><div class="i"><svg viewBox="0 0 24 24"><path d="M14 3v5h5M7 3h7l5 5v11a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2z"/></svg></div>Cotización aprobada<span class="dl" data-d="Cotizacion">Descargar ↓</span></div>
+            <div class="doc"><div class="i"><svg viewBox="0 0 24 24"><path d="M14 3v5h5M7 3h7l5 5v11a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2z"/></svg></div>Orden de trabajo<span class="dl" data-d="Orden_de_trabajo">Descargar ↓</span></div>
+            <div class="doc"><div class="i"><svg viewBox="0 0 24 24"><path d="M14 3v5h5M7 3h7l5 5v11a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2z"/></svg></div>Comprobante 1er pago<span class="dl" data-d="Comprobante">Descargar ↓</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card pay">
+          <div class="ch"><b>Estado de pago</b></div>
+          <div class="cb">
+            <div class="row"><span>Total proyecto</span><b>$640.000</b></div>
+            <div class="row"><span>1er pago (50%)</span><b>$320.000</b></div>
+            <div class="row"><span>Saldo (50%)</span><b>$320.000</b></div>
+            <div class="bar"><div class="fill"></div></div>
+            <div class="st">Anticipo <b class="ok">pagado ✓</b> · Saldo <b class="pend">pendiente a la entrega</b></div>
+            <button class="btn" id="pay">Pagar saldo $320.000</button>
+            <div class="note"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> Incluye 1 ajuste sin costo tras la entrega</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="ch"><b>Novedades</b></div>
+          <div class="cb">
+            <div class="upd"><div class="dot"></div><div><b>Avance del 60%</b><span>Hoy · catálogo y carrito listos</span></div></div>
+            <div class="upd"><div class="dot"></div><div><b>Inicio de desarrollo</b><span>Hace 3 días</span></div></div>
+            <div class="upd"><div class="dot"></div><div><b>Anticipo recibido</b><span>Hace 4 días</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="credit">Demo interactiva · solución re-skineable · cliente de ejemplo</div>
+  </div>
+  <div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  "use strict";
+  function $(s){return document.querySelector(s);}
+  function toast(m){var t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show");},1900);}
+  $("#pay").onclick=function(){toast("Redirigiendo a pago seguro 💳");};
+  [].slice.call(document.querySelectorAll("[data-d]")).forEach(function(b){b.onclick=function(){
+    var txt="DOCUMENTO: "+b.dataset.d.replace(/_/g," ")+"\nProyecto: Tienda online + agenda\nCliente: Camila Reyes\n(Documento de demostración)";
+    var bl=new Blob([txt],{type:"text/plain"}),u=URL.createObjectURL(bl),a=document.createElement("a");a.href=u;a.download=b.dataset.d+".txt";document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u);
+  };});
+
+  var SW=[{c:"#1E5FA8"},{c:"#0D9488"},{c:"#7C3AED"},{c:"#E8852C"},{c:"#16161A"}];
+  function ac(o){document.documentElement.style.setProperty("--accent",o.c);var h=o.c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
+    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#14171C":"#fff");
+    [].slice.call(document.querySelectorAll(".sw")).forEach(function(e){e.classList.toggle("active",e.dataset.c===o.c);});}
+  function bsw(){var s=$("#sw");s.innerHTML="";SW.forEach(function(o){var b=document.createElement("button");b.className="sw";b.style.background=o.c;b.dataset.c=o.c;b.onclick=function(){ac(o);};s.appendChild(b);});}
+  function ab(n){$("#bl").textContent=n||"Marca";$("#lm").textContent=(n||"M").charAt(0).toUpperCase();}
+  $("#ib").addEventListener("input",function(e){ab(e.target.value);});
+  bsw();ac(SW[0]);ab("Acceso");
+})();
+</script>
+</body>
+</html>
