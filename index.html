@@ -1,781 +1,262 @@
 <!DOCTYPE html>
-<html lang="es-CL">
+<html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>CO-DATA · Empresa chilena de digitalización</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PeluKidz · Mientras esperas</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#05070F;--seg:#5B6CFF;--ink:#EEF1FB;--ink-2:#A7AECC;--ink-3:#666D8C;
-    --line:rgba(255,255,255,.07);--line-2:rgba(255,255,255,.14);
-    --display:'Space Grotesk',system-ui,sans-serif;--body:'Inter',system-ui,sans-serif;--mono:'IBM Plex Mono',monospace;
+    --red:#F5333D; --red2:#FF6B4A; --blue:#2EC5FF; --blue2:#1AA8E0;
+    --yellow:#FFC93C; --green:#2FBF71; --purple:#9B6BFF; --pink:#FF7AC6;
+    --ink:#241F2E; --muted:#7A7488; --bg:#FFF7F1; --card:#FFFFFF; --line:rgba(36,31,46,.12);
   }
-  *{box-sizing:border-box;margin:0;padding:0;}
-  body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh;-webkit-tap-highlight-color:transparent;}
-  h1,h2,h3{font-family:var(--display);letter-spacing:-.6px;line-height:1.1;font-weight:600;text-shadow:0 2px 7px rgba(5,7,15,.92);}
-  svg{display:block;} button{font-family:inherit;cursor:pointer;}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  body{font-family:'Fredoka',sans-serif;color:var(--ink);line-height:1.45;
+    background:radial-gradient(circle at 50% -5%, #DFF4FF, var(--bg) 45%);min-height:100vh}
+  .app{max-width:430px;margin:0 auto;padding:0 0 40px;position:relative}
 
-  /* BOOT */
-  #boot{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;align-items:center;justify-content:center;transition:opacity .9s ease;}
-  #boot.hide{opacity:0;pointer-events:none;}
-  .boot-inner{text-align:center;width:min(420px,86vw);}
-  .boot-inner .bm{width:46px;height:46px;margin:0 auto 22px;animation:spin 3s linear infinite;}
-  @keyframes spin{to{transform:rotate(360deg);}}
-  .boot-name{font-family:var(--display);font-weight:600;font-size:30px;letter-spacing:6px;color:var(--ink);}
-  .boot-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:3px;color:var(--ink-3);margin-top:8px;text-transform:uppercase;}
-  .boot-bar{height:2px;background:rgba(255,255,255,.08);border-radius:2px;margin:26px 0 10px;overflow:hidden;}
-  .boot-fill{height:100%;width:0;background:linear-gradient(90deg,var(--seg),#00E0C2);box-shadow:0 0 12px var(--seg);transition:width .2s linear;}
-  .boot-status{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--seg);text-transform:uppercase;}
+  /* STATUS HEADER (sticky) */
+  .status{position:sticky;top:0;z-index:50;background:linear-gradient(135deg,var(--red),var(--red2));color:#fff;
+    padding:16px 18px 18px;border-radius:0 0 26px 26px;box-shadow:0 12px 26px -14px rgba(245,51,61,.6)}
+  .brand{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:700;margin-bottom:12px}
+  .brand .m{width:32px;height:32px;border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:17px}
+  .strow{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.16);border-radius:18px;padding:14px 16px}
+  .strow .tnum{font-family:'Space Grotesk',sans-serif;font-size:34px;font-weight:700;line-height:1}
+  .strow .info{flex:1}
+  .strow .info .lbl{font-size:11px;opacity:.85;font-family:'Space Grotesk',sans-serif;letter-spacing:.08em;text-transform:uppercase}
+  .strow .info .v{font-size:15px;font-weight:500}
+  .strow .info .v b{font-weight:700}
+  .gohint{margin-top:10px;font-size:13px;display:flex;gap:8px;align-items:flex-start;background:rgba(255,255,255,.14);border-radius:14px;padding:11px 13px}
 
-  #space{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;}
-  #wash{position:fixed;inset:0;z-index:1;pointer-events:none;transition:background 1.1s ease,opacity .3s ease;
-    background:radial-gradient(85% 65% at 50% 36%,color-mix(in srgb,var(--seg) 26%,transparent),transparent 72%);}
-  #wash.flash{opacity:1;filter:brightness(2.2);}
-  #vignette{position:fixed;inset:0;z-index:2;pointer-events:none;
-    background:linear-gradient(180deg,rgba(5,7,15,.5),rgba(5,7,15,.22) 18%,rgba(5,7,15,.28) 82%,rgba(5,7,15,.72));}
+  .sect{padding:22px 18px 0}
+  .sect h2{font-size:20px;font-weight:700;margin-bottom:2px}
+  .sect .s{font-size:13px;color:var(--muted);margin-bottom:14px}
 
-  /* HUD */
-  .hud{position:fixed;inset:0;z-index:2;pointer-events:none;}
-  .hud .corner{position:absolute;width:26px;height:26px;border:1px solid rgba(255,255,255,.16);}
-  .hud .tl{top:16px;left:16px;border-right:0;border-bottom:0;}
-  .hud .tr{top:16px;right:16px;border-left:0;border-bottom:0;}
-  .hud .bl{bottom:16px;left:16px;border-right:0;border-top:0;}
-  .hud .br{bottom:16px;right:16px;border-left:0;border-top:0;}
-  .hud .tele{position:absolute;bottom:20px;left:52px;font-family:var(--mono);font-size:9px;letter-spacing:1.5px;color:rgba(255,255,255,.28);text-transform:uppercase;}
-  .hud .scan{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,224,194,.4),transparent);animation:scan 7s linear infinite;opacity:.5;}
-  @keyframes scan{0%{top:-2%}100%{top:102%}}
+  .cards{display:grid;gap:14px}
+  .c{background:var(--card);border-radius:22px;padding:18px;box-shadow:0 12px 28px -18px rgba(36,31,46,.35);border:1px solid var(--line)}
+  .c .ch{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  .c .ch .e{font-size:26px}
+  .c .ch .t{font-size:17px;font-weight:700;line-height:1.1}
+  .c .ch .t small{display:block;font-size:12px;color:var(--muted);font-weight:500}
 
-  .app{position:relative;z-index:3;min-height:100vh;display:flex;flex-direction:column;opacity:0;transition:opacity 1s ease .2s;}
-  .app.ready{opacity:1;}
-  .topbar{display:flex;align-items:center;justify-content:space-between;padding:22px 32px;gap:16px;}
-  .logo{display:flex;align-items:center;gap:12px;}
-  .logo .mark{width:30px;height:30px;}
-  .logo b{font-family:var(--display);font-weight:600;font-size:16px;letter-spacing:1px;}
-  .logo span{font-family:var(--mono);font-size:8.5px;letter-spacing:2.5px;color:var(--ink-3);display:block;margin-top:-1px;text-transform:uppercase;}
-  .nation{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10.5px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-2);border:1px solid var(--line);padding:8px 16px;border-radius:999px;background:rgba(10,13,26,.4);backdrop-filter:blur(10px);}
-  .nation .dot{width:7px;height:7px;border-radius:50%;background:#00E0C2;box-shadow:0 0 10px #00E0C2;}
-  .back{display:none;align-items:center;gap:8px;font-family:var(--mono);font-size:11.5px;letter-spacing:.5px;color:var(--ink-2);background:transparent;border:1px solid var(--line-2);padding:9px 16px;border-radius:10px;transition:.22s;}
-  .back:hover{background:rgba(255,255,255,.05);color:var(--ink);} .back svg{width:15px;height:15px;}
+  .btn{border:0;border-radius:14px;padding:13px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:14px;cursor:pointer;width:100%;transition:transform .1s}
+  .btn:active{transform:scale(.97)}
+  .btn.red{background:linear-gradient(135deg,var(--red),var(--red2));color:#fff}
+  .btn.blue{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff}
+  .btn.ghost{background:#F3F0F6;color:var(--muted)}
+  .row2{display:flex;gap:8px}.row2 .btn{flex:1}
 
-  .screen{flex:1;display:flex;flex-direction:column;justify-content:center;padding:24px 32px 90px;opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease;}
-  .screen.in{opacity:1;transform:none;}
-  .wrap{max-width:1160px;margin:0 auto;width:100%;}
+  /* DISEÑA TU CORTE */
+  .avatar{width:170px;height:170px;margin:0 auto 12px;display:block}
+  .pick{margin-bottom:10px}
+  .pick .pl{font-size:12px;color:var(--muted);font-weight:600;margin-bottom:6px}
+  .swatches{display:flex;gap:8px;flex-wrap:wrap}
+  .sw{width:38px;height:38px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:transform .1s}
+  .sw:active{transform:scale(.9)}
+  .sw.on{border-color:var(--ink)}
+  .stys{display:flex;gap:8px;flex-wrap:wrap}
+  .sty{border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:9px 12px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:13px;cursor:pointer}
+  .sty.on{background:var(--red);color:#fff;border-color:var(--red)}
+  .saved{background:rgba(47,191,113,.12);color:var(--green);border-radius:12px;padding:11px;text-align:center;font-size:13.5px;font-weight:600;margin-top:10px;display:none}
+  .saved.show{display:block;animation:pop .4s}
+  @keyframes pop{0%{transform:scale(.8);opacity:0}70%{transform:scale(1.05)}100%{transform:scale(1);opacity:1}}
 
-  .home-h{text-align:center;margin-bottom:54px;}
-  .eye{font-family:var(--mono);font-size:11px;letter-spacing:3.5px;text-transform:uppercase;color:color-mix(in srgb,var(--seg) 64%,white);font-weight:500;}
-  .home-h h1{font-size:clamp(32px,5.2vw,54px);margin:18px 0 16px;font-weight:600;}
-  .home-h p{font-size:16px;color:var(--ink-2);max-width:52ch;margin:0 auto;font-weight:300;}
-  .segs{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;}
-  .seg{background:rgba(10,13,26,.5);border:1px solid var(--line);border-radius:18px;padding:30px 22px;backdrop-filter:blur(16px);transition:.3s cubic-bezier(.2,.7,.2,1);}
-  .seg:hover{transform:translateY(-6px);border-color:color-mix(in srgb,var(--c) 55%,transparent);box-shadow:0 20px 50px color-mix(in srgb,var(--c) 14%,transparent);}
-  .seg .ibox{width:50px;height:50px;border-radius:14px;border:1px solid color-mix(in srgb,var(--c) 40%,var(--line-2));display:grid;place-items:center;color:var(--c);margin-bottom:18px;transition:.3s;}
-  .seg:hover .ibox{background:color-mix(in srgb,var(--c) 12%,transparent);}
-  .seg .ibox svg{width:24px;height:24px;}
-  .seg h3{font-size:17px;margin-bottom:8px;font-weight:600;}
-  .seg p{font-size:12.5px;color:var(--ink-2);font-weight:300;min-height:54px;}
-  .seg .go{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--c);margin-top:14px;}
-  .seg .go svg{width:13px;height:13px;}
+  /* MEMORICE */
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .mc{aspect-ratio:1;border-radius:14px;background:linear-gradient(135deg,var(--blue),var(--blue2));display:flex;align-items:center;justify-content:center;font-size:26px;cursor:pointer;color:transparent;transition:transform .15s, background .2s;user-select:none}
+  .mc.up{background:#fff;border:2px solid var(--line);color:initial}
+  .mc.done{background:rgba(47,191,113,.18);border:2px solid var(--green);color:initial;cursor:default}
+  .mc:active{transform:scale(.95)}
+  .mgmsg{text-align:center;font-size:13.5px;color:var(--muted);margin-top:10px;font-weight:500}
+  .mgmsg b{color:var(--green)}
 
-  .seg-head{margin-bottom:36px;max-width:720px;}
-  .seg-head .crumb{display:flex;align-items:center;gap:10px;color:var(--seg);margin-bottom:18px;}
-  .seg-head .crumb .ibox{width:38px;height:38px;border-radius:11px;border:1px solid color-mix(in srgb,var(--seg) 40%,var(--line-2));display:grid;place-items:center;}
-  .seg-head .crumb .ibox svg{width:20px;height:20px;}
-  .seg-head .crumb .lab{font-family:var(--mono);font-size:11px;letter-spacing:2.5px;text-transform:uppercase;}
-  .seg-head h2{font-size:clamp(26px,4.2vw,42px);margin-bottom:14px;max-width:20ch;font-weight:600;}
-  .seg-head p{font-size:16px;color:var(--ink-2);max-width:58ch;font-weight:300;}
-  .sol-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
-  .sol{background:rgba(10,13,26,.55);border:1px solid var(--line);border-radius:16px;padding:24px;backdrop-filter:blur(16px);transition:.26s;cursor:pointer;display:flex;flex-direction:column;}
-  .sol:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--seg) 50%,transparent);background:rgba(15,19,36,.62);}
-  .sol .badge{font-family:var(--mono);font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--seg);border:1px solid color-mix(in srgb,var(--seg) 40%,transparent);padding:3px 9px;border-radius:999px;align-self:flex-start;margin-bottom:14px;}
-  .sol h3{font-size:16.5px;margin-bottom:9px;font-weight:600;line-height:1.25;}
-  .sol .q{font-size:13px;color:var(--ink-2);font-weight:300;margin-bottom:16px;}
-  .sol .ret{display:flex;align-items:center;gap:8px;margin-top:auto;font-family:var(--mono);font-size:11px;color:color-mix(in srgb,var(--seg) 70%,white);}
-  .sol .ret svg{width:14px;height:14px;flex:0 0 auto;}
-  .sol .more{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;letter-spacing:.8px;text-transform:uppercase;color:var(--ink-3);margin-top:14px;transition:.2s;}
-  .sol:hover .more{color:var(--seg);} .sol .more svg{width:12px;height:12px;}
+  /* CONSEJOS */
+  .tipbox{background:linear-gradient(135deg,#FFF6E6,#FFEFD6);border-radius:16px;padding:16px;font-size:14.5px;min-height:78px;display:flex;align-items:center;gap:10px}
+  .tipbox .e{font-size:24px;flex-shrink:0}
 
-  .modal-bg{position:fixed;inset:0;z-index:60;background:rgba(2,3,8,.74);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:24px;}
-  .modal-bg.open{display:flex;animation:fade .3s ease;}
-  @keyframes fade{from{opacity:0}to{opacity:1}}
-  .modal{background:#080B16;border:1px solid var(--line-2);border-radius:22px;max-width:540px;width:100%;padding:34px;position:relative;box-shadow:0 40px 90px rgba(0,0,0,.65);}
-  .modal .x{position:absolute;top:20px;right:22px;background:none;border:none;color:var(--ink-3);transition:.2s;} .modal .x:hover{color:var(--ink);} .modal .x svg{width:20px;height:20px;}
-  .modal .tag{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--seg);}
-  .modal h3{font-size:23px;margin:10px 0 22px;font-weight:600;}
-  .modal .blk{margin-bottom:16px;} .modal .blk .l{font-family:var(--mono);font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px;} .modal .blk p{font-size:14.5px;color:var(--ink);font-weight:300;}
-  .modal .ret-box{display:flex;align-items:center;gap:13px;background:color-mix(in srgb,var(--seg) 12%,#080B16);border:1px solid color-mix(in srgb,var(--seg) 32%,transparent);border-radius:14px;padding:16px 18px;margin:20px 0;}
-  .modal .ret-box .ic{color:var(--seg);} .modal .ret-box .ic svg{width:24px;height:24px;}
-  .modal .ret-box .l{font-family:var(--mono);font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase;color:color-mix(in srgb,var(--seg) 70%,white);}
-  .modal .ret-box .v{font-family:var(--display);font-weight:600;font-size:18px;margin-top:2px;}
-  .acts{display:flex;gap:11px;margin-top:8px;}
-  .btn{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;font-family:var(--mono);font-size:13px;font-weight:500;padding:15px;border-radius:12px;border:1px solid transparent;text-decoration:none;transition:.2s;} .btn svg{width:16px;height:16px;}
-  .btn-demo{background:transparent;border-color:var(--line-2);color:var(--ink);} .btn-demo:hover{background:rgba(255,255,255,.05);}
-  .btn-coti{background:var(--seg);color:#05070F;} .btn-coti:hover{filter:brightness(1.08);transform:translateY(-1px);}
-  .modal .nudge{font-size:11.5px;color:var(--ink-3);text-align:center;margin-top:14px;font-weight:300;}
+  /* PASAPORTE */
+  .stamps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:6px 0 12px}
+  .stamp{aspect-ratio:1;border-radius:50%;border:2px dashed var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:22px;color:var(--line)}
+  .stamp.f{background:var(--yellow);border-style:solid;border-color:var(--yellow);color:#fff;animation:pop .4s}
+  .stamp .n{font-size:10px;font-weight:600;color:var(--muted)}
+  .surprise{margin-top:6px;border-radius:16px;padding:16px;text-align:center;background:linear-gradient(135deg,var(--purple),var(--pink));color:#fff;cursor:pointer}
+  .surprise .lock{font-size:30px}
+  .surprise .t{font-size:14px;font-weight:600;margin-top:4px}
+  .surprise .sub{font-size:12px;opacity:.9}
 
-  .wa{position:fixed;bottom:26px;right:26px;z-index:50;display:flex;align-items:center;gap:9px;background:rgba(10,13,26,.7);backdrop-filter:blur(10px);color:var(--ink);font-family:var(--mono);font-size:12px;letter-spacing:.5px;padding:12px 18px;border:1px solid var(--line-2);border-radius:999px;transition:.2s;text-decoration:none;} .wa:hover{transform:translateY(-2px);border-color:var(--ink);} .wa svg{width:16px;height:16px;}
-
-  @media (max-width:900px){.segs{grid-template-columns:1fr 1fr;}.sol-grid{grid-template-columns:1fr;}.seg p{min-height:0;}.topbar{flex-wrap:wrap;}.nation{order:3;font-size:9px;letter-spacing:1.2px;padding:6px 12px;}}
-  @media (max-width:520px){.segs{grid-template-columns:1fr;}.topbar{padding:16px 18px;}.screen{padding:18px 18px 80px;}.hud .tele{display:none;}.boot-name{font-size:24px;letter-spacing:4px;}.boot-tag{font-size:8px;letter-spacing:1.4px;}.modal{padding:24px;}.nation{width:100%;justify-content:center;}.home-h{margin-bottom:38px;}}
-  @media (prefers-reduced-motion:reduce){.screen,.app,.modal-bg{transition:none;animation:none;}.bm,.hud .scan{animation:none;}}
-  /* ASISTENTE IA */
-  .asist-btn{position:fixed;bottom:24px;right:24px;z-index:55;display:flex;align-items:center;gap:9px;background:linear-gradient(120deg,var(--seg),#00C2A8);color:#05070F;font-family:var(--mono);font-size:12.5px;font-weight:600;letter-spacing:.5px;padding:13px 18px;border:none;border-radius:999px;box-shadow:0 12px 34px color-mix(in srgb,var(--seg) 40%,transparent);transition:.25s;}
-  .asist-btn:hover{transform:translateY(-2px);} .asist-btn svg{width:18px;height:18px;}
-  .asist-btn .ping{position:absolute;top:-3px;right:-3px;width:11px;height:11px;border-radius:50%;background:#FF6B5E;animation:ping 1.8s infinite;}
-  @keyframes ping{0%{box-shadow:0 0 0 0 rgba(255,107,94,.5)}70%{box-shadow:0 0 0 9px rgba(255,107,94,0)}100%{box-shadow:0 0 0 0 rgba(255,107,94,0)}}
-  .asist-panel{position:fixed;bottom:24px;right:24px;z-index:56;width:min(380px,92vw);height:min(560px,80vh);background:#080B16;border:1px solid var(--line-2);border-radius:22px;box-shadow:0 30px 80px rgba(0,0,0,.6);display:none;flex-direction:column;overflow:hidden;}
-  .asist-panel.open{display:flex;animation:slideup .3s ease;}
-  @keyframes slideup{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
-  .asist-head{display:flex;align-items:center;gap:11px;padding:15px 18px;border-bottom:1px solid var(--line);}
-  .asist-head .av{width:34px;height:34px;border-radius:10px;background:linear-gradient(120deg,var(--seg),#00C2A8);display:grid;place-items:center;color:#05070F;flex:0 0 auto;} .asist-head .av svg{width:18px;height:18px;}
-  .asist-head .ti b{font-size:14px;font-family:var(--display);} .asist-head .ti span{font-family:var(--mono);font-size:8.5px;letter-spacing:1px;text-transform:uppercase;color:#00E0C2;display:block;}
-  .asist-head .cl{margin-left:auto;background:none;border:none;color:var(--ink-3);} .asist-head .cl svg{width:18px;height:18px;}
-  .asist-msgs{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:11px;}
-  .msg{max-width:88%;font-size:13.5px;line-height:1.5;padding:11px 14px;border-radius:14px;font-weight:300;}
-  .msg.bot{background:rgba(255,255,255,.05);border:1px solid var(--line);align-self:flex-start;border-bottom-left-radius:4px;}
-  .msg.user{background:var(--seg);color:#05070F;align-self:flex-end;border-bottom-right-radius:4px;font-weight:500;}
-  .msg.typing{display:flex;gap:4px;} .msg.typing i{width:6px;height:6px;border-radius:50%;background:var(--ink-3);animation:blink 1.2s infinite;}
-  .msg.typing i:nth-child(2){animation-delay:.2s}.msg.typing i:nth-child(3){animation-delay:.4s}
-  @keyframes blink{0%,60%,100%{opacity:.3}30%{opacity:1}}
-  .rec{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:12px;padding:13px;align-self:stretch;}
-  .rec .rn{font-family:var(--display);font-weight:600;font-size:14px;}
-  .rec .rb{font-size:12.5px;color:var(--ink-2);margin:4px 0 8px;font-weight:300;}
-  .rec .rr{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;color:color-mix(in srgb,var(--seg) 78%,white);margin-bottom:10px;} .rec .rr svg{width:13px;height:13px;flex:0 0 auto;}
-  .rec-go{width:100%;background:var(--seg);color:#05070F;border:none;border-radius:9px;padding:9px;font-family:var(--mono);font-size:12px;font-weight:600;cursor:pointer;}
-  .chips{display:flex;flex-wrap:wrap;gap:7px;padding:0 18px 12px;}
-  .chip{background:rgba(255,255,255,.05);border:1px solid var(--line-2);color:var(--ink);font-family:var(--body);font-size:12.5px;padding:8px 13px;border-radius:999px;transition:.2s;}
-  .chip:hover{background:color-mix(in srgb,var(--seg) 20%,transparent);border-color:var(--seg);}
-  .asist-input{display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--line);}
-  .asist-input input{flex:1;background:rgba(255,255,255,.05);border:1px solid var(--line-2);border-radius:11px;padding:11px 13px;color:var(--ink);font-family:var(--body);font-size:13px;outline:none;} .asist-input input::placeholder{color:var(--ink-3);}
-  .asist-input button{background:var(--seg);border:none;border-radius:11px;width:42px;display:grid;place-items:center;color:#05070F;flex:0 0 auto;} .asist-input button svg{width:18px;height:18px;}
-  .range-box{background:color-mix(in srgb,var(--seg) 10%,#080B16);border:1px solid color-mix(in srgb,var(--seg) 32%,transparent);border-radius:14px;padding:16px;margin-top:14px;animation:slideup .3s ease;}
-  .range-box .rb-l{font-family:var(--mono);font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase;color:color-mix(in srgb,var(--seg) 72%,white);}
-  .range-box .rb-v{font-family:var(--display);font-weight:600;font-size:17px;margin:5px 0 8px;}
-  .range-box .rb-n{font-size:11.5px;color:var(--ink-3);margin-bottom:13px;font-weight:300;}
-  @media (max-width:520px){.asist-panel{bottom:0;right:0;left:0;width:100%;height:84vh;border-radius:22px 22px 0 0;}.asist-btn{bottom:16px;right:16px;}}
-
-  /* ---- exploración por categorías + buscador ---- */
-  .search-box{display:flex;align-items:center;gap:10px;max-width:580px;margin:0 auto 36px;background:rgba(10,13,26,.6);border:1px solid var(--line-2);border-radius:14px;padding:4px 6px 4px 16px;backdrop-filter:blur(14px);}
-  .search-box .si{color:var(--ink-3);display:flex;} .search-box .si svg{width:18px;height:18px;}
-  .search-box input{flex:1;background:none;border:none;outline:none;color:var(--ink);font-family:var(--body);font-size:15px;padding:13px 8px;}
-  .search-box input::placeholder{color:var(--ink-3);}
-  .cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
-  	.cat-tile{background:rgba(6,8,15,.72);border:1px solid var(--line);border-radius:18px;padding:24px;cursor:pointer;transition:.28s cubic-bezier(.2,.7,.2,1);position:relative;overflow:hidden;}
-  .cat-tile::before{content:"";position:absolute;inset:0;background:radial-gradient(75% 60% at 18% 0%,var(--cc),transparent 70%);opacity:.14;transition:.28s;}
-  .cat-tile:hover{transform:translateY(-5px);border-color:var(--cc);box-shadow:0 18px 44px color-mix(in srgb,var(--cc) 16%,transparent);}
-  .cat-tile:hover::before{opacity:.3;}
-  .cat-tile .cat-ic{position:relative;width:46px;height:46px;border-radius:13px;border:1px solid color-mix(in srgb,var(--cc) 45%,var(--line-2));display:grid;place-items:center;color:var(--cc);margin-bottom:16px;} .cat-tile .cat-ic svg{width:23px;height:23px;}
-  .cat-tile .cat-l{position:relative;font-family:var(--display);font-weight:600;font-size:17px;}
-  .cat-tile .cat-n{position:relative;font-family:var(--mono);font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--ink-3);margin-top:6px;}
-  .sol{border-top:2px solid var(--cc,rgba(255,255,255,.07));}
-  .sol-tag{font-family:var(--mono);font-size:9.5px;letter-spacing:1px;text-transform:uppercase;margin-bottom:9px;}
-  .res-head{font-family:var(--mono);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--ink-2);margin-bottom:16px;}
-  .no-res{color:var(--ink-2);font-size:15px;text-align:center;padding:34px;background:rgba(10,13,26,.5);border:1px solid var(--line);border-radius:16px;}
-  /* ---- chat más compacto ---- */
-  .asist-panel{width:min(338px,90vw);height:min(466px,72vh);}
-  .asist-head{padding:13px 15px;} .asist-head .ti b{font-size:13px;}
-  .asist-msgs{padding:14px;gap:9px;} .msg{font-size:13px;padding:10px 13px;}
-  .asist-btn{padding:11px 16px;font-size:12px;}
-  @media (max-width:900px){.cat-grid{grid-template-columns:1fr 1fr;}}
-  @media (max-width:520px){.cat-grid{grid-template-columns:1fr;}}
-
-  .hero-c{text-align:center;max-width:790px;margin:0 auto 46px;}
-  .hero-c h1{font-size:clamp(30px,4.8vw,52px);margin:16px 0 16px;font-weight:600;}
-  .hero-c h1 .grad{background:linear-gradient(102deg,#7FECDD,#86B6FF 92%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 7px rgba(2,4,12,.6));}
-  .hero-c .lead{font-size:17px;color:var(--ink-2);font-weight:300;max-width:60ch;margin:0 auto;}
-  .hero-c .props{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px;}
-  .hero-c .props span{font-family:var(--mono);font-size:11px;letter-spacing:.5px;color:var(--ink);background:rgba(255,255,255,.05);border:1px solid var(--line-2);padding:8px 14px;border-radius:999px;}
-  .pick-h{display:flex;align-items:center;gap:14px;justify-content:center;margin:0 0 24px;}
-  .pick-h span{font-family:var(--mono);font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--ink-3);}
-  .pick-h::before,.pick-h::after{content:"";height:1px;width:56px;background:var(--line-2);}
-  .search-mini{max-width:540px;margin:36px auto 0;text-align:center;}
-  .search-mini .sm-l{font-family:var(--mono);font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-3);margin-bottom:13px;}
-  .search-box.sm{max-width:480px;margin:0 auto;padding:3px 6px 3px 14px;}
-  .search-box.sm input{font-size:14px;padding:11px 8px;}
-  #homeBody:not(:empty){margin-top:20px;}
-  /* AGENTE — orbe universal animado */
-  .agent-orb{position:fixed;bottom:24px;right:24px;z-index:55;width:62px;height:62px;border-radius:50%;cursor:pointer;border:none;background:none;padding:0;}
-  .agent-orb .ring{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,#5B6CFF,#00E0C2,#7C4DFF,#5B6CFF);animation:spin 5s linear infinite;}
-  .agent-orb .core{position:absolute;inset:3px;border-radius:50%;background:radial-gradient(circle at 36% 30%,#1a2440,#070B16);display:grid;place-items:center;color:#fff;}
-  .agent-orb .core svg{width:24px;height:24px;}
-  .agent-orb .glow{position:absolute;inset:-7px;border-radius:50%;background:radial-gradient(circle,rgba(91,108,255,.5),transparent 70%);animation:breathe 2.6s ease-in-out infinite;z-index:-1;}
-  .agent-orb:hover{transform:scale(1.07);}
-  @keyframes breathe{0%,100%{transform:scale(1);opacity:.65}50%{transform:scale(1.2);opacity:1}}
-  .agent-greet{position:fixed;bottom:32px;right:100px;z-index:55;max-width:242px;background:#0A0E1C;border:1px solid var(--line-2);border-radius:14px;border-bottom-right-radius:4px;padding:13px 30px 13px 15px;box-shadow:0 14px 34px rgba(0,0,0,.55);animation:slideup .4s ease;cursor:pointer;}
-  .agent-greet b{color:var(--seg);font-family:var(--display);font-size:13px;}
-  .agent-greet .gt{font-size:13px;color:var(--ink);margin-top:3px;font-weight:300;}
-  .agent-greet .gx{position:absolute;top:8px;right:9px;background:none;border:none;color:var(--ink-3);cursor:pointer;} .agent-greet .gx svg{width:14px;height:14px;}
-  .asist-head .av{border-radius:50%!important;background:#080B16!important;position:relative;overflow:hidden;}
-  .asist-head .av .ring{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,#5B6CFF,#00E0C2,#7C4DFF,#5B6CFF);animation:spin 5s linear infinite;}
-  .asist-head .av .ccore{position:absolute;inset:3px;border-radius:50%;background:#080B16;display:grid;place-items:center;color:#fff;z-index:1;} .asist-head .av .ccore svg{width:16px;height:16px;}
-  @media (max-width:520px){.agent-greet{display:none!important;}.agent-orb{bottom:18px;right:18px;}}
-
-  .codi-cta{display:inline-flex;align-items:center;gap:14px;margin-top:30px;background:rgba(10,13,26,.6);border:1px solid var(--line-2);border-radius:16px;padding:12px 18px 12px 12px;cursor:pointer;transition:.25s;backdrop-filter:blur(14px);max-width:540px;width:100%;}
-  .codi-cta:hover{border-color:var(--seg);transform:translateY(-2px);box-shadow:0 16px 40px color-mix(in srgb,var(--seg) 20%,transparent);}
-  .codi-cta .cta-orb{position:relative;width:44px;height:44px;border-radius:50%;flex:0 0 auto;}
-  .codi-cta .cta-orb .ring{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,#5B6CFF,#00E0C2,#7C4DFF,#5B6CFF);animation:spin 5s linear infinite;}
-  .codi-cta .cta-orb .core{position:absolute;inset:3px;border-radius:50%;background:radial-gradient(circle at 36% 30%,#1a2440,#070B16);display:grid;place-items:center;color:#fff;} .codi-cta .cta-orb .core svg{width:20px;height:20px;}
-  .codi-cta .cta-tx{text-align:left;flex:1;} .codi-cta .cta-tx b{display:block;font-family:var(--display);font-size:15px;} .codi-cta .cta-tx span{font-size:12px;color:var(--ink-2);font-weight:300;}
-  .codi-cta .cta-go{color:var(--seg);flex:0 0 auto;} .codi-cta .cta-go svg{width:20px;height:20px;}
-  .codi-ov{position:fixed;inset:0;z-index:70;background:rgba(2,3,8,.72);backdrop-filter:blur(8px);display:none;align-items:flex-start;justify-content:center;padding:7vh 20px 20px;}
-  .codi-ov.open{display:flex;animation:fade .3s ease;}
-  .codi{width:min(860px,95vw);max-height:84vh;background:#080B16;border:1px solid var(--line-2);border-radius:24px;box-shadow:0 40px 100px rgba(0,0,0,.65);display:flex;flex-direction:column;overflow:hidden;animation:slideup .35s ease;}
-  .codi-head{display:flex;align-items:center;gap:13px;padding:18px 20px;border-bottom:1px solid var(--line);}
-  .codi-head .cav{position:relative;width:40px;height:40px;border-radius:50%;flex:0 0 auto;overflow:hidden;}
-  .codi-head .cav .ring{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,#5B6CFF,#00E0C2,#7C4DFF,#5B6CFF);animation:spin 5s linear infinite;}
-  .codi-head .cav .ccore{position:absolute;inset:3px;border-radius:50%;background:#080B16;display:grid;place-items:center;color:#fff;} .codi-head .cav .ccore svg{width:18px;height:18px;}
-  .codi-head .ch-t b{font-family:var(--display);font-size:16px;} .codi-head .ch-t span{display:block;font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:#00E0C2;}
-  .codi-head .cclose{margin-left:auto;background:none;border:none;color:var(--ink-3);cursor:pointer;} .codi-head .cclose svg{width:20px;height:20px;}
-  .codi-search{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line);}
-  .codi-search .cs-i{color:var(--seg);} .codi-search .cs-i svg{width:20px;height:20px;}
-  .codi-search input{flex:1;background:none;border:none;outline:none;color:var(--ink);font-family:var(--body);font-size:17px;}
-  .codi-search input::placeholder{color:var(--ink-3);}
-  .codi-chips{display:flex;flex-wrap:wrap;gap:8px;padding:14px 20px 4px;}
-  .cchip{background:rgba(255,255,255,.05);border:1px solid var(--line-2);color:var(--ink);font-family:var(--body);font-size:13px;padding:8px 14px;border-radius:999px;cursor:pointer;transition:.2s;}
-  .cchip:hover{background:color-mix(in srgb,var(--seg) 20%,transparent);border-color:var(--seg);}
-  .codi-body{padding:6px 20px 22px;overflow-y:auto;}
-  .codi-hi{font-size:14.5px;color:var(--ink-2);font-weight:300;padding:10px 0 14px;} .codi-hi b{color:var(--ink);font-weight:600;}
-  .cres-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-  .cres{background:rgba(255,255,255,.04);border:1px solid var(--line);border-top:2px solid var(--cc);border-radius:14px;padding:15px;cursor:pointer;transition:.22s;}
-  .cres:hover{background:rgba(255,255,255,.07);transform:translateY(-3px);}
-  .cres .cr-tag{font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;margin-bottom:7px;}
-  .cres .cr-n{font-family:var(--display);font-weight:600;font-size:15px;margin-bottom:5px;}
-  .cres .cr-b{font-size:12.5px;color:var(--ink-2);font-weight:300;margin-bottom:9px;}
-  .cres .cr-r{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10.5px;color:color-mix(in srgb,var(--cc) 80%,white);} .cres .cr-r svg{width:13px;height:13px;flex:0 0 auto;}
-  @media (max-width:640px){.cres-grid{grid-template-columns:1fr;}.codi-search input{font-size:15px;}.codi-cta{max-width:none;}.codi-ov{padding:4vh 12px 12px;}}
-
-  .home-immersive .hero-c{margin-bottom:40px;}
-  .home-immersive .hero-c h1{font-size:clamp(34px,5.4vw,58px);}
-  .home-immersive{padding-bottom:96px;}
-  .codi-dock{position:fixed;left:50%;transform:translateX(-50%);bottom:22px;z-index:55;display:flex;align-items:center;gap:14px;width:min(640px,92vw);background:rgba(10,13,26,.74);border:1px solid var(--line-2);border-radius:18px;padding:11px 18px 11px 11px;cursor:pointer;backdrop-filter:blur(16px);box-shadow:0 18px 52px rgba(0,0,0,.5);transition:.3s;}
-  .codi-dock:hover{border-color:var(--seg);transform:translateX(-50%) translateY(-3px);box-shadow:0 24px 64px color-mix(in srgb,var(--seg) 22%,transparent);}
-  .codi-dock.hide{opacity:0;pointer-events:none;transform:translateX(-50%) translateY(26px);}
-  .codi-dock .cd-orb{position:relative;width:46px;height:46px;border-radius:50%;flex:0 0 auto;}
-  .codi-dock .cd-orb .ring{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,#5B6CFF,#00E0C2,#7C4DFF,#5B6CFF);animation:spin 5s linear infinite;}
-  .codi-dock .cd-orb .core{position:absolute;inset:3px;border-radius:50%;background:radial-gradient(circle at 36% 30%,#1a2440,#070B16);display:grid;place-items:center;color:#fff;} .codi-dock .cd-orb .core svg{width:25px;height:25px;}
-  .codi-dock .cd-tx{flex:1;text-align:left;} .codi-dock .cd-tx b{display:block;font-family:var(--display);font-size:15px;} .codi-dock .cd-tx span{font-size:12px;color:var(--ink-2);font-weight:300;}
-  .codi-dock .cd-go{color:var(--seg);flex:0 0 auto;} .codi-dock .cd-go svg{width:20px;height:20px;}
-  @media (max-width:520px){.codi-dock{width:94vw;bottom:14px;}.codi-dock .cd-tx span{display:none;}.home-immersive{padding-bottom:84px;}}
-
-  .oppanel{font-family:var(--mono);text-align:right;line-height:1.55;}
-  .oppanel .op-r{display:flex;gap:11px;justify-content:flex-end;font-size:10px;letter-spacing:.5px;color:var(--ink-3);}
-  .oppanel .op-r:first-child{color:var(--ink-2);margin-bottom:2px;}
-  .oppanel #opUsd,.oppanel #opEur,.oppanel .op-on{color:var(--ink-2);}
-  .oppanel .op-on{display:inline-flex;align-items:center;gap:5px;} .oppanel .op-on i{width:6px;height:6px;border-radius:50%;background:#00E0C2;box-shadow:0 0 9px #00E0C2;}
-  @media (max-width:760px){.oppanel .op-r{font-size:9px;gap:8px;}.oppanel .op-loc{display:none;}}
-  @media (max-width:520px){.oppanel{display:none;}}
-  /* CODI esquina (Intercom-style) */
-  .codi-launch{position:fixed;bottom:22px;right:22px;z-index:55;display:flex;align-items:center;gap:12px;background:none;border:none;cursor:pointer;transition:.3s;padding:0;}
-  .codi-launch.hide{opacity:0;pointer-events:none;transform:translateY(18px) scale(.9);}
-  .codi-launch .cl-bub{background:rgba(10,13,26,.85);border:1px solid var(--line-2);border-radius:14px;border-bottom-right-radius:4px;padding:10px 14px;font-size:13px;color:var(--ink);text-align:right;line-height:1.3;backdrop-filter:blur(12px);box-shadow:0 12px 30px rgba(0,0,0,.45);}
-  .codi-launch .cl-bub b{color:var(--seg);} .codi-launch .cl-bub span{display:block;font-size:11.5px;color:var(--ink-2);margin-top:2px;}
-  .codi-launch .cl-orb{position:relative;width:58px;height:58px;border-radius:50%;flex:0 0 auto;box-shadow:0 10px 30px color-mix(in srgb,var(--seg) 42%,transparent);}
-  .codi-launch .cl-orb .ring{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,#5B6CFF,#00E0C2,#7C4DFF,#5B6CFF);animation:spin 5s linear infinite;}
-  .codi-launch .cl-orb .core{position:absolute;inset:3px;border-radius:50%;background:radial-gradient(circle at 36% 30%,#1a2440,#070B16);display:grid;place-items:center;color:#fff;} .codi-launch .cl-orb .core svg{width:28px;height:28px;}
-  .codi-launch:hover .cl-orb{transform:scale(1.05);}
-  .codi-panel{position:fixed;bottom:22px;right:22px;z-index:56;width:min(392px,94vw);height:min(560px,78vh);transform-origin:bottom right;transform:scale(.55);opacity:0;pointer-events:none;transition:transform .34s cubic-bezier(.2,.85,.2,1),opacity .26s;}
-  .codi-panel.open{transform:scale(1);opacity:1;pointer-events:auto;}
-  .codi-panel .codi{width:100%;height:100%;background:#080B16;border:1px solid var(--line-2);border-radius:22px;box-shadow:0 40px 100px rgba(0,0,0,.6);display:flex;flex-direction:column;overflow:hidden;animation:none;}
-  .codi-panel .cres-grid{grid-template-columns:1fr;}
-  .codi-panel .codi-search input{font-size:15px;}
-  @media (max-width:520px){.codi-panel{bottom:0;right:0;width:100vw;height:82vh;border-radius:22px 22px 0 0;}.codi-panel .codi{border-radius:22px 22px 0 0;}.codi-launch .cl-bub{display:none;}}
-  /* NITIDEZ de textos (sin tocar fondos) */
-  .hero-c .lead,.sec-head p,.seg p,.home-h p,.seg-head p{font-weight:400;color:#C7CEEE;text-shadow:0 1px 2px rgba(4,6,15,.75);}
-
-  .home-immersive .hero-c{position:relative;}
-  .home-immersive .hero-c::before{content:'';position:absolute;inset:-26px -10% -10px;background:radial-gradient(58% 78% at 50% 44%,rgba(3,5,12,.74),rgba(3,5,12,0) 76%);z-index:-1;pointer-events:none;}
-  .bens{list-style:none;margin:4px 0 0;padding:0;display:flex;flex-direction:column;gap:7px;}
-  .bens li{position:relative;padding-left:20px;font-size:14px;color:var(--ink);font-weight:400;line-height:1.4;}
-  .bens li::before{content:'';position:absolute;left:2px;top:7px;width:7px;height:7px;border-radius:50%;background:var(--seg);box-shadow:0 0 8px var(--seg);}
-  .sol .badge,.cres .badge{background:color-mix(in srgb,var(--cc) 22%,transparent);color:color-mix(in srgb,var(--cc) 90%,white);}
-
-  .diag-btn{display:flex;align-items:center;gap:12px;width:100%;max-width:640px;margin:0 auto 16px;background:rgba(0,224,194,.08);border:1px solid color-mix(in srgb,#00E0C2 40%,transparent);border-radius:14px;padding:12px 16px;cursor:pointer;transition:.22s;text-align:left;}
-  .diag-btn:hover{background:rgba(0,224,194,.14);transform:translateY(-2px);}
-  .diag-btn .db-ic{color:#00E0C2;flex:0 0 auto;display:flex;} .diag-btn .db-ic svg{width:20px;height:20px;}
-  .diag-btn .db-t{flex:1;font-size:13.5px;color:var(--ink-2);font-weight:400;} .diag-btn .db-t b{color:var(--ink);font-weight:600;}
-  .diag-btn .db-go{color:#00E0C2;flex:0 0 auto;display:flex;} .diag-btn .db-go svg{width:18px;height:18px;}
-  .hook{display:flex;align-items:center;gap:13px;max-width:640px;margin:0 auto 22px;background:rgba(224,165,59,.1);border:1px solid color-mix(in srgb,#E0A53B 45%,transparent);border-radius:14px;padding:13px 16px;font-size:13.5px;color:var(--ink-2);font-weight:400;}
-  .hook b{color:var(--ink);font-weight:600;} .hook .hk-ic{color:#E0A53B;flex:0 0 auto;display:flex;} .hook .hk-ic svg{width:22px;height:22px;}
-  .hook .hk-go{margin-left:auto;flex:0 0 auto;background:none;border:none;color:#E0A53B;font-family:var(--body);font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;} .hook .hk-go svg{width:16px;height:16px;}
-  .sec{margin-bottom:30px;}
-  .sec-t{display:flex;align-items:center;gap:10px;font-family:var(--display);font-size:18px;font-weight:600;margin:0 0 14px;color:var(--ink);}
-  .sec-t .sec-ic{display:grid;place-items:center;width:32px;height:32px;border-radius:9px;border:1px solid color-mix(in srgb,var(--cc) 45%,transparent);color:var(--cc);} .sec-t .sec-ic svg{width:18px;height:18px;}
-  @media (max-width:600px){.hook{flex-wrap:wrap;}.hook .hk-go{margin-left:0;}}
-
-  #modal{max-height:90vh;overflow-y:auto;}
-  .sercotec{margin-top:22px;background:rgba(224,165,59,.07);border:1px solid color-mix(in srgb,#E0A53B 35%,transparent);border-radius:16px;padding:20px 22px;}
-  .sercotec .sc-h{display:flex;align-items:center;gap:9px;font-family:var(--display);font-weight:600;font-size:16px;color:var(--ink);margin-bottom:12px;} .sercotec .sc-h svg{width:22px;height:22px;color:#E0A53B;}
-  .sercotec .sc-steps{margin:0 0 14px;padding-left:20px;display:flex;flex-direction:column;gap:8px;} .sercotec .sc-steps li{font-size:14px;color:var(--ink-2);font-weight:400;line-height:1.45;} .sercotec .sc-steps b{color:var(--ink);}
-  .sercotec .sc-link{display:inline-flex;align-items:center;gap:7px;color:#E0A53B;font-weight:600;font-size:14px;text-decoration:none;} .sercotec .sc-link svg{width:16px;height:16px;}
-  .sercotec .sc-note{margin-top:12px;font-size:12.5px;color:var(--ink-3);font-weight:300;line-height:1.4;}
-  .contact{margin-top:16px;padding-top:16px;border-top:1px solid var(--line);}
-  .contact .cl{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--ink-3);margin-bottom:9px;}
-  .contact textarea{width:100%;min-height:54px;resize:vertical;background:rgba(255,255,255,.04);border:1px solid var(--line-2);border-radius:11px;padding:11px 13px;color:var(--ink);font-family:var(--body);font-size:14px;outline:none;}
-  .contact textarea::placeholder{color:var(--ink-3);}
-  .contact .cbtns{display:flex;gap:9px;margin-top:10px;}
-  .cbtn{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:11px;border-radius:11px;font-family:var(--body);font-size:13.5px;font-weight:600;cursor:pointer;border:1px solid var(--line-2);background:rgba(255,255,255,.04);color:var(--ink);text-decoration:none;transition:.2s;} .cbtn svg{width:16px;height:16px;}
-  .cbtn:hover{transform:translateY(-2px);}
-  .cbtn.cb-wa{border-color:color-mix(in srgb,#25D366 50%,transparent);color:#3DDC84;} .cbtn.cb-mail{border-color:color-mix(in srgb,var(--seg) 50%,transparent);color:var(--seg);} .cbtn.cb-tel{border-color:color-mix(in srgb,#00E0C2 50%,transparent);color:#00E0C2;}
-  @media (max-width:520px){.contact .cbtns{flex-wrap:wrap;}.cbtn{flex:1 1 30%;font-size:12.5px;}}
-
-  .home-foot{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:34px;}
-  .home-foot button{background:none;border:none;color:var(--ink-3);font-family:var(--body);font-size:13px;cursor:pointer;transition:.2s;letter-spacing:.3px;} .home-foot button:hover{color:var(--seg);} .home-foot .hf-dot{color:var(--ink-3);}
-  .about-ov{position:fixed;inset:0;z-index:75;background:rgba(2,3,8,.74);backdrop-filter:blur(9px);display:none;align-items:flex-start;justify-content:center;padding:6vh 20px 20px;}
-  .about-ov.open{display:flex;animation:fade .3s ease;}
-  .about{width:min(720px,95vw);max-height:86vh;background:#080B16;border:1px solid var(--line-2);border-radius:24px;box-shadow:0 40px 100px rgba(0,0,0,.65);display:flex;flex-direction:column;overflow:hidden;animation:slideup .35s ease;position:relative;}
-  .ab-x{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--ink-3);cursor:pointer;z-index:2;} .ab-x svg{width:22px;height:22px;}
-  .ab-tabs{display:flex;gap:6px;padding:18px 20px 0;border-bottom:1px solid var(--line);}
-  .ab-tab{background:none;border:none;border-bottom:2px solid transparent;color:var(--ink-3);font-family:var(--body);font-size:14px;font-weight:600;padding:10px 14px;cursor:pointer;transition:.2s;} .ab-tab.on{color:var(--ink);border-color:var(--seg);} .ab-tab:hover{color:var(--ink);}
-  .ab-body{padding:24px 26px 28px;overflow-y:auto;}
-  .ab-h{font-family:var(--display);font-size:clamp(20px,3vw,26px);font-weight:600;line-height:1.2;margin:0 0 12px;color:var(--ink);}
-  .ab-lead{font-size:15px;color:var(--ink-2);font-weight:400;line-height:1.55;margin:0 0 20px;}
-  .ab-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:18px;}
-  .ab-card{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:13px;padding:15px 16px;} .ab-card .ab-ct{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--seg);margin-bottom:7px;} .ab-card p{font-size:13.5px;color:var(--ink-2);font-weight:400;line-height:1.5;margin:0;}
-  .ab-vals{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;} .ab-vals span{font-size:12px;color:var(--ink-2);background:rgba(255,255,255,.05);border:1px solid var(--line-2);border-radius:999px;padding:6px 12px;}
-  .ab-why{font-size:14px;color:var(--ink-2);font-weight:400;line-height:1.55;background:rgba(0,224,194,.06);border:1px solid color-mix(in srgb,#00E0C2 30%,transparent);border-radius:13px;padding:15px 17px;} .ab-why b{color:var(--ink);}
-  .ab-form{display:flex;flex-direction:column;gap:10px;margin-bottom:16px;}
-  .ab-form input,.ab-form textarea{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--line-2);border-radius:11px;padding:12px 14px;color:var(--ink);font-family:var(--body);font-size:14px;outline:none;} .ab-form textarea{min-height:96px;resize:vertical;} .ab-form ::placeholder{color:var(--ink-3);}
-  .ab-send{display:inline-flex;align-items:center;justify-content:center;gap:7px;background:var(--seg);color:#05070F;border:none;border-radius:11px;padding:13px;font-family:var(--body);font-size:14.5px;font-weight:700;cursor:pointer;transition:.2s;} .ab-send svg{width:17px;height:17px;} .ab-send:hover{filter:brightness(1.08);transform:translateY(-2px);}
-  .ab-ch{display:flex;gap:9px;margin-bottom:14px;} .ab-note{font-size:12px;color:var(--ink-3);text-align:center;}
-  @media (max-width:560px){.ab-grid{grid-template-columns:1fr;}.ab-ch{flex-wrap:wrap;}}
-
-  .site-foot{margin-top:60px;border-top:1px solid var(--line);padding:40px 0 10px;}
-  .sf-top{display:flex;gap:40px;flex-wrap:wrap;justify-content:space-between;}
-  .sf-brand{max-width:360px;} .sf-logo{font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:1px;margin-bottom:10px;}
-  .sf-brand p{font-size:13.5px;color:var(--ink-2);font-weight:400;line-height:1.5;margin:0 0 14px;}
-  .sf-badges{display:flex;flex-wrap:wrap;gap:7px;} .sf-badges span{font-size:11px;color:var(--ink-2);background:rgba(255,255,255,.04);border:1px solid var(--line-2);border-radius:999px;padding:5px 11px;}
-  .sf-cols{display:flex;gap:46px;flex-wrap:wrap;}
-  .sf-col h4{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--ink-3);margin:0 0 12px;}
-  .sf-col button,.sf-col a{display:block;background:none;border:none;color:var(--ink-2);font-family:var(--body);font-size:13.5px;cursor:pointer;text-decoration:none;padding:4px 0;transition:.18s;text-align:left;} .sf-col button:hover,.sf-col a:hover{color:var(--seg);}
-  .sf-soc{display:flex;gap:10px;} .sf-soc a{display:grid;place-items:center;width:36px;height:36px;border-radius:10px;border:1px solid var(--line-2);color:var(--ink-2);transition:.2s;} .sf-soc a:hover{color:var(--seg);border-color:var(--seg);transform:translateY(-2px);} .sf-soc svg{width:18px;height:18px;}
-  .sf-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:34px;padding-top:16px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink-3);font-family:var(--mono);}
-  .ab-cases{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px;}
-  .ab-case{background:rgba(255,255,255,.04);border:1px solid var(--line);border-left:2px solid var(--seg);border-radius:12px;padding:14px 15px;}
-  .ab-case .ac-r1{font-family:var(--display);font-weight:600;font-size:14.5px;color:var(--ink);margin-bottom:3px;}
-  .ab-case .ac-s{font-size:12px;color:var(--seg);margin-bottom:7px;}
-  .ab-case .ac-q{font-size:12.5px;color:var(--ink-2);font-weight:400;line-height:1.4;margin-bottom:8px;}
-  .ab-case .ac-res{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:#00E0C2;} .ab-case .ac-res svg{width:13px;height:13px;flex:0 0 auto;}
-  @media (max-width:600px){.ab-cases{grid-template-columns:1fr;}.sf-bottom{flex-direction:column;}}
-
-  .cs-mic{background:none;border:none;color:var(--ink-3);cursor:pointer;flex:0 0 auto;display:flex;padding:4px;border-radius:8px;transition:.2s;} .cs-mic svg{width:20px;height:20px;} .cs-mic:hover{color:var(--seg);}
-  .cs-mic.rec{color:#FF6B5E;animation:codipulse 1s infinite;}
-  @keyframes codipulse{0%,100%{opacity:1}50%{opacity:.35}}
-  .lead-f{display:flex;flex-direction:column;gap:9px;}
-  .lead-f input,.lead-f textarea{background:rgba(255,255,255,.04);border:1px solid var(--line-2);border-radius:10px;padding:10px 12px;color:var(--ink);font-family:var(--body);font-size:14px;outline:none;} .lead-f textarea{min-height:52px;resize:vertical;} .lead-f ::placeholder{color:var(--ink-3);}
-  .lead-b{display:flex;gap:8px;margin-top:2px;} .lead-b .cbtn{font-size:12.5px;padding:10px;}
-
-  .hero-auth{margin-top:16px;font-family:var(--mono);font-size:12.5px;letter-spacing:.5px;color:#86EFE0;text-shadow:0 1px 4px rgba(2,4,12,.9);}
-  .lab-flow{display:flex;flex-direction:column;margin:6px 0 18px;}
-  .lab-step{position:relative;padding:11px 0 11px 46px;}
-  .lab-step:not(:last-child)::after{content:'';position:absolute;left:15px;top:38px;bottom:-4px;width:2px;background:linear-gradient(var(--seg),color-mix(in srgb,var(--seg) 10%,transparent));}
-  .lab-step .ls-n{position:absolute;left:0;top:10px;width:32px;height:32px;border-radius:9px;border:1px solid color-mix(in srgb,var(--seg) 45%,transparent);display:grid;place-items:center;font-family:var(--mono);font-size:12px;color:var(--seg);background:#080B16;}
-  .lab-step .ls-t{font-family:var(--display);font-weight:600;font-size:15px;color:var(--ink);}
-  .lab-step .ls-d{font-size:13px;color:var(--ink-2);font-weight:400;margin-top:2px;line-height:1.4;}
-  .lab-evo{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:13px;padding:15px 17px;margin-bottom:16px;} .lab-evo .le-t{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px;} .lab-evo p{font-size:13.5px;color:var(--ink-2);font-weight:400;line-height:1.5;margin:0;} .lab-evo b{color:var(--ink);}
-
-  .demo-ov{position:fixed;inset:0;z-index:90;background:rgba(2,3,8,.86);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:16px;}
-  .demo-ov.open{display:flex;animation:fade .25s ease;}
-  .demo-box{width:min(440px,100%);height:min(880px,95vh);background:#080B16;border:1px solid var(--line-2);border-radius:20px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,.7);}
-  .demo-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 14px;border-bottom:1px solid var(--line);}
-  .demo-bar #demoTitle{font-family:var(--display);font-weight:600;font-size:14px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .demo-bA{display:flex;align-items:center;gap:8px;flex:0 0 auto;}
-  .demo-coti{background:var(--seg);color:#05070F;border:none;border-radius:9px;padding:8px 12px;font-family:var(--body);font-size:12.5px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;} .demo-coti svg{width:14px;height:14px;}
-  .demo-x{background:none;border:none;color:var(--ink-3);cursor:pointer;display:flex;} .demo-x svg{width:20px;height:20px;}
-  .demo-box iframe{flex:1;width:100%;border:none;background:#fff;}
-  .demo-foot{padding:8px 14px;border-top:1px solid var(--line);font-size:10.5px;color:var(--ink-3);font-family:var(--mono);text-align:center;}
-  .anticipo{margin-top:14px;background:rgba(0,224,194,.07);border:1px solid color-mix(in srgb,#00E0C2 30%,transparent);border-radius:12px;padding:13px 15px;font-size:13px;color:var(--ink-2);line-height:1.5;} .anticipo b{color:var(--ink);} .anticipo .btn{display:flex;}
+  .foot{text-align:center;font-family:'Space Grotesk',sans-serif;font-size:11px;color:var(--muted);padding:24px 18px 0}
 </style>
 </head>
 <body>
+<div class="app">
 
-<div id="boot"><div class="boot-inner">
-  <svg class="bm" viewBox="0 0 40 40" fill="none"><circle cx="9" cy="20" r="3.4" fill="#00E0C2"/><circle cx="31" cy="11" r="3.4" fill="#5B6CFF"/><circle cx="31" cy="29" r="3.4" fill="#8B97FF"/><path d="M11.5 18.5L28.5 12M11.5 21.5L28.5 28" stroke="#fff" stroke-opacity=".5" stroke-width="1.6"/></svg>
-  <div class="boot-name" id="bootName">CO-DATA</div>
-  <div class="boot-tag" id="bootTag">EMPRESA CHILENA DE DIGITALIZACIÓN</div>
-  <div class="boot-bar"><div class="boot-fill" id="bootFill"></div></div>
-  <div class="boot-status" id="bootStatus">INICIALIZANDO SISTEMA</div>
-</div></div>
-
-<canvas id="space"></canvas>
-<div id="wash"></div>
-<div id="vignette"></div>
-<div class="hud"><div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div><div class="scan"></div><div class="tele" id="tele">SYS ONLINE · STGO -33.45</div></div>
-
-<div class="app" id="app">
-  <div class="topbar">
-    <div class="logo">
-      <svg class="mark" viewBox="0 0 40 40" fill="none"><circle cx="9" cy="20" r="3.4" fill="#00E0C2"/><circle cx="31" cy="11" r="3.4" fill="#5B6CFF"/><circle cx="31" cy="29" r="3.4" fill="#8B97FF"/><path d="M11.5 18.5L28.5 12M11.5 21.5L28.5 28" stroke="#fff" stroke-opacity=".5" stroke-width="1.6"/></svg>
-      <div><b>CO-DATA</b><span>Motor de procesos</span></div>
+  <!-- STATUS -->
+  <div class="status">
+    <div class="brand"><span class="m">✂️</span><span>Pelu<span style="color:var(--yellow)">Kidz</span></span></div>
+    <div class="strow">
+      <div class="tnum" id="tnum">A-14</div>
+      <div class="info">
+        <div class="lbl">Tu turno · Isidora</div>
+        <div class="v" id="pos"><b>2</b> antes de ti · <b>~20 min</b></div>
+      </div>
     </div>
-    <div class="oppanel"><div class="op-r"><span class="op-loc">SANTIAGO, CL</span><span id="opDate">—</span><span id="opTime">—</span></div><div class="op-r"><span id="opUsd">USD —</span><span id="opEur">EUR —</span><span class="op-on"><i></i>Empresa chilena · Online</span></div></div>
-    <button class="back" id="back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Volver</button>
+    <div class="gohint"><span>🛒</span><span>Anda a dar una vuelta al Líder. Te avisamos por WhatsApp 10 min antes — no pierdes el turno.</span></div>
   </div>
-  <div class="screen in" id="screen"></div>
+
+  <!-- INTRO -->
+  <div class="sect">
+    <h2>Mientras esperas 🎈</h2>
+    <div class="s">La espera se pasa volando con nosotros.</div>
+
+    <div class="cards">
+
+      <!-- DISEÑA TU CORTE -->
+      <div class="c">
+        <div class="ch"><span class="e">🎨</span><div class="t">Diseña tu corte<small>Elige y se lo mostramos a tu estilista</small></div></div>
+        <svg class="avatar" viewBox="0 0 200 200" id="avatar">
+          <ellipse cx="100" cy="180" rx="50" ry="14" fill="rgba(0,0,0,.06)"/>
+          <rect x="78" y="120" width="44" height="40" rx="20" fill="#F2C29A"/>
+          <circle cx="100" cy="98" r="50" fill="#F7CFA6"/>
+          <g id="hair" fill="#5a3a22">
+            <!-- styles injected -->
+          </g>
+          <circle cx="82" cy="100" r="6" fill="#2b2230"/>
+          <circle cx="118" cy="100" r="6" fill="#2b2230"/>
+          <circle cx="84" cy="98" r="2" fill="#fff"/><circle cx="120" cy="98" r="2" fill="#fff"/>
+          <circle cx="70" cy="114" r="7" fill="rgba(245,51,61,.25)"/>
+          <circle cx="130" cy="114" r="7" fill="rgba(245,51,61,.25)"/>
+          <path d="M86 120 Q100 132 114 120" stroke="#b5573a" stroke-width="4" fill="none" stroke-linecap="round"/>
+        </svg>
+        <div class="pick"><div class="pl">Peinado</div><div class="stys" id="stys"></div></div>
+        <div class="pick"><div class="pl">Color</div><div class="swatches" id="colors"></div></div>
+        <button class="btn red" onclick="saveCut()">Listo, mostrar a mi estilista ✂️</button>
+        <div class="saved" id="cutsaved">¡Genial! Tu estilista verá tu elección 💈</div>
+      </div>
+
+      <!-- MEMORICE -->
+      <div class="c">
+        <div class="ch"><span class="e">🎮</span><div class="t">Memorice PeluKidz<small>Encuentra las parejas</small></div></div>
+        <div class="grid" id="mgrid"></div>
+        <div class="mgmsg" id="mgmsg">Toca dos cartas para empezar</div>
+        <button class="btn ghost" style="margin-top:10px" onclick="newGame()">↺ Nuevo juego</button>
+      </div>
+
+      <!-- CONSEJOS -->
+      <div class="c">
+        <div class="ch"><span class="e">💡</span><div class="t">Consejo PeluKidz<small>Para los papás</small></div></div>
+        <div class="tipbox" id="tipbox"><span class="e">✂️</span><span id="tiptxt"></span></div>
+        <button class="btn blue" style="margin-top:10px" onclick="nextTip()">Otro consejo</button>
+      </div>
+
+      <!-- PASAPORTE -->
+      <div class="c">
+        <div class="ch"><span class="e">🏅</span><div class="t">Pasaporte de Valiente<small id="passsub">Junta sellos en cada visita</small></div></div>
+        <div class="stamps" id="stamps"></div>
+        <button class="btn red" id="stampbtn" onclick="stampToday()">Sellar mi visita de hoy</button>
+        <div class="surprise" id="surprise" onclick="openSurprise()">
+          <div class="lock" id="slock">🎁</div>
+          <div class="t" id="stitle">Tu sorpresa está cerrada</div>
+          <div class="sub" id="ssub">Se abre cuando termine tu corte</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="foot">PeluKidz · experiencia de espera · demo CO-DATA</div>
 </div>
 
-<div class="modal-bg" id="modalbg"><div class="modal" id="modal"></div></div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-var WHATSAPP="56900000000"; var EMAIL="contacto@co-data.cl"; var TEL=WHATSAPP; var AGENDA="";
-function wa(t){return "https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(t);}
-var MOD={k:null,i:null};
-function mwa(){var o=SEG[MOD.k].sols[MOD.i],m=(document.getElementById('cMsg')||{}).value||'';window.open(wa('Hola CO-DATA, me interesa "'+o.n+'". '+(m?('Mi caso: '+m):'Quisiera más información.')),'_blank');return false;}
-function mmail(){var o=SEG[MOD.k].sols[MOD.i],m=(document.getElementById('cMsg')||{}).value||'';location.href='mailto:'+EMAIL+'?subject='+encodeURIComponent('Consulta: '+o.n)+'&body='+encodeURIComponent((m||'Quisiera más información sobre esta solución.')+'\n\n— Enviado desde la web CO-DATA');return false;}
-var S='stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"';
-var IC={
-  empresa:'<svg viewBox="0 0 24 24" '+S+'><path d="M3 21h18M6 21V6a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v15M14 21V10a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v11M9 9h2M9 13h2M9 17h2"/></svg>',
-  pyme:'<svg viewBox="0 0 24 24" '+S+'><path d="M4 9h16l-1-4H5L4 9zM4 9v11h16V9M9 20v-6h6v6M4 9c0 1.5 1 2.5 2.5 2.5S9 10.5 9 9c0 1.5 1 2.5 2.5 2.5S14 10.5 14 9c0 1.5 1 2.5 2.5 2.5S19 10.5 19 9"/></svg>',
-  iniciando:'<svg viewBox="0 0 24 24" '+S+'><path d="M4.5 16.5c-1.5 1.3-2 5-2 5s3.7-.5 5-2c.7-.8.7-2.1-.1-2.9a2.18 2.18 0 0 0-2.9-.1z"/><path d="M12 15l-3-3a22 22 0 0 1 2-4 12.9 12.9 0 0 1 11-6c0 2.7-.8 7.5-6 11a22 22 0 0 1-4 2z"/><path d="M9 12H4s.5-3 2-4c1.6-1.1 5 0 5 0M12 15v5s3-.5 4-2c1.1-1.6 0-5 0-5"/></svg>',
-  profesional:'<svg viewBox="0 0 24 24" '+S+'><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2M2 13h20"/></svg>',
-  trabajador:'<svg viewBox="0 0 24 24" '+S+'><path d="M2 18a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-1a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1z"/><path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5M4 15v-3a6 6 0 0 1 6-6M14 6a6 6 0 0 1 6 6v3"/></svg>',
-  clock:'<svg viewBox="0 0 24 24" '+S+'><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
-  arrow:'<svg viewBox="0 0 24 24" '+S+'><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
-  play:'<svg viewBox="0 0 24 24" '+S+'><circle cx="12" cy="12" r="9"/><path d="M10 8.5l5 3.5-5 3.5z"/></svg>',
-  chat:'<svg viewBox="0 0 24 24" '+S+'><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5z"/></svg>',
-  x:'<svg viewBox="0 0 24 24" '+S+'><path d="M18 6 6 18M6 6l12 12"/></svg>'
-};
-
-var SEG={"empresa": {"label": "Empresa", "color": "#5B6CFF", "desc": "Operación, terreno y cumplimiento para empresas que no pueden detenerse.", "promesa": "Recupere horas-hombre y control. Cada proceso que automatizamos vuelve como tiempo y trazabilidad.", "sols": [{"n": "Diagnóstico digital", "q": "No sabe por dónde partir a digitalizar.", "dolor": "No sabe por dónde empezar a digitalizar ni qué automatizar primero.", "ben": "Pida su diagnóstico digital a Codi: responde unas preguntas y le precisamos qué resolver primero — con impacto y tiempo estimado.", "ret": "Claridad en minutos · sin costo", "badge": "Punto de partida", "cat": "inicio", "bens": ["Plan priorizado por impacto y ahorro de HH", "Sin costo ni compromiso", "Respuesta el mismo día"]}, {"n": "Órdenes de trabajo digitales", "q": "Las órdenes en papel se extravían y nadie conoce su estado.", "dolor": "Carpetas, fotos sueltas y llamadas para saber qué ocurrió.", "ben": "Cada orden con foto, firma y estado en tiempo real.", "ret": "≈ 10 HH semanales", "cat": "operacion"}, {"n": "Plan diario del trabajador", "q": "El equipo parte el día sin saber bien qué hacer.", "dolor": "Instrucciones por teléfono y tiempos muertos en terreno.", "ben": "Cada persona ve su plan del día y reporta avance.", "ret": "Menos tiempos muertos", "cat": "operacion"}, {"n": "Checklists e inspección con evidencia", "q": "Inspecciones sin respaldo ante una fiscalización.", "dolor": "Cuando llega la fiscalización, no aparece el registro.", "ben": "Registros firmados, con foto y fecha, siempre disponibles.", "ret": "Menos multas, cero búsquedas", "cat": "operacion"}, {"n": "Control de flota y camionetas", "q": "No hay control de mantenciones, combustible ni uso.", "dolor": "Vehículos sin seguimiento y gastos que se disparan.", "ben": "Estado, mantenciones y uso de cada vehículo en un panel.", "ret": "Menos gasto y fallas", "cat": "operacion"}, {"n": "Visita técnica e informe express", "q": "El informe de terreno se demora días en llegar.", "dolor": "El cliente espera y el reporte queda pendiente.", "ben": "Informe con fotos generado al cerrar la visita.", "ret": "Informe el mismo día", "cat": "operacion"}, {"n": "Control de herramientas e insumos", "q": "Se pierden herramientas y nadie sabe quién las tiene.", "dolor": "Reposición constante por pérdidas no registradas.", "ben": "Cada herramienta asignada y rastreada.", "ret": "Menos pérdidas", "cat": "logistica"}, {"n": "Guía de despacho y entrega digital", "q": "Entregas sin respaldo de recepción.", "dolor": "Disputas por entregas que nadie confirma.", "ben": "Entrega con firma y foto de quien recibe.", "ret": "Cero disputas de entrega", "cat": "logistica"}, {"n": "Compras y proveedores", "q": "Las compras se gestionan sin orden ni comparación.", "dolor": "Se compra caro y sin registro de proveedores.", "ben": "Solicitudes, cotizaciones y proveedores centralizados.", "ret": "Compra ordenada y más barata", "cat": "logistica"}, {"n": "Asistencia, turnos y horas", "q": "Controlar asistencia y horas es un dolor de cabeza.", "dolor": "Planillas manuales con errores en remuneraciones.", "ben": "Marcaje, turnos y horas en un sistema.", "ret": "Menos errores en pago", "cat": "personas"}, {"n": "Fichas y documentos del trabajador", "q": "Los documentos del personal están dispersos.", "dolor": "Buscar un contrato o certificado toma horas.", "ben": "Cada trabajador con su ficha y documentos al día.", "ret": "Todo a un clic", "cat": "personas"}, {"n": "Inducción y capacitación en línea", "q": "Inducir y capacitar presencial cuesta días.", "dolor": "Detener la operación para capacitar.", "ben": "Cursos e inducciones en línea, con registro.", "ret": "Capacita sin parar la faena", "cat": "personas"}, {"n": "Catálogo de cursos por riesgo", "q": "No hay claridad de qué curso necesita cada cargo.", "dolor": "Personal sin la formación que exige su riesgo.", "ben": "Catálogo de cursos asignados por cargo y riesgo.", "ret": "Cumplimiento formativo", "cat": "personas"}, {"n": "Entrega de EPP", "q": "La entrega de EPP no queda registrada ni firmada.", "dolor": "Sin respaldo de quién recibió qué elemento.", "ben": "Entrega con firma digital y stock de EPP.", "ret": "Respaldo ante fiscalización", "cat": "cumplimiento"}, {"n": "Documentación legal (RIOHS, matriz, plan)", "q": "RIOHS, matrices y planes dispersos o vencidos.", "dolor": "Documentación difícil de mantener al día.", "ben": "Todo vigente y centralizado, a un clic.", "ret": "Tranquilidad ante la autoridad", "cat": "cumplimiento"}, {"n": "Control de calidad y mermas", "q": "No se mide la merma ni los reprocesos.", "dolor": "Pérdidas invisibles que nadie cuantifica.", "ben": "Registro de calidad y mermas con alertas.", "ret": "Menos pérdidas por calidad", "cat": "cumplimiento"}, {"n": "Evidencia, trazabilidad y vencimientos", "q": "Certificados y equipos que vencen sin aviso.", "dolor": "Una vigencia caduca detiene la operación.", "ben": "Trazabilidad y alertas de cada vencimiento.", "ret": "Cero sorpresas por vencimientos", "cat": "cumplimiento"}, {"n": "Control de acceso, guardias y rondas", "q": "No hay registro confiable de accesos y rondas.", "dolor": "Quién entró, cuándo y qué ronda se hizo: sin datos.", "ben": "Acceso, visitas y rondas registrados con QR.", "ret": "Seguridad con respaldo", "cat": "cumplimiento"}, {"n": "Prevención tercerizada", "q": "Necesita prevención sin contratación fija.", "dolor": "Un prevencionista de planta es costoso.", "ben": "Gestión y experto por una tarifa mensual.", "ret": "Cumple sin ampliar planilla", "cat": "cumplimiento"}, {"n": "Pasaporte digital del trabajador", "q": "Documentos y cursos vencidos frenan el acceso.", "dolor": "Personal rechazado en portería por una vigencia.", "ben": "Estado y vencimientos de cada persona, con alertas.", "ret": "Cero rechazos en acceso", "cat": "personas"}, {"n": "Estados de pago y avance", "q": "Los estados de pago se arman a mano y tarde.", "dolor": "Demoras en facturar el avance real.", "ben": "Avance y estados de pago calculados solos.", "ret": "Cobra antes su avance", "cat": "finanzas"}, {"n": "Control de gastos y rendiciones", "q": "Las rendiciones son un caos de boletas.", "dolor": "Boletas perdidas y rendiciones sin cuadrar.", "ben": "Gastos y rendiciones con foto, en línea.", "ret": "Rendiciones al día", "cat": "finanzas"}, {"n": "Flujo de caja y panel financiero", "q": "No hay visión clara de la caja.", "dolor": "Se decide sin saber cuánto entra y sale.", "ben": "Su flujo de caja en un panel, en vivo.", "ret": "Decisiones financieras con datos", "cat": "finanzas"}, {"n": "Cobranza automatizada", "q": "Perseguir pagos consume tiempo y energía.", "dolor": "Recordar deudas incomoda y desgasta.", "ben": "Recordatorios de cobro que operan solos.", "ret": "Recupera ingresos sin fricción", "cat": "finanzas"}, {"n": "Panel de indicadores (KPIs)", "q": "Decisiones sin datos a la vista.", "dolor": "No hay claridad sobre qué área aporta y cuál resta.", "ben": "Sus indicadores en un panel, en vivo.", "ret": "Decisiones con evidencia", "cat": "datos"}, {"n": "Base de datos en la nube", "q": "La información vive en planillas y teléfonos.", "dolor": "Datos dispersos y sin respaldo.", "ben": "Toda su información segura y centralizada.", "ret": "Respaldo permanente", "cat": "datos"}, {"n": "Integraciones y conexiones", "q": "Sus sistemas no se hablan entre sí.", "dolor": "Se digita lo mismo en varios lados.", "ben": "Conectamos sus herramientas para que fluyan.", "ret": "Menos doble digitación", "cat": "datos"}, {"n": "Soporte y mantención", "q": "Sin soporte, cualquier falla lo detiene.", "dolor": "Quedar a la deriva cuando algo se cae.", "ben": "Soporte, respaldo y mejoras continuas.", "ret": "Tranquilidad operativa", "cat": "datos"}, {"n": "Screening de licitaciones", "q": "Revisar bases de 500+ páginas consume días.", "dolor": "Un detalle omitido cuesta la licitación o una multa.", "ben": "Multas, plazos y riesgos resumidos en minutos.", "ret": "15 min frente a 2 días", "badge": "Inteligencia artificial", "cat": "ia"}, {"n": "Automatizador de portales de acreditación", "q": "Acreditar trabajadores exige tipeo manual repetido.", "dolor": "Horas de digitación por cada acreditación.", "ben": "Lectura de planilla y precarga de formularios.", "ret": "Horas por trabajador", "badge": "Inteligencia artificial", "cat": "ia"}, {"n": "Generador masivo de documentos", "q": "Generar contratos y certificados uno a uno es lento.", "dolor": "Horas creando documentos repetitivos.", "ben": "Cientos de documentos generados desde una planilla.", "ret": "Horas recuperadas", "badge": "Inteligencia artificial", "cat": "ia"}, {"n": "Trazabilidad de activos por QR", "q": "No sabe dónde está cada equipo o activo.", "dolor": "Activos perdidos y sin historial.", "ben": "Cada activo con QR, ubicación e historial.", "ret": "Cero activos perdidos", "cat": "logistica"}, {"n": "Tótem de autoatención", "q": "Filas y atención saturada en recepción.", "dolor": "Personas esperando y personal sobrecargado.", "ben": "Autoatención en pantalla para trámites simples.", "ret": "Menos filas, menos carga", "cat": "atencion"}, {"n": "Portal de cliente / área privada", "q": "Sus clientes lo llaman por todo.", "dolor": "Consultas repetidas que saturan la atención.", "ben": "Cada cliente ve su estado en un portal propio.", "ret": "Menos consultas, más confianza", "cat": "atencion"}, {"n": "Reclutamiento técnico", "q": "Encontrar operadores calificados toma semanas.", "dolor": "Vacantes abiertas que frenan la operación.", "ben": "Selección de perfiles técnicos con experiencia real.", "ret": "Cubre la vacante antes", "cat": "personas"}]}, "pyme": {"label": "PYME", "color": "#1FB6A8", "desc": "Para PYMEs que buscan vender más, atender mejor y dejar atrás lo manual.", "promesa": "Más ventas y un negocio ordenado, sin sumar personal.", "sols": [{"n": "Presencia digital pro", "badge": "Kit Digital", "dolor": "Sin web propia no lo encuentran ni lo toman en serio.", "ben": "Sitio web + dominio + correo + ficha — financiable con el Kit Digital de Sercotec ($1,2M).", "ret": "Hasta 100% cubierto por subsidio", "cat": "subsidio", "bens": ["Calza con el tramo de software del subsidio", "Más confianza y más clientes", "Lo dejamos publicado y andando"]}, {"n": "Tienda y pagos online", "badge": "Kit Digital", "dolor": "No puede vender online ni cobrar fácil.", "ben": "Carro de compras + pago electrónico + boleta — elegible para el Kit Digital.", "ret": "Vende 24/7, también fuera de horario", "cat": "subsidio", "bens": ["Cobra en línea sin fricción", "Financiable con el subsidio", "Listo para vender"]}, {"n": "Sistema de administración interna", "badge": "Kit Digital", "dolor": "Todo está en planillas y se le pierde.", "ben": "CRM + cotizador + inventario y facturación — financiable con el Kit Digital.", "ret": "Menos reprocesos y descontrol", "cat": "subsidio", "bens": ["Todo en un solo lugar", "Menos errores de planilla", "Cubierto por el subsidio"]}, {"n": "Marketing y posicionamiento", "badge": "Kit Digital", "dolor": "Nadie lo ve y no llegan clientes.", "ben": "Campañas + Google/redes + medición — elegible para el Kit Digital.", "ret": "Más clientes que lo encuentran", "cat": "subsidio", "bens": ["Aparece en Google", "Campañas medibles", "Financiable con subsidio"]}, {"n": "Diagnóstico digital", "q": "No sabe por dónde partir a digitalizar.", "dolor": "No sabe por dónde empezar a digitalizar ni qué automatizar primero.", "ben": "Pida su diagnóstico digital a Codi: responde unas preguntas y le precisamos qué resolver primero — con impacto y tiempo estimado.", "ret": "Claridad en minutos · sin costo", "badge": "Punto de partida", "cat": "inicio", "bens": ["Plan priorizado por impacto y ahorro de HH", "Sin costo ni compromiso", "Respuesta el mismo día"]}, {"n": "Asistente comercial con IA", "q": "Las consultas sin responder se transforman en ventas perdidas.", "dolor": "Mensajes fuera de horario que nadie responde.", "ben": "Atención, respuestas y agendamiento automáticos, 24/7.", "ret": "Ninguna consulta sin respuesta", "badge": "Producto destacado", "cat": "atencion"}, {"n": "Cotizador automático", "q": "Cotizar de forma manual llega tarde.", "dolor": "Para cuando responde, el cliente ya decidió.", "ben": "El cliente obtiene su presupuesto al instante.", "ret": "Respuesta inmediata, más cierres", "cat": "ventas"}, {"n": "CRM y pipeline de ventas", "q": "El seguimiento vive en cuadernos.", "dolor": "Clientes que se pierden por falta de seguimiento.", "ben": "Cada cliente en su etapa, sin que se escape ninguno.", "ret": "Más cierres con los mismos contactos", "cat": "ventas"}, {"n": "Prospección y búsqueda activa", "q": "Espera que los clientes lleguen solos.", "dolor": "Meses lentos sin un flujo de prospectos.", "ben": "Listas de potenciales clientes con sus contactos.", "ret": "Pipeline siempre con prospectos", "cat": "ventas"}, {"n": "Seguimiento, recompra y referidos", "q": "Vende una vez y no vuelve a saber del cliente.", "dolor": "Clientes que compran una vez y desaparecen.", "ben": "Campañas de recompra y referidos automáticas.", "ret": "Más ventas a clientes actuales", "cat": "ventas"}, {"n": "Catálogo digital", "q": "Enviar fotos sueltas desordena la venta.", "dolor": "Un desorden de imágenes y precios por chat.", "ben": "Un catálogo ordenado, con pedido directo.", "ret": "Venta ordenada", "cat": "presencia"}, {"n": "Tienda online (e-commerce)", "q": "Vende solo por redes y mensajes, sin una tienda real.", "dolor": "Cada venta depende de responder mensajes uno a uno.", "ben": "Una tienda con carro de compras y pago en línea (Webpay/Flow).", "ret": "Vende 24/7, con pago automático", "cat": "ventas"}, {"n": "Sitio web o landing", "q": "Sin presencia, no lo encuentran.", "dolor": "Quien lo busca, no logra dar con usted.", "ben": "Un sitio que convierte visitas en contactos.", "ret": "Presencia que vende", "cat": "presencia"}, {"n": "Google Business y SEO local", "q": "No aparece en las búsquedas de su zona.", "dolor": "La competencia figura en el mapa y usted no.", "ben": "Visibilidad cuando lo buscan cerca.", "ret": "Clientes que llegan por búsqueda", "cat": "captacion"}, {"n": "Publicidad Google y Meta", "q": "Invierte en publicidad sin resultados claros.", "dolor": "Plata gastada en ads que no convierten.", "ben": "Campañas medibles, enfocadas en clientes reales.", "ret": "Cada peso medido", "cat": "captacion"}, {"n": "Redes y contenido", "q": "Sus redes están abandonadas o sin rumbo.", "dolor": "Publicar sin estrategia ni constancia.", "ben": "Contenido con línea y calendario, gestionado.", "ret": "Marca activa y visible", "cat": "captacion"}, {"n": "Juego o herramienta de captación", "q": "Le cuesta captar datos de interesados.", "dolor": "Visitas que se van sin dejar contacto.", "ben": "Una experiencia que entretiene y captura leads.", "ret": "Más contactos capturados", "cat": "captacion"}, {"n": "Agenda y reservas en línea", "q": "Coordinar horas por teléfono genera errores.", "dolor": "Llamados, reprogramaciones e inasistencias.", "ben": "Reserva autónoma, con recordatorios.", "ret": "Menos inasistencias", "cat": "atencion"}, {"n": "Carta digital y comanda", "q": "Tomar pedidos a mano genera errores y demora.", "dolor": "Comandas confusas y mesas que esperan.", "ben": "Carta con QR y pedido que llega directo a cocina.", "ret": "Menos errores, mesas más rápidas", "cat": "atencion"}, {"n": "Pedidos y pago en línea", "q": "El cobro resulta lento y engorroso.", "dolor": "Perseguir el pago y, a veces, no recibirlo.", "ben": "Pedido y pago en un mismo momento.", "ret": "Menos morosidad", "cat": "ventas"}, {"n": "Fila y turnos digital", "q": "Las filas espantan clientes.", "dolor": "Personas que se van al ver la espera.", "ben": "Turnos digitales con aviso al estar listo.", "ret": "Menos abandono por espera", "cat": "atencion"}, {"n": "Control de inventario", "q": "Quiebres de stock y capital inmovilizado.", "dolor": "Falta lo que se vende y sobra lo que no rota.", "ben": "Visibilidad de existencias y reposición oportuna.", "ret": "Compra precisa", "cat": "logistica"}, {"n": "Estudio de competencia", "q": "Competir sin conocer a la competencia.", "dolor": "Se decide a ciegas, sin saber dónde diferenciarse.", "ben": "Informe de su atención y sus brechas.", "ret": "Sabe dónde ganarles", "cat": "datos"}, {"n": "Análisis de precios y benchmark", "q": "No sabe si está caro o barato.", "dolor": "Precios fijados a ojo, sin referencia.", "ben": "Comparativa de precios del mercado.", "ret": "Precios con fundamento", "cat": "datos"}, {"n": "Dashboard CPL / ROI", "q": "No sabe cuánto le cuesta cada cliente.", "dolor": "Marketing sin saber qué retorna.", "ben": "Costo por lead y retorno, en un panel.", "ret": "Invierte donde rinde", "cat": "datos"}, {"n": "Recuperación de clientes inactivos", "q": "Tiene clientes que dejaron de comprar.", "dolor": "Una base dormida que no genera nada.", "ben": "Campañas que reactivan a quienes ya le compraron.", "ret": "Ingresos de clientes dormidos", "badge": "Inteligencia artificial", "cat": "ia"}, {"n": "Copiloto y asesoría express con IA", "q": "Necesita respuestas de negocio rápidas.", "dolor": "Decisiones que se postergan por falta de análisis.", "ben": "Un copiloto que analiza y le sugiere acciones.", "ret": "Decide más rápido", "badge": "Inteligencia artificial", "cat": "ia"}, {"n": "Reseñas en Google (5★)", "q": "Pocas reseñas restan credibilidad.", "dolor": "Buen trabajo que no se traduce en reputación.", "ben": "Acceso directo para dejar una reseña.", "ret": "Más confianza, más clientes", "cat": "captacion"}, {"n": "Tarjeta de sellos (Wallet)", "q": "No tiene cómo fidelizar a sus clientes.", "dolor": "Clientes que no vuelven por falta de incentivo.", "ben": "Tarjeta de sellos digital en el celular.", "ret": "Más recompra", "cat": "ventas"}, {"n": "Cupón / promo digital", "q": "Sus promociones no llegan ni se miden.", "dolor": "Ofertas que nadie ve ni canjea.", "ben": "Cupones digitales con seguimiento de canje.", "ret": "Promos que sí convierten", "cat": "captacion"}, {"n": "Encuesta rápida", "q": "No sabe qué piensan sus clientes.", "dolor": "Decisiones sin escuchar al cliente.", "ben": "Encuestas cortas con resultados al instante.", "ret": "Mejora con datos reales", "cat": "datos"}, {"n": "Base de clientes y novedades", "q": "No tiene cómo volver a contactar a sus clientes.", "dolor": "Sin canal propio para avisar novedades.", "ben": "Base de clientes para enviar novedades y ofertas.", "ret": "Un canal directo y propio", "cat": "ventas"}, {"n": "Tótem de autoatención", "q": "Filas y atención saturada en recepción.", "dolor": "Personas esperando y personal sobrecargado.", "ben": "Autoatención en pantalla para trámites simples.", "ret": "Menos filas, menos carga", "cat": "atencion"}, {"n": "Tap to Pay (habilitación)", "q": "Pierde ventas por no aceptar tarjeta.", "dolor": "Clientes que se van por no poder pagar con tarjeta.", "ben": "Cobre con tarjeta usando solo el celular.", "ret": "No pierde ventas por el pago", "cat": "nfc"}]}, "iniciando": {"label": "Iniciando empresa", "color": "#8B5CF6", "desc": "Para quienes están comenzando y quieren hacerlo ordenado, sin perder meses.", "promesa": "Opere como una empresa establecida desde el primer día.", "sols": [{"n": "Diagnóstico digital", "q": "No sabe por dónde partir a digitalizar.", "dolor": "No sabe por dónde empezar a digitalizar ni qué automatizar primero.", "ben": "Pida su diagnóstico digital a Codi: responde unas preguntas y le precisamos qué resolver primero — con impacto y tiempo estimado.", "ret": "Claridad en minutos · sin costo", "badge": "Punto de partida", "cat": "inicio", "bens": ["Plan priorizado por impacto y ahorro de HH", "Sin costo ni compromiso", "Respuesta el mismo día"]}, {"n": "Empresa operativa en 72 horas", "q": "No hay claridad de por dónde comenzar.", "dolor": "Meses de vueltas sin lograr partir.", "ben": "Presencia, captación y orden, en tres días.", "ret": "Operativo esta semana", "badge": "Combo", "cat": "combos"}, {"n": "Kit de barrio", "q": "Es un local de barrio y quiere digitalizarse simple.", "dolor": "Soluciones caras pensadas para empresas grandes.", "ben": "Un pack simple y económico para locales y almacenes.", "ret": "Digital sin gastar de más", "badge": "Combo", "cat": "combos"}, {"n": "Identidad de marca", "q": "Una imagen improvisada resta confianza.", "dolor": "Logo a la rápida y materiales sin coherencia.", "ben": "Marca, paleta y plantillas consistentes.", "ret": "Imagen profesional desde el inicio", "cat": "presencia"}, {"n": "Kit de marca y plantillas", "q": "Cada publicación se ve distinta y desordenada.", "dolor": "Sin plantillas, todo toma tiempo y queda disparejo.", "ben": "Plantillas listas con su marca para todo.", "ret": "Comunica rápido y parejo", "cat": "presencia"}, {"n": "Sitio web o landing", "q": "Sin presencia, no lo encuentran.", "dolor": "Quien lo busca, no logra dar con usted.", "ben": "Un sitio que convierte visitas en contactos.", "ret": "Presencia que vende", "cat": "presencia"}, {"n": "Google Business y SEO local", "q": "No aparece en las búsquedas de su zona.", "dolor": "La competencia figura en el mapa y usted no.", "ben": "Visibilidad cuando lo buscan cerca.", "ret": "Clientes que llegan por búsqueda", "cat": "captacion"}, {"n": "Catálogo digital", "q": "Enviar fotos sueltas desordena la venta.", "dolor": "Un desorden de imágenes y precios por chat.", "ben": "Un catálogo ordenado, con pedido directo.", "ret": "Venta ordenada", "cat": "presencia"}, {"n": "Tienda online (e-commerce)", "q": "Vende solo por redes y mensajes, sin una tienda real.", "dolor": "Cada venta depende de responder mensajes uno a uno.", "ben": "Una tienda con carro de compras y pago en línea (Webpay/Flow).", "ret": "Vende 24/7, con pago automático", "cat": "ventas"}, {"n": "Cotizador y agenda", "q": "Gestionar pedidos y horas desde cero.", "dolor": "Todo en notas sueltas y en la memoria.", "ben": "Cotización y agendamiento profesionales.", "ret": "Orden desde el primer cliente", "cat": "ventas"}, {"n": "Material impreso y QR", "q": "Su material físico no conecta con lo digital.", "dolor": "Flyers y tarjetas que no llevan a ningún lado.", "ben": "Impresos con QR que llevan a su mundo digital.", "ret": "Puente físico-digital", "cat": "presencia"}, {"n": "Base de datos en la nube", "q": "La información vive en planillas y teléfonos.", "dolor": "Datos dispersos y sin respaldo.", "ben": "Toda su información segura y centralizada.", "ret": "Respaldo permanente", "cat": "datos"}, {"n": "Tarjeta digital NFC", "q": "Las tarjetas impresas se descartan.", "dolor": "Se imprimen tarjetas que terminan olvidadas.", "ben": "Su perfil completo, compartido con un toque.", "ret": "Una sola tarjeta, permanente", "cat": "nfc"}, {"n": "Redes y contenido", "q": "Sus redes están abandonadas o sin rumbo.", "dolor": "Publicar sin estrategia ni constancia.", "ben": "Contenido con línea y calendario, gestionado.", "ret": "Marca activa y visible", "cat": "captacion"}, {"n": "Asistente comercial con IA", "q": "Las consultas sin responder se transforman en ventas perdidas.", "dolor": "Mensajes fuera de horario que nadie responde.", "ben": "Atención, respuestas y agendamiento automáticos, 24/7.", "ret": "Ninguna consulta sin respuesta", "badge": "Producto destacado", "cat": "atencion"}]}, "profesional": {"label": "Profesional independiente", "color": "#E0A53B", "desc": "Para profesionales, técnicos y oficios independientes — de ingenieros, contadores y consultores a peluqueros, estilistas, gasfíteres y maestros. Más clientes, agenda llena y cobro sin fricción.", "promesa": "Cara de empresa para su oficio: más clientes, agenda llena y cobro al instante.", "sols": [{"n": "Tarjeta digital NFC", "q": "Las tarjetas impresas se descartan.", "dolor": "Se imprimen tarjetas que terminan olvidadas.", "ben": "Su perfil completo, compartido con un toque.", "ret": "Una sola tarjeta, permanente", "cat": "nfc"}, {"n": "CV y portafolio interactivo", "q": "Un CV plano no diferencia.", "dolor": "La experiencia se diluye en un documento igual a todos.", "ben": "Su trabajo presentado de forma memorable.", "ret": "Diferenciación frente a otros", "cat": "presencia"}, {"n": "Perfil digital", "q": "Información dispersa en múltiples lugares.", "dolor": "Redes, contacto y servicios, cada uno por su lado.", "ben": "Todo su perfil en un único enlace.", "ret": "Un enlace para todo", "cat": "presencia"}, {"n": "Agenda y reservas", "q": "Coordinar por mensaje toma tiempo.", "dolor": "Conversaciones interminables para fijar una hora.", "ben": "Sus clientes reservan de forma autónoma.", "ret": "Agenda ocupada sin gestión", "cat": "atencion"}, {"n": "Reseñas en Google (5★)", "q": "Pocas reseñas restan credibilidad.", "dolor": "Buen trabajo que no se traduce en reputación.", "ben": "Acceso directo para dejar una reseña.", "ret": "Más confianza, más clientes", "cat": "captacion"}, {"n": "Placa de reseñas NFC", "q": "Cuesta que los clientes dejen reseña.", "dolor": "Buen servicio sin reputación visible.", "ben": "Una placa que con un toque lleva a dejar 5★.", "ret": "Más reseñas, sin pedirlas", "cat": "nfc"}, {"n": "Cobro y propinas digital", "q": "El cobro presencial incomoda.", "dolor": "El momento de cobrar siempre resulta incómodo.", "ben": "Pago inmediato, sin efectivo.", "ret": "Cobro ágil", "cat": "ventas"}, {"n": "Placa de cobro NFC", "q": "Cobrar con tarjeta requiere equipos caros.", "dolor": "Perder ventas por no tener cómo cobrar.", "ben": "Una placa para cobrar con un toque.", "ret": "Cobra en cualquier lugar", "cat": "nfc"}, {"n": "Pago por transferencia (Khipu)", "q": "Las transferencias manuales se pierden.", "dolor": "Pagos sin confirmar y cuadres a mano.", "ben": "Cobro por transferencia confirmado al instante.", "ret": "Pagos cuadrados solos", "cat": "ventas"}, {"n": "Tap to Pay (habilitación)", "q": "Pierde ventas por no aceptar tarjeta.", "dolor": "Clientes que se van por no poder pagar con tarjeta.", "ben": "Cobre con tarjeta usando solo el celular.", "ret": "No pierde ventas por el pago", "cat": "nfc"}, {"n": "Respuestas automáticas (WhatsApp)", "q": "Responder lo mismo a diario consume tiempo.", "dolor": "Las mismas preguntas, una y otra vez.", "ben": "Respuestas automáticas a las consultas frecuentes.", "ret": "Horas recuperadas por semana", "cat": "atencion"}, {"n": "Wifi con un toque (NFC)", "q": "Dar la clave del wifi es engorroso.", "dolor": "Dictar contraseñas largas a cada cliente.", "ben": "El cliente se conecta acercando el celular.", "ret": "Mejor experiencia", "cat": "nfc"}, {"n": "Llavero / sticker NFC", "q": "Quiere compartir su perfil en cualquier parte.", "dolor": "No siempre tiene una tarjeta a mano.", "ben": "Un llavero o sticker que comparte su perfil al toque.", "ret": "Su perfil siempre con usted", "cat": "nfc"}, {"n": "Asistente de conocimiento cerrado", "q": "Responde siempre las mismas dudas a sus clientes.", "dolor": "Tiempo perdido explicando lo mismo.", "ben": "Un asistente que responde con su propia información.", "ret": "Atiende por usted", "badge": "Inteligencia artificial", "cat": "ia"}, {"n": "Sitio web o landing", "q": "Sin presencia, no lo encuentran.", "dolor": "Quien lo busca, no logra dar con usted.", "ben": "Un sitio que convierte visitas en contactos.", "ret": "Presencia que vende", "cat": "presencia"}, {"n": "Catálogo de servicios", "q": "Sus servicios no están claros para el cliente.", "dolor": "Explicar uno a uno qué ofrece.", "ben": "Un catálogo claro de servicios y precios.", "ret": "El cliente entiende y elige", "cat": "presencia"}, {"n": "Reservas con abono o seña", "q": "El cliente reserva pagando una seña — y sí llega.", "dolor": "Clientes que reservan y no llegan, dejando el cupo muerto.", "ben": "El cliente reserva pagando una seña — y sí llega.", "ret": "Hasta 70% menos inasistencias", "cat": "atencion"}, {"n": "Ficha e historial de cliente", "q": "Historial de cada cliente: servicios, preferencias y notas.", "dolor": "Cada atención parte de cero, sin memoria del cliente.", "ben": "Historial de cada cliente: servicios, preferencias y notas.", "ret": "Atención personalizada que fideliza", "cat": "ventas"}, {"n": "Recordatorio de re-agendar", "q": "Avisa solo cuando toca volver (corte, control, mantención).", "dolor": "Pierde recompra porque nadie les recuerda volver.", "ben": "Avisa solo cuando toca volver (corte, control, mantención).", "ret": "Más recompra, en automático", "cat": "ventas"}, {"n": "Portafolio antes y después", "q": "Galería antes/después que vende por usted.", "dolor": "Cuesta demostrar la calidad de lo que hace.", "ben": "Galería antes/después que vende por usted.", "ret": "Más confianza, más clientes", "cat": "presencia"}, {"n": "Cotización en terreno", "q": "Cotice al instante, frente al cliente, desde el celular.", "dolor": "Para cuando manda el presupuesto, el cliente ya dudó.", "ben": "Cotice al instante, frente al cliente, desde el celular.", "ret": "Cierra en la primera visita", "cat": "ventas"}]}, "trabajador": {"label": "Trabajador", "color": "#22A06B", "desc": "Para el trabajador que quiere rendir más y crecer: investigaciones, informes, tableros, presentaciones e IA personal para automatizar su día.", "promesa": "Toda su experiencia y certificaciones, ordenadas y a un enlace.", "sols": [{"n": "Pasaporte digital", "q": "Cursos y documentos dispersos.", "dolor": "Cada postulación obliga a buscar papeles.", "ben": "Experiencia y certificaciones vigentes en un enlace.", "ret": "Postulación más sólida", "cat": "empleabilidad"}, {"n": "CV interactivo", "q": "El CV tradicional no refleja su experiencia.", "dolor": "El trabajo real no se aprecia en una hoja plana.", "ben": "Un perfil que muestra su experiencia de verdad.", "ret": "Más visibilidad ante empleadores", "cat": "empleabilidad"}, {"n": "Capacitación en línea", "q": "Capacitarse presencial toma días.", "dolor": "Perder una jornada completa por un curso.", "ben": "Cursos en línea, a su ritmo, con registro.", "ret": "Formación sin perder jornadas", "cat": "empleabilidad"}, {"n": "Fichas y documentos", "q": "Documentos importantes que se extravían.", "dolor": "El certificado que necesita justo no aparece.", "ben": "Todo respaldado y disponible.", "ret": "Documentación siempre a mano", "cat": "empleabilidad"}, {"n": "Tarjeta digital", "q": "Compartir el contacto es lento.", "dolor": "Dictar el número o anotarlo en un papel.", "ben": "Contacto inmediato con un toque.", "ret": "Conexión al instante", "cat": "empleabilidad"}, {"n": "Investigación exprés con IA", "dolor": "Reunir información de un tema le toma horas de búsqueda.", "ben": "Un agente de IA investiga por usted: rastrea fuentes, compara y entrega un informe ejecutivo con conclusiones y citas.", "ret": "Ahorra días de investigación", "cat": "herramientas", "bens": ["Fuentes verificadas y citadas", "Conclusiones accionables, no solo datos", "Listo para decidir o presentar"], "q": "Un agente de IA investiga por usted: rastrea fuentes, compara y entrega un informe ejecutivo con conclusiones y citas."}, {"n": "Informes que se arman solos", "dolor": "Armar el informe semanal es repetitivo y lento.", "ben": "Toma sus datos crudos y genera informes profesionales con análisis, gráficos y resumen ejecutivo — en un clic.", "ret": "De horas a un clic, cada semana", "cat": "herramientas", "bens": ["Análisis y gráficos automáticos", "Resumen ejecutivo redactado por IA", "Cero copiar-pegar, cero reprocesos"], "q": "Toma sus datos crudos y genera informes profesionales con análisis, gráficos y resumen ejecutivo — en un clic."}, {"n": "Tablero personal de avance", "dolor": "No tiene a la vista cómo va su trabajo ni sus pendientes.", "ben": "Su centro de mando: tareas, métricas y alertas en un tablero que se actualiza solo.", "ret": "Todo bajo control, en tiempo real", "cat": "herramientas", "bens": ["Prioridades y alertas claras", "Métricas que se actualizan solas", "Decide con datos, no con memoria"], "q": "Su centro de mando: tareas, métricas y alertas en un tablero que se actualiza solo."}, {"n": "Presentaciones en minutos", "dolor": "Hacer una presentación decente le quita medio día.", "ben": "De una idea a una presentación nivel ejecutivo: estructura, diseño y narrativa lista para convencer.", "ret": "Presentaciones que venden, en minutos", "cat": "herramientas", "bens": ["Narrativa que persuade", "Diseño profesional automático", "Lista para exponer ante un directorio"], "q": "De una idea a una presentación nivel ejecutivo: estructura, diseño y narrativa lista para convencer."}, {"n": "Resumen de PDF y reuniones", "dolor": "Leer documentos largos o repasar reuniones consume tiempo.", "ben": "Suba un PDF largo o grabe una reunión y la IA devuelve lo clave, las decisiones y las tareas con responsables.", "ret": "Horas de lectura en 1 minuto", "cat": "herramientas", "bens": ["Decisiones y tareas extraídas solas", "Nada importante se pierde", "Responsables y plazos claros"], "q": "Suba un PDF largo o grabe una reunión y la IA devuelve lo clave, las decisiones y las tareas con responsables."}, {"n": "Automatice una tarea repetitiva", "dolor": "Hace la misma tarea manual una y otra vez.", "ben": "Detectamos su tarea repetitiva y desplegamos un flujo de IA que la ejecuta sola, sin errores.", "ret": "Recupera horas-hombre cada semana", "cat": "herramientas", "bens": ["Se ejecuta sola, 24/7", "Cero errores manuales", "Su tiempo en lo que importa"], "q": "Detectamos su tarea repetitiva y desplegamos un flujo de IA que la ejecuta sola, sin errores."}, {"n": "Dictado por voz a texto", "dolor": "Escribir notas y reportes a mano le quita tiempo.", "ben": "Hable y la IA transcribe, ordena y redacta — notas, correos o informes listos para usar.", "ret": "Escribe 3× más rápido, sin teclado", "cat": "herramientas", "bens": ["Manos libres, ideas al instante", "Redacción ordenada automática", "Sin tipear una palabra"], "q": "Hable y la IA transcribe, ordena y redacta — notas, correos o informes listos para usar."}, {"n": "Correos y respuestas con IA", "dolor": "Redactar correos formales le cuesta y demora.", "ben": "Redacta correos y respuestas profesionales en su tono, en segundos — y propone el seguimiento.", "ret": "Bandeja al día, sin esfuerzo", "cat": "herramientas", "bens": ["Tono profesional y propio", "Responde en segundos", "Propone el próximo paso"], "q": "Redacta correos y respuestas profesionales en su tono, en segundos — y propone el seguimiento."}, {"n": "Agente IA personal", "q": "Un asistente entrenado en su trabajo que responde, busca y ejecuta por usted.", "dolor": "Pierde tiempo en tareas que un asistente haría en segundos.", "ben": "Un asistente de IA entrenado en su contexto: responde dudas, busca, redacta y ejecuta tareas por usted.", "ret": "Como tener un ayudante 24/7", "cat": "herramientas", "bens": ["Entrenado en su rubro y documentos", "Busca, redacta, resume y ejecuta", "Disponible siempre, sin sueldo extra"]}, {"n": "Análisis de datos con IA", "q": "Suba una planilla y la IA encuentra patrones, riesgos y oportunidades.", "dolor": "Tiene datos pero no tiempo ni herramientas para entenderlos.", "ben": "Suba una planilla y la IA detecta patrones, anomalías y oportunidades — explicadas en simple, con recomendaciones.", "ret": "Decisiones con datos, sin ser experto", "cat": "herramientas", "bens": ["Encuentra lo que no se ve a simple vista", "Explicado en lenguaje simple", "Recomendaciones accionables"]}]}};
-
-
-var CAT_ORDER=['captacion','ventas','atencion','presencia','operacion','logistica','finanzas','personas','cumplimiento','datos','ia','herramientas','nfc','subsidio','combos','empleabilidad'];
-var CATS={
-subsidio:{l:'Con subsidio · Kit Digital',c:'#E0A53B',i:'coin'},
-herramientas:{l:'Herramientas IA',c:'#00C2A8',i:'ai'},
-inicio:{l:'Diagnóstico digital',c:'#00E0C2',i:'target'},
-captacion:{l:'Captación y marketing',c:'#1FB6A8',i:'mega'},
-ventas:{l:'Ventas',c:'#5B6CFF',i:'cart'},
-atencion:{l:'Atención al cliente',c:'#00B4D8',i:'chat'},
-presencia:{l:'Identidad y presencia',c:'#6B7DFF',i:'globe'},
-operacion:{l:'Operación y terreno',c:'#5B6CFF',i:'clip'},
-logistica:{l:'Logística y bodega',c:'#E0A53B',i:'box'},
-finanzas:{l:'Finanzas',c:'#22A06B',i:'coin'},
-personas:{l:'Personas y RRHH',c:'#8B5CF6',i:'users'},
-cumplimiento:{l:'Seguridad y cumplimiento',c:'#FF6B5E',i:'shield'},
-datos:{l:'Datos e inteligencia',c:'#4DA3FF',i:'dash'},
-ia:{l:'IA agéntica',c:'#7C4DFF',i:'ai'},
-nfc:{l:'NFC y pagos',c:'#00C2A8',i:'nfc'},
-combos:{l:'Combos',c:'#E0A53B',i:'pack'},
-empleabilidad:{l:'Mi perfil laboral',c:'#22A06B',i:'badge'}
-};
-IC.search='<svg viewBox="0 0 24 24" '+S+'><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>';
-IC.target='<svg viewBox="0 0 24 24" '+S+'><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></svg>';
-IC.mega='<svg viewBox="0 0 24 24" '+S+'><path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1zM16 9a4 4 0 0 1 0 6"/></svg>';
-IC.cart='<svg viewBox="0 0 24 24" '+S+'><circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/><path d="M3 4h2l2.2 11h10l2-7H6"/></svg>';
-IC.clip='<svg viewBox="0 0 24 24" '+S+'><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4h6v3H9zM9 11h6M9 15h4"/></svg>';
-IC.box='<svg viewBox="0 0 24 24" '+S+'><path d="M21 8l-9-5-9 5 9 5 9-5zM3 8v8l9 5 9-5V8M12 13v8"/></svg>';
-IC.coin='<svg viewBox="0 0 24 24" '+S+'><path d="M4 19V10M9 19V5M14 19v-7M19 19v-12"/></svg>';
-IC.users='<svg viewBox="0 0 24 24" '+S+'><circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0 1 12 0M16 5.5a3.2 3.2 0 0 1 0 6M21 20a6 6 0 0 0-5-5.9"/></svg>';
-IC.shield='<svg viewBox="0 0 24 24" '+S+'><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>';
-IC.dash='<svg viewBox="0 0 24 24" '+S+'><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 16v-3M12 16V9M17 16v-5M3 9h18"/></svg>';
-IC.nfc='<svg viewBox="0 0 24 24" '+S+'><path d="M6 8a8 8 0 0 1 0 8M10 6a12 12 0 0 1 0 12M14 9a5 5 0 0 1 0 6"/></svg>';
-IC.pack='<svg viewBox="0 0 24 24" '+S+'><path d="M21 8l-9-5-9 5 9 5 9-5zM3 8v8l9 5 9-5V8M12 13v8M7.5 5.5l9 5"/></svg>';
-IC.badge='<svg viewBox="0 0 24 24" '+S+'><circle cx="12" cy="9" r="5"/><path d="M9 13.5L8 21l4-2 4 2-1-7.5"/></svg>';
-IC.globe='<svg viewBox="0 0 24 24" '+S+'><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>';
-
-
-
-var screen=document.getElementById('screen'), back=document.getElementById('back');
-function setScreen(html){screen.classList.remove('in');setTimeout(function(){screen.innerHTML=html;window.scrollTo(0,0);requestAnimationFrame(function(){screen.classList.add('in');});},240);}
-
-function setBack(b){back.style.display=b?'flex':'none';}
-function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
-function flash(){var w=document.getElementById('wash');w.classList.add('flash');setTimeout(function(){w.classList.remove('flash');},320);}
-function tilesHTML(){var t='';for(var k in SEG){var s=SEG[k];t+='<div class="seg" style="--c:'+s.color+'" onclick="seg(\''+k+'\')"><div class="ibox">'+IC[k]+'</div><h3>'+s.label+'</h3><p>'+s.desc+'</p><div class="go">Entrar '+IC.arrow+'</div></div>';}return t;}
-function home(){
-  NAV={view:'home',seg:null,cat:null};
-  document.body.style.setProperty('--seg','#5B6CFF'); setBack(false);
-  setScreen('<div class="wrap home-immersive"><div class="hero-c"><div class="eye">Recuperamos horas · Eliminamos el trabajo manual</div><h1>Soluciones integrales en automatización, digitalización e inteligencia artificial.</h1><p class="lead">Más ventas, menos tiempo perdido y todo bajo control. Elija su perfil y le mostramos exactamente qué resolvemos — y el tiempo que recupera.</p><div class="hero-auth">Cada solución nace resolviendo un problema real dentro de una empresa.</div></div>'+
-  '<div class="segs">'+tilesHTML()+'</div><footer class="site-foot"><div class="sf-top"><div class="sf-brand"><div class="sf-logo">CO·DATA</div><p>Si en su empresa existe un proceso, una decisión o un problema, CO-DATA puede resolverlo.</p><div class="sf-badges"><span>Empresa chilena</span><span>Demo antes de decidir</span><span>Respuesta el mismo día</span><span>Nacidas en operaciones reales</span></div></div><div class="sf-cols"><div class="sf-col"><h4>Empresa</h4><button onclick="openAbout(\'nosotros\')">Quiénes somos</button><button onclick="openAbout(\'casos\')">Casos</button><button onclick="openAbout(\'contacto\')">Contacto</button></div><div class="sf-col"><h4>Hablemos</h4><a href="'+wa("Hola CO-DATA, quisiera más información.")+'" target="_blank" rel="noopener">WhatsApp</a><a href="mailto:'+EMAIL+'">Correo</a><a href="tel:+'+TEL+'">Llamar</a></div><div class="sf-col"><h4>Síguenos</h4><div class="sf-soc"><a href="#" onclick="return false" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a><a href="#" onclick="return false" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 110 5 2.5 2.5 0 010-5zM3 9h4v12H3zM10 9h3.8v1.7h.1c.5-.9 1.8-1.9 3.6-1.9 3.9 0 4.6 2.5 4.6 5.8V21h-4v-5.3c0-1.3 0-2.9-1.8-2.9s-2 1.4-2 2.8V21h-4z"/></svg></a><a href="#" onclick="return false" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 3c.3 2 1.6 3.6 3.5 4v2.3c-1.3 0-2.5-.4-3.5-1v5.7a5.7 5.7 0 11-5.7-5.7c.3 0 .6 0 .9.1v2.4a3.3 3.3 0 102.3 3.1V3z"/></svg></a></div></div></div></div><div class="sf-bottom"><span>© 2026 CO-DATA · Santiago, Chile</span><span>Automatización · IA · Digitalización · Ingeniería</span></div></footer></div>');
-}
-function doSearch(q){
-  var body=document.getElementById('homeBody'); if(!body)return;
-  var t=norm(q.trim());
-  if(t.length<2){body.innerHTML='';return;}
-  var res=[];
-  for(var k in SEG){SEG[k].sols.forEach(function(o,i){var cl=(CATS[o.cat]||{}).l||'';if(norm(o.n+' '+o.q+' '+o.ben+' '+o.ret+' '+cl).indexOf(t)>=0)res.push([k,i,o]);});}
-  if(!res.length){body.innerHTML='<div class="no-res">No encontré nada con &ldquo;'+q+'&rdquo;. Pruebe otra palabra, o pregúntele al asistente.</div>';return;}
-  var h='<div class="res-head">'+res.length+' soluciones para &ldquo;'+q+'&rdquo;</div><div class="sol-grid">';
-  res.forEach(function(r){var k=r[0],i=r[1],o=r[2],cc=(CATS[o.cat]||{}).c||SEG[k].color;h+='<div class="sol" style="--cc:'+cc+'" onclick="modal(\''+k+'\','+i+')"><div class="sol-tag" style="color:'+cc+'">'+SEG[k].label+'</div><h3>'+o.n+'</h3><div class="q">'+o.ben+'</div><div class="ret">'+IC.clock+o.ret+'</div><div class="more">Ver y cotizar '+IC.arrow+'</div></div>';});
-  body.innerHTML=h+'</div>';
-}
-function solCard(k,i,o){var cc=(CATS[o.cat]||{}).c||SEG[k].color;return '<div class="sol" style="--cc:'+cc+'" onclick="modal(\''+k+'\','+i+')">'+(o.badge?'<span class="badge">'+o.badge+'</span>':'')+'<h3>'+o.n+'</h3><div class="q">'+o.ben+'</div><div class="ret">'+IC.clock+o.ret+'</div><div class="more">Ver y cotizar '+IC.arrow+'</div></div>';}
-function seg(k){
-  var s=SEG[k]; NAV={view:'profile',seg:k,cat:null};
-  document.body.style.setProperty('--seg',s.color); setBack(true); flash(); if(window.warp)window.warp();
-  var present=[]; CAT_ORDER.forEach(function(cat){var n=s.sols.filter(function(o){return o.cat===cat;}).length;if(n)present.push([cat,n]);});
-  var diag='<button class="diag-btn" onclick="codiDiag()"><span class="db-ic">'+IC.target+'</span><span class="db-t"><b>Pida su diagnóstico digital</b> a Codi — responde unas preguntas y le precisamos qué resolver primero.</span><span class="db-go">'+IC.arrow+'</span></button>';
-  var hook=(k==='pyme')?'<div class="hook"><span class="hk-ic">'+IC.coin+'</span><div><b>¿Sabía que puede financiar su digitalización?</b> El Kit Digital de Sercotec aporta hasta $1.200.000. Le ayudamos a postular y lo ejecutamos.</div><button class="hk-go" onclick="category(\''+k+'\',\'subsidio\')">Ver cómo '+IC.arrow+'</button></div>':'';
-  var head='<div class="seg-head"><div class="crumb"><div class="ibox">'+IC[k]+'</div><div class="lab">'+s.label+'</div></div><h2>'+s.promesa+'</h2><p>'+s.desc+'</p></div>'+diag;
-  if(present.length<=1){
-    var cards='';s.sols.forEach(function(o,i){if(CATS[o.cat])cards+=solCard(k,i,o);});
-    setScreen('<div class="wrap">'+head+'<div class="sol-grid">'+cards+'</div>'+hook+'</div>');return;
-  }
-  if(s.sols.length<=16){
-    var secs='';present.forEach(function(p){var c=CATS[p[0]];var cc='';s.sols.forEach(function(o,i){if(o.cat===p[0])cc+=solCard(k,i,o);});secs+='<div class="sec"><div class="sec-t" style="--cc:'+c.c+'"><span class="sec-ic">'+IC[c.i]+'</span>'+c.l+'</div><div class="sol-grid">'+cc+'</div></div>';});
-    setScreen('<div class="wrap">'+head+secs+hook+'</div>');return;
-  }
-  var tiles='';present.forEach(function(p){var c=CATS[p[0]];tiles+='<div class="cat-tile" style="--cc:'+c.c+'" onclick="category(\''+k+'\',\''+p[0]+'\')"><div class="cat-ic">'+IC[c.i]+'</div><div class="cat-l">'+c.l+'</div><div class="cat-n">Demos · su solución a la medida</div></div>';});
-  setScreen('<div class="wrap">'+head+'<div class="cat-grid">'+tiles+'</div>'+hook+'</div>');
-}
-function category(k,cat){
-  var s=SEG[k], c=CATS[cat]; NAV={view:'category',seg:k,cat:cat};
-  document.body.style.setProperty('--seg',c.c); setBack(true);
-  var cards='';s.sols.forEach(function(o,i){if(o.cat===cat)cards+=solCard(k,i,o);});
-  var info=(cat==='subsidio')?'<div class="sercotec"><div class="sc-h">'+IC.coin+'<span>Cómo postular al Kit Digital</span></div><ol class="sc-steps"><li>Inicie actividades en el SII (1ª categoría), con ventas hasta 25.000 UF y sin deudas.</li><li>Apruebe los cursos gratuitos en <b>rutadigital.cl</b> antes de que abra la convocatoria.</li><li>Postule en Sercotec cuando abra la ronda — hay rondas durante todo el año.</li><li>Si gana, <b>nosotros ejecutamos</b> la solución dentro del plazo y usted la usa.</li></ol><a class="sc-link" href="https://www.sercotec.cl" target="_blank" rel="noopener">Consultar bases oficiales en Sercotec '+IC.arrow+'</a><div class="sc-note">Le ayudamos a preparar la postulación y dejamos todo funcionando. La aprobación del subsidio la resuelve Sercotec.</div></div>':'';
-  setScreen('<div class="wrap"><div class="seg-head"><div class="crumb" style="cursor:pointer" onclick="seg(\''+k+'\')"><div class="ibox" style="color:'+c.c+';border-color:'+c.c+'">'+IC[c.i]+'</div><div class="lab">'+s.label+' &middot; '+c.l+'</div></div></div><div class="sol-grid">'+cards+'</div>'+info+'</div>');
-}
-function goBack(){if(NAV.view==='category')seg(NAV.seg);else home();}
-var NAV={view:'home',seg:null,cat:null};
-
-function modal(k,i){
-  var s=SEG[k], o=s.sols[i], md=document.getElementById('modal'); MOD.k=k; MOD.i=i; var dbtn=demoFor(o.n)?'<button class="btn btn-demo" onclick="verDemo(\''+k+'\','+i+')">'+IC.play+'Ver demo</button>':'';
-  md.innerHTML='<button class="x" onclick="closeM()">'+IC.x+'</button><div class="tag">'+s.label+'</div><h3>'+o.n+'</h3>'+
-    '<div class="blk"><div class="l">El problema</div><p>'+o.dolor+'</p></div>'+
-    '<div class="blk"><div class="l">Cómo lo resolvemos</div><p>'+o.ben+'</p></div>'+
-    '<div class="ret-box"><div class="ic">'+IC.clock+'</div><div><div class="l">Lo que recupera</div><div class="v">'+o.ret+'</div></div></div>'+(o.bens&&o.bens.length?'<div class="blk"><div class="l">Beneficios</div><ul class="bens">'+o.bens.map(function(b){return '<li>'+b+'</li>';}).join('')+'</ul></div>':'')+
-    '<div class="acts">'+dbtn+''+
-    '<button class="btn btn-coti" onclick="revealRange(\''+k+'\','+i+')">Cotizar'+IC.arrow+'</button></div>'+
-    '<div class="range-box" id="rangeBox" style="display:none"></div>'+
-    '<div class="contact"><div class="cl">¿Hablamos? Cuéntenos su caso y le respondemos como prefiera</div><textarea id="cMsg" placeholder="Escriba su necesidad o lo que le duele hoy…"></textarea><div class="cbtns"><button class="cbtn cb-wa" onclick="return mwa()">'+IC.chat+'WhatsApp</button><button class="cbtn cb-mail" onclick="return mmail()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Correo</button><a class="cbtn cb-tel" href="tel:+'+TEL+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-3 2a14 14 0 006 6l2-3 5 2v4a2 2 0 01-2 2A18 18 0 013 6a2 2 0 012-2z"/></svg>Llamar</a></div></div>'+
-    '<div class="nudge">Le mostramos un demo funcionando antes de decidir. Respondemos el mismo día.</div>';
-  document.getElementById('modalbg').classList.add('open');
-}
-function closeM(){document.getElementById('modalbg').classList.remove('open');}
-document.getElementById('modalbg').addEventListener('click',function(e){if(e.target===this)closeM();});
-back.addEventListener('click',goBack);
-home();
-
-// ===== RANGOS REFERENCIALES =====
-var RANGOS={"Diagnóstico digital": "$59.000 (se descuenta del proyecto)", "Órdenes de trabajo digitales": "$400.000 – $900.000 + $40.000–$80.000/mes", "Plan diario del trabajador": "$300.000 – $700.000 + $30.000–$60.000/mes", "Checklists e inspección con evidencia": "$300.000 – $700.000 + $30.000–$60.000/mes", "Control de flota y camionetas": "$300.000 – $700.000 + $30.000–$60.000/mes", "Visita técnica e informe express": "$300.000 – $600.000 + $25.000–$50.000/mes", "Control de herramientas e insumos": "$250.000 – $600.000 + $25.000–$50.000/mes", "Guía de despacho y entrega digital": "$250.000 – $600.000 + $25.000–$50.000/mes", "Compras y proveedores": "$300.000 – $700.000 + $30.000–$60.000/mes", "Asistencia, turnos y horas": "$300.000 – $700.000 + $30.000–$60.000/mes", "Fichas y documentos del trabajador": "$300.000 – $600.000 + $25.000–$50.000/mes", "Inducción y capacitación en línea": "$400.000 – $900.000 + $40.000–$80.000/mes", "Catálogo de cursos por riesgo": "$300.000 – $700.000", "Entrega de EPP": "$250.000 – $500.000 + $20.000–$40.000/mes", "Documentación legal (RIOHS, matriz, plan)": "$250.000 – $600.000", "Control de calidad y mermas": "$300.000 – $700.000 + $30.000–$60.000/mes", "Evidencia, trazabilidad y vencimientos": "$300.000 – $700.000 + $30.000–$70.000/mes", "Control de acceso, guardias y rondas": "$300.000 – $700.000 + $30.000–$60.000/mes", "Prevención tercerizada": "$250.000 – $800.000/mes", "Pasaporte digital del trabajador": "$400.000 – $900.000 + $50.000–$120.000/mes", "Estados de pago y avance": "$300.000 – $700.000 + $30.000–$60.000/mes", "Control de gastos y rendiciones": "$250.000 – $600.000 + $25.000–$50.000/mes", "Flujo de caja y panel financiero": "$400.000 – $900.000 + $40.000–$80.000/mes", "Cobranza automatizada": "$200.000 – $500.000 + $30.000–$60.000/mes", "Panel de indicadores (KPIs)": "$300.000 – $700.000 + $30.000–$70.000/mes", "Base de datos en la nube": "$200.000 – $500.000 + $20.000/mes", "Integraciones y conexiones": "$300.000 – $900.000", "Soporte y mantención": "Desde $30.000–$120.000/mes", "Screening de licitaciones": "$80.000 – $250.000 por licitación · o $300.000–$700.000/mes", "Automatizador de portales de acreditación": "$500.000 – $1.200.000 + $80.000–$200.000/mes", "Generador masivo de documentos": "$300.000 – $800.000 + $30.000–$60.000/mes", "Trazabilidad de activos por QR": "$250.000 – $600.000 + $25.000–$50.000/mes", "Tótem de autoatención": "$400.000 – $1.000.000 + $40.000–$80.000/mes", "Portal de cliente / área privada": "$500.000 – $1.200.000 + $50.000–$100.000/mes", "Reclutamiento técnico": "≈ 1–2 sueldos del cargo (por colocación)", "Asistente comercial con IA": "$250.000 – $500.000 + $150.000–$300.000/mes", "Cotizador automático": "$300.000 – $900.000 + $30.000–$60.000/mes", "CRM y pipeline de ventas": "$400.000 – $1.000.000 + $30.000–$70.000/mes", "Prospección y búsqueda activa": "$200.000 – $500.000 + $50.000–$150.000/mes", "Seguimiento, recompra y referidos": "$200.000 – $500.000 + $25.000–$60.000/mes", "Catálogo digital": "$200.000 – $500.000", "Sitio web o landing": "$250.000 – $600.000 + $25.000–$50.000/mes", "Google Business y SEO local": "$100.000 – $300.000 + $120.000–$300.000/mes", "Publicidad Google y Meta": "$150.000 setup + inversión + $150.000–$300.000/mes", "Redes y contenido": "$150.000 – $400.000/mes", "Juego o herramienta de captación": "$200.000 – $500.000", "Agenda y reservas en línea": "$200.000 – $500.000 + $20.000–$50.000/mes", "Carta digital y comanda": "$250.000 – $600.000 + $20.000–$50.000/mes", "Pedidos y pago en línea": "$250.000 – $700.000 + $25.000–$60.000/mes", "Fila y turnos digital": "$250.000 – $600.000 + $20.000–$50.000/mes", "Control de inventario": "$250.000 – $600.000 + $25.000–$50.000/mes", "Estudio de competencia": "$200.000 – $500.000", "Análisis de precios y benchmark": "$150.000 – $400.000", "Dashboard CPL / ROI": "$250.000 – $600.000 + $25.000–$50.000/mes", "Recuperación de clientes inactivos": "$200.000 – $500.000 + $25.000–$50.000/mes", "Copiloto y asesoría express con IA": "$150.000 – $400.000 + $50.000–$150.000/mes", "Reseñas en Google (5★)": "$80.000 – $200.000", "Tarjeta de sellos (Wallet)": "$120.000 – $300.000 + $15.000–$30.000/mes", "Cupón / promo digital": "$100.000 – $250.000", "Encuesta rápida": "$60.000 – $180.000", "Base de clientes y novedades": "$120.000 – $300.000 + $15.000–$40.000/mes", "Tap to Pay (habilitación)": "$80.000 – $200.000 (habilitación)", "Empresa operativa en 72 horas": "$1.200.000 – $3.000.000 + $80.000–$180.000/mes", "Kit de barrio": "$150.000 – $400.000 + $15.000–$30.000/mes", "Identidad de marca": "$150.000 – $500.000", "Kit de marca y plantillas": "$120.000 – $350.000", "Material impreso y QR": "$80.000 – $250.000", "Cotizador y agenda": "$300.000 – $700.000 + $30.000/mes", "Tarjeta digital NFC": "$60.000 – $150.000", "CV y portafolio interactivo": "$100.000 – $250.000", "Perfil digital": "$120.000 – $300.000", "Agenda y reservas": "$150.000 – $400.000 + $15.000–$40.000/mes", "Placa de reseñas NFC": "$60.000 – $150.000", "Cobro y propinas digital": "$80.000 – $200.000", "Placa de cobro NFC": "$80.000 – $200.000", "Pago por transferencia (Khipu)": "$60.000 – $150.000 + comisión por uso", "Respuestas automáticas (WhatsApp)": "$150.000 – $350.000 + $20.000/mes", "Wifi con un toque (NFC)": "$40.000 – $100.000", "Llavero / sticker NFC": "$30.000 – $90.000", "Asistente de conocimiento cerrado": "$200.000 – $500.000 + $30.000–$80.000/mes", "Catálogo de servicios": "$150.000 – $400.000", "Pasaporte digital": "$40.000 – $120.000", "CV interactivo": "$80.000 – $200.000", "Capacitación en línea": "$30.000 – $120.000 por curso", "Fichas y documentos": "$40.000 – $100.000", "Tarjeta digital": "$40.000 – $100.000", "Tienda online (e-commerce)": "$400.000 – $1.200.000 + $30.000–$80.000/mes", "Reservas con abono o seña": "$200.000 – $500.000 + $20.000–$50.000/mes", "Ficha e historial de cliente": "$200.000 – $500.000", "Recordatorio de re-agendar": "$150.000 – $350.000 + $20.000/mes", "Portafolio antes y después": "$120.000 – $300.000", "Cotización en terreno": "$200.000 – $500.000 + $20.000/mes", "Investigación exprés con IA": "$60.000 – $150.000 por estudio", "Informes que se arman solos": "$150.000 – $400.000", "Tablero personal de avance": "$120.000 – $300.000", "Presentaciones en minutos": "$80.000 – $200.000", "Resumen de PDF y reuniones": "$60.000 – $150.000 + $15.000/mes", "Automatice una tarea repetitiva": "$150.000 – $500.000", "Dictado por voz a texto": "$50.000 – $120.000", "Correos y respuestas con IA": "$60.000 – $150.000", "Presencia digital pro": "$600.000 – $1.200.000 · financiable Kit Digital", "Tienda y pagos online": "$600.000 – $1.200.000 · financiable Kit Digital", "Sistema de administración interna": "$600.000 – $1.200.000 · financiable Kit Digital", "Marketing y posicionamiento": "$400.000 – $900.000 · financiable Kit Digital", "Agente IA personal": "$250.000 – $700.000 + $30.000/mes", "Análisis de datos con IA": "$200.000 – $600.000"};
-function revealRange(k,i){
-  var o=SEG[k].sols[i], r=RANGOS[o.n]||"Lo cotizamos según tu caso";
-  var b=document.getElementById('rangeBox');
-  b.innerHTML='<div class="rb-l">Rango referencial</div><div class="rb-v">'+r+'</div><div class="rb-n">El valor exacto depende de tu caso — lo afinamos contigo, sin compromiso.</div><a class="btn btn-coti" href="'+wa('Hola CO-DATA, quiero una cotización exacta de "'+o.n+'". Perfil: '+SEG[k].label+'. (Rango referencial: '+r+')')+'" target="_blank">Solicitar cotización exacta'+IC.arrow+'</a><div class="anticipo"><b>Para avanzar:</b> 50% al confirmar + 50% a la entrega · incluye 1 ajuste.<a class="btn btn-coti" style="margin-top:10px" href="'+(AGENDA||wa('Hola CO-DATA, quiero confirmar "'+o.n+'" y agendar (anticipo 50%).'))+'" target="_blank">Confirmar y agendar (50%)'+IC.arrow+'</a></div>';
-  b.style.display='block'; b.scrollIntoView({behavior:'smooth',block:'nearest'});
-}
-
-// ===== DEMOS (prototipos en visor liviano) =====
-var DEMOS={'analisis de datos':'codata-analisis-datos-demo.html','automatice una tarea':'codata-automatizacion-tareas-demo.html','tarea repetitiva':'codata-automatizacion-tareas-demo.html','asistencia':'codata-asistencia-turnos-demo.html','turnos':'codata-asistencia-turnos-demo.html','fila':'codata-asistencia-turnos-demo.html','crm':'codata-crm-pipeline-demo.html','pipeline':'codata-crm-pipeline-demo.html','recuperacion':'codata-recuperacion-clientes-demo.html','inactivos':'codata-recuperacion-clientes-demo.html','cobranza':'codata-cobranza-automatizada-demo.html','gastos':'codata-gastos-rendiciones-demo.html','rendiciones':'codata-gastos-rendiciones-demo.html','compras':'codata-compras-proveedores-demo.html','proveedores':'codata-compras-proveedores-demo.html','inventario':'codata-control-inventario-demo.html','insumos':'codata-control-inventario-demo.html','control de herramientas':'codata-control-inventario-demo.html','calidad':'codata-calidad-mermas-demo.html','mermas':'codata-calidad-mermas-demo.html','documentacion legal':'codata-documentacion-legal-demo.html','riohs':'codata-documentacion-legal-demo.html','matriz':'codata-documentacion-legal-demo.html','trazabilidad':'codata-trazabilidad-vencimientos-demo.html','vencimientos':'codata-trazabilidad-vencimientos-demo.html','plan diario':'codata-plan-diario-demo.html','ordenes de trabajo':'codata-inspeccion-terreno-demo.html','acreditacion':'codata-acreditacion-portales-demo.html','portales':'codata-acreditacion-portales-demo.html','agente ia':'codata-agente-ia-demo.html','vendedor ia':'codata-agente-ia-demo.html','asistente comercial':'codata-agente-ia-demo.html','copiloto':'codata-agente-ia-demo.html','voz':'codata-asistente-voz-demo.html','dictado':'codata-asistente-voz-demo.html','brand':'codata-brandkit-demo.html','kit de marca':'codata-brandkit-demo.html','identidad':'codata-brandkit-demo.html','roi':'codata-calculadora-roi-demo.html','retorno':'codata-calculadora-roi-demo.html','carta':'codata-carta-comanda-demo.html','comanda':'codata-carta-comanda-demo.html','menu':'codata-carta-comanda-demo.html','centro de mando':'codata-centro-mando-demo.html','dashboard':'codata-centro-mando-demo.html','tablero':'codata-centro-mando-demo.html','indicador':'codata-centro-mando-demo.html','panel':'codata-centro-mando-demo.html','kpi':'codata-centro-mando-demo.html','configurador':'codata-configurador-3d-demo.html','3d':'codata-configurador-3d-demo.html','flota':'codata-control-flota-demo.html','vehiculo':'codata-control-flota-demo.html','despacho':'codata-control-flota-demo.html','cotizador':'codata-cotizador-demo.html','cotiz':'codata-cotizador-demo.html','presupuesto':'codata-cotizador-demo.html','cv':'codata-cv-portafolio-demo.html','portafolio':'codata-cv-portafolio-demo.html','curriculum':'codata-cv-portafolio-demo.html','diagnostico':'codata-diagnostico-digital-demo.html','encuesta':'codata-encuesta-rapida-demo.html','fideliz':'codata-fidelizacion-app-demo.html','recompra':'codata-fidelizacion-app-demo.html','re-agendar':'codata-fidelizacion-app-demo.html','documento':'codata-generador-documentos-demo.html','contrato':'codata-generador-documentos-demo.html','presentacion':'codata-generador-presentaciones-demo.html','inspeccion':'codata-inspeccion-terreno-demo.html','terreno':'codata-inspeccion-terreno-demo.html','checklist':'codata-inspeccion-terreno-demo.html','orden de trabajo':'codata-inspeccion-terreno-demo.html','competitiv':'codata-inteligencia-competitiva-demo.html','benchmark':'codata-inteligencia-competitiva-demo.html','mercado':'codata-inteligencia-competitiva-demo.html','investigacion':'codata-investigacion-ia-demo.html','juego':'codata-juego-captacion-demo.html','pasaporte':'codata-pasaporte-trabajador-demo.html','perfil':'codata-perfil-hub-demo.html','tarjeta':'codata-perfil-hub-demo.html','nfc':'codata-perfil-hub-demo.html','presencia':'codata-perfil-hub-demo.html','sitio':'codata-perfil-hub-demo.html','portal':'codata-portal-cliente-demo.html','resena':'codata-resenas-5estrellas-demo.html','review':'codata-resenas-5estrellas-demo.html','reputacion':'codata-resenas-5estrellas-demo.html','reserva':'codata-reservas-demo.html','agenda':'codata-reservas-demo.html','cita':'codata-reservas-demo.html','reunion':'codata-resumen-reuniones-demo.html','resumen':'codata-resumen-reuniones-demo.html','acta':'codata-resumen-reuniones-demo.html','licitacion':'codata-screening-licitaciones-demo.html','tienda':'codata-tienda-demo.html','ecommerce':'codata-tienda-demo.html','e-commerce':'codata-tienda-demo.html','carro':'codata-tienda-demo.html','catalogo':'codata-tienda-demo.html','totem':'codata-totem-autoatencion-demo.html','autoatencion':'codata-totem-autoatencion-demo.html','kiosco':'codata-totem-autoatencion-demo.html','curso':'codata-venta-cursos-demo.html','capacitacion':'codata-venta-cursos-demo.html','informe':'codata-generador-documentos-demo.html'};
-function demoFor(n){var s=norm(n);for(var key in DEMOS){if(s.indexOf(norm(key))>=0)return DEMOS[key];}return null;}
-var DEMO_CTX={k:null,i:null};
-function verDemo(k,i){var o=SEG[k].sols[i],f=demoFor(o.n);if(f){openDemo(f,o.n,k,i);}else{window.open(wa('Hola CO-DATA, quisiera ver el demo de "'+o.n+'". Perfil: '+SEG[k].label+'.'),'_blank');}}
-function openDemo(file,title,k,i){var fr=document.getElementById('demoFrame');fr.src='demos/'+file;document.getElementById('demoTitle').textContent=title;DEMO_CTX.k=k;DEMO_CTX.i=i;document.getElementById('demoOv').classList.add('open');}
-function closeDemo(){var fr=document.getElementById('demoFrame');fr.src='about:blank';document.getElementById('demoOv').classList.remove('open');}
-window.verDemo=verDemo;window.openDemo=openDemo;window.closeDemo=closeDemo;
-(function(){var ov=document.createElement('div');ov.className='demo-ov';ov.id='demoOv';ov.innerHTML='<div class="demo-box"><div class="demo-bar"><span id="demoTitle">Demo interactiva</span><div class="demo-bA"><button class="demo-coti" id="demoCoti">Cotizar y agendar '+IC.arrow+'</button><button class="demo-x" onclick="closeDemo()">'+IC.x+'</button></div></div><iframe id="demoFrame" src="about:blank" title="Demo" allow="microphone; camera"></iframe><div class="demo-foot">Demo interactiva · solución re-skineable a su medida</div></div>';document.body.appendChild(ov);ov.addEventListener('click',function(e){if(e.target===ov)closeDemo();});document.getElementById('demoCoti').onclick=function(){var k=DEMO_CTX.k,i=DEMO_CTX.i;closeDemo();if(k!=null){modal(k,i);setTimeout(function(){revealRange(k,i);},260);}};})();
-
-// ===== ASISTENTE IA (acompaña en toda la página) =====
-IC.ai='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.9 5.1L19 9l-5.1 1.9L12 16l-1.9-5.1L5 9l5.1-1.9z"/><path d="M18.5 14l.9 2.4 2.4.9-2.4.9-.9 2.4-.9-2.4-2.4-.9 2.4-.9z"/></svg>';
-IC.send='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>';
-IC.codi='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="7" width="15" height="12" rx="5"/><circle cx="10" cy="13" r="1.15" fill="currentColor" stroke="none"/><circle cx="14" cy="13" r="1.15" fill="currentColor" stroke="none"/><path d="M12 7V4.3"/><circle cx="12" cy="3" r="1.15" fill="currentColor" stroke="none"/><path d="M2.7 12.6v1.8M21.3 12.6v1.8"/></svg>';
 (function(){
-  var launch=document.createElement('button'); launch.className='codi-launch'; launch.setAttribute('aria-label','Codi');
-  launch.innerHTML='<span class="cl-bub">Hola, soy <b>Codi</b><span>¿Qué proceso quiere mejorar?</span></span><span class="cl-orb"><span class="ring"></span><span class="core">'+IC.codi+'</span></span>';
-  var panel=document.createElement('div'); panel.className='codi-panel';
-  panel.innerHTML='<div class="codi"><div class="codi-head"><div class="cav"><span class="ring"></span><span class="ccore">'+IC.codi+'</span></div><div class="ch-t"><b>Codi</b><span>Copiloto de soluciones · IA</span></div><button class="cclose" id="codiClose">'+IC.x+'</button></div>'+
-    '<div class="codi-search"><span class="cs-i">'+IC.search+'</span><input id="codiInput" autocomplete="off" placeholder="¿Qué quiere resolver?"/><button class="cs-mic" id="codiMic" title="Hablar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg></button></div>'+
-    '<div class="codi-chips" id="codiChips"></div><div class="codi-body" id="codiBody"></div></div>';
-  document.body.appendChild(launch); document.body.appendChild(panel);
-  var input=panel.querySelector('#codiInput'), body=panel.querySelector('#codiBody'), chipsEl=panel.querySelector('#codiChips');
-  function val(id){return (document.getElementById(id)||{}).value||'';}
-  function lead(){setChips([{t:'← Volver',f:welcome}]);body.innerHTML='<div class="codi-hi">Déjeme sus datos y le contactamos <b>hoy</b>, sin compromiso. Elija cómo prefiere.</div><div class="lead-f"><input id="ldName" placeholder="Su nombre"/><input id="ldContact" placeholder="Su WhatsApp o correo"/><textarea id="ldMsg" placeholder="¿Qué quiere resolver? (opcional)"></textarea><div class="lead-b"><button class="cbtn cb-wa" onclick="return codiLeadWA()">Enviar por WhatsApp</button><button class="cbtn cb-mail" onclick="return codiLeadMail()">Enviar por correo</button></div></div>';}
-  window.codiLeadWA=function(){var n=val('ldName'),c=val('ldContact'),m=val('ldMsg');window.open(wa('Hola CO-DATA, soy '+(n||'(sin nombre)')+'. Mi contacto: '+(c||'—')+'. '+(m?('Quiero resolver: '+m):'Quiero más información.')),'_blank');return false;};
-  window.codiLeadMail=function(){var n=val('ldName'),c=val('ldContact'),m=val('ldMsg');location.href='mailto:'+EMAIL+'?subject='+encodeURIComponent('Nuevo contacto web — '+(n||'sin nombre'))+'&body='+encodeURIComponent('Nombre: '+n+'\nContacto: '+c+'\nQuiere resolver: '+m);return false;};
-  var mic=panel.querySelector('#codiMic'); var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(SR&&mic){var rec=new SR();rec.lang='es-CL';rec.interimResults=false;rec.maxAlternatives=1;rec.onresult=function(e){var t=e.results[0][0].transcript;input.value=t;search(t);};rec.onerror=function(){mic.classList.remove('rec');};rec.onend=function(){mic.classList.remove('rec');};mic.onclick=function(){if(mic.classList.contains('rec')){try{rec.stop();}catch(x){}return;}try{mic.classList.add('rec');rec.start();}catch(x){mic.classList.remove('rec');}};}
-  else if(mic){mic.title='El dictado por voz no está disponible en este navegador';mic.onclick=function(){input.focus();};}
-  function openC(){panel.classList.add('open');launch.classList.add('hide');input.value='';welcome();setTimeout(function(){input.focus();},180);}
-  function closeC(){panel.classList.remove('open');launch.classList.remove('hide');}
-  window.openCodi=openC; window.closeCodi=closeC; window.codiDiag=function(){openC();diag();};
-  launch.onclick=openC; panel.querySelector('#codiClose').onclick=closeC;
-  var RECS={vender:[['pyme',5],['pyme',6],['pyme',7]],ordenar:[['empresa',1],['empresa',3],['pyme',7]],empezando:[['iniciando',1],['iniciando',5],['iniciando',3]],perfil:[['profesional',0],['profesional',1],['trabajador',0]]};
-  var EXAMPLES=[['Cotizaciones','cotiz'],['Inventario','inventario'],['RRHH','rrhh'],['Seguridad','seguridad'],['IA','ia'],['Ventas','ventas'],['Licitaciones','licitac']];
-  var SYN={plata:'finanzas cobrar pago',cobrar:'finanzas cobranza facturacion',pago:'finanzas pagos',deuda:'finanzas cobranza',vender:'ventas venta vendedor',venta:'ventas',cliente:'captacion clientes atencion',clientes:'captacion atencion',marketing:'captacion redes publicidad',publicidad:'captacion',rrhh:'personas asistencia',gente:'personas',personal:'personas asistencia',trabajador:'personas',inventario:'logistica bodega stock',bodega:'logistica',stock:'logistica inventario',despacho:'logistica',seguridad:'cumplimiento epp acceso',accidente:'cumplimiento',licitacion:'licitaciones',informe:'informes reportes',reporte:'reportes informes',dashboard:'datos tablero indicadores',tablero:'datos indicadores',kpi:'datos indicadores',metrica:'datos indicadores',web:'sitio presencia pagina',pagina:'sitio presencia',sitio:'presencia',agenda:'agenda reservas citas',cita:'agenda reservas',reserva:'agenda reservas',hora:'agenda reservas',whatsapp:'atencion ia vendedor',bot:'ia atencion vendedor',ia:'ia inteligencia',automatizar:'ia automatizacion',automatizacion:'ia',cotizar:'cotizador cotizaciones',presupuesto:'cotizador',factura:'facturacion finanzas',boleta:'facturacion',subsidio:'subsidio kit',sercotec:'subsidio kit',obra:'operacion terreno',terreno:'operacion',orden:'operacion',checklist:'operacion'};
-  var DIAGMAP={cli:['captacion','presencia','nfc'],vc:['ventas','finanzas','atencion'],op:['operacion','logistica','datos'],dec:['datos','ia'],time:['ia','herramientas','operacion']};
-  var diagState={seg:null};
-  function diag(){diagState={seg:null};setChips([{t:'Empresa',f:function(){dgSeg('empresa');}},{t:'PYME',f:function(){dgSeg('pyme');}},{t:'Independiente',f:function(){dgSeg('profesional');}},{t:'Trabajador',f:function(){dgSeg('trabajador');}},{t:'Estoy empezando',f:function(){dgSeg('iniciando');}}]);body.innerHTML='<div class="codi-hi"><b>Diagnóstico digital.</b> Le hago 2 preguntas y le muestro qué resolver primero. ¿Cómo describe su caso?</div>';}
-  function dgSeg(k){diagState.seg=k;setChips([{t:'Conseguir clientes',f:function(){dgPain('cli');}},{t:'Vender y cobrar',f:function(){dgPain('vc');}},{t:'Ordenar la operación',f:function(){dgPain('op');}},{t:'Controlar y decidir',f:function(){dgPain('dec');}},{t:'Ahorrar tiempo',f:function(){dgPain('time');}},{t:'← Volver',f:diag}]);body.innerHTML='<div class="codi-hi">Perfecto. ¿Qué le duele <b>más hoy</b>?</div>';}
-  function dgPain(p){var k=diagState.seg||'pyme',cats=DIAGMAP[p],res=[];SEG[k].sols.forEach(function(o,i){if(cats.indexOf(o.cat)>=0&&CATS[o.cat])res.push([k,i]);});res=res.slice(0,4);if(!res.length){SEG[k].sols.forEach(function(o,i){if(CATS[o.cat]&&res.length<3)res.push([k,i]);});}setChips([{t:'Otra cosa me duele',f:function(){dgSeg(k);}},{t:'Hablar con un humano',f:toWA},{t:'↺ Empezar de nuevo',f:diag},{t:'Dejar mis datos',f:lead}]);body.innerHTML='<div class="codi-hi"><b>Su diagnóstico.</b> Esto es lo que yo resolvería primero — con su tiempo y rango:</div>'+grid(res);}
-  function expand(t){var ex=t;for(var key in SYN){if(t.indexOf(key)>=0)ex+=' '+SYN[key];}return ex;}
-  function setChips(arr){chipsEl.innerHTML='';arr.forEach(function(o){var b=document.createElement('button');b.className='cchip';b.textContent=o.t;b.onclick=o.f;chipsEl.appendChild(b);});}
-  function card(k,i,o){var cc=(CATS[o.cat]||{}).c||SEG[k].color;return '<div class="cres" style="--cc:'+cc+'" onclick="closeCodi();modal(\''+k+'\','+i+')"><div class="cr-tag" style="color:'+cc+'">'+SEG[k].label+'</div><div class="cr-n">'+o.n+'</div><div class="cr-b">'+o.ben+'</div><div class="cr-r">'+IC.clock+o.ret+'</div></div>';}
-  function grid(pairs){var g='<div class="cres-grid">';pairs.forEach(function(p){g+=card(p[0],p[1],SEG[p[0]].sols[p[1]]);});return g+'</div>';}
-  function welcome(){var ch=EXAMPLES.map(function(e){return {t:e[0],f:function(){input.value=e[0];search(e[1]);}};});ch.push({t:'Hacer mi diagnóstico',f:diag});ch.push({t:'Dejar mis datos',f:lead});setChips(ch);body.innerHTML='<div class="codi-hi">Hola, soy <b>Codi</b>. ¿Qué quiere resolver? Escríbalo o elija un tema — y le recomiendo la solución exacta, con su rango.</div>';}
-  function reco(pairs,intro){setChips([{t:'← Volver',f:welcome},{t:'Hablar por WhatsApp',f:toWA}]);body.innerHTML='<div class="codi-hi">'+intro+'</div>'+grid(pairs);}
-  function nose(){setChips([{t:'Empresa',f:function(){segReco('empresa');}},{t:'PYME',f:function(){segReco('pyme');}},{t:'Empezando',f:function(){segReco('iniciando');}},{t:'Independiente',f:function(){segReco('profesional');}},{t:'Trabajador',f:function(){segReco('trabajador');}},{t:'← Volver',f:welcome}]);body.innerHTML='<div class="codi-hi">Perfecto, para eso estoy. ¿Para quién es?</div>';}
-  function segReco(k){reco([[k,0],[k,1],[k,2]],'Lo más potente para '+SEG[k].label+':');}
-  function toWA(){window.open(wa('Hola CO-DATA, quiero asesoría para elegir mi solución.'),'_blank');}
-  function search(q){var raw=norm(q.trim());if(raw.length<2){welcome();return;}var toks=expand(raw).split(' ').filter(function(w){return w.length>=3;});setChips([{t:'← Volver',f:welcome},{t:'Hacer diagnóstico',f:diag}]);var res=[];for(var k in SEG){SEG[k].sols.forEach(function(o,i){if(!CATS[o.cat])return;var hay=norm(o.n+' '+o.q+' '+o.ben+' '+o.ret+' '+((CATS[o.cat]||{}).l||''));for(var t=0;t<toks.length;t++){if(hay.indexOf(toks[t])>=0){res.push([k,i]);break;}}});}if(!res.length){body.innerHTML='<div class="codi-hi">No tengo una solución con ese nombre exacto, pero puedo orientarle. Cuénteme un poco más, hagamos un diagnóstico rápido, o hable directo con nosotros — siempre hay una forma de ayudarle.</div>';setChips([{t:'Hacer diagnóstico',f:diag},{t:'Quiero vender más',f:function(){reco(RECS.vender,'Para vender más:');}},{t:'Ordenar mi operación',f:function(){reco(RECS.ordenar,'Para ordenar su operación:');}},{t:'Hablar con un humano',f:toWA},{t:'← Volver',f:welcome}]);return;}body.innerHTML='<div class="codi-hi">'+res.length+' soluciones para tu búsqueda:</div>'+grid(res);}
-  input.addEventListener('input',function(){search(this.value);});
-})();
-// ===== PANEL OPERATIVO (reloj + indicadores) =====
-(function(){
-  var M=['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'];
-  function tick(){var d=new Date(),dt=document.getElementById('opDate'),tm=document.getElementById('opTime');if(dt)dt.textContent=d.getDate()+' '+M[d.getMonth()]+' '+d.getFullYear();if(tm)tm.textContent=('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2);}
-  tick();setInterval(tick,20000);
-  var u=document.getElementById('opUsd'),e=document.getElementById('opEur');
-  if(u)u.textContent='USD $968'; if(e)e.textContent='EUR $1.132';
-  function fmt(n){return '$'+Math.round(n).toLocaleString('es-CL');}
-  try{fetch('https://mindicador.cl/api').then(function(r){return r.json();}).then(function(j){if(u&&j.dolar)u.textContent='USD '+fmt(j.dolar.valor);if(e&&j.euro)e.textContent='EUR '+fmt(j.euro.valor);}).catch(function(){});}catch(x){}
-})();
+  /* ===== DISEÑA TU CORTE ===== */
+  var styles={
+    'Clásico':'<path d="M52 92 Q54 44 100 44 Q146 44 148 92 Q150 70 130 58 Q120 70 100 68 Q80 70 70 58 Q50 70 52 92 Z"/>',
+    'Crestita':'<path d="M58 86 Q60 60 78 58 L84 30 L92 56 L100 26 L108 56 L116 30 L122 58 Q140 60 142 86 Q138 66 100 64 Q62 66 58 86 Z"/>',
+    'Rulos':'<g><circle cx="64" cy="70" r="16"/><circle cx="86" cy="56" r="17"/><circle cx="110" cy="54" r="17"/><circle cx="134" cy="68" r="16"/><circle cx="100" cy="60" r="18"/></g>',
+    'Flequillo':'<path d="M52 94 Q52 46 100 46 Q148 46 148 94 Q150 72 132 64 L128 86 Q120 70 112 86 L108 66 Q100 84 92 66 L88 86 Q80 70 72 86 L68 64 Q50 72 52 94 Z"/>',
+    'Degradé':'<path d="M58 84 Q58 48 100 48 Q142 48 142 84 Q140 64 100 62 Q60 64 58 84 Z" /><rect x="56" y="82" width="88" height="6" rx="3" opacity=".55"/>'
+  };
+  var colors={'Castaño':'#5a3a22','Negro':'#2b2230','Rubio':'#E0A93B','Pelirrojo':'#C0532B','Azul fantasía':'#2EC5FF','Rosa fantasía':'#FF7AC6'};
+  var curSty='Clásico', curCol='#5a3a22';
+  function drawHair(){ document.getElementById('hair').innerHTML=styles[curSty]; document.getElementById('hair').setAttribute('fill',curCol); }
+  var styWrap=document.getElementById('stys');
+  Object.keys(styles).forEach(function(k){ var b=document.createElement('div'); b.className='sty'+(k===curSty?' on':''); b.textContent=k;
+    b.onclick=function(){ curSty=k; styWrap.querySelectorAll('.sty').forEach(function(x){x.classList.remove('on');}); b.classList.add('on'); drawHair(); }; styWrap.appendChild(b); });
+  var colWrap=document.getElementById('colors');
+  Object.keys(colors).forEach(function(k,i){ var s=document.createElement('div'); s.className='sw'+(i===0?' on':''); s.style.background=colors[k]; s.title=k;
+    s.onclick=function(){ curCol=colors[k]; colWrap.querySelectorAll('.sw').forEach(function(x){x.classList.remove('on');}); s.classList.add('on'); drawHair(); }; colWrap.appendChild(s); });
+  drawHair();
+  window.saveCut=function(){ var d=document.getElementById('cutsaved'); d.textContent='¡Genial! Tu estilista verá: '+curSty.toLowerCase()+' 💈'; d.classList.add('show'); };
 
-
-// ===== NOSOTROS / CONTACTO =====
-(function(){
-  var ov=document.createElement('div'); ov.className='about-ov'; ov.id='aboutOv';
-  ov.innerHTML='<div class="about"><button class="ab-x" id="abX">'+IC.x+'</button><div class="ab-tabs"><button class="ab-tab on" data-t="nosotros">Quiénes somos</button><button class="ab-tab" data-t="lab">Laboratorio</button><button class="ab-tab" data-t="casos">Casos</button><button class="ab-tab" data-t="contacto">Contacto</button></div><div class="ab-body" id="abBody"></div></div>';
-  document.body.appendChild(ov);
-  var body=ov.querySelector('#abBody');
-  function block(t,p){return '<div class="ab-card"><div class="ab-ct">'+t+'</div><p>'+p+'</p></div>';}
-  function nosotros(){return '<h2 class="ab-h">No vendemos software. Entregamos resultados que funcionan.</h2>'+
-    '<p class="ab-lead">CO-DATA es una empresa chilena de digitalización e inteligencia artificial aplicada. Convertimos procesos manuales en sistemas que venden, ordenan y ahorran tiempo — con honestidad técnica, soluciones nacidas en operaciones reales y un demo antes de decidir.</p>'+
-    '<div class="ab-grid">'+
-      block('Misión','Que cualquier empresa en Chile —grande o chica— pueda automatizar, decidir mejor y crecer, sin depender de equipos técnicos caros.')+
-      block('Visión','Ser el mayor catálogo chileno de soluciones empresariales en automatización, IA, digitalización e ingeniería. Si existe un proceso, una decisión o un problema, CO-DATA lo resuelve.')+
-      block('Historia','Nacimos uniendo ingeniería de terreno con tecnología. Cada solución del catálogo viene de un dolor real que ya resolvimos en operación.')+
-      block('Foco','Construcción, servicios industriales, seguridad y pymes que necesitan orden, control y más ventas.')+
-    '</div>'+
-    '<div class="ab-vals"><span>Honestidad técnica</span><span>Resultados, no humo</span><span>Elegancia y orden</span><span>Respuesta el mismo día</span></div>'+
-    '<div class="ab-why"><b>¿Por qué nosotros?</b> Hablamos su idioma operativo, le mostramos un demo funcionando antes de decidir y respondemos el mismo día. Soluciones reutilizables, hechas a su medida.</div>';}
-  function contacto(){return '<h2 class="ab-h">Hablemos. Le respondemos el mismo día.</h2>'+
-    '<p class="ab-lead">Cuéntenos qué necesita y le mostramos cómo resolverlo. Elija el canal que prefiera.</p>'+
-    '<div class="ab-form"><input id="abName" placeholder="Su nombre"/><input id="abMail" placeholder="Su correo"/><textarea id="abMsg" placeholder="¿En qué le ayudamos?"></textarea><button class="ab-send" onclick="return abSend()">Enviar correo '+IC.arrow+'</button></div>'+
-    '<div class="ab-ch"><a class="cbtn cb-wa" href="'+wa("Hola CO-DATA, quisiera más información.")+'" target="_blank" rel="noopener">'+IC.chat+'WhatsApp</a><a class="cbtn cb-tel" href="tel:+'+TEL+'">Llamar</a><a class="cbtn cb-mail" href="mailto:'+EMAIL+'">Correo directo</a></div>'+
-      '<div class="ab-note">'+EMAIL+' · Santiago, Chile · Empresa chilena</div>';}
-  function casos(){function cc(r,s,q,res){return '<div class="ab-case"><div class="ac-r1">'+r+'</div><div class="ac-s">'+s+'</div><div class="ac-q">'+q+'</div><div class="ac-res">'+IC.clock+res+'</div></div>';}
-    return '<h2 class="ab-h">Resultados que entregamos.</h2>'+
-    '<p class="ab-lead">Ejemplos representativos de lo que logran nuestras soluciones, por rubro. Son casos tipo ilustrativos; los testimonios con nombre los publicamos con autorización del cliente.</p>'+
-    '<div class="ab-cases">'+
-    cc('Ferretería de barrio','Vendedor IA por WhatsApp + catálogo','Responde y cotiza fuera de horario','+30% consultas atendidas')+
-    cc('Taller mecánico','Agenda con recordatorios + ficha','Menos citas caídas, historial a mano','−60% inasistencias')+
-    cc('Constructora pyme','Órdenes de trabajo + evidencias','Trazabilidad y cero papeles','Cobra estados de pago más rápido')+
-    cc('Contratista de servicios','Cotizador inteligente','Cotiza en minutos, no en horas','Más cotizaciones, más cierres')+
-    cc('Estudio profesional','Informes y presentaciones con IA','Documentos nivel ejecutivo','Recupera horas cada semana')+
-    cc('Importadora','Dashboard + reportes automáticos','El negocio en tiempo real','Decisiones con datos, no a ciegas')+
-    '</div>'+
-      '<div class="ab-why"><b>¿Quiere ser uno de estos casos?</b> Le mostramos un demo aplicado a su rubro antes de decidir.</div>';}
-  function lab(){function step(n,t,d){return '<div class="lab-step"><div class="ls-n">'+n+'</div><div><div class="ls-t">'+t+'</div><div class="ls-d">'+d+'</div></div></div>';}
-    return '<h2 class="ab-h">El cerebro de CO-DATA.</h2>'+
-    '<p class="ab-lead">No inventamos soluciones en una pizarra. Cada una nace resolviendo un problema real dentro de una empresa, se valida en operación y recién después se adapta a otras. La mente evoluciona; el método permanece.</p>'+
-    '<div class="lab-flow">'+
-    step('01','Problema','Un dolor real en una empresa, no una idea de catálogo.')+
-    step('02','Investigación','Entendemos el proceso, los datos y lo que está en juego.')+
-    step('03','Empresa piloto','Lo construimos y lo probamos en operación real.')+
-    step('04','Validación','Medimos: tiempo recuperado, errores evitados, resultado.')+
-    step('05','Optimización','Lo afinamos hasta que funciona sin fricción.')+
-    step('06','Escalamiento','Recién ahí lo adaptamos a otras empresas.')+
-    '</div>'+
-    '<div class="lab-evo"><div class="le-t">Laboratorios en evolución</div><p>Hoy maduran soluciones en operaciones reales —entre ellas <b>SERGUR</b> (seguridad e ingeniería industrial) y <b>Lavame x Fa</b> (servicios)— donde probamos, medimos y afinamos antes de escalar. Aprendizaje continuo, no teoría.</p></div>'+
-    '<div class="ab-why"><b>Lo que ve aquí es la punta.</b> El verdadero alcance lo conversamos en una reunión, con un demo aplicado a su caso.</div>';}
-  function show(t){ov.querySelectorAll('.ab-tab').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-t')===t);});body.innerHTML=(t==='contacto')?contacto():(t==='casos')?casos():(t==='lab')?lab():nosotros();body.scrollTop=0;}
-  function open(t){ov.classList.add('open');show(t||'nosotros');}
-  function close(){ov.classList.remove('open');}
-  window.openAbout=open; window.closeAbout=close;
-  ov.querySelector('#abX').onclick=close;
-  ov.addEventListener('click',function(e){if(e.target===ov)close();});
-  ov.querySelectorAll('.ab-tab').forEach(function(b){b.onclick=function(){show(b.getAttribute('data-t'));};});
-  window.abSend=function(){var n=(document.getElementById('abName')||{}).value||'',m=(document.getElementById('abMail')||{}).value||'',x=(document.getElementById('abMsg')||{}).value||'';location.href='mailto:'+EMAIL+'?subject='+encodeURIComponent('Contacto web — '+(n||'sin nombre'))+'&body='+encodeURIComponent(x+'\n\nNombre: '+n+'\nCorreo: '+m);return false;};
-})();
-
-// ===== BOOT SEQUENCE =====
-(function(){
-  var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
-  var boot=document.getElementById('boot'), fill=document.getElementById('bootFill'), st=document.getElementById('bootStatus');
-  var nm=document.getElementById('bootName'), tg=document.getElementById('bootTag');
-  function scramble(el,final,dur){
-    var chars="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789·#@%", start=Date.now();
-    var iv=setInterval(function(){
-      var p=Math.min((Date.now()-start)/dur,1), out="";
-      for(var i=0;i<final.length;i++){ out += (i/final.length<p || final[i]===' ')?final[i]:chars[Math.floor(Math.random()*chars.length)]; }
-      el.textContent=out; if(p>=1)clearInterval(iv);
-    },45);
+  /* ===== MEMORICE ===== */
+  var icons=['✂️','💈','🪮','🧴','🦱','🎀'];
+  var deck=[], flipped=[], lock=false, pairs=0, moves=0;
+  window.newGame=function(){
+    var pick=icons.slice(0,4); deck=pick.concat(pick);
+    for(var i=deck.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=deck[i];deck[i]=deck[j];deck[j]=t;}
+    flipped=[];lock=false;pairs=0;moves=0;
+    var g=document.getElementById('mgrid'); g.innerHTML='';
+    deck.forEach(function(ic,idx){ var c=document.createElement('div'); c.className='mc'; c.dataset.i=idx; c.dataset.ic=ic; c.textContent=ic;
+      c.onclick=function(){ flip(c); }; g.appendChild(c); });
+    document.getElementById('mgmsg').textContent='Toca dos cartas para empezar';
+  };
+  function flip(c){
+    if(lock||c.classList.contains('up')||c.classList.contains('done'))return;
+    c.classList.add('up'); flipped.push(c);
+    if(flipped.length===2){ moves++; lock=true;
+      if(flipped[0].dataset.ic===flipped[1].dataset.ic){
+        setTimeout(function(){ flipped.forEach(function(x){x.classList.remove('up');x.classList.add('done');}); flipped=[];lock=false;pairs++;
+          if(pairs===4){ document.getElementById('mgmsg').innerHTML='<b>¡Ganaste en '+moves+' jugadas! 🎉</b>'; } }, 420);
+      } else { setTimeout(function(){ flipped.forEach(function(x){x.classList.remove('up');}); flipped=[];lock=false; }, 750); }
+    }
   }
-  function done(){ boot.classList.add('hide'); document.getElementById('app').classList.add('ready'); }
-  if(reduce){ done(); return; }
-  scramble(nm,"CO-DATA",700); setTimeout(function(){scramble(tg,"EMPRESA CHILENA DE DIGITALIZACIÓN",900);},300);
-  var stages=["INICIALIZANDO SISTEMA","CARGANDO MOTORES","CONECTANDO NODOS","SISTEMA LISTO"], si=0;
-  var t0=Date.now(), DUR=2100;
-  var iv=setInterval(function(){
-    var p=Math.min((Date.now()-t0)/DUR,1); fill.style.width=(p*100)+"%";
-    var ns=Math.min(stages.length-1,Math.floor(p*stages.length)); if(ns!==si){si=ns;st.textContent=stages[si];}
-    if(p>=1){clearInterval(iv); setTimeout(done,260);}
-  },50);
-  boot.addEventListener('click',function(){clearInterval(iv);done();});
-})();
+  newGame();
 
-// ===== TELEMETRY =====
-(function(){var t=document.getElementById('tele');setInterval(function(){var n=(33.40+Math.random()*.12).toFixed(2);t.textContent="SYS ONLINE · STGO -"+n;},1400);})();
+  /* ===== CONSEJOS ===== */
+  var tips=[
+    ['💧','Lava el pelo de tu peque máximo 3 veces por semana: el exceso le reseca el cuero cabelludo.'],
+    ['✂️','El primer corte no tiene edad exacta: cuando el pelo le moleste en los ojos, ya es momento.'],
+    ['🧴','Desenreda siempre de las puntas hacia arriba, con peine de dientes anchos. Menos tirones, menos llanto.'],
+    ['☀️','En verano, gorrito siempre: el sol también daña el cuero cabelludo de los niños.'],
+    ['😴','Un corte rinde mejor si el niño viene descansado y comido. Evita la hora de la siesta.'],
+    ['🦠','Revisa la nuca y detrás de las orejas una vez por semana para pillar piojos a tiempo.']
+  ];
+  var ti=0;
+  function renderTip(){ document.querySelector('#tipbox .e').textContent=tips[ti][0]; document.getElementById('tiptxt').textContent=tips[ti][1]; }
+  window.nextTip=function(){ ti=(ti+Math.floor(Math.random()*(tips.length-1))+1)%tips.length; renderTip(); };
+  renderTip();
 
-// ===== UNIVERSE (enveloping + network core) =====
-(function(){
-  if(typeof THREE==='undefined'){document.getElementById('space').style.display='none';return;}
-  var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
-  var canvas=document.getElementById('space');
-  var rn=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});
-  rn.setPixelRatio(Math.min(devicePixelRatio,innerWidth<760?1.5:2));
-  var sc=new THREE.Scene(), cam=new THREE.PerspectiveCamera(64,innerWidth/innerHeight,.1,3000);
-  cam.position.set(0,0,reduce?60:150);
-  var look=new THREE.Group(); sc.add(look);
-
-  // enveloping starfield (sphere shell around camera)
-  var N=innerWidth<760?1500:5000, sp=new Float32Array(N*3), sco=new Float32Array(N*3), ssc=new Float32Array(N);
-  var cB=new THREE.Color(0x5B6CFF),cT=new THREE.Color(0x00E0C2),cV=new THREE.Color(0x8B5CF6),cW=new THREE.Color(0xCFE0FF);
-  for(var i=0;i<N;i++){
-    var u=Math.random(),v=Math.random(),th=u*Math.PI*2,ph=Math.acos(2*v-1),r=46+Math.random()*46;
-    sp[i*3]=r*Math.sin(ph)*Math.cos(th); sp[i*3+1]=r*Math.sin(ph)*Math.sin(th); sp[i*3+2]=r*Math.cos(ph);
-    var c=cB.clone().lerp(cT,Math.random()*.6); if(Math.random()<.1)c=cV.clone(); if(Math.random()<.15)c=cW.clone();
-    sco[i*3]=c.r;sco[i*3+1]=c.g;sco[i*3+2]=c.b; ssc[i]=Math.random()*1.3+.4;
+  /* ===== PASAPORTE ===== */
+  var total=6, filled=2, stampedToday=false;
+  function renderStamps(){
+    var w=document.getElementById('stamps'); w.innerHTML='';
+    for(var i=0;i<total;i++){ var d=document.createElement('div');
+      if(i<filled){ d.className='stamp f'; d.innerHTML='✂️'; }
+      else { d.className='stamp'; d.innerHTML='<span class="n">'+(i+1)+'</span>'; }
+      w.appendChild(d);
+    }
+    document.getElementById('passsub').textContent='Llevas '+filled+' de '+total+' · ¡al 6° corte de regalo!';
   }
-  var sg=new THREE.BufferGeometry();
-  sg.setAttribute('position',new THREE.BufferAttribute(sp,3));
-  sg.setAttribute('aColor',new THREE.BufferAttribute(sco,3));
-  sg.setAttribute('aScale',new THREE.BufferAttribute(ssc,1));
-  var uni={uTime:{value:0},uSize:{value:innerWidth<760?1.5:1.9},uOpacity:{value:0}};
-  var smat=new THREE.ShaderMaterial({uniforms:uni,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,
-    vertexShader:'attribute vec3 aColor;attribute float aScale;uniform float uTime;uniform float uSize;varying vec3 vC;void main(){vC=aColor;vec3 p=position;p.x+=sin(uTime*.2+position.y*.3)*.4;p.y+=cos(uTime*.18+position.x*.3)*.4;vec4 mv=modelViewMatrix*vec4(p,1.);gl_PointSize=aScale*uSize*(320./-mv.z);gl_Position=projectionMatrix*mv;}',
-    fragmentShader:'precision mediump float;varying vec3 vC;uniform float uOpacity;void main(){vec2 c=gl_PointCoord-.5;float d=length(c);if(d>.5)discard;float a=smoothstep(.5,0.,d);gl_FragColor=vec4(vC,a*uOpacity);}'});
-  look.add(new THREE.Points(sg,smat));
+  window.stampToday=function(){
+    if(stampedToday)return;
+    if(filled<total)filled++; stampedToday=true;
+    var btn=document.getElementById('stampbtn'); btn.textContent='✓ Visita sellada'; btn.classList.remove('red'); btn.classList.add('ghost');
+    renderStamps();
+    if(filled>=total){ document.getElementById('passsub').textContent='¡Completaste el pasaporte! Tu próximo corte va de regalo 🎁'; }
+  };
+  renderStamps();
 
-  // network core (nodes + connecting lines)
-  var H=innerWidth<760?100:300, hp=[];
-  for(var j=0;j<H;j++){ hp.push((Math.random()-.5)*52,(Math.random()-.5)*38,(Math.random()-.5)*52); }
-  var hpos=new Float32Array(hp), hsc=new Float32Array(H), hco=new Float32Array(H*3);
-  for(var j=0;j<H;j++){ hsc[j]=Math.random()*1.6+1; var c=cT.clone().lerp(cB,Math.random()); hco[j*3]=c.r;hco[j*3+1]=c.g;hco[j*3+2]=c.b; }
-  var hg=new THREE.BufferGeometry();
-  hg.setAttribute('position',new THREE.BufferAttribute(hpos,3));
-  hg.setAttribute('aColor',new THREE.BufferAttribute(hco,3));
-  hg.setAttribute('aScale',new THREE.BufferAttribute(hsc,1));
-  var hmat=new THREE.ShaderMaterial({uniforms:uni,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,vertexShader:smat.vertexShader,fragmentShader:smat.fragmentShader});
-  look.add(new THREE.Points(hg,hmat));
-  // lines
-  var lp=[],thr=15;
-  for(var a=0;a<H;a++)for(var b=a+1;b<H;b++){var dx=hp[a*3]-hp[b*3],dy=hp[a*3+1]-hp[b*3+1],dz=hp[a*3+2]-hp[b*3+2];if(Math.sqrt(dx*dx+dy*dy+dz*dz)<thr){lp.push(hp[a*3],hp[a*3+1],hp[a*3+2],hp[b*3],hp[b*3+1],hp[b*3+2]);}}
-  var lg=new THREE.BufferGeometry(); lg.setAttribute('position',new THREE.Float32BufferAttribute(lp,3));
-  var lmat=new THREE.LineBasicMaterial({color:0x5B6CFF,transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false});
-  look.add(new THREE.LineSegments(lg,lmat));
-
-  var mx=0,my=0; addEventListener('mousemove',function(e){mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5;}); addEventListener('touchmove',function(e){var t=e.touches[0];if(t){mx=t.clientX/innerWidth-.5;my=t.clientY/innerHeight-.5;}},{passive:true});
-  function rs(){rn.setSize(innerWidth,innerHeight,false);cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();} rs(); addEventListener('resize',rs);
-
-  var camz=reduce?60:150, opTarget=.62;
-  window.warp=function(){ camz+=14; }; // pequeño empuje al cambiar de perfil
-
-  function loop(){
-    uni.uTime.value+=.015;
-    camz+=(38-camz)*.035;
-    cam.position.z=camz;
-    cam.position.x+=(mx*10-cam.position.x)*.03; cam.position.y+=(-my*8-cam.position.y)*.03; cam.lookAt(0,0,0);
-    look.rotation.y+=.0004; look.rotation.x+=(my*.18-look.rotation.x)*.02; look.rotation.y+=(mx*.0009);
-    if(uni.uOpacity.value<opTarget)uni.uOpacity.value+=.006;
-    var pulse=.10+Math.sin(uni.uTime.value*1.1)*.05; lmat.opacity=Math.min(pulse,uni.uOpacity.value*.3);
-    rn.render(sc,cam);
-    if(!reduce)requestAnimationFrame(loop);
-  }
-  loop(); if(reduce){uni.uOpacity.value=opTarget;lmat.opacity=.1;cam.position.z=60;rn.render(sc,cam);}
+  /* ===== SORPRESA ===== */
+  var opened=false;
+  window.openSurprise=function(){
+    if(opened)return; opened=true;
+    document.getElementById('slock').textContent='✨';
+    document.getElementById('stitle').textContent='¡Sticker de Valiente desbloqueado!';
+    document.getElementById('ssub').textContent='Pídelo en caja al terminar tu corte 🦸';
+  };
 })();
 </script>
 </body>
