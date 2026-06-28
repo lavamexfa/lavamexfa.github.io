@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PeluKidz · Mientras esperas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --red:#F5333D; --red2:#FF6B4A; --blue:#2EC5FF; --blue2:#1AA8E0;
+    --yellow:#FFC93C; --green:#2FBF71; --purple:#9B6BFF; --pink:#FF7AC6;
+    --ink:#241F2E; --muted:#7A7488; --bg:#FFF7F1; --card:#FFFFFF; --line:rgba(36,31,46,.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  body{font-family:'Fredoka',sans-serif;color:var(--ink);line-height:1.45;
+    background:radial-gradient(circle at 50% -5%, #DFF4FF, var(--bg) 45%);min-height:100vh}
+  .app{max-width:430px;margin:0 auto;padding:0 0 40px;position:relative}
+
+  /* STATUS HEADER (sticky) */
+  .status{position:sticky;top:0;z-index:50;background:linear-gradient(135deg,var(--red),var(--red2));color:#fff;
+    padding:16px 18px 18px;border-radius:0 0 26px 26px;box-shadow:0 12px 26px -14px rgba(245,51,61,.6)}
+  .brand{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:700;margin-bottom:12px}
+  .brand .m{width:32px;height:32px;border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:17px}
+  .strow{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.16);border-radius:18px;padding:14px 16px}
+  .strow .tnum{font-family:'Space Grotesk',sans-serif;font-size:34px;font-weight:700;line-height:1}
+  .strow .info{flex:1}
+  .strow .info .lbl{font-size:11px;opacity:.85;font-family:'Space Grotesk',sans-serif;letter-spacing:.08em;text-transform:uppercase}
+  .strow .info .v{font-size:15px;font-weight:500}
+  .strow .info .v b{font-weight:700}
+  .gohint{margin-top:10px;font-size:13px;display:flex;gap:8px;align-items:flex-start;background:rgba(255,255,255,.14);border-radius:14px;padding:11px 13px}
+
+  .sect{padding:22px 18px 0}
+  .sect h2{font-size:20px;font-weight:700;margin-bottom:2px}
+  .sect .s{font-size:13px;color:var(--muted);margin-bottom:14px}
+
+  .cards{display:grid;gap:14px}
+  .c{background:var(--card);border-radius:22px;padding:18px;box-shadow:0 12px 28px -18px rgba(36,31,46,.35);border:1px solid var(--line)}
+  .c .ch{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  .c .ch .e{font-size:26px}
+  .c .ch .t{font-size:17px;font-weight:700;line-height:1.1}
+  .c .ch .t small{display:block;font-size:12px;color:var(--muted);font-weight:500}
+
+  .btn{border:0;border-radius:14px;padding:13px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:14px;cursor:pointer;width:100%;transition:transform .1s}
+  .btn:active{transform:scale(.97)}
+  .btn.red{background:linear-gradient(135deg,var(--red),var(--red2));color:#fff}
+  .btn.blue{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff}
+  .btn.ghost{background:#F3F0F6;color:var(--muted)}
+  .row2{display:flex;gap:8px}.row2 .btn{flex:1}
+
+  /* DISEÑA TU CORTE */
+  .avatar{width:170px;height:170px;margin:0 auto 12px;display:block}
+  .pick{margin-bottom:10px}
+  .pick .pl{font-size:12px;color:var(--muted);font-weight:600;margin-bottom:6px}
+  .swatches{display:flex;gap:8px;flex-wrap:wrap}
+  .sw{width:38px;height:38px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:transform .1s}
+  .sw:active{transform:scale(.9)}
+  .sw.on{border-color:var(--ink)}
+  .stys{display:flex;gap:8px;flex-wrap:wrap}
+  .sty{border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:9px 12px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:13px;cursor:pointer}
+  .sty.on{background:var(--red);color:#fff;border-color:var(--red)}
+  .saved{background:rgba(47,191,113,.12);color:var(--green);border-radius:12px;padding:11px;text-align:center;font-size:13.5px;font-weight:600;margin-top:10px;display:none}
+  .saved.show{display:block;animation:pop .4s}
+  @keyframes pop{0%{transform:scale(.8);opacity:0}70%{transform:scale(1.05)}100%{transform:scale(1);opacity:1}}
+
+  /* MEMORICE */
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .mc{aspect-ratio:1;border-radius:14px;background:linear-gradient(135deg,var(--blue),var(--blue2));display:flex;align-items:center;justify-content:center;font-size:26px;cursor:pointer;color:transparent;transition:transform .15s, background .2s;user-select:none}
+  .mc.up{background:#fff;border:2px solid var(--line);color:initial}
+  .mc.done{background:rgba(47,191,113,.18);border:2px solid var(--green);color:initial;cursor:default}
+  .mc:active{transform:scale(.95)}
+  .mgmsg{text-align:center;font-size:13.5px;color:var(--muted);margin-top:10px;font-weight:500}
+  .mgmsg b{color:var(--green)}
+
+  /* CONSEJOS */
+  .tipbox{background:linear-gradient(135deg,#FFF6E6,#FFEFD6);border-radius:16px;padding:16px;font-size:14.5px;min-height:78px;display:flex;align-items:center;gap:10px}
+  .tipbox .e{font-size:24px;flex-shrink:0}
+
+  /* PASAPORTE */
+  .stamps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:6px 0 12px}
+  .stamp{aspect-ratio:1;border-radius:50%;border:2px dashed var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:22px;color:var(--line)}
+  .stamp.f{background:var(--yellow);border-style:solid;border-color:var(--yellow);color:#fff;animation:pop .4s}
+  .stamp .n{font-size:10px;font-weight:600;color:var(--muted)}
+  .surprise{margin-top:6px;border-radius:16px;padding:16px;text-align:center;background:linear-gradient(135deg,var(--purple),var(--pink));color:#fff;cursor:pointer}
+  .surprise .lock{font-size:30px}
+  .surprise .t{font-size:14px;font-weight:600;margin-top:4px}
+  .surprise .sub{font-size:12px;opacity:.9}
+
+  .foot{text-align:center;font-family:'Space Grotesk',sans-serif;font-size:11px;color:var(--muted);padding:24px 18px 0}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- STATUS -->
+  <div class="status">
+    <div class="brand"><span class="m">✂️</span><span>Pelu<span style="color:var(--yellow)">Kidz</span></span></div>
+    <div class="strow">
+      <div class="tnum" id="tnum">A-14</div>
+      <div class="info">
+        <div class="lbl">Tu turno · Isidora</div>
+        <div class="v" id="pos"><b>2</b> antes de ti · <b>~20 min</b></div>
+      </div>
+    </div>
+    <div class="gohint"><span>🛒</span><span>Anda a dar una vuelta al Líder. Te avisamos por WhatsApp 10 min antes — no pierdes el turno.</span></div>
+  </div>
+
+  <!-- INTRO -->
+  <div class="sect">
+    <h2>Mientras esperas 🎈</h2>
+    <div class="s">La espera se pasa volando con nosotros.</div>
+
+    <div class="cards">
+
+      <!-- DISEÑA TU CORTE -->
+      <div class="c">
+        <div class="ch"><span class="e">🎨</span><div class="t">Diseña tu corte<small>Elige y se lo mostramos a tu estilista</small></div></div>
+        <svg class="avatar" viewBox="0 0 200 200" id="avatar">
+          <ellipse cx="100" cy="180" rx="50" ry="14" fill="rgba(0,0,0,.06)"/>
+          <rect x="78" y="120" width="44" height="40" rx="20" fill="#F2C29A"/>
+          <circle cx="100" cy="98" r="50" fill="#F7CFA6"/>
+          <g id="hair" fill="#5a3a22">
+            <!-- styles injected -->
+          </g>
+          <circle cx="82" cy="100" r="6" fill="#2b2230"/>
+          <circle cx="118" cy="100" r="6" fill="#2b2230"/>
+          <circle cx="84" cy="98" r="2" fill="#fff"/><circle cx="120" cy="98" r="2" fill="#fff"/>
+          <circle cx="70" cy="114" r="7" fill="rgba(245,51,61,.25)"/>
+          <circle cx="130" cy="114" r="7" fill="rgba(245,51,61,.25)"/>
+          <path d="M86 120 Q100 132 114 120" stroke="#b5573a" stroke-width="4" fill="none" stroke-linecap="round"/>
+        </svg>
+        <div class="pick"><div class="pl">Peinado</div><div class="stys" id="stys"></div></div>
+        <div class="pick"><div class="pl">Color</div><div class="swatches" id="colors"></div></div>
+        <button class="btn red" onclick="saveCut()">Listo, mostrar a mi estilista ✂️</button>
+        <div class="saved" id="cutsaved">¡Genial! Tu estilista verá tu elección 💈</div>
+      </div>
+
+      <!-- MEMORICE -->
+      <div class="c">
+        <div class="ch"><span class="e">🎮</span><div class="t">Memorice PeluKidz<small>Encuentra las parejas</small></div></div>
+        <div class="grid" id="mgrid"></div>
+        <div class="mgmsg" id="mgmsg">Toca dos cartas para empezar</div>
+        <button class="btn ghost" style="margin-top:10px" onclick="newGame()">↺ Nuevo juego</button>
+      </div>
+
+      <!-- CONSEJOS -->
+      <div class="c">
+        <div class="ch"><span class="e">💡</span><div class="t">Consejo PeluKidz<small>Para los papás</small></div></div>
+        <div class="tipbox" id="tipbox"><span class="e">✂️</span><span id="tiptxt"></span></div>
+        <button class="btn blue" style="margin-top:10px" onclick="nextTip()">Otro consejo</button>
+      </div>
+
+      <!-- PASAPORTE -->
+      <div class="c">
+        <div class="ch"><span class="e">🏅</span><div class="t">Pasaporte de Valiente<small id="passsub">Junta sellos en cada visita</small></div></div>
+        <div class="stamps" id="stamps"></div>
+        <button class="btn red" id="stampbtn" onclick="stampToday()">Sellar mi visita de hoy</button>
+        <div class="surprise" id="surprise" onclick="openSurprise()">
+          <div class="lock" id="slock">🎁</div>
+          <div class="t" id="stitle">Tu sorpresa está cerrada</div>
+          <div class="sub" id="ssub">Se abre cuando termine tu corte</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="foot">PeluKidz · experiencia de espera · demo CO-DATA</div>
+</div>
+
+<script>
+(function(){
+  /* ===== DISEÑA TU CORTE ===== */
+  var styles={
+    'Clásico':'<path d="M52 92 Q54 44 100 44 Q146 44 148 92 Q150 70 130 58 Q120 70 100 68 Q80 70 70 58 Q50 70 52 92 Z"/>',
+    'Crestita':'<path d="M58 86 Q60 60 78 58 L84 30 L92 56 L100 26 L108 56 L116 30 L122 58 Q140 60 142 86 Q138 66 100 64 Q62 66 58 86 Z"/>',
+    'Rulos':'<g><circle cx="64" cy="70" r="16"/><circle cx="86" cy="56" r="17"/><circle cx="110" cy="54" r="17"/><circle cx="134" cy="68" r="16"/><circle cx="100" cy="60" r="18"/></g>',
+    'Flequillo':'<path d="M52 94 Q52 46 100 46 Q148 46 148 94 Q150 72 132 64 L128 86 Q120 70 112 86 L108 66 Q100 84 92 66 L88 86 Q80 70 72 86 L68 64 Q50 72 52 94 Z"/>',
+    'Degradé':'<path d="M58 84 Q58 48 100 48 Q142 48 142 84 Q140 64 100 62 Q60 64 58 84 Z" /><rect x="56" y="82" width="88" height="6" rx="3" opacity=".55"/>'
+  };
+  var colors={'Castaño':'#5a3a22','Negro':'#2b2230','Rubio':'#E0A93B','Pelirrojo':'#C0532B','Azul fantasía':'#2EC5FF','Rosa fantasía':'#FF7AC6'};
+  var curSty='Clásico', curCol='#5a3a22';
+  function drawHair(){ document.getElementById('hair').innerHTML=styles[curSty]; document.getElementById('hair').setAttribute('fill',curCol); }
+  var styWrap=document.getElementById('stys');
+  Object.keys(styles).forEach(function(k){ var b=document.createElement('div'); b.className='sty'+(k===curSty?' on':''); b.textContent=k;
+    b.onclick=function(){ curSty=k; styWrap.querySelectorAll('.sty').forEach(function(x){x.classList.remove('on');}); b.classList.add('on'); drawHair(); }; styWrap.appendChild(b); });
+  var colWrap=document.getElementById('colors');
+  Object.keys(colors).forEach(function(k,i){ var s=document.createElement('div'); s.className='sw'+(i===0?' on':''); s.style.background=colors[k]; s.title=k;
+    s.onclick=function(){ curCol=colors[k]; colWrap.querySelectorAll('.sw').forEach(function(x){x.classList.remove('on');}); s.classList.add('on'); drawHair(); }; colWrap.appendChild(s); });
+  drawHair();
+  window.saveCut=function(){ var d=document.getElementById('cutsaved'); d.textContent='¡Genial! Tu estilista verá: '+curSty.toLowerCase()+' 💈'; d.classList.add('show'); };
+
+  /* ===== MEMORICE ===== */
+  var icons=['✂️','💈','🪮','🧴','🦱','🎀'];
+  var deck=[], flipped=[], lock=false, pairs=0, moves=0;
+  window.newGame=function(){
+    var pick=icons.slice(0,4); deck=pick.concat(pick);
+    for(var i=deck.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=deck[i];deck[i]=deck[j];deck[j]=t;}
+    flipped=[];lock=false;pairs=0;moves=0;
+    var g=document.getElementById('mgrid'); g.innerHTML='';
+    deck.forEach(function(ic,idx){ var c=document.createElement('div'); c.className='mc'; c.dataset.i=idx; c.dataset.ic=ic; c.textContent=ic;
+      c.onclick=function(){ flip(c); }; g.appendChild(c); });
+    document.getElementById('mgmsg').textContent='Toca dos cartas para empezar';
+  };
+  function flip(c){
+    if(lock||c.classList.contains('up')||c.classList.contains('done'))return;
+    c.classList.add('up'); flipped.push(c);
+    if(flipped.length===2){ moves++; lock=true;
+      if(flipped[0].dataset.ic===flipped[1].dataset.ic){
+        setTimeout(function(){ flipped.forEach(function(x){x.classList.remove('up');x.classList.add('done');}); flipped=[];lock=false;pairs++;
+          if(pairs===4){ document.getElementById('mgmsg').innerHTML='<b>¡Ganaste en '+moves+' jugadas! 🎉</b>'; } }, 420);
+      } else { setTimeout(function(){ flipped.forEach(function(x){x.classList.remove('up');}); flipped=[];lock=false; }, 750); }
+    }
+  }
+  newGame();
+
+  /* ===== CONSEJOS ===== */
+  var tips=[
+    ['💧','Lava el pelo de tu peque máximo 3 veces por semana: el exceso le reseca el cuero cabelludo.'],
+    ['✂️','El primer corte no tiene edad exacta: cuando el pelo le moleste en los ojos, ya es momento.'],
+    ['🧴','Desenreda siempre de las puntas hacia arriba, con peine de dientes anchos. Menos tirones, menos llanto.'],
+    ['☀️','En verano, gorrito siempre: el sol también daña el cuero cabelludo de los niños.'],
+    ['😴','Un corte rinde mejor si el niño viene descansado y comido. Evita la hora de la siesta.'],
+    ['🦠','Revisa la nuca y detrás de las orejas una vez por semana para pillar piojos a tiempo.']
+  ];
+  var ti=0;
+  function renderTip(){ document.querySelector('#tipbox .e').textContent=tips[ti][0]; document.getElementById('tiptxt').textContent=tips[ti][1]; }
+  window.nextTip=function(){ ti=(ti+Math.floor(Math.random()*(tips.length-1))+1)%tips.length; renderTip(); };
+  renderTip();
+
+  /* ===== PASAPORTE ===== */
+  var total=6, filled=2, stampedToday=false;
+  function renderStamps(){
+    var w=document.getElementById('stamps'); w.innerHTML='';
+    for(var i=0;i<total;i++){ var d=document.createElement('div');
+      if(i<filled){ d.className='stamp f'; d.innerHTML='✂️'; }
+      else { d.className='stamp'; d.innerHTML='<span class="n">'+(i+1)+'</span>'; }
+      w.appendChild(d);
+    }
+    document.getElementById('passsub').textContent='Llevas '+filled+' de '+total+' · ¡al 6° corte de regalo!';
+  }
+  window.stampToday=function(){
+    if(stampedToday)return;
+    if(filled<total)filled++; stampedToday=true;
+    var btn=document.getElementById('stampbtn'); btn.textContent='✓ Visita sellada'; btn.classList.remove('red'); btn.classList.add('ghost');
+    renderStamps();
+    if(filled>=total){ document.getElementById('passsub').textContent='¡Completaste el pasaporte! Tu próximo corte va de regalo 🎁'; }
+  };
+  renderStamps();
+
+  /* ===== SORPRESA ===== */
+  var opened=false;
+  window.openSurprise=function(){
+    if(opened)return; opened=true;
+    document.getElementById('slock').textContent='✨';
+    document.getElementById('stitle').textContent='¡Sticker de Valiente desbloqueado!';
+    document.getElementById('ssub').textContent='Pídelo en caja al terminar tu corte 🦸';
+  };
+})();
+</script>
+</body>
+</html>
