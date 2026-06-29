@@ -3,324 +3,122 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Brand Kit Generativo · Demo CO-DATA</title>
+<title>Brand Kit · Demo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400..800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;800&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#15151A;
-    --muted:#74747F;
-    --line:#E7E5EC;
-    --surface:#F5F4F8;
-    --card:#fff;
-    --ui:"Inter",system-ui,sans-serif;
-    --mono:"JetBrains Mono",monospace;
-    /* live brand tokens (updated by JS) */
-    --bp:#4F6BFF;        /* brand primary */
-    --bp-ink:#fff;
-    --bp-soft:#EEF1FF;
-    --b-display:"Space Grotesk",sans-serif;
-    --b-body:"Inter",sans-serif;
+    --accent:#111827;--accent-2:#374151;--accent-ink:#fff;
+    --ink:#15171C;--muted:#767C88;--line:#E7E9EE;--surface:#F4F5F8;--card:#fff;
+    --display:"Bricolage Grotesque",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",monospace;
+    --brandFont:"Space Grotesk",sans-serif;
   }
   *{box-sizing:border-box}
-  body{margin:0;font-family:var(--ui);color:var(--ink);background:var(--surface);-webkit-font-smoothing:antialiased}
+  body{margin:0;font-family:var(--body);color:var(--ink);background:var(--surface);-webkit-font-smoothing:antialiased}
   button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
   input{font-family:inherit}
-  .shell{max-width:1180px;margin:0 auto;padding:26px 22px 56px}
-
-  .top{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+  .shell{max-width:1000px;margin:0 auto;padding:24px 20px 50px}
+  .top{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
   .logo{display:flex;align-items:center;gap:11px}
-  .logo .m{width:36px;height:36px;border-radius:10px;background:var(--ink);display:grid;place-items:center;color:#fff;font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:17px}
-  .logo b{font-family:"Bricolage Grotesque",sans-serif;font-size:19px;letter-spacing:-.02em;display:block;line-height:1}
-  .logo span{font-size:11.5px;color:var(--muted)}
-
-  .lead{margin:0 0 22px}
-  .lead h1{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:clamp(24px,3.2vw,34px);letter-spacing:-.02em;margin:0 0 6px}
-  .lead p{font-size:14.5px;color:var(--muted);margin:0;max-width:66ch}
-
-  /* control bar */
-  .bar{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:20px;
-    display:flex;gap:18px;align-items:flex-end;flex-wrap:wrap;box-shadow:0 6px 22px rgba(20,18,30,.05)}
-  .fld label{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:7px}
-  .fld input{height:44px;border:1px solid var(--line);border-radius:11px;padding:0 14px;font-size:16px;font-weight:600;outline:none;width:200px}
-  .fld input:focus{border-color:var(--bp)}
-  .vibes{display:flex;gap:8px;flex-wrap:wrap}
-  .vibe{border:1px solid var(--line);border-radius:11px;padding:9px 13px;font-size:13px;font-weight:600;color:var(--muted);transition:.15s;display:flex;align-items:center;gap:8px}
-  .vibe .vd{width:14px;height:14px;border-radius:5px}
-  .vibe.sel{border-color:var(--ink);color:var(--ink);background:var(--surface)}
-  .gen{margin-left:auto;height:44px;padding:0 20px;border-radius:11px;background:var(--bp);color:var(--bp-ink);font-weight:600;font-size:14px;display:inline-flex;align-items:center;gap:9px;transition:background .3s,filter .15s}
-  .gen:hover{filter:brightness(1.05)}
-  .gen:disabled{opacity:.6;cursor:not-allowed}
-  .gen svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.9}
-
-  /* board */
-  .board{display:grid;grid-template-columns:1.3fr 1fr;gap:18px}
-  .panel{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 6px 22px rgba(20,18,30,.05)}
-  .ph{padding:13px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
-  .ph b{font-family:"Bricolage Grotesque",sans-serif;font-size:14px}
-  .ph span{font-size:11px;color:var(--muted);font-family:var(--mono)}
-  .pb{padding:18px}
-
-  /* logo lockups */
-  .lockups{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .lock{border:1px solid var(--line);border-radius:12px;height:120px;display:flex;align-items:center;justify-content:center;gap:11px;transition:background .3s}
-  .lock.dark{background:var(--ink)}
-  .lock.brand{background:var(--bp)}
-  .iso{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;font-family:var(--b-display);font-weight:700;font-size:22px;flex:0 0 auto}
-  .iso.fill{background:var(--bp);color:var(--bp-ink)}
-  .iso.line{border:2px solid currentColor}
-  .wm{font-family:var(--b-display);font-weight:700;font-size:26px;letter-spacing:-.01em}
-  .lock.light .wm{color:var(--ink)} .lock.light .iso.line{color:var(--bp)}
-  .lock.dark .wm{color:#fff} .lock.dark .iso.fill{background:#fff;color:var(--ink)}
-  .lock.brand .wm{color:var(--bp-ink)} .lock.brand .iso{background:rgba(255,255,255,.18);color:var(--bp-ink)}
-  .lock.mono{flex-direction:column;gap:8px}
-  .lock.mono .iso{width:52px;height:52px;font-size:26px}
-  .lock.mono small{font-size:10px;color:var(--muted);font-family:var(--mono)}
-
-  /* palette */
-  .palette{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-radius:11px;overflow:hidden;border:1px solid var(--line)}
-  .pc{height:92px;display:flex;flex-direction:column;justify-content:flex-end;padding:9px;cursor:pointer;transition:.12s;position:relative}
-  .pc:hover{filter:brightness(1.04)}
-  .pc .hex{font-family:var(--mono);font-size:10.5px;font-weight:700}
-  .pc .cp{position:absolute;top:7px;right:8px;font-size:9px;opacity:0;transition:.15s}
-  .pc:hover .cp{opacity:.7}
-  .pc.copied .cp{opacity:1;font-weight:700}
-
-  /* typography */
-  .typ .trow{padding:12px 0;border-bottom:1px dashed var(--line)}
-  .typ .trow:last-child{border:none;padding-bottom:0}
-  .typ .lab{font-size:10.5px;font-family:var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
-  .typ .big{font-family:var(--b-display);font-weight:700;font-size:32px;line-height:1;letter-spacing:-.01em}
-  .typ .body{font-family:var(--b-body);font-size:14px;color:var(--ink);line-height:1.5}
-  .typ .meta{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:4px}
-
-  /* social mockups */
-  .social{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .post{aspect-ratio:1/1;border-radius:14px;overflow:hidden;position:relative;padding:18px;display:flex;flex-direction:column;transition:background .3s}
-  .post .pm{font-family:var(--b-display);font-weight:700;font-size:13px}
-  .post.quote{background:var(--bp);color:var(--bp-ink);justify-content:center}
-  .post.quote .q{font-family:var(--b-display);font-weight:700;font-size:21px;line-height:1.12;letter-spacing:-.01em}
-  .post.quote .at{font-family:var(--b-body);font-size:11px;opacity:.85;margin-top:12px}
-  .post.promo{background:var(--ink);color:#fff;justify-content:space-between}
-  .post.promo .big{font-family:var(--b-display);font-weight:700;font-size:40px;line-height:.95}
-  .post.promo .sub{font-family:var(--b-body);font-size:12px;opacity:.8}
-  .post.promo .tagpill{align-self:flex-start;background:var(--bp);color:var(--bp-ink);font-size:10px;font-weight:700;padding:5px 10px;border-radius:999px}
-  .post.ann{background:var(--bp-soft);color:var(--ink);justify-content:space-between}
-  .post.ann .iso{width:38px;height:38px;font-size:19px}
-  .post.ann .t{font-family:var(--b-display);font-weight:700;font-size:18px;line-height:1.1}
-  .post.ann .d{font-family:var(--b-body);font-size:11px;color:var(--muted)}
-  .post.plain{background:#fff;border:1px solid var(--line);color:var(--ink);justify-content:space-between}
-  .post.plain .t{font-family:var(--b-display);font-weight:700;font-size:17px;line-height:1.15}
-  .post.plain .row{display:flex;align-items:center;gap:8px;font-family:var(--b-body);font-size:11px;color:var(--muted)}
-
-  /* AI copy */
-  .copy .tagline{font-family:var(--b-display);font-weight:700;font-size:24px;letter-spacing:-.01em;line-height:1.15;margin-bottom:14px;min-height:30px}
-  .copy .voice{font-size:13px;color:var(--ink);background:var(--bp-soft);border-radius:10px;padding:11px 13px;margin-bottom:16px;line-height:1.5}
-  .copy .voice b{color:var(--bp)}
-  .copy .clabel{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
-  .caps{display:flex;flex-direction:column;gap:9px}
-  .cap{border:1px solid var(--line);border-radius:10px;padding:11px 12px;font-size:13px;line-height:1.45;display:flex;gap:10px}
-  .cap .n{font-family:var(--mono);font-size:11px;color:var(--bp);font-weight:700;flex:0 0 auto}
-  .ai-empty{color:var(--muted);font-size:13px;text-align:center;padding:24px 0;line-height:1.5}
-  .skel{height:14px;background:linear-gradient(90deg,var(--surface),var(--line),var(--surface));background-size:200% 100%;border-radius:6px;animation:sh 1.3s infinite;margin-bottom:9px}
-  @keyframes sh{to{background-position:-200% 0}}
-  @media (prefers-reduced-motion:reduce){.skel{animation:none}}
-
-  .credit{text-align:center;font-size:12px;color:var(--muted);margin-top:26px}
-  .credit b{color:var(--ink)}
-
-  @media (max-width:880px){.board{grid-template-columns:1fr}.gen{margin-left:0;width:100%;justify-content:center}}
+  .logo .m{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:800;font-size:18px}
+  .logo b{font-family:var(--display);font-size:20px;display:block;line-height:1}.logo span{font-size:11.5px;color:var(--muted)}
+  .lead{margin:0 0 18px}.lead h1{font-family:var(--display);font-weight:800;font-size:clamp(22px,3vw,30px);letter-spacing:-.02em;margin:0 0 4px}
+  .lead p{font-size:14px;color:var(--muted);margin:0;max-width:58ch}
+  .builder{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:18px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:620px){.builder{grid-template-columns:1fr}}
+  .fld label{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:8px}
+  .fld input{width:100%;height:44px;border:1px solid var(--line);border-radius:11px;padding:0 13px;font-size:15px;outline:none}
+  .fld input:focus{border-color:var(--accent)}
+  .palettes,.fonts{display:flex;gap:9px;flex-wrap:wrap;margin-top:4px}
+  .pal{display:flex;border-radius:10px;overflow:hidden;border:2px solid transparent;cursor:pointer;height:38px;width:74px}
+  .pal.on{border-color:var(--ink);transform:scale(1.05)}
+  .pal i{flex:1}
+  .fbtn{border:1px solid var(--line);border-radius:10px;padding:9px 13px;font-size:15px;cursor:pointer}
+  .fbtn.on{border-color:var(--ink);background:var(--ink);color:#fff}
+  .preview{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:680px){.preview{grid-template-columns:1fr}}
+  .pcard{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  .pcard .ph{padding:11px 16px;border-bottom:1px solid var(--line);font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+  .pcard .pb{padding:20px}
+  .logoArea{height:140px;border-radius:12px;display:grid;place-items:center;background:var(--accent);transition:.3s;gap:10px}
+  .logoMark{width:54px;height:54px;border-radius:14px;background:rgba(255,255,255,.16);display:grid;place-items:center;font-family:var(--brandFont);font-weight:800;font-size:26px;color:#fff}
+  .logoText{font-family:var(--brandFont);font-weight:700;font-size:26px;color:#fff;letter-spacing:-.01em}
+  .swrow{display:flex;gap:0;border-radius:10px;overflow:hidden;margin-bottom:12px}
+  .swrow i{flex:1;height:54px;position:relative}
+  .swrow i span{position:absolute;bottom:5px;left:6px;font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.9)}
+  .typ{font-family:var(--brandFont)}
+  .typ .big{font-weight:700;font-size:30px;letter-spacing:-.01em;line-height:1.1}
+  .typ .mid{font-weight:500;font-size:16px;color:var(--muted);margin-top:4px}
+  .typ .body{font-family:var(--body);font-size:13px;color:var(--muted);margin-top:10px;line-height:1.5}
+  .bizcard{aspect-ratio:1.7;border-radius:14px;padding:18px;display:flex;flex-direction:column;justify-content:space-between;background:var(--accent);color:#fff;transition:.3s}
+  .bizcard .nm{font-family:var(--brandFont);font-weight:700;font-size:20px}
+  .bizcard .rol{font-size:12px;opacity:.85}
+  .bizcard .ct{font-family:var(--mono);font-size:10.5px;opacity:.8;line-height:1.6}
+  .dl{margin-top:16px;height:46px;border-radius:12px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:14px;width:100%}
+  .credit{text-align:center;font-size:12px;color:var(--muted);margin-top:20px}
 </style>
 </head>
 <body>
 <div class="shell">
-
   <div class="top">
-    <div class="logo"><div class="m">C</div><div><b>CO-DATA</b><span>Brand Kit generativo · servicio de identidad</span></div></div>
+    <div class="logo"><div class="m">B</div><div><b>Brand Kit</b><span>Generador de identidad · demo</span></div></div>
+  </div>
+  <div class="lead"><h1>Tu identidad de marca, lista en vivo</h1>
+    <p>Escribe el nombre, elige paleta y tipografía — y mira cómo se ve tu logo, tus colores y tu tarjeta al instante.</p></div>
+
+  <div class="builder">
+    <div class="fld"><label>Nombre de marca</label><input id="bn" value="Lumora" maxlength="20"></div>
+    <div class="fld"><label>Rubro / bajada</label><input id="bt" value="Estudio de diseño" maxlength="30"></div>
+    <div class="fld"><label>Paleta</label><div class="palettes" id="palettes"></div></div>
+    <div class="fld"><label>Tipografía</label><div class="fonts" id="fonts"></div></div>
   </div>
 
-  <div class="lead">
-    <h1>Estudio de marca en vivo</h1>
-    <p>Uno de los servicios de CO-DATA: identidad lista para usar. Escribe un nombre, elige la personalidad y mira nacer el isotipo, la paleta, la tipografía y las plantillas de redes. La IA escribe el tagline, la voz y los captions.</p>
+  <div class="preview">
+    <div class="pcard"><div class="ph">Logo</div><div class="pb"><div class="logoArea" id="logoArea"><div class="logoMark" id="logoMark">L</div><div class="logoText" id="logoText">Lumora</div></div></div></div>
+    <div class="pcard"><div class="ph">Paleta</div><div class="pb"><div class="swrow" id="swrow"></div><div style="font-size:12px;color:var(--muted)">Colores listos para usar en web, redes e impresos.</div></div></div>
+    <div class="pcard"><div class="ph">Tipografía</div><div class="pb"><div class="typ"><div class="big" id="typBig">Lumora</div><div class="mid">Titulares con carácter</div><div class="body">Texto de cuerpo en una tipografía legible y limpia para todo el contenido.</div></div></div></div>
+    <div class="pcard"><div class="ph">Tarjeta</div><div class="pb"><div class="bizcard" id="bizcard"><div><div class="nm" id="cardNm">Lumora</div><div class="rol" id="cardRol">Estudio de diseño</div></div><div class="ct">contacto@lumora.cl<br>+56 9 1234 5678</div></div><button class="dl" id="dl">⬇ Descargar paleta</button></div></div>
   </div>
-
-  <!-- control bar -->
-  <div class="bar">
-    <div class="fld"><label>Nombre de marca</label><input id="inpBrand" value="Brío" maxlength="16"></div>
-    <div class="fld"><label>Personalidad</label>
-      <div class="vibes" id="vibes"></div>
-    </div>
-    <button class="gen" id="genBtn"><svg viewBox="0 0 24 24"><path d="M12 3l2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2z"/></svg> Generar copy con IA</button>
-  </div>
-
-  <!-- board -->
-  <div class="board">
-    <div style="display:flex;flex-direction:column;gap:18px">
-
-      <div class="panel">
-        <div class="ph"><b>Isotipo y logotipo</b><span id="vibeName">Moderno</span></div>
-        <div class="pb">
-          <div class="lockups">
-            <div class="lock light"><div class="iso fill" id="iso1">B</div><div class="wm" id="wm1">Brío</div></div>
-            <div class="lock dark"><div class="iso fill" id="iso2">B</div><div class="wm" id="wm2">Brío</div></div>
-            <div class="lock brand"><div class="iso line" id="iso3">B</div><div class="wm" id="wm3">Brío</div></div>
-            <div class="lock light mono"><div class="iso fill" id="iso4">B</div><small>Isotipo</small></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel">
-        <div class="ph"><b>Paleta de color</b><span>Clic para copiar</span></div>
-        <div class="pb"><div class="palette" id="palette"></div></div>
-      </div>
-
-      <div class="panel">
-        <div class="ph"><b>Tipografía</b><span id="typPair">Space Grotesk · Inter</span></div>
-        <div class="pb typ">
-          <div class="trow"><div class="lab">Display · titulares</div><div class="big" id="typBig">Brío</div><div class="meta" id="typBigName">Space Grotesk Bold</div></div>
-          <div class="trow"><div class="lab">Body · texto</div><div class="body">El zorro veloz saltó sobre el perro perezoso mientras el sol caía sobre la ciudad. 1234567890</div><div class="meta" id="typBodyName">Inter Regular</div></div>
-        </div>
-      </div>
-
-    </div>
-
-    <div style="display:flex;flex-direction:column;gap:18px">
-
-      <div class="panel">
-        <div class="ph"><b>Plantillas para redes</b><span>1:1 feed</span></div>
-        <div class="pb">
-          <div class="social">
-            <div class="post quote"><div class="q" id="postQuote">Tu marca, lista para destacar.</div><div class="at" id="postAt">@brio</div></div>
-            <div class="post promo"><span class="tagpill">NUEVO</span><div><div class="big">2×1</div><div class="sub">Esta semana</div></div></div>
-            <div class="post ann"><div class="iso fill" id="isoP">B</div><div><div class="t">Ya estamos<br>aquí.</div><div class="d" id="postHandle">brio.cl</div></div></div>
-            <div class="post plain"><div class="t" id="postPlain">Hecho con dedicación.</div><div class="row"><div class="iso fill" style="width:22px;height:22px;font-size:12px" id="isoP2">B</div><span id="postHandle2">@brio</span></div></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel copy">
-        <div class="ph"><b>Copy de marca · IA</b><span id="copyState">en espera</span></div>
-        <div class="pb" id="copyBody">
-          <div class="ai-empty">Toca <b>“Generar copy con IA”</b> y la inteligencia artificial escribirá el tagline, la voz y los captions para esta marca.</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="credit">Servicio de identidad de <b>CO-DATA</b> · Demo con generación por IA real</div>
+  <div class="credit">Demo interactiva · solución re-skineable · marca de ejemplo</div>
 </div>
 
 <script>
 (function(){
   "use strict";
   function $(s){return document.querySelector(s);}
-
-  var vibes=[
-    {id:"mod",name:"Moderno",dot:"#4F6BFF",bp:"#4F6BFF",soft:"#EEF1FF",disp:"'Space Grotesk',sans-serif",body:"'Inter',sans-serif",
-      pair:"Space Grotesk · Inter",dispN:"Space Grotesk Bold",bodyN:"Inter Regular",
-      palette:["#4F6BFF","#1E2A6B","#8FA0FF","#EEF1FF","#15151A"]},
-    {id:"cal",name:"Cálido",dot:"#C2683B",bp:"#C2683B",soft:"#FAF0E9",disp:"'Fraunces',serif",body:"'Inter',sans-serif",
-      pair:"Fraunces · Inter",dispN:"Fraunces 600",bodyN:"Inter Regular",
-      palette:["#C2683B","#7A3E20","#E5A079","#FAF0E9","#2A211B"]},
-    {id:"pre",name:"Premium",dot:"#B9933F",bp:"#B9933F",soft:"#F6F1E6",disp:"'Fraunces',serif",body:"'Inter',sans-serif",
-      pair:"Fraunces · Inter",dispN:"Fraunces 500",bodyN:"Inter Light",
-      palette:["#B9933F","#15151A","#D8C18A","#F6F1E6","#3A3526"]},
-    {id:"aud",name:"Audaz",dot:"#E5356B",bp:"#E5356B",soft:"#FDE8EF",disp:"'Bricolage Grotesque',sans-serif",body:"'Inter',sans-serif",
-      pair:"Bricolage · Inter",dispN:"Bricolage 800",bodyN:"Inter Medium",
-      palette:["#E5356B","#7A1638","#FF7BA3","#FDE8EF","#1A1014"]}
+  var palettes=[
+    ["#111827","#374151","#9CA3AF","#E5E7EB"],
+    ["#0D9488","#2DD4BF","#5EEAD4","#CCFBF1"],
+    ["#7C3AED","#A855F7","#C4B5FD","#EDE9FE"],
+    ["#EA580C","#F97316","#FDBA74","#FFEDD5"],
+    ["#1D4ED8","#3B82F6","#93C5FD","#DBEAFE"],
+    ["#BE185D","#EC4899","#F9A8D4","#FCE7F3"]
   ];
-  var cur=vibes[0];
-  var brand="Brío";
+  var fonts=[['"Space Grotesk",sans-serif',"Space"],['"Playfair Display",serif',"Playfair"],['"Bricolage Grotesque",sans-serif',"Bricolage"],['Inter,sans-serif',"Inter"]];
+  var palIdx=0;
 
-  function ink(c){var h=c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);return (0.299*r+0.587*g+0.114*b)>150?"#15151A":"#fff";}
+  function buildPalettes(){var c=$("#palettes");c.innerHTML="";palettes.forEach(function(p,i){var b=document.createElement("button");b.className="pal"+(i===0?" on":"");p.forEach(function(col){var s=document.createElement("i");s.style.background=col;b.appendChild(s);});b.onclick=function(){palIdx=i;[].slice.call(c.children).forEach(function(x){x.classList.remove("on");});b.classList.add("on");apply();};c.appendChild(b);});}
+  function buildFonts(){var c=$("#fonts");c.innerHTML="";fonts.forEach(function(f,i){var b=document.createElement("button");b.className="fbtn"+(i===0?" on":"");b.textContent=f[1];b.style.fontFamily=f[0];b.onclick=function(){document.documentElement.style.setProperty("--brandFont",f[0]);[].slice.call(c.children).forEach(function(x){x.classList.remove("on");});b.classList.add("on");};c.appendChild(b);});}
 
-  function applyVibe(){
-    document.documentElement.style.setProperty("--bp",cur.bp);
-    document.documentElement.style.setProperty("--bp-ink",ink(cur.bp));
-    document.documentElement.style.setProperty("--bp-soft",cur.soft);
-    document.documentElement.style.setProperty("--b-display",cur.disp);
-    document.documentElement.style.setProperty("--b-body",cur.body);
-    $("#vibeName").textContent=cur.name;
-    $("#typPair").textContent=cur.pair;
-    $("#typBigName").textContent=cur.dispN;
-    $("#typBodyName").textContent=cur.bodyN;
-    renderPalette();
+  function apply(){
+    var p=palettes[palIdx];
+    document.documentElement.style.setProperty("--accent",p[0]);
+    document.documentElement.style.setProperty("--accent-2",p[1]);
+    var h=p[0].replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
+    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#15171C":"#fff");
+    $("#swrow").innerHTML=p.map(function(col){return '<i style="background:'+col+'"><span>'+col+'</span></i>';}).join("");
   }
-  function applyBrand(){
-    var ini=brand.charAt(0).toUpperCase()||"B";
-    ["iso1","iso2","iso3","iso4","isoP","isoP2"].forEach(function(id){$("#"+id).textContent=ini;});
-    ["wm1","wm2","wm3","typBig"].forEach(function(id){$("#"+id).textContent=brand;});
-    var handle=brand.toLowerCase().replace(/[^a-z0-9]/g,"");
-    $("#postAt").textContent="@"+handle;
-    $("#postHandle").textContent=handle+".cl";
-    $("#postHandle2").textContent="@"+handle;
+  function name(){
+    var n=$("#bn").value||"Marca",t=$("#bt").value||"";
+    $("#logoMark").textContent=n.charAt(0).toUpperCase();
+    $("#logoText").textContent=n;$("#typBig").textContent=n;$("#cardNm").textContent=n;
+    $("#cardRol").textContent=t;
   }
-  function renderPalette(){
-    var p=$("#palette");p.innerHTML="";
-    cur.palette.forEach(function(c){
-      var el=document.createElement("div");el.className="pc";el.style.background=c;el.style.color=ink(c);
-      el.innerHTML='<span class="cp">copiar</span><span class="hex">'+c.toUpperCase()+'</span>';
-      el.onclick=function(){
-        if(navigator.clipboard)navigator.clipboard.writeText(c.toUpperCase()).catch(function(){});
-        el.classList.add("copied");el.querySelector(".cp").textContent="copiado ✓";
-        setTimeout(function(){el.classList.remove("copied");el.querySelector(".cp").textContent="copiar";},1100);
-      };
-      p.appendChild(el);
-    });
-  }
-  function buildVibes(){
-    var c=$("#vibes");c.innerHTML="";
-    vibes.forEach(function(v){
-      var b=document.createElement("button");b.className="vibe"+(v.id===cur.id?" sel":"");
-      b.innerHTML='<span class="vd" style="background:'+v.dot+'"></span>'+v.name;
-      b.onclick=function(){cur=v;buildVibes();applyVibe();};c.appendChild(b);
-    });
-  }
+  $("#bn").addEventListener("input",name);$("#bt").addEventListener("input",name);
+  $("#dl").onclick=function(){var p=palettes[palIdx];var b=new Blob(["PALETA · "+($("#bn").value||"Marca")+"\n\n"+p.join("\n")],{type:"text/plain"}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download="paleta.txt";document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u);};
 
-  /* ---- AI copy ---- */
-  function genCopy(){
-    var btn=$("#genBtn");btn.disabled=true;$("#copyState").textContent="generando…";
-    $("#copyBody").innerHTML='<div class="skel" style="width:70%;height:24px;margin-bottom:14px"></div><div class="skel" style="width:100%"></div><div class="skel" style="width:90%"></div><div class="skel" style="width:60%;margin-top:14px"></div><div class="skel" style="width:95%"></div>';
-    var sys="Eres director creativo de una agencia de marca chilena. Genera identidad verbal para una marca ficticia. "+
-      "Responde SOLO con un objeto JSON válido, sin texto adicional ni markdown, con esta forma exacta:\n"+
-      '{"tagline":"...","voice":"...","captions":["...","...","..."]}\n'+
-      "tagline: eslogan corto y memorable (máx 6 palabras). voice: una frase que describa el tono de voz de la marca. "+
-      "captions: 3 ideas de caption para Instagram, breves, en español de Chile, con 1 emoji cada uno. "+
-      "Todo coherente con la marca y su personalidad.";
-    var usr="Marca: \""+brand+"\". Personalidad: "+cur.name+". Genera el JSON.";
-    fetch("https://api.anthropic.com/v1/messages",{
-      method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1000,system:sys,messages:[{role:"user",content:usr}]})
-    }).then(function(r){return r.json();}).then(function(data){
-      var raw="";if(data&&data.content)raw=data.content.filter(function(i){return i.type==="text";}).map(function(i){return i.text;}).join("").trim();
-      raw=raw.replace(/```json|```/g,"").trim();
-      var obj=JSON.parse(raw);
-      renderCopy(obj);
-      // feed visuals
-      if(obj.tagline){$("#postQuote").textContent=obj.tagline;$("#postPlain").textContent=obj.tagline;}
-      $("#copyState").textContent="listo ✓";
-    }).catch(function(){
-      $("#copyBody").innerHTML='<div class="ai-empty">No se pudo generar ahora ⚠️. Reintenta en unos segundos.<br>(Publicado, esto corre con la conexión segura del proyecto.)</div>';
-      $("#copyState").textContent="error";
-    }).then(function(){btn.disabled=false;});
-  }
-  function renderCopy(o){
-    var caps=(o.captions||[]).map(function(c,i){return '<div class="cap"><span class="n">0'+(i+1)+'</span><span>'+esc(c)+'</span></div>';}).join("");
-    $("#copyBody").innerHTML=
-      '<div class="tagline">“'+esc(o.tagline||"")+'”</div>'+
-      '<div class="voice"><b>Voz de marca:</b> '+esc(o.voice||"")+'</div>'+
-      '<div class="clabel">Captions sugeridos</div><div class="caps">'+caps+'</div>';
-  }
-  function esc(s){return String(s).replace(/[&<>]/g,function(m){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[m];});}
-
-  /* ---- events ---- */
-  $("#inpBrand").addEventListener("input",function(e){brand=e.target.value||"Marca";applyBrand();});
-  $("#genBtn").onclick=genCopy;
-
-  /* ---- init ---- */
-  buildVibes();applyVibe();applyBrand();
+  buildPalettes();buildFonts();apply();name();
 })();
 </script>
 </body>

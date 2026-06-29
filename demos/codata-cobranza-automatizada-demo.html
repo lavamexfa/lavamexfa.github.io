@@ -9,59 +9,58 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --accent:#1B7A4B;--accent-2:#27A765;--accent-ink:#fff;--ok:#2E9E66;--warn:#E0A53B;--bad:#E0533D;
-    --ink:#121A15;--muted:#6F7B74;--line:#E3ECE7;--surface:#F2F8F4;--card:#fff;
+    --accent:#15803D;--accent-2:#22C55E;--accent-ink:#fff;--wa:#25D366;--ok:#2E9E66;--warn:#E0A53B;--bad:#E0533D;
+    --ink:#121A15;--muted:#6F7B74;--line:#E3ECE7;--surface:#F1F8F3;--card:#fff;
     --display:"Bricolage Grotesque",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",monospace;
   }
   *{box-sizing:border-box}
   body{margin:0;font-family:var(--body);color:var(--ink);background:var(--surface);-webkit-font-smoothing:antialiased}
   button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
   input{font-family:inherit}
-  .shell{max-width:1020px;margin:0 auto;padding:24px 20px 50px}
+  .shell{max-width:1040px;margin:0 auto;padding:24px 20px 50px}
   .top{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
   .logo{display:flex;align-items:center;gap:11px}
-  .logo .m{width:36px;height:36px;border-radius:10px;background:var(--accent);display:grid;place-items:center;color:var(--accent-ink);font-family:var(--display);font-weight:800;font-size:17px;transition:background .35s}
-  .logo b{font-family:var(--display);font-size:19px;display:block;line-height:1}.logo span{font-size:11.5px;color:var(--muted)}
+  .logo .m{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:800;font-size:18px}
+  .logo b{font-family:var(--display);font-size:20px;display:block;line-height:1}.logo span{font-size:11.5px;color:var(--muted)}
   .controls{margin-left:auto;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
   .ti{height:36px;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:0 11px;font-size:13px;width:120px;outline:none}
   .swatches{display:flex;gap:6px}.sw{width:22px;height:22px;border-radius:999px;border:2px solid transparent}.sw.active{border-color:var(--ink);transform:scale(1.1)}
   .lead{margin:0 0 16px}.lead h1{font-family:var(--display);font-weight:800;font-size:clamp(22px,3vw,30px);letter-spacing:-.02em;margin:0 0 4px}
   .lead p{font-size:14px;color:var(--muted);margin:0;max-width:58ch}
+  .grid{display:grid;grid-template-columns:1fr 300px;gap:16px;align-items:start}
+  @media(max-width:820px){.grid{grid-template-columns:1fr}}
   .bars{display:flex;gap:12px;margin-bottom:14px;flex-wrap:wrap}
   .kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 16px;flex:1;min-width:130px}
-  .kpi b{font-family:var(--display);font-size:19px;display:block;line-height:1}.kpi span{font-size:11.5px;color:var(--muted)}
+  .kpi b{font-family:var(--display);font-size:19px;display:block;line-height:1}.kpi span{font-size:11px;color:var(--muted)}
   .kpi.bad b{color:var(--bad)}.kpi.ok b{color:var(--ok)}
-  .auto{display:flex;align-items:center;gap:12px;background:color-mix(in srgb,var(--accent) 7%,var(--card));border:1px solid color-mix(in srgb,var(--accent) 22%,var(--line));border-radius:13px;padding:12px 16px;margin-bottom:16px}
-  .auto .inf{flex:1}.auto .inf b{font-size:13.5px;display:block}.auto .inf span{font-size:11.5px;color:var(--muted)}
-  .toggle{width:48px;height:28px;border-radius:999px;background:var(--line);position:relative;transition:.2s;flex:0 0 auto}
-  .toggle.on{background:var(--accent)}
-  .toggle::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:999px;background:#fff;transition:.2s}
-  .toggle.on::after{left:23px}
   .panel{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 6px 22px rgba(20,18,30,.05)}
-  .row{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .ph{padding:13px 16px;border-bottom:1px solid var(--line);font-family:var(--display);font-size:15px;display:flex;justify-content:space-between;align-items:center}
+  .aging{padding:16px}
+  .ag{margin-bottom:13px}
+  .ag .l{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px}.ag .l b{font-family:var(--mono);font-weight:700}
+  .ag .t{height:10px;background:var(--surface);border-radius:999px;overflow:hidden}.ag .f{height:100%;border-radius:999px;transition:width .6s}
+  .auto{display:flex;align-items:center;gap:12px;padding:12px 16px;border-top:1px solid var(--line)}
+  .auto .inf{flex:1}.auto .inf b{font-size:13px;display:block}.auto .inf span{font-size:11px;color:var(--muted)}
+  .toggle{width:46px;height:27px;border-radius:999px;background:var(--line);position:relative;transition:.2s;flex:0 0 auto}
+  .toggle.on{background:var(--accent)}.toggle::after{content:"";position:absolute;top:3px;left:3px;width:21px;height:21px;border-radius:999px;background:#fff;transition:.2s}.toggle.on::after{left:22px}
+  .row{display:flex;align-items:center;gap:11px;padding:12px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
   .row:last-child{border:none}
-  .row .inf{flex:1;min-width:140px}.row .inf b{font-size:14px;display:block}.row .inf span{font-size:11.5px;color:var(--muted);font-family:var(--mono)}
-  .row .amt{font-family:var(--mono);font-weight:700;font-size:14px;min-width:90px;text-align:right}
-  .badge{font-size:10px;font-weight:700;padding:4px 9px;border-radius:999px;white-space:nowrap}
-  .b-ok{background:color-mix(in srgb,var(--ok) 14%,transparent);color:var(--ok)}
-  .b-warn{background:color-mix(in srgb,var(--warn) 18%,transparent);color:#9A6A12}
-  .b-bad{background:color-mix(in srgb,var(--bad) 14%,transparent);color:var(--bad)}
+  .row .inf{flex:1;min-width:130px}.row .inf b{font-size:13.5px;display:block}.row .inf span{font-size:11px;color:var(--muted);font-family:var(--mono)}
+  .badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:999px;white-space:nowrap}
+  .b-ok{background:color-mix(in srgb,var(--ok) 14%,transparent);color:var(--ok)}.b-warn{background:color-mix(in srgb,var(--warn) 18%,transparent);color:#9A6A12}.b-bad{background:color-mix(in srgb,var(--bad) 14%,transparent);color:var(--bad)}
+  .amt{font-family:var(--mono);font-weight:700;font-size:13.5px;min-width:84px;text-align:right}
   .rem{font-size:12px;font-weight:700;color:var(--accent);border:1px solid var(--line);border-radius:9px;padding:7px 11px;white-space:nowrap}
   .rem:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
-  .rem.sent{color:var(--muted);border-color:var(--line);pointer-events:none}
-  .credit{text-align:center;font-size:12px;color:var(--muted);margin-top:22px}
-  .ov{position:fixed;inset:0;background:rgba(18,26,21,.5);display:none;place-items:center;z-index:50;padding:20px}
-  .ov.on{display:grid}
+  .rem.sent{color:var(--muted);pointer-events:none}
+  .ov{position:fixed;inset:0;background:rgba(18,26,21,.5);display:none;place-items:center;z-index:50;padding:20px}.ov.on{display:grid}
   .md{background:var(--card);border-radius:18px;padding:22px;max-width:380px;width:100%}
   .md h3{font-family:var(--display);font-size:17px;margin:0 0 4px}.md .to{font-size:12px;color:var(--muted);margin-bottom:14px}
   .md .msg{background:var(--surface);border-radius:12px;padding:14px;font-size:13.5px;line-height:1.55;white-space:pre-wrap;min-height:80px}
-  .md .skel{height:13px;background:linear-gradient(90deg,var(--card),var(--line),var(--card));background-size:200% 100%;border-radius:6px;animation:sh 1.2s infinite;margin-bottom:9px}
-  @keyframes sh{to{background-position:-200% 0}}
-  .md .act{display:flex;gap:10px;margin-top:14px}
-  .md .act button{flex:1;height:44px;border-radius:11px;font-weight:700;font-size:13.5px}
-  .md .send{background:var(--accent);color:var(--accent-ink)}.md .cancel{background:var(--surface);border:1px solid var(--line)}
-  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;font-size:13px;font-weight:600;padding:11px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:.25s;z-index:60}
-  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .md .skel{height:13px;background:linear-gradient(90deg,var(--card),var(--line),var(--card));background-size:200% 100%;border-radius:6px;animation:sh 1.2s infinite;margin-bottom:9px}@keyframes sh{to{background-position:-200% 0}}
+  .md .act{display:flex;gap:10px;margin-top:14px}.md .act button{flex:1;height:44px;border-radius:11px;font-weight:700;font-size:13.5px}
+  .md .send{background:var(--wa);color:#fff}.md .cancel{background:var(--surface);border:1px solid var(--line)}
+  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;font-size:13px;font-weight:600;padding:11px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:.25s;z-index:60}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .credit{text-align:center;font-size:12px;color:var(--muted);margin-top:22px}
 </style>
 </head>
 <body>
@@ -70,25 +69,29 @@
     <div class="logo"><div class="m" id="lm">R</div><div><b id="bl">Recauda</b><span>Cobranza automatizada · demo</span></div></div>
     <div class="controls"><input class="ti" id="ib" value="Recauda" maxlength="16"><div class="swatches" id="sw"></div></div>
   </div>
-  <div class="lead"><h1>Que los pagos te lleguen sin perseguir a nadie</h1>
-    <p>Cuentas por cobrar a la vista, recordatorios que salen solos y un mensaje redactado por IA. Recuperas plata sin el desgaste.</p></div>
+  <div class="lead"><h1>Que los pagos lleguen sin perseguir a nadie</h1>
+    <p>Mira la antigüedad de tu deuda, deja que los recordatorios salgan solos y envía el mensaje que la IA redacta — por WhatsApp.</p></div>
 
   <div class="bars">
     <div class="kpi"><b id="kTot">$0</b><span>por cobrar</span></div>
     <div class="kpi bad"><b id="kVen">$0</b><span>vencido</span></div>
     <div class="kpi ok"><b id="kRec">$0</b><span>recuperado (mes)</span></div>
-    <div class="kpi"><b id="kCnt">0</b><span>facturas abiertas</span></div>
+    <div class="kpi"><b id="kCnt">0</b><span>facturas</span></div>
   </div>
 
-  <div class="auto">
-    <div class="inf"><b>Recordatorios automáticos</b><span id="autoTxt">Activado · envía 3 días antes y al vencer</span></div>
-    <div class="toggle on" id="toggle"></div>
+  <div class="grid">
+    <div class="panel">
+      <div class="ph">Cuentas por cobrar</div>
+      <div id="list"></div>
+    </div>
+    <div class="panel">
+      <div class="ph">Antigüedad de la deuda</div>
+      <div class="aging" id="aging"></div>
+      <div class="auto"><div class="inf"><b>Recordatorios automáticos</b><span id="autoTxt">Activado · 3 días antes y al vencer</span></div><div class="toggle on" id="toggle"></div></div>
+    </div>
   </div>
-
-  <div class="panel" id="list"></div>
   <div class="credit">Demo interactiva · solución re-skineable · cartola de ejemplo · IA real</div>
 </div>
-
 <div class="ov" id="ov"><div class="md" id="md"></div></div>
 <div class="toast" id="toast"></div>
 
@@ -97,62 +100,62 @@
   "use strict";
   function $(s){return document.querySelector(s);}
   function clp(n){return "$"+Math.round(n).toLocaleString("es-CL");}
-  var invoices=[
-    {c:"Constructora del Valle",doc:"F-1042",amt:480000,days:-6,sent:false},
+  var brand="Recauda";
+  var inv=[
+    {c:"Constructora del Valle",doc:"F-1042",amt:480000,days:-38,sent:false},
     {c:"Servicios Andinos",doc:"F-1048",amt:135000,days:2,sent:false},
     {c:"Taller Norte",doc:"F-1051",amt:96000,days:9,sent:false},
-    {c:"Logística Centro",doc:"F-1039",amt:320000,days:-14,sent:false},
+    {c:"Logística Centro",doc:"F-1039",amt:320000,days:-64,sent:false},
     {c:"Comercial Surtido",doc:"F-1055",amt:58000,days:5,sent:false},
-    {c:"Áridos del Maipo",doc:"F-1033",amt:210000,days:-3,sent:false}
+    {c:"Áridos del Maipo",doc:"F-1033",amt:210000,days:-12,sent:false}
   ];
   var recovered=540000;
+  function status(d){if(d<0)return["bad","Vencido "+(-d)+"d"];if(d<=3)return["warn","Vence "+d+"d"];return["ok","Al día"];}
 
-  function status(d){if(d<0)return["bad","Vencido "+(-d)+"d"];if(d<=3)return["warn","Vence en "+d+"d"];return["ok","Al día"];}
   function render(){
-    $("#list").innerHTML=invoices.map(function(v,i){var st=status(v.days);
-      return '<div class="row"><div class="inf"><b>'+v.c+'</b><span>'+v.doc+'</span></div>'+
-        '<span class="badge b-'+st[0]+'">'+st[1]+'</span>'+
-        '<span class="amt">'+clp(v.amt)+'</span>'+
-        (v.sent?'<span class="rem sent">✓ Enviado</span>':'<button class="rem" data-rem="'+i+'">Recordar</button>')+'</div>';
+    $("#list").innerHTML=inv.map(function(v,i){var st=status(v.days);
+      return '<div class="row"><div class="inf"><b>'+v.c+'</b><span>'+v.doc+'</span></div><span class="badge b-'+st[0]+'">'+st[1]+'</span><span class="amt">'+clp(v.amt)+'</span>'+(v.sent?'<span class="rem sent">✓ Enviado</span>':'<button class="rem" data-rem="'+i+'">Recordar</button>')+'</div>';
     }).join("");
     [].slice.call($("#list").querySelectorAll("[data-rem]")).forEach(function(b){b.onclick=function(){openRem(+b.dataset.rem);};});
-    stats();
+    stats();aging();
   }
   function stats(){
-    var open=invoices;
-    $("#kTot").textContent=clp(open.reduce(function(a,v){return a+v.amt;},0));
-    $("#kVen").textContent=clp(open.filter(function(v){return v.days<0;}).reduce(function(a,v){return a+v.amt;},0));
-    $("#kRec").textContent=clp(recovered);
-    $("#kCnt").textContent=open.length;
+    $("#kTot").textContent=clp(inv.reduce(function(a,v){return a+v.amt;},0));
+    $("#kVen").textContent=clp(inv.filter(function(v){return v.days<0;}).reduce(function(a,v){return a+v.amt;},0));
+    $("#kRec").textContent=clp(recovered);$("#kCnt").textContent=inv.length;
+  }
+  function aging(){
+    var buckets=[["Por vencer",function(d){return d>=0;},"var(--ok)"],["1–30 días",function(d){return d<0&&d>=-30;},"var(--warn)"],["31–60 días",function(d){return d<-30&&d>=-60;},"#E08A3D"],["60+ días",function(d){return d<-60;},"var(--bad)"]];
+    var tot=inv.reduce(function(a,v){return a+v.amt;},0);
+    $("#aging").innerHTML=buckets.map(function(bk){var sum=inv.filter(function(v){return bk[1](v.days);}).reduce(function(a,v){return a+v.amt;},0);var pct=tot?Math.round(sum/tot*100):0;
+      return '<div class="ag"><div class="l"><span>'+bk[0]+'</span><b>'+clp(sum)+'</b></div><div class="t"><div class="f" style="width:'+pct+'%;background:'+bk[2]+'"></div></div></div>';
+    }).join("");
   }
 
   function openRem(i){
-    var v=invoices[i];
-    $("#md").innerHTML='<h3>Recordatorio de pago</h3><div class="to">Para '+v.c+' · '+v.doc+' · '+clp(v.amt)+'</div><div class="msg" id="msgBox"><div class="skel" style="width:90%"></div><div class="skel" style="width:100%"></div><div class="skel" style="width:70%"></div></div><div class="act"><button class="cancel" id="cancel">Cancelar</button><button class="send" id="sendBtn" disabled>Enviar</button></div>';
-    $("#ov").classList.add("on");
-    $("#cancel").onclick=function(){$("#ov").classList.remove("on");};
-    var st=status(v.days);
-    var sys="Eres asistente de cobranza cordial. Escribe un mensaje breve de WhatsApp para recordar un pago pendiente, profesional y amable, sin sonar agresivo. Español de Chile. Incluye monto y documento. Máximo 4 líneas. Responde solo el mensaje.";
-    var usr="Cliente: "+v.c+". Documento: "+v.doc+". Monto: "+clp(v.amt)+". Estado: "+st[1]+".";
+    var v=inv[i],st=status(v.days);
+    $("#md").innerHTML='<h3>Recordatorio de pago</h3><div class="to">Para '+v.c+' · '+v.doc+' · '+clp(v.amt)+'</div><div class="msg" id="msgBox"><div class="skel" style="width:90%"></div><div class="skel" style="width:100%"></div><div class="skel" style="width:70%"></div></div><div class="act"><button class="cancel" id="cancel">Cancelar</button><button class="send" id="sendBtn" disabled>Enviar WhatsApp</button></div>';
+    $("#ov").classList.add("on");$("#cancel").onclick=function(){$("#ov").classList.remove("on");};
+    var sys="Eres asistente de cobranza cordial. Escribe un mensaje breve de WhatsApp recordando un pago pendiente, profesional y amable, sin sonar agresivo. Español de Chile. Incluye monto y documento. Máx 4 líneas. Responde solo el mensaje.";
     fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1000,system:sys,messages:[{role:"user",content:usr}]})
+      body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1000,system:sys,messages:[{role:"user",content:"Cliente: "+v.c+". Documento: "+v.doc+". Monto: "+clp(v.amt)+". Estado: "+st[1]+"."}]})
     }).then(function(r){return r.json();}).then(function(d){
-      var t="";if(d&&d.content)t=d.content.filter(function(x){return x.type==="text";}).map(function(x){return x.text;}).join("").trim();
-      var mb=$("#msgBox");if(mb)mb.textContent=t.replace(/```/g,"").trim()||"Estimado cliente, le recordamos el pago pendiente.";
-      var sb=$("#sendBtn");if(sb){sb.disabled=false;sb.onclick=function(){invoices[i].sent=true;$("#ov").classList.remove("on");render();toast("Recordatorio enviado 💬");};}
+      var t="";if(d&&d.content)t=d.content.filter(function(x){return x.type==="text";}).map(function(x){return x.text;}).join("").trim();t=t.replace(/```/g,"").trim()||"Estimado cliente, le recordamos su pago pendiente.";
+      var mb=$("#msgBox");if(mb)mb.textContent=t;
+      var sb=$("#sendBtn");if(sb){sb.disabled=false;sb.onclick=function(){inv[i].sent=true;$("#ov").classList.remove("on");window.open("https://wa.me/?text="+encodeURIComponent(t),"_blank");render();toast("Recordatorio enviado 💬");};}
     }).catch(function(){var mb=$("#msgBox");if(mb)mb.textContent="No pude redactar ahora. Reintenta.";});
   }
-  function toast(m){var t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show");},1900);}
+  function toast(m){var t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show");},1800);}
   $("#ov").onclick=function(e){if(e.target===$("#ov"))$("#ov").classList.remove("on");};
-  $("#toggle").onclick=function(){this.classList.toggle("on");$("#autoTxt").textContent=this.classList.contains("on")?"Activado · envía 3 días antes y al vencer":"Desactivado · recordatorios manuales";};
+  $("#toggle").onclick=function(){this.classList.toggle("on");$("#autoTxt").textContent=this.classList.contains("on")?"Activado · 3 días antes y al vencer":"Desactivado · manual";};
 
-  var SW=[{c:"#1B7A4B",c2:"#27A765"},{c:"#2563EB",c2:"#5B8DEF"},{c:"#7C3AED",c2:"#A855F7"},{c:"#C2410C",c2:"#EA7A3C"},{c:"#16161A",c2:"#444"}];
+  var SW=[{c:"#15803D",c2:"#22C55E"},{c:"#2563EB",c2:"#5B8DEF"},{c:"#7C3AED",c2:"#A855F7"},{c:"#C2410C",c2:"#EA7A3C"},{c:"#16161A",c2:"#444"}];
   function ac(o){document.documentElement.style.setProperty("--accent",o.c);document.documentElement.style.setProperty("--accent-2",o.c2);
     var h=o.c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
     document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#121A15":"#fff");
     [].slice.call(document.querySelectorAll(".sw")).forEach(function(e){e.classList.toggle("active",e.dataset.c===o.c);});}
   function bsw(){var s=$("#sw");s.innerHTML="";SW.forEach(function(o){var b=document.createElement("button");b.className="sw";b.style.background=o.c;b.dataset.c=o.c;b.onclick=function(){ac(o);};s.appendChild(b);});}
-  function ab(n){$("#bl").textContent=n||"Marca";$("#lm").textContent=(n||"M").charAt(0).toUpperCase();}
+  function ab(n){brand=n||"Marca";$("#bl").textContent=brand;$("#lm").textContent=brand.charAt(0).toUpperCase();}
   $("#ib").addEventListener("input",function(e){ab(e.target.value);});
   bsw();ac(SW[0]);ab("Recauda");render();
 })();

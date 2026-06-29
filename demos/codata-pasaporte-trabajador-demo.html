@@ -3,169 +3,116 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pasaporte Digital del Trabajador · Demo</title>
+<title>Pasaporte del Trabajador · Demo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --accent:#15776B;--accent-2:#1FA08F;--accent-ink:#fff;
-    --ok:#2E9E66;--warn:#E0A53B;--bad:#E0533D;
-    --ink:#13181A;--muted:#6F7B79;--line:#E6ECEA;--screen:#FAFCFB;--card:#fff;--bg:#11201D;
+    --accent:#1D4ED8;--accent-2:#3B82F6;--accent-ink:#fff;--ok:#16A34A;--warn:#E0A53B;--bad:#DC2626;
+    --ink:#0F1626;--muted:#7A839A;--line:#E3E7F0;--surface:#EEF2F8;--card:#fff;--bg:#0B1220;
     --display:"Bricolage Grotesque",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",monospace;
   }
   *{box-sizing:border-box}
   body{margin:0;font-family:var(--body);color:var(--ink);
-    background:radial-gradient(80% 60% at 50% 0%,color-mix(in srgb,var(--accent) 26%,transparent),transparent 60%),var(--bg);
-    min-height:100vh;-webkit-font-smoothing:antialiased}
-  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
-  input{font-family:inherit}
-  .stage{max-width:1020px;margin:0 auto;padding:26px 22px 50px;display:grid;grid-template-columns:1fr auto;gap:44px;align-items:center}
-  @media(max-width:860px){.stage{grid-template-columns:1fr;justify-items:center;gap:26px}}
-  .pitch .logo{display:flex;align-items:center;gap:11px;margin-bottom:22px}
-  .pitch .logo .m{width:38px;height:38px;border-radius:11px;background:var(--accent);display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:800;font-size:18px;transition:background .35s}
-  .pitch .logo b{font-family:var(--display);font-size:20px;color:#fff;display:block;line-height:1}.pitch .logo span{font-size:11.5px;color:#9DB0AC}
-  .pitch h1{font-family:var(--display);font-weight:800;font-size:clamp(27px,4vw,38px);color:#fff;letter-spacing:-.02em;line-height:1.07;margin:0 0 16px}
-  .pitch h1 em{font-style:normal;color:var(--accent-2);transition:color .35s}
-  .pitch p{font-size:15px;color:#B2C0BD;max-width:40ch;margin:0 0 24px;line-height:1.55}
-  .feats{display:flex;flex-direction:column;gap:13px;margin-bottom:26px}
-  .feat{display:flex;gap:12px;align-items:center;font-size:14px;color:#CFDAD7}
-  .feat .fi{width:32px;height:32px;border-radius:9px;background:rgba(255,255,255,.06);display:grid;place-items:center;flex:0 0 auto}
-  .feat .fi svg{width:17px;height:17px;stroke:var(--accent-2);fill:none;stroke-width:1.7}
+    background:radial-gradient(80% 55% at 50% 0%,color-mix(in srgb,var(--accent) 24%,transparent),transparent 58%),var(--bg);
+    min-height:100vh;display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;padding:24px 22px 50px;-webkit-font-smoothing:antialiased}
+  @media(max-width:840px){body{grid-template-columns:1fr;justify-items:center;gap:24px}}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}input{font-family:inherit}
+  .pitch{max-width:420px}
+  .pitch .logo{display:flex;align-items:center;gap:11px;margin-bottom:18px}
+  .pitch .logo .m{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:800;font-size:18px}
+  .pitch .logo b{font-family:var(--display);font-size:20px;color:#fff;display:block;line-height:1}.pitch .logo span{font-size:11.5px;color:#90A0BC}
+  .pitch h1{font-family:var(--display);font-weight:800;font-size:clamp(26px,4vw,38px);color:#fff;letter-spacing:-.02em;line-height:1.08;margin:0 0 16px}
+  .pitch h1 em{font-style:normal;color:var(--accent-2)}
+  .pitch p{font-size:15px;color:#AEBBD0;max-width:40ch;margin:0 0 22px;line-height:1.55}
+  .feats{display:flex;flex-direction:column;gap:11px;margin-bottom:22px}
+  .feat{display:flex;gap:12px;align-items:center;font-size:14px;color:#CFD9E8}
+  .feat .fi{width:30px;height:30px;border-radius:9px;background:rgba(255,255,255,.07);display:grid;place-items:center;flex:0 0 auto;font-size:15px}
   .reskin{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-  .reskin input{height:36px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:9px;padding:0 12px;color:#fff;font-size:13px;width:150px;outline:none}
+  .reskin input{height:38px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:9px;padding:0 12px;color:#fff;font-size:13px;width:150px;outline:none}
   .swatches{display:flex;gap:6px}.sw{width:22px;height:22px;border-radius:999px;border:2px solid transparent}.sw.active{border-color:#fff;transform:scale(1.1)}
-  .phone{width:380px;max-width:92vw;background:#0A1311;border-radius:46px;padding:13px;box-shadow:0 40px 90px rgba(0,0,0,.5),inset 0 0 0 2px rgba(255,255,255,.06)}
-  .screen{background:var(--screen);border-radius:34px;overflow:hidden;height:760px;max-height:80vh;display:flex;flex-direction:column;position:relative}
-  .notch{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:118px;height:26px;background:#0A1311;border-radius:0 0 16px 16px;z-index:9}
-  .sb{height:30px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;font-size:12px;font-weight:600;flex:0 0 auto}
-  .view{flex:1;overflow-y:auto;padding:0 18px 12px}.view::-webkit-scrollbar{width:0}
-  .credential{background:linear-gradient(140deg,var(--accent),var(--accent-2));border-radius:20px;padding:18px;color:#fff;margin:6px 0 14px;position:relative;overflow:hidden;transition:background .35s}
-  .credential::after{content:"";position:absolute;right:-30px;top:-30px;width:120px;height:120px;border-radius:999px;background:rgba(255,255,255,.1)}
-  .credential .who{display:flex;gap:13px;align-items:center;position:relative;z-index:1}
-  .credential .av{width:58px;height:58px;border-radius:16px;background:rgba(255,255,255,.2);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:24px;flex:0 0 auto}
-  .credential .who b{font-family:var(--display);font-size:18px;display:block;line-height:1.1}
-  .credential .who span{font-size:12px;opacity:.9}
-  .credential .st{margin-top:14px;display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.18);padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700}
-  .credential .st .d{width:8px;height:8px;border-radius:999px;background:#7DF5B0}
-  .credential .st.block .d{background:#FFB4A8}
-  .tabs{display:flex;gap:7px;margin-bottom:14px}
-  .tab{flex:1;height:38px;border-radius:11px;border:1px solid var(--line);background:var(--card);font-size:12.5px;font-weight:600;color:var(--muted);transition:.15s}
-  .tab.on{background:var(--ink);color:#fff;border-color:var(--ink)}
-  .pane{display:none}.pane.on{display:block;animation:f .25s ease}@keyframes f{from{opacity:0;transform:translateY(5px)}to{opacity:1}}
-  .item{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:13px 14px;margin-bottom:10px;display:flex;align-items:center;gap:12px}
-  .item .ico{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;flex:0 0 auto}
-  .item .ico svg{width:18px;height:18px;fill:none;stroke-width:1.8}
-  .item .inf{flex:1;min-width:0}.item .inf b{font-size:13.5px;display:block;line-height:1.25}.item .inf span{font-size:11.5px;color:var(--muted)}
-  .badge{font-size:10.5px;font-weight:700;padding:5px 9px;border-radius:999px;white-space:nowrap}
-  .b-ok{background:color-mix(in srgb,var(--ok) 15%,transparent);color:var(--ok)}.ico.ok{background:color-mix(in srgb,var(--ok) 13%,transparent)}.ico.ok svg{stroke:var(--ok)}
-  .b-warn{background:color-mix(in srgb,var(--warn) 18%,transparent);color:#B07D18}.ico.warn{background:color-mix(in srgb,var(--warn) 16%,transparent)}.ico.warn svg{stroke:#B07D18}
-  .b-bad{background:color-mix(in srgb,var(--bad) 15%,transparent);color:var(--bad)}.ico.bad{background:color-mix(in srgb,var(--bad) 13%,transparent)}.ico.bad svg{stroke:var(--bad)}
-  .qr{width:150px;height:150px;margin:8px auto 12px;background:#fff;border:1px solid var(--line);border-radius:14px;display:grid;place-items:center}
-  .qr svg{width:122px;height:122px}
-  .qrwrap{text-align:center;padding:6px 0 4px}.qrwrap .id{font-family:var(--mono);font-size:12px;color:var(--muted)}
-  .qrwrap .hint{font-size:11.5px;color:var(--muted);margin-top:6px}
-  .foot{padding:12px 18px;border-top:1px solid var(--line);background:var(--card);flex:0 0 auto}
-  .foot .b{height:46px;width:100%;border-radius:12px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .35s}
-  .credit{grid-column:1/-1;text-align:center;font-size:12px;color:#90A09C;margin-top:8px}
-  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;font-size:13px;font-weight:600;padding:11px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:.25s;z-index:50}
-  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  .pass{width:360px;max-width:92vw;background:var(--card);border-radius:24px;overflow:hidden;box-shadow:0 40px 90px rgba(0,0,0,.5)}
+  .ph{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;padding:22px;display:flex;gap:14px;align-items:center;transition:background .35s}
+  .ph .av{width:60px;height:60px;border-radius:16px;background:rgba(255,255,255,.2);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:24px;flex:0 0 auto}
+  .ph .who b{font-family:var(--display);font-weight:800;font-size:18px;display:block}.ph .who span{font-size:12px;opacity:.9}
+  .ph .who .badge{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;background:rgba(255,255,255,.2);padding:3px 9px;border-radius:999px;margin-top:6px}
+  .status{padding:14px 22px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line);font-size:13px}
+  .status .big{width:32px;height:32px;border-radius:999px;display:grid;place-items:center;color:#fff;font-size:16px;flex:0 0 auto}
+  .status b{font-weight:700}
+  .certs{padding:8px 22px 18px}
+  .ct{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid var(--line)}.ct:last-child{border:none}
+  .ct .ic{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;font-size:14px;flex:0 0 auto}
+  .ic.ok{background:color-mix(in srgb,var(--ok) 14%,transparent)}.ic.warn{background:color-mix(in srgb,var(--warn) 16%,transparent)}.ic.bad{background:color-mix(in srgb,var(--bad) 13%,transparent)}
+  .ct .i{flex:1;min-width:0}.ct .i b{font-size:13px;display:block}.ct .i span{font-size:11px;color:var(--muted)}
+  .ct .tag{font-size:9.5px;font-weight:700;padding:3px 8px;border-radius:999px;white-space:nowrap}
+  .t-ok{background:color-mix(in srgb,var(--ok) 14%,transparent);color:var(--ok)}.t-warn{background:color-mix(in srgb,var(--warn) 18%,transparent);color:#9A6A12}.t-bad{background:color-mix(in srgb,var(--bad) 13%,transparent);color:var(--bad)}
+  .qrbar{padding:16px 22px;border-top:1px solid var(--line);display:flex;align-items:center;gap:14px;background:var(--surface)}
+  .qrbar .q{width:70px;height:70px;flex:0 0 auto}.qrbar .q svg{width:70px;height:70px}
+  .qrbar .t b{font-size:12.5px;display:block}.qrbar .t span{font-size:11px;color:var(--muted)}
+  .qrbar .vf{font-size:10px;color:var(--ok);font-weight:700;margin-top:3px}
+  .credit{grid-column:1/-1;text-align:center;font-size:12px;color:#90A0BC;margin-top:6px}
 </style>
 </head>
 <body>
-<div class="stage">
   <div class="pitch">
-    <div class="logo"><div class="m" id="lm">P</div><div><b id="bl">Portal</b><span>Pasaporte digital del trabajador · demo</span></div></div>
-    <h1>Cero rechazos en <em>portería</em>.</h1>
-    <p>Toda la experiencia, cursos y certificaciones del trabajador en un solo carnet digital — con alertas de vencimiento y QR para control de acceso. Si algo está vencido, se sabe antes de llegar a la faena.</p>
+    <div class="logo"><div class="m" id="lm">A</div><div><b id="bl">Acredita</b><span>Pasaporte del trabajador · demo</span></div></div>
+    <h1>Toda la acreditación en <em>un QR</em>.</h1>
+    <p>Cursos, exámenes y certificados de cada trabajador en una credencial digital. Se valida al instante en portería.</p>
     <div class="feats">
-      <div class="feat"><span class="fi"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span> Cursos y certificados con vigencia</div>
-      <div class="feat"><span class="fi"><svg viewBox="0 0 24 24"><path d="M4 7V4h3M20 7V4h-3M4 17v3h3M20 17v3h-3M8 12h8"/></svg></span> QR para control de acceso</div>
-      <div class="feat"><span class="fi"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></span> Alertas antes de que venza</div>
+      <div class="feat"><span class="fi">📲</span> Credencial digital con QR verificable</div>
+      <div class="feat"><span class="fi">⏰</span> Vigencias con alerta antes de vencer</div>
+      <div class="feat"><span class="fi">✅</span> Validación en segundos en faena</div>
     </div>
-    <div class="reskin"><input id="ib" value="Portal" maxlength="16"><div class="swatches" id="sw"></div></div>
+    <div class="reskin"><input id="ib" value="Acredita" maxlength="16"><div class="swatches" id="sw"></div></div>
   </div>
 
-  <div class="phone"><div class="screen">
-    <div class="notch"></div>
-    <div class="sb"><span id="clock">9:41</span><span>◍ ▮▮▮ ⌁</span></div>
-    <div class="view">
-      <div class="credential">
-        <div class="who"><div class="av">DM</div><div><b>Diego Morales</b><span>Operador de equipos · Cuadrilla Norte</span></div></div>
-        <div class="st" id="accStatus"><span class="d"></span> Habilitado para acceder</div>
-      </div>
-      <div class="tabs">
-        <button class="tab on" data-t="cred">Credencial</button>
-        <button class="tab" data-t="cursos">Cursos</button>
-        <button class="tab" data-t="docs">Documentos</button>
-      </div>
-
-      <div class="pane on" id="cred">
-        <div class="qrwrap"><div class="qr" id="qr"></div><div class="id">ID TRB-20461</div><div class="hint">Muestra este QR en portería para validar tu acceso.</div></div>
-        <div class="item"><div class="ico ok"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="inf"><b>Estado general</b><span>4 de 5 vigentes · 1 por vencer</span></div><span class="badge b-warn">Revisar</span></div>
-      </div>
-
-      <div class="pane" id="cursos"></div>
-      <div class="pane" id="docs"></div>
-    </div>
-    <div class="foot"><button class="b" id="share">Compartir credencial</button></div>
-  </div></div>
+  <div class="pass">
+    <div class="ph"><div class="av">DM</div><div class="who"><b>Diego Morales</b><span>Operador · RUT 12.345.678-9</span><div class="badge">🛡️ Acreditado vigente</div></div></div>
+    <div class="status"><div class="big" id="stBig" style="background:var(--ok)">✓</div><div><b id="stTxt">Apto para ingreso a faena</b><br><span style="font-size:11px;color:var(--muted)" id="stSub">5 de 6 documentos vigentes</span></div></div>
+    <div class="certs" id="certs"></div>
+    <div class="qrbar"><div class="q" id="qr"></div><div class="t"><b id="qrName">Acredita</b><span>Escanea para validar</span><div class="vf">● Verificación en línea</div></div></div>
+  </div>
 
   <div class="credit">Demo interactiva · solución re-skineable · trabajador de ejemplo</div>
-</div>
-<div class="toast" id="toast"></div>
 
 <script>
 (function(){
   "use strict";
   function $(s){return document.querySelector(s);}
-  var cursos=[
-    {n:"Trabajo seguro en altura",d:"Vence en 8 meses",s:"ok"},
-    {n:"Uso y mantención de EPP",d:"Vence en 4 meses",s:"ok"},
-    {n:"Operación de equipos pesados",d:"Vence en 21 días",s:"warn"},
-    {n:"Primeros auxilios",d:"Vence en 11 meses",s:"ok"},
-    {n:"Inducción de faena",d:"Vigente",s:"ok"}
+  var brand="Acredita";
+  var certs=[
+    {n:"Trabajo en altura",sub:"Vence en 45 días",st:"ok"},
+    {n:"Examen ocupacional",sub:"Vigente",st:"ok"},
+    {n:"Inducción hombre nuevo",sub:"Vigente",st:"ok"},
+    {n:"Manejo de cargas",sub:"Vence en 11 días",st:"warn"},
+    {n:"Espacios confinados",sub:"Vigente",st:"ok"},
+    {n:"Licencia interna grúa",sub:"Vencida hace 4 días",st:"bad"}
   ];
-  var docs=[
-    {n:"Cédula de identidad",d:"Verificada",s:"ok"},
-    {n:"Contrato de trabajo",d:"Al día",s:"ok"},
-    {n:"Examen ocupacional",d:"Vence en 3 días",s:"bad"},
-    {n:"Licencia de conducir clase D",d:"Al día",s:"ok"}
-  ];
-  function ico(s){return s==="ok"?'<path d="M5 13l4 4L19 7"/>':s==="warn"?'<path d="M10.3 3.9l-8 14A2 2 0 004 21h16a2 2 0 001.7-3l-8-14a2 2 0 00-3.4 0zM12 9v4M12 17h.01"/>':'<path d="M12 8v5M12 16h.01"/><circle cx="12" cy="12" r="9"/>';}
-  function badge(s){return s==="ok"?'<span class="badge b-ok">Vigente</span>':s==="warn"?'<span class="badge b-warn">Por vencer</span>':'<span class="badge b-bad">Vencido</span>';}
-  function row(x){return '<div class="item"><div class="ico '+x.s+'"><svg viewBox="0 0 24 24">'+ico(x.s)+'</svg></div><div class="inf"><b>'+x.n+'</b><span>'+x.d+'</span></div>'+badge(x.s)+'</div>';}
+  function ic(s){return s==="ok"?"✓":s==="warn"?"⏰":"✕";}
+  function tag(s){return s==="ok"?'<span class="tag t-ok">Vigente</span>':s==="warn"?'<span class="tag t-warn">Por vencer</span>':'<span class="tag t-bad">Vencido</span>';}
 
-  $("#cursos").innerHTML=cursos.map(row).join("");
-  $("#docs").innerHTML=docs.map(row).join("");
-
-  function qr(){
-    var c="",g=11,s=11,seed=91;
-    for(var y=0;y<g;y++)for(var x=0;x<g;x++){seed=(seed*1103515245+12345)&0x7fffffff;if((seed>>7)%2===0)c+='<rect x="'+(x*s)+'" y="'+(y*s)+'" width="'+s+'" height="'+s+'" fill="#13181A"/>';}
-    function corner(cx,cy){return '<rect x="'+cx+'" y="'+cy+'" width="33" height="33" fill="#13181A"/><rect x="'+(cx+5)+'" y="'+(cy+5)+'" width="23" height="23" fill="#fff"/><rect x="'+(cx+11)+'" y="'+(cy+11)+'" width="11" height="11" fill="#13181A"/>';}
-    $("#qr").innerHTML='<svg viewBox="0 0 121 121">'+c+corner(0,0)+corner(88,0)+corner(0,88)+'</svg>';
+  function render(){
+    $("#certs").innerHTML=certs.map(function(c){return '<div class="ct"><div class="ic '+c.st+'">'+ic(c.st)+'</div><div class="i"><b>'+c.n+'</b><span>'+c.sub+'</span></div>'+tag(c.st)+'</div>';}).join("");
+    var bad=certs.filter(function(c){return c.st==="bad";}).length,ok=certs.filter(function(c){return c.st==="ok";}).length;
+    if(bad>0){$("#stBig").style.background="var(--bad)";$("#stBig").textContent="✕";$("#stTxt").textContent="No apto · documento vencido";}
+    else{$("#stBig").style.background="var(--ok)";$("#stBig").textContent="✓";$("#stTxt").textContent="Apto para ingreso a faena";}
+    $("#stSub").textContent=ok+" de "+certs.length+" documentos vigentes";
   }
-  qr();
+  function qr(){var c="",g=10,s=7,seed=83;for(var y=0;y<g;y++)for(var x=0;x<g;x++){seed=(seed*1103515245+12345)&0x7fffffff;if((seed>>6)%2===0)c+='<rect x="'+(x*s)+'" y="'+(y*s)+'" width="'+s+'" height="'+s+'" fill="#0F1626"/>';}
+    function cor(a,b){return '<rect x="'+a+'" y="'+b+'" width="19" height="19" fill="#0F1626"/><rect x="'+(a+3)+'" y="'+(b+3)+'" width="13" height="13" fill="#fff"/><rect x="'+(a+6.5)+'" y="'+(b+6.5)+'" width="6" height="6" fill="#0F1626"/>';}
+    $("#qr").innerHTML='<svg viewBox="0 0 70 70">'+c+cor(0,0)+cor(51,0)+cor(0,51)+'</svg>';}
 
-  [].slice.call(document.querySelectorAll(".tab")).forEach(function(t){
-    t.onclick=function(){
-      [].slice.call(document.querySelectorAll(".tab")).forEach(function(x){x.classList.remove("on");});t.classList.add("on");
-      [].slice.call(document.querySelectorAll(".pane")).forEach(function(p){p.classList.remove("on");});$("#"+t.dataset.t).classList.add("on");
-    };
-  });
-
-  $("#share").onclick=function(){var t=$("#toast");t.textContent="Credencial compartida 📲";t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show");},1800);};
-
-  var SW=[{c:"#15776B",c2:"#1FA08F"},{c:"#2563EB",c2:"#5B8DEF"},{c:"#7C3AED",c2:"#A855F7"},{c:"#E8852C",c2:"#F5B445"},{c:"#16161A",c2:"#444"}];
+  var SW=[{c:"#1D4ED8",c2:"#3B82F6"},{c:"#0D9488",c2:"#2DD4BF"},{c:"#EA580C",c2:"#F97A3D"},{c:"#7C3AED",c2:"#A855F7"},{c:"#16161A",c2:"#444"}];
   function ac(o){document.documentElement.style.setProperty("--accent",o.c);document.documentElement.style.setProperty("--accent-2",o.c2);
     var h=o.c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
-    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#13181A":"#fff");
+    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#0F1626":"#fff");
     [].slice.call(document.querySelectorAll(".sw")).forEach(function(e){e.classList.toggle("active",e.dataset.c===o.c);});}
   function bsw(){var s=$("#sw");s.innerHTML="";SW.forEach(function(o){var b=document.createElement("button");b.className="sw";b.style.background=o.c;b.dataset.c=o.c;b.onclick=function(){ac(o);};s.appendChild(b);});}
-  function ab(n){$("#bl").textContent=n||"Marca";$("#lm").textContent=(n||"M").charAt(0).toUpperCase();}
+  function ab(n){brand=n||"Marca";$("#bl").textContent=brand;$("#lm").textContent=brand.charAt(0).toUpperCase();$("#qrName").textContent=brand;}
   $("#ib").addEventListener("input",function(e){ab(e.target.value);});
-  (function(){var d=new Date();$("#clock").textContent=("0"+d.getHours()).slice(-2)+":"+("0"+d.getMinutes()).slice(-2);})();
-  bsw();ac(SW[0]);ab("Portal");
+  bsw();ac(SW[0]);ab("Acredita");render();qr();
 })();
 </script>
 </body>

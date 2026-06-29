@@ -3,153 +3,109 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CV / Portafolio Interactivo · Demo</title>
+<title>CV / Portafolio · Demo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --accent:#2E6E63;--accent-2:#3FA08F;--accent-ink:#fff;
-    --ink:#16191A;--muted:#6F7775;--line:#E7EBE9;--surface:#F4F7F5;--card:#fff;
+    --accent:#0EA5E9;--accent-2:#38BDF8;--accent-ink:#fff;--wa:#25D366;
+    --ink:#0F1620;--muted:#74808F;--line:#E4E9EF;--surface:#EFF3F7;--card:#fff;--bg:#0A1018;
     --display:"Bricolage Grotesque",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;
   }
   *{box-sizing:border-box}
   body{margin:0;font-family:var(--body);color:var(--ink);background:var(--surface);-webkit-font-smoothing:antialiased}
-  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
-  input{font-family:inherit}
-  .bar{max-width:880px;margin:0 auto;padding:20px 22px 0;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-  .bar .lbl{font-size:11.5px;color:var(--muted)}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}input{font-family:inherit}
+  .shell{max-width:880px;margin:0 auto;padding:24px 20px 50px}
+  .top{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+  .logo{display:flex;align-items:center;gap:11px}
+  .logo .m{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:800;font-size:17px}
+  .logo b{font-family:var(--display);font-size:19px;display:block;line-height:1}.logo span{font-size:11.5px;color:var(--muted)}
   .controls{margin-left:auto;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-  .ti{height:36px;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:0 11px;font-size:13px;width:130px;outline:none}
+  .ti{height:36px;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:0 11px;font-size:13px;width:140px;outline:none}
   .swatches{display:flex;gap:6px}.sw{width:22px;height:22px;border-radius:999px;border:2px solid transparent}.sw.active{border-color:var(--ink);transform:scale(1.1)}
-  .wrap{max-width:880px;margin:14px auto 0;padding:0 22px 56px}
-  .hero{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:32px;display:flex;gap:26px;align-items:center;box-shadow:0 14px 40px rgba(15,25,22,.06)}
-  @media(max-width:620px){.hero{flex-direction:column;text-align:center;gap:18px;padding:26px}}
-  .av{width:104px;height:104px;border-radius:28px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:800;font-size:42px;flex:0 0 auto;transition:background .35s}
-  .hi .role{font-size:12.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
-  .hi h1{font-family:var(--display);font-weight:800;font-size:clamp(26px,4vw,36px);letter-spacing:-.02em;margin:0 0 8px}
-  .hi p{font-size:14.5px;color:var(--muted);margin:0 0 16px;line-height:1.5;max-width:46ch}
-  .hi .cta{display:flex;gap:10px;flex-wrap:wrap}
-  @media(max-width:620px){.hi .cta{justify-content:center}}
-  .btn{height:46px;padding:0 20px;border-radius:12px;font-weight:600;font-size:14px;display:inline-flex;align-items:center;gap:8px;transition:.15s,background .35s}
-  .btn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.9}
-  .btn-p{background:var(--accent);color:var(--accent-ink)}.btn-p:hover{filter:brightness(1.05)}
-  .btn-g{background:var(--card);border:1px solid var(--line);color:var(--ink)}.btn-g:hover{border-color:var(--ink)}
-  .sec{margin-top:26px}
-  .sec h2{font-family:var(--display);font-weight:800;font-size:18px;margin:0 0 14px;display:flex;align-items:center;gap:9px}
-  .sec h2::before{content:"";width:18px;height:3px;border-radius:2px;background:var(--accent)}
-  .cols{display:grid;grid-template-columns:1.4fr 1fr;gap:18px;align-items:start}
-  @media(max-width:720px){.cols{grid-template-columns:1fr}}
-  .panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px}
-  .tl{position:relative;padding-left:22px}
-  .tl::before{content:"";position:absolute;left:5px;top:4px;bottom:4px;width:2px;background:var(--line)}
-  .ev{position:relative;margin-bottom:18px}
-  .ev:last-child{margin-bottom:0}
-  .ev::before{content:"";position:absolute;left:-22px;top:4px;width:10px;height:10px;border-radius:999px;background:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent)}
-  .ev .yr{font-size:11.5px;color:var(--accent);font-weight:700}
-  .ev b{font-size:14.5px;display:block;margin:2px 0}
-  .ev span{font-size:13px;color:var(--muted)}
-  .skills{display:flex;flex-direction:column;gap:12px}
-  .sk .l{display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px}
-  .sk .t{height:7px;background:var(--surface);border-radius:999px;overflow:hidden}
-  .sk .f{height:100%;background:var(--accent);border-radius:999px;width:0;transition:width .8s ease}
-  .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-  .tag{font-size:12px;font-weight:600;background:color-mix(in srgb,var(--accent) 10%,transparent);color:var(--accent);padding:6px 11px;border-radius:999px}
-  .pf{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-  @media(max-width:620px){.pf{grid-template-columns:1fr 1fr}}
-  .proj{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--card);transition:.2s;cursor:pointer}
-  .proj:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(15,25,22,.1)}
-  .proj .th{height:90px;display:grid;place-items:center;font-size:32px}
-  .proj .b{padding:12px 13px}
-  .proj b{font-size:13.5px;display:block}.proj span{font-size:11.5px;color:var(--muted)}
-  .credit{text-align:center;font-size:12px;color:var(--muted);margin-top:28px}
-  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;font-size:13px;font-weight:600;padding:11px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:.25s;z-index:50}
-  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .cv{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 14px 40px rgba(15,22,32,.08)}
+  .hero{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;padding:30px 28px;display:flex;gap:20px;align-items:center;flex-wrap:wrap;transition:background .35s}
+  .hero .av{width:84px;height:84px;border-radius:24px;background:rgba(255,255,255,.2);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:34px;flex:0 0 auto}
+  .hero .h b{font-family:var(--display);font-weight:800;font-size:26px;display:block;line-height:1.1}
+  .hero .h .role{font-size:14px;opacity:.92;margin:4px 0 8px}
+  .hero .h .loc{font-size:12.5px;opacity:.85}
+  .tabs{display:flex;gap:4px;padding:0 16px;border-bottom:1px solid var(--line);overflow-x:auto}
+  .tab{padding:13px 16px;font-size:13.5px;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
+  .tab.on{color:var(--accent);border-bottom-color:var(--accent)}
+  .pane{display:none;padding:22px 26px}.pane.on{display:block;animation:f .2s ease}@keyframes f{from{opacity:0}to{opacity:1}}
+  .exp{display:flex;gap:14px;padding:13px 0;border-bottom:1px solid var(--line)}.exp:last-child{border:none}
+  .exp .yr{font-family:var(--display);font-weight:700;font-size:13px;color:var(--accent);min-width:80px;flex:0 0 auto}
+  .exp .d b{font-size:14.5px;display:block}.exp .d .co{font-size:12.5px;color:var(--muted);margin:2px 0 5px}.exp .d p{font-size:13px;color:var(--muted);margin:0;line-height:1.5}
+  .skills{display:flex;flex-direction:column;gap:13px}
+  .sk .l{display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:6px}.sk .l b{font-weight:600}
+  .sk .t{height:9px;background:var(--surface);border-radius:999px;overflow:hidden}.sk .f{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .8s}
+  .proj{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:560px){.proj{grid-template-columns:1fr}}
+  .pc{border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .pc .th{height:90px;display:grid;place-items:center;font-size:34px}
+  .pc .b{padding:13px}.pc .b b{font-size:14px;display:block}.pc .b span{font-size:12px;color:var(--muted)}
+  .foot{padding:18px 26px;border-top:1px solid var(--line);display:flex;gap:10px;flex-wrap:wrap}
+  .foot button{height:46px;border-radius:12px;font-weight:700;font-size:14px;flex:1;min-width:140px;display:flex;align-items:center;justify-content:center;gap:8px}
+  .foot .wa{background:var(--wa);color:#fff}.foot .wa svg{width:17px;height:17px;fill:#fff}
+  .foot .dl{background:var(--surface);border:1px solid var(--line)}
+  .credit{text-align:center;font-size:12px;color:var(--muted);margin-top:18px}
 </style>
 </head>
 <body>
-  <div class="bar"><span class="lbl">Personalizar:</span>
-    <div class="controls"><input class="ti" id="ibName" value="Valentina Soto" maxlength="24"><div class="swatches" id="sw"></div></div>
+<div class="shell">
+  <div class="top">
+    <div class="logo"><div class="m" id="lm">V</div><div><b id="bl">Valentina Soto</b><span>CV / portafolio · demo</span></div></div>
+    <div class="controls"><input class="ti" id="ib" value="Valentina Soto" maxlength="24"><div class="swatches" id="sw"></div></div>
   </div>
 
-  <div class="wrap">
-    <div class="hero">
-      <div class="av" id="av">VS</div>
-      <div class="hi">
-        <div class="role">Consultora & Project Manager</div>
-        <h1 id="name">Valentina Soto</h1>
-        <p>10 años liderando proyectos de operación y mejora en empresas de servicios. Ordeno equipos, proceso y resultados.</p>
-        <div class="cta">
-          <button class="btn btn-p" id="contact"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M4 7l8 6 8-6"/></svg> Contactar</button>
-          <button class="btn btn-g" id="save"><svg viewBox="0 0 24 24"><path d="M12 3v12M8 11l4 4 4-4M5 21h14"/></svg> Guardar contacto</button>
-        </div>
+  <div class="cv">
+    <div class="hero"><div class="av" id="av">V</div><div class="h"><b id="name">Valentina Soto</b><div class="role" id="role">Diseñadora UX/UI · Producto digital</div><div class="loc">📍 Santiago, Chile · Disponible para proyectos</div></div></div>
+    <div class="tabs" id="tabs"></div>
+    <div class="pane on" id="p0">
+      <div class="exp"><div class="yr">2023–hoy</div><div class="d"><b>Diseñadora de Producto</b><div class="co">Estudio digital</div><p>Lidero el diseño de apps y plataformas web, desde investigación hasta entrega.</p></div></div>
+      <div class="exp"><div class="yr">2021–2023</div><div class="d"><b>Diseñadora UX</b><div class="co">Agencia creativa</div><p>Diseño de interfaces y prototipos para clientes de retail y servicios.</p></div></div>
+      <div class="exp"><div class="yr">2019–2021</div><div class="d"><b>Diseñadora Jr.</b><div class="co">Startup</div><p>Branding e identidad visual para productos en etapa temprana.</p></div></div>
+    </div>
+    <div class="pane" id="p1">
+      <div class="skills" id="skills"></div>
+    </div>
+    <div class="pane" id="p2">
+      <div class="proj">
+        <div class="pc"><div class="th" style="background:color-mix(in srgb,var(--accent) 14%,#fff)">📱</div><div class="b"><b>App de reservas</b><span>Diseño UX completo</span></div></div>
+        <div class="pc"><div class="th" style="background:color-mix(in srgb,var(--accent) 14%,#fff)">🛒</div><div class="b"><b>E-commerce</b><span>Rediseño y conversión</span></div></div>
+        <div class="pc"><div class="th" style="background:color-mix(in srgb,var(--accent) 14%,#fff)">📊</div><div class="b"><b>Dashboard SaaS</b><span>Sistema de diseño</span></div></div>
+        <div class="pc"><div class="th" style="background:color-mix(in srgb,var(--accent) 14%,#fff)">🎨</div><div class="b"><b>Identidad de marca</b><span>Branding completo</span></div></div>
       </div>
     </div>
-
-    <div class="cols sec">
-      <div>
-        <h2>Experiencia</h2>
-        <div class="panel tl">
-          <div class="ev"><div class="yr">2022 — actualidad</div><b>Jefa de Operaciones</b><span>Empresa de servicios técnicos · lideró 3 equipos y redujo 22% los reprocesos.</span></div>
-          <div class="ev"><div class="yr">2018 — 2022</div><b>Coordinadora de Proyectos</b><span>Implementó sistemas de control y planificación en terreno.</span></div>
-          <div class="ev"><div class="yr">2015 — 2018</div><b>Analista de Procesos</b><span>Levantamiento y mejora de procesos operativos.</span></div>
-        </div>
-      </div>
-      <div>
-        <h2>Habilidades</h2>
-        <div class="panel">
-          <div class="skills">
-            <div class="sk"><div class="l"><span>Gestión de proyectos</span><span>95%</span></div><div class="t"><div class="f" data-w="95"></div></div></div>
-            <div class="sk"><div class="l"><span>Mejora de procesos</span><span>90%</span></div><div class="t"><div class="f" data-w="90"></div></div></div>
-            <div class="sk"><div class="l"><span>Liderazgo de equipos</span><span>88%</span></div><div class="t"><div class="f" data-w="88"></div></div></div>
-            <div class="sk"><div class="l"><span>Análisis de datos</span><span>80%</span></div><div class="t"><div class="f" data-w="80"></div></div></div>
-          </div>
-          <div class="tags"><span class="tag">Excel</span><span class="tag">Power BI</span><span class="tag">Lean</span><span class="tag">Scrum</span><span class="tag">KPIs</span></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="sec">
-      <h2>Portafolio</h2>
-      <div class="pf">
-        <div class="proj"><div class="th" style="background:color-mix(in srgb,var(--accent) 14%,#fff)">📊</div><div class="b"><b>Tablero de control</b><span>Operaciones · 2024</span></div></div>
-        <div class="proj"><div class="th" style="background:color-mix(in srgb,#E0853B 16%,#fff)">⚙️</div><div class="b"><b>Rediseño de proceso</b><span>Logística · 2023</span></div></div>
-        <div class="proj"><div class="th" style="background:color-mix(in srgb,#2563EB 14%,#fff)">📈</div><div class="b"><b>Plan de mejora</b><span>Calidad · 2023</span></div></div>
-        <div class="proj"><div class="th" style="background:color-mix(in srgb,#7C3AED 14%,#fff)">🗂️</div><div class="b"><b>Sistema documental</b><span>Cumplimiento · 2022</span></div></div>
-        <div class="proj"><div class="th" style="background:color-mix(in srgb,#15776B 16%,#fff)">👥</div><div class="b"><b>Onboarding de equipos</b><span>RRHH · 2022</span></div></div>
-        <div class="proj"><div class="th" style="background:color-mix(in srgb,#DC4B4B 14%,#fff)">🎯</div><div class="b"><b>Programa de KPIs</b><span>Gerencia · 2021</span></div></div>
-      </div>
-    </div>
-
-    <div class="credit">Demo interactiva · solución re-skineable · perfil de ejemplo</div>
+    <div class="foot"><button class="wa" id="wa"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-8.6 15l-1.4 5 5.2-1.4A10 10 0 1012 2z"/></svg> Contáctame</button><button class="dl" id="dl">⬇ Descargar CV</button></div>
   </div>
-  <div class="toast" id="toast"></div>
+  <div class="credit">Demo interactiva · solución re-skineable · perfil de ejemplo</div>
+</div>
 
 <script>
 (function(){
   "use strict";
   function $(s){return document.querySelector(s);}
-  var person="Valentina Soto";
-  function toast(m){var t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show");},1800);}
-  function inits(n){return n.trim().split(/\s+/).slice(0,2).map(function(w){return w.charAt(0).toUpperCase();}).join("");}
+  var name="Valentina Soto";
+  var tabs=["Experiencia","Skills","Proyectos"];
+  var skills=[["Diseño UX/UI",92],["Investigación de usuarios",80],["Prototipado (Figma)",95],["Design Systems",85],["Front-end básico",70]];
 
-  function fillBars(){[].slice.call(document.querySelectorAll(".f")).forEach(function(f){requestAnimationFrame(function(){requestAnimationFrame(function(){f.style.width=f.dataset.w+"%";});});});}
+  function renderTabs(){$("#tabs").innerHTML=tabs.map(function(t,i){return '<button class="tab'+(i===0?" on":"")+'" data-i="'+i+'">'+t+'</button>';}).join("");
+    [].slice.call($("#tabs").querySelectorAll(".tab")).forEach(function(b){b.onclick=function(){var i=+b.dataset.i;[].slice.call($("#tabs").querySelectorAll(".tab")).forEach(function(x){x.classList.remove("on");});b.classList.add("on");[].slice.call(document.querySelectorAll(".pane")).forEach(function(p,k){p.classList.toggle("on",k===i);});if(i===1)animSkills();};});}
+  function renderSkills(){$("#skills").innerHTML=skills.map(function(s){return '<div class="sk"><div class="l"><b>'+s[0]+'</b><span>'+s[1]+'%</span></div><div class="t"><div class="f" data-w="'+s[1]+'" style="width:0"></div></div></div>';}).join("");}
+  function animSkills(){setTimeout(function(){[].slice.call($("#skills").querySelectorAll(".f")).forEach(function(f){f.style.width=f.dataset.w+"%";});},60);}
+  $("#wa").onclick=function(){window.open("https://wa.me/?text="+encodeURIComponent("Hola "+name+", vi tu portafolio y me gustaría conversar sobre un proyecto."),"_blank");};
+  $("#dl").onclick=function(){var b=new Blob(["CV · "+name+"\nDiseñadora UX/UI\n\nExperiencia, skills y proyectos disponibles en el portafolio digital."],{type:"text/plain"}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download="CV.txt";document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u);};
 
-  $("#contact").onclick=function(){window.open("https://wa.me/?text="+encodeURIComponent("Hola "+person+", vi tu portafolio y quiero conversar."),"_blank");};
-  $("#save").onclick=function(){
-    var v="BEGIN:VCARD\r\nVERSION:3.0\r\nFN:"+person+"\r\nTITLE:Consultora & Project Manager\r\nTEL;TYPE=CELL:+56 9 0000 0000\r\nEND:VCARD";
-    var b=new Blob([v],{type:"text/vcard"}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download=person.replace(/\s+/g,"_")+".vcf";document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u);
-    toast("Contacto guardado 📇");
-  };
-
-  var SW=[{c:"#2E6E63",c2:"#3FA08F"},{c:"#2563EB",c2:"#5B8DEF"},{c:"#7C3AED",c2:"#A855F7"},{c:"#E8852C",c2:"#F5B445"},{c:"#16161A",c2:"#444"}];
+  var SW=[{c:"#0EA5E9",c2:"#38BDF8"},{c:"#7C3AED",c2:"#A855F7"},{c:"#16A34A",c2:"#34C759"},{c:"#E5356B",c2:"#FF7BA3"},{c:"#EA580C",c2:"#F97A3D"}];
   function ac(o){document.documentElement.style.setProperty("--accent",o.c);document.documentElement.style.setProperty("--accent-2",o.c2);
     var h=o.c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
-    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#16191A":"#fff");
+    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#0F1620":"#fff");
     [].slice.call(document.querySelectorAll(".sw")).forEach(function(e){e.classList.toggle("active",e.dataset.c===o.c);});}
   function bsw(){var s=$("#sw");s.innerHTML="";SW.forEach(function(o){var b=document.createElement("button");b.className="sw";b.style.background=o.c;b.dataset.c=o.c;b.onclick=function(){ac(o);};s.appendChild(b);});}
-  $("#ibName").addEventListener("input",function(e){person=e.target.value||"Nombre";$("#name").textContent=person;$("#av").textContent=inits(person)||"N";});
-  bsw();ac(SW[0]);fillBars();
+  function ab(n){name=n||"Tu Nombre";$("#bl").textContent=name;$("#name").textContent=name;$("#lm").textContent=name.charAt(0).toUpperCase();$("#av").textContent=name.charAt(0).toUpperCase();}
+  $("#ib").addEventListener("input",function(e){ab(e.target.value);});
+  bsw();ac(SW[0]);ab("Valentina Soto");renderTabs();renderSkills();
 })();
 </script>
 </body>

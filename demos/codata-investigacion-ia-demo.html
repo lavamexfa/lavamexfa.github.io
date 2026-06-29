@@ -9,48 +9,44 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --accent:#0F766E;--accent-2:#16A89B;--accent-ink:#fff;
-    --ink:#13191A;--muted:#6E7A79;--line:#E4ECEB;--surface:#F2F7F6;--card:#fff;
+    --accent:#0D9488;--accent-2:#2DD4BF;--accent-ink:#fff;
+    --ink:#13191A;--muted:#6E7A78;--line:#E4ECEA;--surface:#F2F7F6;--card:#fff;
     --display:"Bricolage Grotesque",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;
   }
   *{box-sizing:border-box}
   body{margin:0;font-family:var(--body);color:var(--ink);
     background:radial-gradient(70% 50% at 50% 0%,color-mix(in srgb,var(--accent) 14%,transparent),transparent 60%),var(--surface);
     min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:24px 18px 50px;-webkit-font-smoothing:antialiased}
-  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
-  input{font-family:inherit}
-  .top{width:100%;max-width:700px;display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}input{font-family:inherit}
+  .top{width:100%;max-width:720px;display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
   .logo{display:flex;align-items:center;gap:11px}
-  .logo .m{width:36px;height:36px;border-radius:10px;background:var(--accent);display:grid;place-items:center;color:var(--accent-ink);font-family:var(--display);font-weight:800;font-size:17px;transition:background .35s}
+  .logo .m{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:800;font-size:17px}
   .logo b{font-family:var(--display);font-size:19px;display:block;line-height:1}.logo span{font-size:11.5px;color:var(--muted)}
   .controls{margin-left:auto;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
   .ti{height:36px;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:0 11px;font-size:13px;width:120px;outline:none}
   .swatches{display:flex;gap:6px}.sw{width:22px;height:22px;border-radius:999px;border:2px solid transparent}.sw.active{border-color:var(--ink);transform:scale(1.1)}
-  .lead{width:100%;max-width:700px;text-align:center;margin-bottom:16px}
+  .lead{width:100%;max-width:720px;text-align:center;margin-bottom:16px}
   .lead h1{font-family:var(--display);font-weight:800;font-size:clamp(23px,3.2vw,32px);letter-spacing:-.02em;margin:0 0 5px}
   .lead p{font-size:14px;color:var(--muted);margin:0;max-width:52ch;margin-inline:auto}
-  .composer{width:100%;max-width:700px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;gap:10px;box-shadow:0 14px 40px rgba(15,25,22,.07);margin-bottom:16px;flex-wrap:wrap}
+  .composer{width:100%;max-width:720px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;gap:10px;box-shadow:0 14px 40px rgba(15,25,22,.07);margin-bottom:16px;flex-wrap:wrap}
   .composer input{flex:1;min-width:200px;height:50px;border:1px solid var(--line);border-radius:12px;padding:0 14px;font-size:15px;outline:none}
   .composer input:focus{border-color:var(--accent)}
-  .gen{height:50px;padding:0 22px;border-radius:12px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:14.5px;display:inline-flex;align-items:center;gap:8px;transition:background .35s,filter .15s}
-  .gen:hover{filter:brightness(1.05)}.gen:disabled{opacity:.5;cursor:not-allowed}
-  .gen svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.9}
+  .gen{height:50px;padding:0 22px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;font-weight:700;font-size:14.5px;display:inline-flex;align-items:center;gap:8px;transition:filter .15s}
+  .gen:hover{filter:brightness(1.05)}.gen:disabled{opacity:.5}.gen svg{width:17px;height:17px;fill:none;stroke:#fff;stroke-width:1.9}
   .chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:20px}
   .chips button{font-size:12.5px;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 13px;color:var(--muted)}
   .chips button:hover{border-color:var(--accent);color:var(--accent)}
-  .brief{width:100%;max-width:700px;background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 14px 40px rgba(15,25,22,.06);padding:26px;display:none}
+  .brief{width:100%;max-width:720px;background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 14px 40px rgba(15,25,22,.06);padding:26px;display:none}
   .brief.on{display:block;animation:f .3s ease}@keyframes f{from{opacity:0;transform:translateY(8px)}to{opacity:1}}
-  .brief h2{font-family:var(--display);font-weight:800;font-size:22px;margin:0 0 4px;letter-spacing:-.01em}
-  .brief .meta{font-size:12px;color:var(--muted);margin-bottom:18px}
+  .brief h2{font-family:var(--display);font-weight:800;font-size:22px;margin:0 0 4px}.brief .meta{font-size:12px;color:var(--muted);margin-bottom:18px}
   .sum{font-size:14.5px;line-height:1.6;background:color-mix(in srgb,var(--accent) 7%,transparent);border-left:3px solid var(--accent);padding:13px 15px;border-radius:0 10px 10px 0;margin-bottom:18px}
-  .block{margin-bottom:18px}
-  .block .bl{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
-  .li{font-size:14px;line-height:1.5;padding:8px 0;border-bottom:1px dashed var(--line);display:flex;gap:10px}
-  .li:last-child{border:none}.li .n{font-family:var(--display);font-weight:800;color:var(--accent);flex:0 0 auto}
-  .q{font-size:13.5px;line-height:1.45;padding:7px 0;color:var(--ink);display:flex;gap:8px}.q::before{content:"→";color:var(--accent);font-weight:700}
-  .skel{height:14px;background:linear-gradient(90deg,var(--surface),var(--line),var(--surface));background-size:200% 100%;border-radius:6px;animation:sh 1.2s infinite;margin-bottom:11px}
-  @keyframes sh{to{background-position:-200% 0}}
-  .note{font-size:11.5px;color:var(--muted);margin-top:6px;line-height:1.4}
+  .block{margin-bottom:18px}.block .bl{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+  .li{font-size:14px;line-height:1.5;padding:8px 0;border-bottom:1px dashed var(--line);display:flex;gap:10px}.li:last-child{border:none}.li .n{font-family:var(--display);font-weight:800;color:var(--accent);flex:0 0 auto}
+  .stat{display:inline-block;background:color-mix(in srgb,var(--accent) 10%,transparent);color:var(--accent);font-weight:700;font-size:12.5px;padding:6px 11px;border-radius:9px;margin:0 7px 7px 0}
+  .q{font-size:13.5px;line-height:1.45;padding:7px 0;display:flex;gap:8px}.q::before{content:"→";color:var(--accent);font-weight:700}
+  .skel{height:14px;background:linear-gradient(90deg,var(--surface),var(--line),var(--surface));background-size:200% 100%;border-radius:6px;animation:sh 1.2s infinite;margin-bottom:11px}@keyframes sh{to{background-position:-200% 0}}
+  .dlrow{margin-top:6px}.dlrow button{height:44px;border-radius:11px;background:var(--surface);border:1px solid var(--line);font-weight:600;font-size:13.5px;width:100%}
+  .note{font-size:11.5px;color:var(--muted);margin-top:14px;line-height:1.4}
   .credit{font-size:12px;color:var(--muted);margin-top:18px;text-align:center}
 </style>
 </head>
@@ -60,10 +56,10 @@
     <div class="controls"><input class="ti" id="ib" value="Indaga" maxlength="16"><div class="swatches" id="sw"></div></div>
   </div>
   <div class="lead"><h1>Un informe de investigación en minutos</h1>
-    <p>Escribe un tema y la IA te arma un brief ordenado: resumen, hallazgos clave y próximos pasos. De horas de búsqueda a minutos.</p></div>
+    <p>Escribe un tema y la IA arma un brief ordenado: resumen, hallazgos, datos y próximos pasos.</p></div>
 
   <div class="composer">
-    <input id="topic" placeholder="Ej: cómo cotizan los servicios de mantención en Chile" value="Tendencias de digitalización en PYMEs de servicios">
+    <input id="topic" placeholder="Tema a investigar…" value="Tendencias de digitalización en pymes de servicios en Chile">
     <button class="gen" id="go"><svg viewBox="0 0 24 24"><path d="M11 4a7 7 0 100 14 7 7 0 000-14zM21 21l-4.3-4.3"/></svg> Investigar</button>
   </div>
   <div class="chips" id="chips"></div>
@@ -76,45 +72,49 @@
   "use strict";
   function $(s){return document.querySelector(s);}
   function esc(s){return String(s).replace(/[&<>]/g,function(m){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[m];});}
-  var ideas=["Competencia en lavado de autos a domicilio","Equipos de protección en altura","Cómo fijan precios los contratistas","Demanda de cursos de prevención"];
+  var ideas=["Competencia en lavado de autos a domicilio","Mercado de equipos de protección en altura","Cómo fijan precios los contratistas","Demanda de cursos de prevención"];
+  var briefText="";
   function chips(){$("#chips").innerHTML="";ideas.forEach(function(t){var b=document.createElement("button");b.textContent=t;b.onclick=function(){$("#topic").value=t;gen();};$("#chips").appendChild(b);});}
 
   function gen(){
     var topic=$("#topic").value.trim();if(!topic){$("#topic").focus();return;}
     $("#go").disabled=true;var br=$("#brief");br.classList.add("on");
-    br.innerHTML='<div class="skel" style="width:60%;height:24px;margin-bottom:16px"></div><div class="skel" style="width:100%"></div><div class="skel" style="width:90%"></div><div class="skel" style="width:80%"></div><div class="skel" style="width:95%;margin-top:14px"></div><div class="skel" style="width:70%"></div>';
-    var sys="Eres analista de research. Para el tema dado entrega un brief de investigación útil en español de Chile. "+
-      "Responde SOLO con JSON válido, sin markdown, forma exacta:\n"+
-      '{"titulo":"...","resumen":"...","hallazgos":["...","...","..."],"siguientes":["...","..."]}\n'+
-      "resumen: 2-3 frases con la conclusión. hallazgos: 4-5 puntos concretos y sustanciosos. siguientes: 2-3 preguntas o acciones para profundizar. Sé específico y honesto; si algo requiere datos actualizados, dilo.";
+    br.innerHTML='<div class="skel" style="width:60%;height:24px;margin-bottom:16px"></div><div class="skel"></div><div class="skel" style="width:90%"></div><div class="skel" style="width:80%"></div><div class="skel" style="width:95%;margin-top:14px"></div>';
+    var sys="Eres analista de research. Para el tema entrega un brief útil en español de Chile. Responde SOLO JSON válido sin markdown, forma exacta:\n"+
+      '{"titulo":"...","resumen":"...","hallazgos":["..."],"datos":["..."],"siguientes":["..."]}\n'+
+      "resumen: 2-3 frases. hallazgos: 4-5 puntos sustanciosos. datos: 2-3 cifras o referencias relevantes (si requieren confirmación, márcalo). siguientes: 2-3 acciones o preguntas. Sé específico y honesto.";
     fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},
       body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1000,system:sys,messages:[{role:"user",content:topic}]})
     }).then(function(r){return r.json();}).then(function(d){
       var raw="";if(d&&d.content)raw=d.content.filter(function(i){return i.type==="text";}).map(function(i){return i.text;}).join("").trim();
       raw=raw.replace(/```json|```/g,"").trim();render(JSON.parse(raw));
-    }).catch(function(){
-      br.innerHTML='<div class="sum">No se pudo investigar ahora ⚠️. Reintenta en unos segundos.</div>';
-    }).then(function(){$("#go").disabled=false;});
+    }).catch(function(){br.innerHTML='<div class="sum">No se pudo investigar ahora ⚠️. Reintenta.</div>';}).then(function(){$("#go").disabled=false;});
   }
   function render(o){
     var hall=(o.hallazgos||[]).map(function(x,i){return '<div class="li"><span class="n">'+(i+1)+'</span>'+esc(x)+'</div>';}).join("");
+    var dat=(o.datos||[]).map(function(x){return '<span class="stat">'+esc(x)+'</span>';}).join("");
     var sig=(o.siguientes||[]).map(function(x){return '<div class="q">'+esc(x)+'</div>';}).join("");
     $("#brief").innerHTML=
       '<h2>'+esc(o.titulo||"Brief")+'</h2><div class="meta">Brief generado con IA · '+new Date().toLocaleDateString("es-CL")+'</div>'+
       '<div class="sum">'+esc(o.resumen||"")+'</div>'+
+      (dat?'<div class="block"><div class="bl">📊 Datos</div>'+dat+'</div>':'')+
       (hall?'<div class="block"><div class="bl">🔍 Hallazgos clave</div>'+hall+'</div>':'')+
-      (sig?'<div class="block"><div class="bl">→ Para profundizar</div>'+sig+'</div>':'')+
+      (sig?'<div class="block"><div class="bl">→ Próximos pasos</div>'+sig+'</div>':'')+
+      '<div class="dlrow"><button id="dl">⬇ Descargar brief</button></div>'+
       '<div class="note">En producción se conecta a búsqueda web para citar fuentes reales y datos al día.</div>';
+    briefText=(o.titulo||"")+"\n\n"+(o.resumen||"")+"\n\nHALLAZGOS:\n"+(o.hallazgos||[]).map(function(x){return "- "+x;}).join("\n")+"\n\nDATOS:\n"+(o.datos||[]).join("\n")+"\n\nPRÓXIMOS PASOS:\n"+(o.siguientes||[]).map(function(x){return "- "+x;}).join("\n");
+    $("#dl").onclick=function(){var b=new Blob([briefText],{type:"text/plain"}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download="brief.txt";document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u);};
   }
+  $("#topic").addEventListener("keydown",function(e){if(e.key==="Enter")gen();});
 
-  var SW=[{c:"#0F766E"},{c:"#2563EB"},{c:"#7C3AED"},{c:"#C2410C"},{c:"#16161A"}];
-  function ac(o){document.documentElement.style.setProperty("--accent",o.c);var h=o.c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
+  var SW=[{c:"#0D9488",c2:"#2DD4BF"},{c:"#2563EB",c2:"#5B8DEF"},{c:"#7C3AED",c2:"#A855F7"},{c:"#C2410C",c2:"#EA7A3C"},{c:"#16161A",c2:"#444"}];
+  function ac(o){document.documentElement.style.setProperty("--accent",o.c);document.documentElement.style.setProperty("--accent-2",o.c2);
+    var h=o.c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
     document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#13191A":"#fff");
     [].slice.call(document.querySelectorAll(".sw")).forEach(function(e){e.classList.toggle("active",e.dataset.c===o.c);});}
   function bsw(){var s=$("#sw");s.innerHTML="";SW.forEach(function(o){var b=document.createElement("button");b.className="sw";b.style.background=o.c;b.dataset.c=o.c;b.onclick=function(){ac(o);};s.appendChild(b);});}
   function ab(n){$("#bl").textContent=n||"Marca";$("#lm").textContent=(n||"M").charAt(0).toUpperCase();}
   $("#ib").addEventListener("input",function(e){ab(e.target.value);});
-  $("#topic").addEventListener("keydown",function(e){if(e.key==="Enter")gen();});
   bsw();ac(SW[0]);ab("Indaga");chips();
 })();
 </script>

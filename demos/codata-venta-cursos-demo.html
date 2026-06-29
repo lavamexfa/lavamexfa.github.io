@@ -3,171 +3,133 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Capacitación / Venta de Cursos · Demo</title>
+<title>Cursos Online · Demo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --accent:#7A3FE0;--accent-2:#A06CF0;--accent-ink:#fff;
-    --ink:#16131C;--muted:#787486;--line:#EBE8F1;--surface:#F5F3FA;--card:#fff;
-    --display:"Bricolage Grotesque",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",monospace;
+    --accent:#4338CA;--accent-2:#6D62E0;--accent-ink:#fff;--ok:#16A34A;--gold:#E0A53B;
+    --ink:#14131F;--muted:#777589;--line:#E7E5F0;--surface:#F4F3FA;--card:#fff;--bg:#0D0B1A;
+    --display:"Bricolage Grotesque",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;
   }
   *{box-sizing:border-box}
   body{margin:0;font-family:var(--body);color:var(--ink);background:var(--surface);-webkit-font-smoothing:antialiased}
-  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
-  input{font-family:inherit}
-  .shell{max-width:1120px;margin:0 auto;padding:26px 22px 56px}
-  .top{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}input{font-family:inherit}
+  .shell{max-width:960px;margin:0 auto;padding:24px 20px 50px}
+  .top{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
   .logo{display:flex;align-items:center;gap:11px}
-  .logo .m{width:36px;height:36px;border-radius:10px;background:var(--accent);display:grid;place-items:center;color:var(--accent-ink);font-family:var(--display);font-weight:800;font-size:17px;transition:background .35s}
-  .logo b{font-family:var(--display);font-size:19px;display:block;line-height:1}.logo span{font-size:11.5px;color:var(--muted)}
+  .logo .m{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:800;font-size:18px}
+  .logo b{font-family:var(--display);font-size:20px;display:block;line-height:1}.logo span{font-size:11.5px;color:var(--muted)}
   .controls{margin-left:auto;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-  .brand-inp{height:36px;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:0 11px;font-size:13px;width:130px;outline:none}
+  .ti{height:36px;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:0 11px;font-size:13px;width:120px;outline:none}
   .swatches{display:flex;gap:6px}.sw{width:22px;height:22px;border-radius:999px;border:2px solid transparent}.sw.active{border-color:var(--ink);transform:scale(1.1)}
-  .hero{background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 12%,var(--card)),var(--card));border:1px solid var(--line);border-radius:20px;padding:30px 28px;margin-bottom:22px}
-  .hero .eye{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
-  .hero h1{font-family:var(--display);font-weight:800;font-size:clamp(25px,3.4vw,36px);letter-spacing:-.02em;margin:0 0 8px;max-width:20ch}
-  .hero p{font-size:15px;color:var(--muted);margin:0;max-width:54ch;line-height:1.5}
-  .hero .stats{display:flex;gap:26px;margin-top:18px;flex-wrap:wrap}
-  .hero .stats b{font-family:var(--display);font-size:20px;color:var(--accent);display:block}
-  .hero .stats span{font-size:12px;color:var(--muted)}
-  .filters{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:20px}
-  .chip{height:36px;padding:0 15px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-size:13px;font-weight:600;color:var(--muted);transition:.15s}
-  .chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
-  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-  @media(max-width:860px){.grid{grid-template-columns:1fr 1fr}}
-  @media(max-width:560px){.grid{grid-template-columns:1fr}}
-  .course{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:.2s;cursor:pointer}
-  .course:hover{transform:translateY(-4px);box-shadow:0 24px 50px rgba(20,18,30,.12);border-color:transparent}
-  .course .thumb{height:120px;display:grid;place-items:center;font-size:44px;position:relative}
-  .course .lvl{position:absolute;top:11px;left:11px;font-size:10.5px;font-weight:700;background:rgba(255,255,255,.9);padding:4px 9px;border-radius:999px}
-  .course .b{padding:15px 16px 17px;display:flex;flex-direction:column;gap:6px;flex:1}
-  .course .cat{font-size:11px;font-weight:700;letter-spacing:.05em;color:var(--accent);text-transform:uppercase}
-  .course h3{font-size:15px;margin:0;line-height:1.25}
-  .course .meta{font-size:12px;color:var(--muted);display:flex;gap:12px}
-  .course .foot{margin-top:auto;padding-top:10px;display:flex;align-items:center;justify-content:space-between}
-  .course .pr{font-family:var(--display);font-weight:700;font-size:17px}
-  .course .more{font-size:12px;font-weight:600;color:var(--accent)}
-  /* modal */
-  .ov{position:fixed;inset:0;background:rgba(20,18,30,.5);display:none;place-items:center;padding:20px;z-index:50}
-  .ov.on{display:grid}
-  .md{background:var(--card);border-radius:20px;max-width:560px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 30px 70px rgba(0,0,0,.3)}
-  .md .top2{height:120px;display:grid;place-items:center;font-size:50px;position:relative}
-  .md .x{position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:999px;background:rgba(255,255,255,.85);display:grid;place-items:center}
-  .md .x svg{width:18px;height:18px;stroke:var(--ink);stroke-width:2;fill:none}
-  .md .body{padding:24px}
-  .md .cat{font-size:11px;font-weight:700;letter-spacing:.05em;color:var(--accent);text-transform:uppercase}
-  .md h2{font-family:var(--display);font-weight:800;font-size:23px;margin:6px 0 6px;letter-spacing:-.01em}
-  .md .mrow{display:flex;gap:16px;font-size:12.5px;color:var(--muted);margin-bottom:16px;flex-wrap:wrap}
-  .md .desc{font-size:14px;color:var(--ink);line-height:1.55;margin-bottom:18px}
-  .md .mlabel{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
-  .mod{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid var(--line);font-size:13.5px}
-  .mod:last-child{border:none}
-  .mod .n{width:26px;height:26px;border-radius:8px;background:color-mix(in srgb,var(--accent) 12%,transparent);color:var(--accent);font-family:var(--mono);font-size:11px;font-weight:700;display:grid;place-items:center;flex:0 0 auto}
-  .mod .t{font-size:11.5px;color:var(--muted);margin-left:auto}
-  .md .buy{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:20px;padding-top:18px;border-top:2px solid var(--line)}
-  .md .buy .pr{font-family:var(--display);font-weight:800;font-size:26px}
-  .btn{height:50px;padding:0 24px;border-radius:13px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:14.5px;display:inline-flex;align-items:center;gap:8px;transition:background .35s,filter .15s}
-  .btn:hover{filter:brightness(1.05)}
-  .credit{text-align:center;font-size:12px;color:var(--muted);margin-top:26px}
-  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;font-size:13px;font-weight:600;padding:11px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:.25s;z-index:60}
-  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .course{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 10px 30px rgba(20,18,30,.06)}
+  .ch{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;padding:22px 24px;transition:background .35s}
+  .ch .kick{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.85}
+  .ch h1{font-family:var(--display);font-weight:800;font-size:clamp(20px,3vw,26px);margin:4px 0 10px}
+  .ch .pbar{height:8px;background:rgba(255,255,255,.25);border-radius:999px;overflow:hidden}.ch .pbar .f{height:100%;background:#fff;border-radius:999px;transition:width .5s}
+  .ch .pt{font-size:12px;opacity:.9;margin-top:6px}
+  .body{display:grid;grid-template-columns:260px 1fr;gap:0}
+  @media(max-width:680px){.body{grid-template-columns:1fr}}
+  .les{border-right:1px solid var(--line)}
+  @media(max-width:680px){.les{border-right:none;border-bottom:1px solid var(--line)}}
+  .lr{display:flex;align-items:center;gap:11px;padding:13px 18px;border-bottom:1px solid var(--line);cursor:pointer;transition:.12s}
+  .lr:last-child{border:none}.lr:hover{background:var(--surface)}.lr.on{background:color-mix(in srgb,var(--accent) 8%,transparent)}
+  .lr .ck{width:24px;height:24px;border-radius:999px;border:2px solid var(--line);flex:0 0 auto;display:grid;place-items:center;font-size:12px}
+  .lr.done .ck{background:var(--ok);border-color:var(--ok);color:#fff}
+  .lr .t{flex:1}.lr .t b{font-size:13px;display:block}.lr .t span{font-size:11px;color:var(--muted)}
+  .player{padding:22px}
+  .screen{aspect-ratio:16/9;background:var(--ink);border-radius:14px;display:grid;place-items:center;margin-bottom:16px;position:relative;overflow:hidden}
+  .screen .play{width:64px;height:64px;border-radius:999px;background:rgba(255,255,255,.15);display:grid;place-items:center;backdrop-filter:blur(4px)}
+  .screen .play svg{width:26px;height:26px;fill:#fff;margin-left:3px}
+  .screen .lbl{position:absolute;bottom:12px;left:14px;color:#fff;font-size:13px;font-weight:600}
+  .player h2{font-family:var(--display);font-size:19px;margin:0 0 6px}
+  .player p{font-size:13.5px;color:var(--muted);line-height:1.5;margin:0 0 16px}
+  .quiz{background:var(--surface);border-radius:14px;padding:16px;margin-bottom:16px}
+  .quiz .q{font-size:14px;font-weight:600;margin-bottom:11px}
+  .quiz .opt{display:block;width:100%;text-align:left;border:1px solid var(--line);background:var(--card);border-radius:10px;padding:11px 13px;font-size:13.5px;margin-bottom:8px;transition:.12s}
+  .quiz .opt:hover{border-color:var(--accent)}.quiz .opt.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 10%,transparent)}.quiz .opt.bad{border-color:#DC2626;background:color-mix(in srgb,#DC2626 8%,transparent)}
+  .btn{height:48px;border-radius:12px;background:var(--accent);color:#fff;font-weight:700;font-size:14px;width:100%;transition:filter .15s}.btn:hover{filter:brightness(1.08)}
+  .cert{text-align:center;padding:10px 0}
+  .cert .award{width:72px;height:72px;border-radius:999px;background:color-mix(in srgb,var(--gold) 16%,transparent);display:grid;place-items:center;font-size:34px;margin:0 auto 10px}
+  .cert h2{font-family:var(--display);font-size:21px;margin:0 0 4px}.cert p{font-size:13px;color:var(--muted);margin:0 0 14px}
+  .certbox{border:2px solid var(--gold);border-radius:14px;padding:18px;margin-bottom:14px}
+  .certbox .ct{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .certbox .nm{font-family:var(--display);font-weight:800;font-size:20px;margin:6px 0}
+  .certbox .co{font-size:13px;color:var(--muted)}.certbox .code{font-family:monospace;font-size:11px;color:var(--muted);margin-top:8px}
+  .credit{text-align:center;font-size:12px;color:var(--muted);margin-top:18px}
 </style>
 </head>
 <body>
 <div class="shell">
   <div class="top">
-    <div class="logo"><div class="m" id="lm">A</div><div><b id="bl">Aprende</b><span>Capacitación · demo</span></div></div>
-    <div class="controls"><input class="brand-inp" id="ib" value="Aprende" maxlength="16"><div class="swatches" id="sw"></div></div>
+    <div class="logo"><div class="m" id="lm">A</div><div><b id="bl">Aprende</b><span>Cursos online · demo</span></div></div>
+    <div class="controls"><input class="ti" id="ib" value="Aprende" maxlength="16"><div class="swatches" id="sw"></div></div>
   </div>
 
-  <div class="hero">
-    <div class="eye">Capacitación con tu marca</div>
-    <h1>Cursos de inducción y prevención, llave en mano</h1>
-    <p>Capacita a tu equipo en línea, a su ritmo, con registro y certificado. Sin parar la operación.</p>
-    <div class="stats"><div><b>+40</b><span>cursos disponibles</span></div><div><b>24/7</b><span>a su ritmo</span></div><div><b>Certificado</b><span>con registro</span></div></div>
+  <div class="course">
+    <div class="ch"><div class="kick" id="kick">Aprende · Curso certificado</div><h1>Prevención de riesgos en faena</h1><div class="pbar"><div class="f" id="pf" style="width:0"></div></div><div class="pt" id="pt">0% completado</div></div>
+    <div class="body">
+      <div class="les" id="les"></div>
+      <div class="player" id="player"></div>
+    </div>
   </div>
-
-  <div class="filters" id="filters"></div>
-  <div class="grid" id="grid"></div>
-  <div class="credit">Demo interactiva · solución re-skineable · cursos de ejemplo</div>
+  <div class="credit">Demo interactiva · solución re-skineable · curso de ejemplo</div>
 </div>
-
-<div class="ov" id="ov"><div class="md" id="md"></div></div>
-<div class="toast" id="toast"></div>
 
 <script>
 (function(){
   "use strict";
   function $(s){return document.querySelector(s);}
-  function clp(n){return "$"+n.toLocaleString("es-CL");}
-  var cats=["Todos","Prevención","Operación","Calidad","Liderazgo"];
-  var courses=[
-    {cat:"Prevención",lvl:"Básico",e:"🦺",hue:"#E0533D",t:"Trabajo seguro en altura",dur:"4 h",mods:6,price:38000,desc:"Fundamentos de seguridad para tareas en altura: equipos, anclajes, inspección y procedimiento seguro.",
-      m:["Marco normativo y riesgos","Sistemas de detención de caídas","Inspección de EPP","Anclajes y líneas de vida","Rescate básico","Evaluación final"]},
-    {cat:"Prevención",lvl:"Intermedio",e:"⚠️",hue:"#E0A53B",t:"Identificación de peligros y matriz de riesgos",dur:"5 h",mods:5,price:45000,desc:"Aprende a levantar peligros, evaluar riesgos y construir una matriz aplicable a tu faena.",
-      m:["Conceptos clave","Metodología de evaluación","Construcción de matriz","Medidas de control","Caso práctico"]},
-    {cat:"Operación",lvl:"Básico",e:"🛠️",hue:"#2563EB",t:"Operación segura de equipos",dur:"6 h",mods:7,price:52000,desc:"Buenas prácticas para operar equipos pesados con foco en seguridad y mantención preventiva.",
-      m:["Inspección pre-uso","Operación segura","Mantención preventiva","Señalización","Emergencias","Registro de uso","Evaluación"]},
-    {cat:"Prevención",lvl:"Básico",e:"🧯",lvlc:"",hue:"#15776B",t:"Inducción de faena y derecho a saber (ODI)",dur:"2 h",mods:4,price:25000,desc:"Inducción obligatoria para ingreso a faena: riesgos, protocolos y derecho a saber.",
-      m:["Reglas de oro","Riesgos del sitio","Protocolos de emergencia","Confirmación de lectura"]},
-    {cat:"Calidad",lvl:"Intermedio",e:"📐",hue:"#7A3FE0",t:"Control de calidad y mermas",dur:"4 h",mods:5,price:42000,desc:"Reduce reprocesos y pérdidas con controles simples de calidad en terreno.",
-      m:["Indicadores de calidad","Causas de merma","Controles en proceso","Acciones correctivas","Cierre"]},
-    {cat:"Operación",lvl:"Básico",e:"📦",hue:"#0D9488",t:"Manejo y almacenamiento de insumos",dur:"3 h",mods:4,price:30000,desc:"Orden, trazabilidad y cuidado de insumos y herramientas para evitar pérdidas.",
-      m:["Recepción y registro","Almacenamiento seguro","Control de stock","Buenas prácticas"]},
-    {cat:"Liderazgo",lvl:"Intermedio",e:"👷",hue:"#E0853B",t:"Liderazgo de cuadrillas en terreno",dur:"5 h",mods:6,price:55000,desc:"Herramientas para liderar equipos en terreno: comunicación, planificación diaria y seguridad.",
-      m:["Rol del supervisor","Plan diario","Comunicación efectiva","Cultura de seguridad","Resolución de conflictos","Cierre"]},
-    {cat:"Calidad",lvl:"Avanzado",e:"📊",hue:"#2563EB",t:"Mejora continua aplicada",dur:"6 h",mods:6,price:60000,desc:"Implementa ciclos de mejora continua simples y medibles en tu operación.",
-      m:["Diagnóstico","Definir indicadores","Ciclo de mejora","Estandarización","Seguimiento","Proyecto final"]},
-    {cat:"Prevención",lvl:"Básico",e:"🩹",hue:"#E0533D",t:"Primeros auxilios en faena",dur:"4 h",mods:5,price:40000,desc:"Respuesta inicial ante emergencias frecuentes en terreno antes de la ayuda especializada.",
-      m:["Evaluación de la escena","Heridas y hemorragias","RCP básico","Inmovilización","Evaluación"]}
+  var brand="Aprende";
+  var lessons=[
+    {t:"Introducción a la prevención",d:"Conceptos base, marco legal y por qué importa la seguridad en toda faena.",done:false},
+    {t:"Identificación de peligros",d:"Cómo reconocer condiciones y actos inseguros en el día a día.",done:false},
+    {t:"Uso correcto de EPP",d:"Elementos de protección personal: cuándo, cómo y por qué usarlos.",done:false},
+    {t:"Trabajo en altura",d:"Medidas y resguardos para tareas sobre 1,8 metros.",done:false,quiz:{q:"¿A partir de qué altura se considera trabajo en altura?",o:["0,5 m","1,8 m","5 m"],a:1}},
+    {t:"Evaluación final",d:"Pon a prueba lo aprendido y obtén tu certificado.",done:false,quiz:{q:"El EPP es la primera medida de control que debemos priorizar.",o:["Verdadero","Falso"],a:1}}
   ];
-  var filter="Todos";
-
-  function buildFilters(){
-    var f=$("#filters");f.innerHTML="";
-    cats.forEach(function(c){var b=document.createElement("button");b.className="chip"+(filter===c?" on":"");b.textContent=c;b.onclick=function(){filter=c;buildFilters();render();};f.appendChild(b);});
+  var cur=0;
+  function prog(){var d=lessons.filter(function(l){return l.done;}).length,p=Math.round(d/lessons.length*100);$("#pf").style.width=p+"%";$("#pt").textContent=p+"% completado";return p;}
+  function renderLes(){
+    $("#les").innerHTML=lessons.map(function(l,i){return '<div class="lr'+(i===cur?" on":"")+(l.done?" done":"")+'" data-i="'+i+'"><div class="ck">'+(l.done?"✓":(i+1))+'</div><div class="t"><b>'+l.t+'</b><span>'+(l.done?"Completado":"Lección "+(i+1))+'</span></div></div>';}).join("");
+    [].slice.call($("#les").querySelectorAll(".lr")).forEach(function(b){b.onclick=function(){cur=+b.dataset.i;render();};});
   }
   function render(){
-    var g=$("#grid");g.innerHTML="";
-    courses.filter(function(c){return filter==="Todos"||c.cat===filter;}).forEach(function(c,idx){
-      var realIdx=courses.indexOf(c);
-      var el=document.createElement("article");el.className="course";
-      el.innerHTML='<div class="thumb" style="background:color-mix(in srgb,'+c.hue+' 16%,#fff)"><span class="lvl">'+c.lvl+'</span>'+c.e+'</div>'+
-        '<div class="b"><span class="cat">'+c.cat+'</span><h3>'+c.t+'</h3>'+
-        '<div class="meta"><span>⏱ '+c.dur+'</span><span>📚 '+c.mods+' módulos</span></div>'+
-        '<div class="foot"><span class="pr">'+clp(c.price)+'</span><span class="more">Ver curso ›</span></div></div>';
-      el.onclick=function(){openCourse(realIdx);};g.appendChild(el);
-    });
+    renderLes();
+    var l=lessons[cur];
+    var done=lessons.filter(function(x){return x.done;}).length;
+    if(cur===lessons.length-1 && done>=lessons.length-1 && l.done){return cert();}
+    var quizHtml="";
+    if(l.quiz){quizHtml='<div class="quiz"><div class="q">'+l.quiz.q+'</div>'+l.quiz.o.map(function(o,i){return '<button class="opt" data-q="'+i+'">'+o+'</button>';}).join("")+'</div>';}
+    $("#player").innerHTML=
+      '<div class="screen"><div class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><div class="lbl">▶ Lección '+(cur+1)+' · '+l.t+'</div></div>'+
+      '<h2>'+l.t+'</h2><p>'+l.d+'</p>'+quizHtml+
+      '<button class="btn" id="next">'+(l.done?"Siguiente lección":(l.quiz?"Responder y continuar":"Marcar como vista y continuar"))+'</button>';
+    var ok=true;
+    if(l.quiz){ok=false;[].slice.call($("#player").querySelectorAll("[data-q]")).forEach(function(b){b.onclick=function(){
+      var sel=+b.dataset.q;[].slice.call($("#player").querySelectorAll(".opt")).forEach(function(x){x.classList.remove("ok","bad");});
+      if(sel===l.quiz.a){b.classList.add("ok");ok=true;}else{b.classList.add("bad");$("#player").querySelectorAll(".opt")[l.quiz.a].classList.add("ok");ok=true;}
+    };});}
+    $("#next").onclick=function(){l.done=true;prog();if(cur<lessons.length-1){cur++;}render();};
   }
-  function openCourse(i){
-    var c=courses[i];
-    $("#md").innerHTML='<div class="top2" style="background:color-mix(in srgb,'+c.hue+' 18%,#fff)"><button class="x" id="x"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button><span style="font-size:54px">'+c.e+'</span></div>'+
-      '<div class="body"><span class="cat">'+c.cat+' · '+c.lvl+'</span><h2>'+c.t+'</h2>'+
-      '<div class="mrow"><span>⏱ '+c.dur+'</span><span>📚 '+c.mods+' módulos</span><span>🎓 con certificado</span></div>'+
-      '<div class="desc">'+c.desc+'</div>'+
-      '<div class="mlabel">Contenido del curso</div>'+
-      c.m.map(function(m,k){return '<div class="mod"><span class="n">'+(k+1)+'</span> '+m+'<span class="t">'+(8+k*3)+' min</span></div>';}).join("")+
-      '<div class="buy"><div><div style="font-size:11px;color:var(--muted)">Valor por persona</div><div class="pr">'+clp(c.price)+'</div></div>'+
-      '<button class="btn" id="enroll">Inscribir equipo</button></div></div>';
-    $("#ov").classList.add("on");
-    $("#x").onclick=close;
-    $("#enroll").onclick=function(){close();toast("¡Inscripción iniciada! 🎓");};
+  function cert(){
+    prog();renderLes();
+    var code="CERT-"+new Date().getFullYear()+"-"+Math.floor(1000+Math.random()*9000);
+    $("#player").innerHTML='<div class="cert"><div class="award">🏆</div><h2>¡Curso completado!</h2><p>Felicitaciones, aprobaste el curso.</p><div class="certbox"><div class="ct">Certificado de aprobación</div><div class="nm">Nombre del Alumno</div><div class="co">Prevención de riesgos en faena · '+brand+'</div><div class="code">'+code+'</div></div><button class="btn" id="dl">⬇ Descargar certificado</button></div>';
+    $("#dl").onclick=function(){var b=new Blob(["CERTIFICADO DE APROBACIÓN\n"+brand+"\nCurso: Prevención de riesgos en faena\nCódigo: "+code],{type:"text/plain"}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download="certificado.txt";document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u);};
   }
-  function close(){$("#ov").classList.remove("on");}
-  $("#ov").onclick=function(e){if(e.target===$("#ov"))close();};
-  function toast(m){var t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("show");},1900);}
 
-  var SW=[{c:"#7A3FE0",c2:"#A06CF0"},{c:"#0D9488",c2:"#2DD4BF"},{c:"#2563EB",c2:"#5B8DEF"},{c:"#E8852C",c2:"#F5B445"},{c:"#16161A",c2:"#444"}];
+  var SW=[{c:"#4338CA",c2:"#6D62E0"},{c:"#0D9488",c2:"#2DD4BF"},{c:"#2563EB",c2:"#5B8DEF"},{c:"#C2410C",c2:"#EA7A3C"},{c:"#BE185D",c2:"#EC4899"}];
   function ac(o){document.documentElement.style.setProperty("--accent",o.c);document.documentElement.style.setProperty("--accent-2",o.c2);
     var h=o.c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
-    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#16131C":"#fff");
+    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#14131F":"#fff");
     [].slice.call(document.querySelectorAll(".sw")).forEach(function(e){e.classList.toggle("active",e.dataset.c===o.c);});}
   function bsw(){var s=$("#sw");s.innerHTML="";SW.forEach(function(o){var b=document.createElement("button");b.className="sw";b.style.background=o.c;b.dataset.c=o.c;b.onclick=function(){ac(o);};s.appendChild(b);});}
-  function ab(n){$("#bl").textContent=n||"Marca";$("#lm").textContent=(n||"M").charAt(0).toUpperCase();}
+  function ab(n){brand=n||"Marca";$("#bl").textContent=brand;$("#lm").textContent=brand.charAt(0).toUpperCase();$("#kick").textContent=brand+" · Curso certificado";}
   $("#ib").addEventListener("input",function(e){ab(e.target.value);});
-  bsw();ac(SW[0]);ab("Aprende");buildFilters();render();
+  bsw();ac(SW[0]);ab("Aprende");prog();render();
 })();
 </script>
 </body>

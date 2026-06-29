@@ -3,65 +3,55 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Generador de Presentaciones IA · Demo</title>
+<title>Generador de Presentaciones · Demo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --accent:#4338CA;--accent-2:#7C6BF0;--accent-ink:#fff;
-    --ink:#14151E;--muted:#76798C;--line:#E7E7F1;--surface:#F4F4FB;--card:#fff;
+    --accent:#DB2777;--accent-2:#F472B6;--accent-ink:#fff;
+    --ink:#1A1018;--muted:#857683;--line:#EEE2EA;--surface:#F9F1F6;--card:#fff;
     --display:"Bricolage Grotesque",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;
   }
   *{box-sizing:border-box}
   body{margin:0;font-family:var(--body);color:var(--ink);
-    background:radial-gradient(70% 50% at 50% 0%,color-mix(in srgb,var(--accent) 14%,transparent),transparent 60%),var(--surface);
+    background:radial-gradient(70% 50% at 50% 0%,color-mix(in srgb,var(--accent) 12%,transparent),transparent 60%),var(--surface);
     min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:24px 18px 50px;-webkit-font-smoothing:antialiased}
   button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
   input{font-family:inherit}
-  .top{width:100%;max-width:680px;display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+  .top{width:100%;max-width:760px;display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
   .logo{display:flex;align-items:center;gap:11px}
-  .logo .m{width:36px;height:36px;border-radius:10px;background:var(--accent);display:grid;place-items:center;color:var(--accent-ink);font-family:var(--display);font-weight:800;font-size:17px;transition:background .35s}
+  .logo .m{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:800;font-size:17px}
   .logo b{font-family:var(--display);font-size:19px;display:block;line-height:1}.logo span{font-size:11.5px;color:var(--muted)}
   .controls{margin-left:auto;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
   .ti{height:36px;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:0 11px;font-size:13px;width:120px;outline:none}
   .swatches{display:flex;gap:6px}.sw{width:22px;height:22px;border-radius:999px;border:2px solid transparent}.sw.active{border-color:var(--ink);transform:scale(1.1)}
-  .lead{width:100%;max-width:680px;text-align:center;margin-bottom:16px}
-  .lead h1{font-family:var(--display);font-weight:800;font-size:clamp(23px,3.2vw,32px);letter-spacing:-.02em;margin:0 0 5px}
-  .lead p{font-size:14px;color:var(--muted);margin:0;max-width:52ch;margin-inline:auto}
-  .composer{width:100%;max-width:680px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;gap:10px;box-shadow:0 14px 40px rgba(20,18,40,.07);margin-bottom:20px;flex-wrap:wrap}
+  .lead{width:100%;max-width:760px;text-align:center;margin-bottom:16px}
+  .lead h1{font-family:var(--display);font-weight:800;font-size:clamp(23px,3.2vw,32px);letter-spacing:-.02em;margin:0 0 6px}
+  .lead p{font-size:14px;color:var(--muted);margin:0;max-width:54ch;margin-inline:auto}
+  .composer{width:100%;max-width:760px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;gap:10px;box-shadow:0 14px 40px rgba(20,18,30,.07);margin-bottom:20px;flex-wrap:wrap}
   .composer input{flex:1;min-width:200px;height:50px;border:1px solid var(--line);border-radius:12px;padding:0 14px;font-size:15px;outline:none}
   .composer input:focus{border-color:var(--accent)}
-  .gen{height:50px;padding:0 22px;border-radius:12px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:14.5px;display:inline-flex;align-items:center;gap:8px;transition:background .35s,filter .15s}
-  .gen:hover{filter:brightness(1.05)}.gen:disabled{opacity:.5;cursor:not-allowed}
-  .gen svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.9}
-  .chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:20px}
-  .chips button{font-size:12.5px;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 13px;color:var(--muted)}
-  .chips button:hover{border-color:var(--accent);color:var(--accent)}
-
-  .deckwrap{width:100%;max-width:680px;display:none}
-  .deckwrap.on{display:block;animation:f .3s ease}@keyframes f{from{opacity:0;transform:translateY(8px)}to{opacity:1}}
-  .slide{aspect-ratio:16/9;background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 20px 50px rgba(20,18,40,.1);overflow:hidden;position:relative;display:flex;flex-direction:column;justify-content:center;padding:38px 42px}
+  .gen{height:50px;padding:0 22px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;font-weight:700;font-size:14.5px;display:inline-flex;align-items:center;gap:8px;transition:filter .15s}
+  .gen:hover{filter:brightness(1.05)}.gen:disabled{opacity:.5}.gen svg{width:17px;height:17px;fill:none;stroke:#fff;stroke-width:1.9}
+  .deckwrap{width:100%;max-width:760px;display:none}.deckwrap.on{display:block;animation:f .3s ease}@keyframes f{from{opacity:0}to{opacity:1}}
+  .slide{aspect-ratio:16/9;background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 20px 50px rgba(20,18,30,.1);padding:clamp(24px,5vw,48px);display:flex;flex-direction:column;justify-content:center;overflow:hidden;position:relative}
   .slide.cover{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff}
-  .slide .kick{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
-  .slide.cover .kick{color:rgba(255,255,255,.85)}
-  .slide h2{font-family:var(--display);font-weight:800;font-size:clamp(22px,4vw,34px);letter-spacing:-.02em;margin:0;line-height:1.1}
-  .slide.cover h2{font-size:clamp(26px,5vw,40px)}
-  .slide ul{margin:18px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px}
-  .slide li{font-size:clamp(13px,2.4vw,16px);line-height:1.4;display:flex;gap:11px;align-items:flex-start}
-  .slide li::before{content:"";width:8px;height:8px;border-radius:999px;background:var(--accent);margin-top:7px;flex:0 0 auto}
-  .slide .pn{position:absolute;right:18px;bottom:14px;font-size:11px;color:var(--muted)}
-  .slide.cover .sub{font-size:14px;opacity:.9;margin-top:10px}
-  .skelslide{aspect-ratio:16/9;border-radius:18px;background:linear-gradient(90deg,var(--surface),var(--line),var(--surface));background-size:200% 100%;animation:sh 1.2s infinite}
-  @keyframes sh{to{background-position:-200% 0}}
-  .nav{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:16px}
-  .nav button{width:44px;height:44px;border-radius:999px;border:1px solid var(--line);background:var(--card);display:grid;place-items:center;transition:.15s}
-  .nav button:hover{border-color:var(--accent)}.nav button:disabled{opacity:.4}
-  .nav svg{width:20px;height:20px;stroke:var(--ink);fill:none;stroke-width:2}
-  .dots{display:flex;gap:6px}
-  .dots i{width:8px;height:8px;border-radius:999px;background:var(--line);cursor:pointer}.dots i.on{background:var(--accent);width:22px;border-radius:999px}
-  .deckbar{display:flex;justify-content:space-between;align-items:center;margin-top:14px}
-  .deckbar .dl{font-size:13px;font-weight:600;color:var(--accent)}
+  .slide .kick{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.7;margin-bottom:12px}
+  .slide.cover .kick{opacity:.85}
+  .slide h2{font-family:var(--display);font-weight:800;font-size:clamp(22px,4vw,34px);letter-spacing:-.02em;margin:0 0 16px;line-height:1.1}
+  .slide ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:11px}
+  .slide li{font-size:clamp(14px,2.2vw,17px);line-height:1.4;display:flex;gap:11px;align-items:flex-start}
+  .slide li::before{content:"";width:8px;height:8px;border-radius:3px;background:var(--accent);margin-top:7px;flex:0 0 auto}
+  .slide .pn{position:absolute;bottom:16px;right:20px;font-size:11px;color:var(--muted)}
+  .nav{display:flex;align-items:center;justify-content:space-between;margin-top:14px;gap:12px}
+  .nav button{height:42px;padding:0 18px;border-radius:11px;background:var(--card);border:1px solid var(--line);font-weight:600;font-size:14px}
+  .nav button:disabled{opacity:.4}
+  .dots{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;flex:1}
+  .dot{width:9px;height:9px;border-radius:999px;background:var(--line);cursor:pointer}.dot.on{background:var(--accent);width:22px}
+  .skeleton{aspect-ratio:16/9;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:48px;display:none;flex-direction:column;justify-content:center;gap:14px}
+  .skeleton.on{display:flex}
+  .skeleton .s{height:16px;background:linear-gradient(90deg,var(--surface),var(--line),var(--surface));background-size:200% 100%;border-radius:7px;animation:sh 1.2s infinite}@keyframes sh{to{background-position:-200% 0}}
   .credit{font-size:12px;color:var(--muted);margin-top:18px;text-align:center}
 </style>
 </head>
@@ -70,25 +60,20 @@
     <div class="logo"><div class="m" id="lm">D</div><div><b id="bl">Deck</b><span>Generador de presentaciones · demo</span></div></div>
     <div class="controls"><input class="ti" id="ib" value="Deck" maxlength="16"><div class="swatches" id="sw"></div></div>
   </div>
-  <div class="lead"><h1>De una idea a una presentación, en minutos</h1>
-    <p>Escribe el tema y la IA arma el deck con estructura y contenido. Tú solo lo presentas.</p></div>
+  <div class="lead"><h1>De una idea a una presentación, al toque</h1>
+    <p>Escribe el tema y la IA arma el deck completo: portada y slides con sus puntos. Tú solo lo recorres.</p></div>
 
   <div class="composer">
-    <input id="topic" placeholder="Ej: Plan de seguridad para obra en altura" value="Plan de seguridad para obra en altura">
-    <button class="gen" id="go"><svg viewBox="0 0 24 24"><path d="M12 3l2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2z"/></svg> Generar</button>
+    <input id="topic" placeholder="Tema de la presentación…" value="Propuesta de digitalización para una pyme de servicios">
+    <button class="gen" id="go"><svg viewBox="0 0 24 24"><path d="M12 3l2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2z"/></svg> Generar deck</button>
   </div>
-  <div class="chips" id="chips"></div>
+
+  <div class="skeleton" id="skeleton"><div class="s" style="width:40%;height:24px"></div><div class="s" style="width:80%"></div><div class="s" style="width:70%"></div><div class="s" style="width:75%"></div></div>
 
   <div class="deckwrap" id="deckwrap">
-    <div id="slideArea"></div>
-    <div class="nav">
-      <button id="prev"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
-      <div class="dots" id="dots"></div>
-      <button id="next"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
-    </div>
-    <div class="deckbar"><span style="font-size:12.5px;color:var(--muted)" id="counter"></span><button class="dl" id="dl">Descargar esquema ↓</button></div>
+    <div id="slideHost"></div>
+    <div class="nav"><button id="prev">‹ Anterior</button><div class="dots" id="dots"></div><button id="next">Siguiente ›</button></div>
   </div>
-
   <div class="credit">Demo interactiva · solución re-skineable · IA real</div>
 
 <script>
@@ -96,62 +81,51 @@
   "use strict";
   function $(s){return document.querySelector(s);}
   function esc(s){return String(s).replace(/[&<>]/g,function(m){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[m];});}
-  var deck=null,idx=0;
-  var ideas=["Propuesta comercial para un cliente nuevo","Resultados del trimestre","Inducción de seguridad","Lanzamiento de un producto"];
+  var brand="Deck",slides=[],cur=0;
 
-  function chips(){$("#chips").innerHTML="";ideas.forEach(function(t){var b=document.createElement("button");b.textContent=t;b.onclick=function(){$("#topic").value=t;gen();};$("#chips").appendChild(b);});}
-
-  function gen(){
-    var topic=$("#topic").value.trim();if(!topic){$("#topic").focus();return;}
-    $("#go").disabled=true;$("#deckwrap").classList.add("on");
-    $("#slideArea").innerHTML='<div class="skelslide"></div>';$("#dots").innerHTML="";$("#counter").textContent="";
-    var sys="Eres diseñador de presentaciones. Para el tema dado crea un deck claro y profesional en español de Chile. "+
-      "Responde SOLO con JSON válido, sin markdown, forma exacta:\n"+
-      '{"titulo":"...","subtitulo":"...","slides":[{"titulo":"...","bullets":["...","...","..."]}]}\n'+
-      "Genera 5 slides de contenido (además del título). Cada slide 3-4 bullets concretos y breves. Sé útil y específico al tema.";
+  $("#go").onclick=function(){
+    var t=$("#topic").value.trim();if(!t){$("#topic").focus();return;}
+    $("#go").disabled=true;$("#deckwrap").classList.remove("on");$("#skeleton").classList.add("on");
+    var sys="Eres diseñador de presentaciones. Para el tema dado crea un deck claro y persuasivo. Responde SOLO JSON válido sin markdown, forma exacta:\n"+
+      '{"titulo":"...","subtitulo":"...","slides":[{"t":"...","b":["...","..."]}]}\n'+
+      "Genera 5-6 slides de contenido (además de la portada), cada uno con título (t) y 3-4 viñetas (b) concretas. Español de Chile, profesional y al grano.";
     fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1000,system:sys,messages:[{role:"user",content:topic}]})
+      body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1000,system:sys,messages:[{role:"user",content:t}]})
     }).then(function(r){return r.json();}).then(function(d){
       var raw="";if(d&&d.content)raw=d.content.filter(function(i){return i.type==="text";}).map(function(i){return i.text;}).join("").trim();
-      raw=raw.replace(/```json|```/g,"").trim();deck=JSON.parse(raw);idx=0;renderDots();renderSlide();
-    }).catch(function(){
-      $("#slideArea").innerHTML='<div class="slide"><div class="kick">Error</div><h2>No pude generar el deck</h2><ul><li>Reintenta en unos segundos</li></ul></div>';
-    }).then(function(){$("#go").disabled=false;});
-  }
-
-  function totalSlides(){return deck?deck.slides.length+1:0;}
-  function renderSlide(){
-    var t=totalSlides();
-    if(idx===0){
-      $("#slideArea").innerHTML='<div class="slide cover"><div class="kick">Presentación</div><h2>'+esc(deck.titulo||"")+'</h2><div class="sub">'+esc(deck.subtitulo||"")+'</div><div class="pn">1 / '+t+'</div></div>';
-    } else {
-      var s=deck.slides[idx-1];
-      $("#slideArea").innerHTML='<div class="slide"><div class="kick">'+esc(deck.titulo||"")+'</div><h2>'+esc(s.titulo||"")+'</h2><ul>'+(s.bullets||[]).map(function(b){return '<li>'+esc(b)+'</li>';}).join("")+'</ul><div class="pn">'+(idx+1)+' / '+t+'</div></div>';
-    }
-    $("#prev").disabled=idx===0;$("#next").disabled=idx===t-1;
-    $("#counter").textContent="Slide "+(idx+1)+" de "+t;
-    [].slice.call($("#dots").children).forEach(function(d,i){d.classList.toggle("on",i===idx);});
-  }
-  function renderDots(){$("#dots").innerHTML="";for(var i=0;i<totalSlides();i++){(function(k){var d=document.createElement("i");d.onclick=function(){idx=k;renderSlide();};$("#dots").appendChild(d);})(i);}}
-  $("#prev").onclick=function(){if(idx>0){idx--;renderSlide();}};
-  $("#next").onclick=function(){if(idx<totalSlides()-1){idx++;renderSlide();}};
-  $("#dl").onclick=function(){
-    if(!deck)return;
-    var txt=deck.titulo+"\n"+(deck.subtitulo||"")+"\n\n"+deck.slides.map(function(s,i){return (i+1)+". "+s.titulo+"\n"+s.bullets.map(function(b){return "   - "+b;}).join("\n");}).join("\n\n");
-    var bl=new Blob([txt],{type:"text/plain"}),u=URL.createObjectURL(bl),a=document.createElement("a");a.href=u;a.download="presentacion.txt";document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u);
+      raw=raw.replace(/```json|```/g,"").trim();build(JSON.parse(raw));
+    }).catch(function(){$("#skeleton").classList.remove("on");alert&&0;$("#go").disabled=false;}).then(function(){$("#go").disabled=false;});
   };
-  $("#go").onclick=gen;
-  $("#topic").addEventListener("keydown",function(e){if(e.key==="Enter")gen();});
 
-  var SW=[{c:"#4338CA",c2:"#7C6BF0"},{c:"#0D9488",c2:"#2DD4BF"},{c:"#C2410C",c2:"#EA7A3C"},{c:"#2563EB",c2:"#5B8DEF"},{c:"#16161A",c2:"#444"}];
+  function build(o){
+    slides=[{cover:true,t:o.titulo||"Presentación",sub:o.subtitulo||""}].concat((o.slides||[]).map(function(s){return {t:s.t,b:s.b||[]};}));
+    cur=0;$("#skeleton").classList.remove("on");$("#deckwrap").classList.add("on");
+    $("#dots").innerHTML=slides.map(function(_,i){return '<span class="dot" data-i="'+i+'"></span>';}).join("");
+    [].slice.call($("#dots").children).forEach(function(d){d.onclick=function(){cur=+d.dataset.i;render();};});
+    render();
+  }
+  function render(){
+    var s=slides[cur];
+    if(s.cover){
+      $("#slideHost").innerHTML='<div class="slide cover"><div class="kick">'+esc(brand)+'</div><h2>'+esc(s.t)+'</h2><div style="font-size:16px;opacity:.9">'+esc(s.sub)+'</div><div class="pn" style="color:rgba(255,255,255,.7)">1 / '+slides.length+'</div></div>';
+    } else {
+      $("#slideHost").innerHTML='<div class="slide"><div class="kick">'+esc(brand)+'</div><h2>'+esc(s.t)+'</h2><ul>'+(s.b||[]).map(function(x){return '<li>'+esc(x)+'</li>';}).join("")+'</ul><div class="pn">'+(cur+1)+' / '+slides.length+'</div></div>';
+    }
+    [].slice.call($("#dots").children).forEach(function(d,i){d.classList.toggle("on",i===cur);});
+    $("#prev").disabled=cur===0;$("#next").disabled=cur===slides.length-1;
+  }
+  $("#prev").onclick=function(){if(cur>0){cur--;render();}};
+  $("#next").onclick=function(){if(cur<slides.length-1){cur++;render();}};
+
+  var SW=[{c:"#DB2777",c2:"#F472B6"},{c:"#2563EB",c2:"#5B8DEF"},{c:"#0D9488",c2:"#2DD4BF"},{c:"#7C3AED",c2:"#A855F7"},{c:"#EA580C",c2:"#F97A3D"}];
   function ac(o){document.documentElement.style.setProperty("--accent",o.c);document.documentElement.style.setProperty("--accent-2",o.c2);
     var h=o.c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
-    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#14151E":"#fff");
+    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#1A1018":"#fff");
     [].slice.call(document.querySelectorAll(".sw")).forEach(function(e){e.classList.toggle("active",e.dataset.c===o.c);});}
   function bsw(){var s=$("#sw");s.innerHTML="";SW.forEach(function(o){var b=document.createElement("button");b.className="sw";b.style.background=o.c;b.dataset.c=o.c;b.onclick=function(){ac(o);};s.appendChild(b);});}
-  function ab(n){$("#bl").textContent=n||"Marca";$("#lm").textContent=(n||"M").charAt(0).toUpperCase();}
+  function ab(n){brand=n||"Marca";$("#bl").textContent=brand;$("#lm").textContent=brand.charAt(0).toUpperCase();if(slides.length)render();}
   $("#ib").addEventListener("input",function(e){ab(e.target.value);});
-  bsw();ac(SW[0]);ab("Deck");chips();
+  bsw();ac(SW[0]);ab("Deck");
 })();
 </script>
 </body>

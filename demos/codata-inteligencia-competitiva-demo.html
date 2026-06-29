@@ -3,346 +3,146 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Inteligencia Competitiva · Demo CO-DATA</title>
+<title>Inteligencia Competitiva · Demo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --accent:#3D4EAB;
-    --accent-ink:#fff;
-    --ok:#2E9E66;
-    --bad:#D9534F;
-    --part:#E0A23B;
-    --ink:#16181F;
-    --ink-soft:#3A3E4A;
-    --muted:#767C8A;
-    --line:#E5E4EC;
-    --surface:#F4F4F8;
-    --card:#fff;
-    --hi:#FFF6E6;
-    --display:"Bricolage Grotesque",system-ui,sans-serif;
-    --body:"Inter",system-ui,sans-serif;
-    --mono:"JetBrains Mono",monospace;
+    --accent:#DB2777;--accent-2:#F472B6;--accent-ink:#fff;--rival:#64748B;
+    --ink:#1A121700;--ink:#1A1217;--muted:#857685;--line:#EEE4EC;--surface:#F8F1F6;--card:#fff;
+    --display:"Bricolage Grotesque",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",monospace;
   }
   *{box-sizing:border-box}
   body{margin:0;font-family:var(--body);color:var(--ink);background:var(--surface);-webkit-font-smoothing:antialiased}
   button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
-  input{font-family:inherit}
-  .shell{max-width:1180px;margin:0 auto;padding:24px 22px 56px}
-
-  /* dossier header */
-  .doss{background:var(--ink);color:#fff;border-radius:18px;padding:24px 26px;margin-bottom:20px;position:relative;overflow:hidden}
-  .doss::after{content:"";position:absolute;right:-40px;top:-40px;width:200px;height:200px;border-radius:999px;
-    background:radial-gradient(circle,color-mix(in srgb,var(--accent) 50%,transparent),transparent 70%)}
-  .doss .eyebrow{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:color-mix(in srgb,var(--accent) 60%,#fff);display:flex;align-items:center;gap:9px;margin-bottom:12px}
-  .doss .eyebrow svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8}
-  .doss h1{font-family:var(--display);font-weight:800;font-size:clamp(24px,3.4vw,34px);letter-spacing:-.02em;margin:0 0 14px;max-width:22ch}
-  .doss .meta{display:flex;gap:26px;flex-wrap:wrap;font-size:12.5px;color:#B9BDC9;position:relative;z-index:1}
-  .doss .meta b{color:#fff;font-family:var(--mono);font-weight:600;display:block;margin-top:2px}
-  .doss .by{position:absolute;right:24px;bottom:20px;font-size:11px;color:#9AA0AE}
-  .doss .by b{color:#fff}
-
-  /* control */
-  .ctrl{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:20px}
-  .fld label{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px}
-  .fld input{height:42px;border:1px solid var(--line);border-radius:11px;padding:0 13px;font-size:15px;font-weight:600;outline:none;width:200px;background:var(--card)}
-  .fld input:focus{border-color:var(--accent)}
-  .swatches{display:flex;gap:6px}
-  .sw{width:22px;height:22px;border-radius:999px;border:2px solid transparent;transition:.15s}
-  .sw.active{border-color:var(--ink);transform:scale(1.1)}
-  .ctrl .hint{font-size:12px;color:var(--muted);margin-left:auto;max-width:30ch;line-height:1.4}
-
-  .grid{display:grid;grid-template-columns:1.35fr 1fr;gap:18px;margin-bottom:18px}
+  input,select{font-family:inherit}
+  .shell{max-width:1000px;margin:0 auto;padding:24px 20px 50px}
+  .top{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+  .logo{display:flex;align-items:center;gap:11px}
+  .logo .m{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:800;font-size:18px}
+  .logo b{font-family:var(--display);font-size:20px;display:block;line-height:1}.logo span{font-size:11.5px;color:var(--muted)}
+  .controls{margin-left:auto;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .ti{height:36px;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:0 11px;font-size:13px;width:120px;outline:none}
+  .swatches{display:flex;gap:6px}.sw{width:22px;height:22px;border-radius:999px;border:2px solid transparent}.sw.active{border-color:var(--ink);transform:scale(1.1)}
+  .lead{margin:0 0 16px}.lead h1{font-family:var(--display);font-weight:800;font-size:clamp(22px,3vw,30px);letter-spacing:-.02em;margin:0 0 4px}
+  .lead p{font-size:14px;color:var(--muted);margin:0;max-width:58ch}
+  .barx{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+  .barx .leg{display:flex;gap:14px;font-size:12.5px;color:var(--muted)}
+  .barx .leg i{width:11px;height:11px;border-radius:3px;display:inline-block;margin-right:5px;vertical-align:middle}
+  .barx select{margin-left:auto;height:38px;border:1px solid var(--line);border-radius:9px;padding:0 11px;font-size:13px;background:var(--card);outline:none}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+  @media(max-width:760px){.grid{grid-template-columns:1fr}}
   .panel{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 6px 22px rgba(20,18,30,.05)}
-  .ph{padding:14px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
-  .ph b{font-family:var(--display);font-size:15px}
-  .ph span{font-size:11px;color:var(--muted)}
+  .ph{padding:13px 16px;border-bottom:1px solid var(--line);font-family:var(--display);font-size:15px}
   .pb{padding:18px}
-
-  /* positioning map */
-  #map{width:100%;height:auto;display:block}
-  .map-note{font-size:11.5px;color:var(--muted);margin-top:10px;display:flex;gap:8px;align-items:flex-start;line-height:1.4}
-  .map-note svg{width:14px;height:14px;stroke:var(--accent);fill:none;stroke-width:2;flex:0 0 auto;margin-top:1px}
-
-  /* share of voice */
-  .sov{display:flex;flex-direction:column;gap:13px}
-  .sov .row{}
-  .sov .lr{display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px}
-  .sov .lr b{font-weight:600}
-  .sov .lr.you b{color:var(--accent)}
-  .sov .track{height:9px;background:var(--surface);border-radius:999px;overflow:hidden}
-  .sov .fill{height:100%;border-radius:999px;background:var(--muted);width:0;transition:width .9s ease}
-  .sov .fill.you{background:var(--accent)}
-  .find{margin-top:18px;padding:14px;background:var(--hi);border:1px solid color-mix(in srgb,var(--part) 40%,transparent);border-radius:12px}
-  .find .ft{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#9A6A12;margin-bottom:6px}
-  .find p{margin:0;font-size:13px;line-height:1.5;color:var(--ink-soft)}
-  .find b{color:var(--ink)}
-
-  /* comparison table */
-  .tbl-wrap{overflow-x:auto}
-  table{width:100%;border-collapse:collapse;font-size:13px;min-width:620px}
-  thead th{text-align:center;font-size:11px;font-weight:700;color:var(--muted);padding:11px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
-  thead th.brandcol{text-align:left}
-  thead th.vac{color:#9A6A12;background:var(--hi)}
-  tbody td{text-align:center;padding:11px 8px;border-bottom:1px solid var(--line)}
-  tbody td.name{text-align:left;font-weight:600}
-  tbody td.vac{background:color-mix(in srgb,var(--hi) 60%,transparent)}
-  tr.you td{background:color-mix(in srgb,var(--accent) 7%,transparent)}
-  tr.you td.name{color:var(--accent)}
-  .mk{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:999px;font-size:13px}
-  .mk.y{background:color-mix(in srgb,var(--ok) 16%,transparent);color:var(--ok)}
-  .mk.n{background:color-mix(in srgb,var(--bad) 14%,transparent);color:var(--bad)}
-  .mk.p{background:color-mix(in srgb,var(--part) 18%,transparent);color:#B07D18}
-  .mk.star{background:var(--accent);color:#fff}
-
-  /* AI exec read */
-  .exec .pb{min-height:90px}
-  .exec-empty{text-align:center;color:var(--muted);font-size:13px;padding:18px 0;line-height:1.5}
-  .genbtn{height:40px;padding:0 16px;border-radius:10px;background:var(--accent);color:var(--accent-ink);font-weight:600;font-size:13px;display:inline-flex;align-items:center;gap:8px;transition:background .3s,filter .15s}
-  .genbtn:hover{filter:brightness(1.06)}
-  .genbtn:disabled{opacity:.6;cursor:not-allowed}
-  .genbtn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.9}
-  .exec-out .lead{font-family:var(--display);font-weight:700;font-size:17px;line-height:1.3;margin-bottom:12px;letter-spacing:-.01em}
-  .exec-out .opp{font-size:13.5px;color:var(--ink-soft);line-height:1.55;background:color-mix(in srgb,var(--accent) 7%,transparent);border-left:3px solid var(--accent);padding:11px 13px;border-radius:0 10px 10px 0;margin-bottom:14px}
-  .exec-out .alabel{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
-  .acts{display:flex;flex-direction:column;gap:8px}
-  .act{display:flex;gap:11px;font-size:13.5px;align-items:flex-start;line-height:1.45}
-  .act .n{width:22px;height:22px;border-radius:7px;background:var(--accent);color:#fff;font-family:var(--mono);font-size:11px;font-weight:700;display:grid;place-items:center;flex:0 0 auto}
-  .skel{height:13px;background:linear-gradient(90deg,var(--surface),var(--line),var(--surface));background-size:200% 100%;border-radius:6px;animation:sh 1.3s infinite;margin-bottom:9px}
+  svg.radar{width:100%;height:auto;display:block}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--line)}
+  th{font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+  td.you{font-family:var(--mono);font-weight:700;color:var(--accent)}
+  td.riv{font-family:var(--mono);color:var(--muted)}
+  td .win{font-size:10px;font-weight:700;color:#2E9E66}
+  .ai{margin-top:16px}
+  .aibtn{height:46px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;font-weight:700;font-size:14px;width:100%;display:flex;align-items:center;justify-content:center;gap:8px}
+  .aibtn svg{width:16px;height:16px;fill:none;stroke:#fff;stroke-width:1.9}.aibtn:disabled{opacity:.55}
+  .answer{margin-top:12px;font-size:13.5px;line-height:1.55;background:color-mix(in srgb,var(--accent) 8%,transparent);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:13px 15px;display:none}
+  .answer.on{display:block}
+  .skel{height:12px;background:linear-gradient(90deg,var(--surface),var(--line),var(--surface));background-size:200% 100%;border-radius:6px;animation:sh 1.2s infinite;margin-bottom:8px}
   @keyframes sh{to{background-position:-200% 0}}
-  @media (prefers-reduced-motion:reduce){.skel{animation:none}.sov .fill{transition:none}}
-
-  .credit{text-align:center;font-size:12px;color:var(--muted);margin-top:26px}
-  .credit b{color:var(--ink)}
-  @media (max-width:880px){.grid{grid-template-columns:1fr}}
+  .credit{text-align:center;font-size:12px;color:var(--muted);margin-top:22px}
 </style>
 </head>
 <body>
 <div class="shell">
-
-  <div class="doss">
-    <div class="eyebrow"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg> Estudio de Inteligencia Competitiva</div>
-    <h1>Dónde está la vacancia del mercado</h1>
-    <div class="meta">
-      <div>Sector<b>Servicios de instalación especializada</b></div>
-      <div>Competidores auditados<b id="mCount">6</b></div>
-      <div>Código<b id="mCode">EIC-…</b></div>
-      <div>Fecha<b id="mDate"></b></div>
-    </div>
-    <div class="by">Elaborado por <b>CO-DATA</b></div>
+  <div class="top">
+    <div class="logo"><div class="m" id="lm">R</div><div><b id="bl">Radar</b><span>Inteligencia competitiva · demo</span></div></div>
+    <div class="controls"><input class="ti" id="ib" value="Radar" maxlength="16"><div class="swatches" id="sw"></div></div>
   </div>
+  <div class="lead"><h1>Mira cómo estás frente a tu competencia</h1>
+    <p>Compara tu negocio con la competencia en los factores que deciden la venta — y descubre dónde ganas y dónde mejorar.</p></div>
 
-  <div class="ctrl">
-    <div class="fld"><label>Tu marca (a posicionar)</label><input id="inpBrand" value="Tu Marca" maxlength="18"></div>
-    <div class="fld"><label>Color</label><div class="swatches" id="swatches"></div></div>
-    <div class="hint">Cambia el nombre y verás dónde se ubica tu marca frente a la competencia.</div>
+  <div class="barx">
+    <div class="leg"><span><i style="background:var(--accent)"></i><b id="legYou">Tú</b></span><span><i style="background:var(--rival)"></i><span id="legRiv">Competidor</span></span></div>
+    <select id="rivalSel"></select>
   </div>
 
   <div class="grid">
-    <!-- positioning map -->
+    <div class="panel"><div class="ph">Comparación visual</div><div class="pb"><svg class="radar" id="radar" viewBox="0 0 320 280"></svg></div></div>
     <div class="panel">
-      <div class="ph"><b>Mapa de posicionamiento</b><span>Precio × Especialización</span></div>
-      <div class="pb">
-        <svg id="map" viewBox="0 0 480 380"></svg>
-        <div class="map-note"><svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.4L12 17l-6.3 4.4L8 14 2 9.4h7.6z"/></svg>
-          El cuadrante <b>premium + certificado</b> está vacío. Ahí entra tu marca.</div>
-      </div>
-    </div>
-
-    <!-- share of voice + finding -->
-    <div class="panel">
-      <div class="ph"><b>Presencia digital</b><span>Share of voice estimado</span></div>
-      <div class="pb">
-        <div class="sov" id="sov"></div>
-        <div class="find">
-          <div class="ft">Hallazgo clave</div>
-          <p><b>Ningún competidor</b> ofrece certificación real ni programa de inspección anual. La presencia se reparte entre actores genéricos que compiten por precio — el segmento premium con respaldo técnico está <b>desatendido</b>.</p>
-        </div>
+      <div class="ph">Detalle por factor</div>
+      <table><thead><tr><th>Factor</th><th id="thYou">Tú</th><th id="thRiv">Rival</th></tr></thead><tbody id="rows"></tbody></table>
+      <div class="pb ai">
+        <button class="aibtn" id="ai"><svg viewBox="0 0 24 24"><path d="M12 3l2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2z"/></svg> Analizar con IA</button>
+        <div class="answer" id="answer"></div>
       </div>
     </div>
   </div>
-
-  <!-- comparison table -->
-  <div class="panel" style="margin-bottom:18px">
-    <div class="ph"><b>Tabla comparativa</b><span>✓ cumple · ~ parcial · ✗ no</span></div>
-    <div class="pb tbl-wrap">
-      <table id="tbl"></table>
-    </div>
-  </div>
-
-  <!-- AI exec read -->
-  <div class="panel exec">
-    <div class="ph"><b>Lectura ejecutiva · IA</b><button class="genbtn" id="genBtn"><svg viewBox="0 0 24 24"><path d="M12 3l2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2z"/></svg> Generar análisis</button></div>
-    <div class="pb" id="execBody"><div class="exec-empty">Toca <b>“Generar análisis”</b> y la IA leerá los datos del estudio para entregarte el hallazgo, la oportunidad de posicionamiento y las acciones recomendadas.</div></div>
-  </div>
-
-  <div class="credit">Servicio de inteligencia de mercado de <b>CO-DATA</b> · Datos de ejemplo · Análisis con IA real</div>
+  <div class="credit">Demo interactiva · solución re-skineable · datos de ejemplo · IA real</div>
 </div>
 
 <script>
 (function(){
   "use strict";
   function $(s){return document.querySelector(s);}
-  function pad2(n){return String(n).padStart(2,"0");}
-
-  /* fictional competitors. x=precio(0 econ..1 premium) y=especializacion(0..1) */
-  var comps=[
-    {n:"Tecnova", x:.34,y:.30,share:21,c:[1,0,1,1,1,0]},
-    {n:"Securo",  x:.52,y:.22,share:18,c:[0,1,1,0,1,0]},
-    {n:"Andex",   x:.28,y:.42,share:13,c:[0,0,1,1,0,0]},
-    {n:"Provix",  x:.60,y:.38,share:16,c:[2,1,0,1,1,0]},
-    {n:"Kresva",  x:.44,y:.18,share:11,c:[0,1,1,0,0,0]},
-    {n:"Maxalt",  x:.68,y:.34,share:14,c:[2,0,1,1,1,0]}
+  var brand="Radar";
+  var factors=["Precio","Calidad","Rapidez","Atención","Presencia digital","Garantía"];
+  var you=[7,9,8,9,8,9];
+  var rivals=[
+    {n:"Competidor A",v:[9,6,7,5,4,5]},
+    {n:"Competidor B",v:[6,8,6,7,7,6]},
+    {n:"Competidor C",v:[8,7,9,6,5,4]}
   ];
-  // attributes order matches c[]
-  var attrs=["Certificación real","Precio público","Respuesta <24h","Sitio web pro","Garantía formal","Inspección anual"];
-  var vacCols=[0,5]; // certification + annual inspection = the vacancy
-  var youPos={x:.82,y:.86};
-  var brand="Tu Marca";
-  var code="EIC-"+(new Date().getFullYear())+pad2(new Date().getMonth()+1)+pad2(new Date().getDate())+"-"+Math.floor(100+Math.random()*900);
+  var ri=0;
 
-  /* ---- positioning map ---- */
-  function drawMap(){
-    var svg=$("#map");var W=480,H=380,pl=46,pr=24,pt=20,pb=44;
-    var x0=pl,x1=W-pr,y0=pt,y1=H-pb;
-    function px(v){return x0+(x1-x0)*v;}
-    function py(v){return y1-(y1-y0)*v;}
-    var mx=(x0+x1)/2,my=(y0+y1)/2;
-    var h='';
-    // quadrant highlight (top-right vacancy)
-    h+='<rect x="'+mx+'" y="'+y0+'" width="'+(x1-mx)+'" height="'+(my-y0)+'" fill="color-mix(in srgb,var(--accent) 8%,transparent)"/>';
-    // grid
-    h+='<line x1="'+x0+'" y1="'+my+'" x2="'+x1+'" y2="'+my+'" stroke="var(--line)" stroke-width="1.5"/>';
-    h+='<line x1="'+mx+'" y1="'+y0+'" x2="'+mx+'" y2="'+y1+'" stroke="var(--line)" stroke-width="1.5"/>';
-    // axes labels
-    h+='<text x="'+((x0+mx)/2)+'" y="'+(y1+26)+'" text-anchor="middle" font-size="10" fill="var(--muted)">Económico</text>';
-    h+='<text x="'+((mx+x1)/2)+'" y="'+(y1+26)+'" text-anchor="middle" font-size="10" fill="var(--muted)">Premium</text>';
-    h+='<text x="'+(x0-8)+'" y="'+((my+y1)/2)+'" text-anchor="middle" font-size="10" fill="var(--muted)" transform="rotate(-90 '+(x0-30)+' '+((my+y1)/2)+')">Genérico</text>';
-    h+='<text x="'+(x0-8)+'" y="'+((y0+my)/2)+'" text-anchor="middle" font-size="10" fill="var(--muted)" transform="rotate(-90 '+(x0-30)+' '+((y0+my)/2)+')">Certificado</text>';
-    // vacancy label
-    h+='<text x="'+(x1-8)+'" y="'+(y0+18)+'" text-anchor="end" font-size="10.5" font-weight="700" fill="var(--accent)">VACANTE</text>';
-    // competitor bubbles
-    comps.forEach(function(c){
-      var r=8+c.share*0.5;
-      h+='<circle cx="'+px(c.x)+'" cy="'+py(c.y)+'" r="'+r+'" fill="var(--muted)" fill-opacity="0.18" stroke="var(--muted)" stroke-width="1.5"/>';
-      h+='<text x="'+px(c.x)+'" y="'+(py(c.y)-r-5)+'" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink-soft)">'+c.n+'</text>';
-    });
-    // YOU star
-    var sx=px(youPos.x),sy=py(youPos.y);
-    h+='<g><circle cx="'+sx+'" cy="'+sy+'" r="15" fill="var(--accent)" fill-opacity="0.2"><animate attributeName="r" values="15;21;15" dur="2.4s" repeatCount="indefinite"/></circle>';
-    h+=star(sx,sy,11,'var(--accent)');
-    h+='<text x="'+sx+'" y="'+(sy-20)+'" text-anchor="middle" font-size="11" font-weight="800" fill="var(--accent)" id="youLabel">'+brand+'</text></g>';
-    svg.innerHTML=h;
-  }
-  function star(cx,cy,r,fill){
-    var pts="";for(var i=0;i<10;i++){var ang=Math.PI/5*i-Math.PI/2;var rad=i%2?r*0.45:r;pts+=(cx+Math.cos(ang)*rad).toFixed(1)+","+(cy+Math.sin(ang)*rad).toFixed(1)+" ";}
-    return '<polygon points="'+pts+'" fill="'+fill+'"/>';
-  }
+  function rivalSel(){$("#rivalSel").innerHTML=rivals.map(function(r,i){return '<option value="'+i+'">vs '+r.n+'</option>';}).join("");}
 
-  /* ---- share of voice ---- */
-  function drawSov(){
-    var box=$("#sov");box.innerHTML="";
-    var max=Math.max.apply(null,comps.map(function(c){return c.share;}));
-    var sorted=comps.slice().sort(function(a,b){return b.share-a.share;});
-    sorted.forEach(function(c){
-      var el=document.createElement("div");el.className="row";
-      el.innerHTML='<div class="lr"><b>'+c.n+'</b><span>'+c.share+'%</span></div><div class="track"><div class="fill" style="width:0"></div></div>';
-      box.appendChild(el);
-      requestAnimationFrame(function(){requestAnimationFrame(function(){el.querySelector(".fill").style.width=(c.share/max*100)+"%";});});
-    });
-    // you
-    var el=document.createElement("div");el.className="row";
-    el.innerHTML='<div class="lr you"><b id="sovYou">'+brand+'</b><span style="color:var(--accent)">&lt;1% · entrante</span></div><div class="track"><div class="fill you" style="width:0"></div></div>';
-    box.appendChild(el);
-    requestAnimationFrame(function(){requestAnimationFrame(function(){el.querySelector(".fill").style.width="6%";});});
+  function radar(){
+    var cx=160,cy=140,R=100,n=factors.length;
+    function pt(i,val){var ang=-Math.PI/2+i/n*2*Math.PI;var r=val/10*R;return [cx+Math.cos(ang)*r,cy+Math.sin(ang)*r];}
+    var g="";
+    // rings
+    for(var k=1;k<=4;k++){var pts="";for(var i=0;i<n;i++){var p=pt(i,k*2.5);pts+=p[0]+","+p[1]+" ";}g+='<polygon points="'+pts+'" fill="none" stroke="var(--line)" stroke-width="1"/>';}
+    // axes + labels
+    for(var i=0;i<n;i++){var e=pt(i,10);g+='<line x1="'+cx+'" y1="'+cy+'" x2="'+e[0]+'" y2="'+e[1]+'" stroke="var(--line)" stroke-width="1"/>';
+      var l=pt(i,12.2);var anchor=Math.abs(l[0]-cx)<10?"middle":(l[0]>cx?"start":"end");
+      g+='<text x="'+l[0]+'" y="'+l[1]+'" font-size="9.5" fill="var(--muted)" text-anchor="'+anchor+'" dy="3">'+factors[i]+'</text>';}
+    function poly(vals,fill,stroke){var pts="";for(var i=0;i<n;i++){var p=pt(i,vals[i]);pts+=p[0]+","+p[1]+" ";}return '<polygon points="'+pts+'" fill="'+fill+'" stroke="'+stroke+'" stroke-width="2"/>';}
+    g+=poly(rivals[ri].v,"color-mix(in srgb,var(--rival) 14%,transparent)","var(--rival)");
+    g+=poly(you,"color-mix(in srgb,var(--accent) 18%,transparent)","var(--accent)");
+    $("#radar").innerHTML=g;
   }
+  function rows(){
+    $("#rows").innerHTML=factors.map(function(f,i){var win=you[i]>rivals[ri].v[i];
+      return '<tr><td>'+f+'</td><td class="you">'+you[i]+(win?' <span class="win">▲</span>':'')+'</td><td class="riv">'+rivals[ri].v[i]+'</td></tr>';
+    }).join("");
+  }
+  function refresh(){$("#legRiv").textContent=rivals[ri].n;$("#thRiv").textContent=rivals[ri].n;$("#legYou").textContent=brand;$("#thYou").textContent=brand;radar();rows();$("#answer").classList.remove("on");}
+  $("#rivalSel").addEventListener("change",function(e){ri=+e.target.value;refresh();});
 
-  /* ---- table ---- */
-  function mark(v){if(v===1)return '<span class="mk y">✓</span>';if(v===2)return '<span class="mk p">~</span>';return '<span class="mk n">✗</span>';}
-  function drawTable(){
-    var t=$("#tbl");
-    var head='<thead><tr><th class="brandcol">Competidor</th>';
-    attrs.forEach(function(a,i){head+='<th class="'+(vacCols.indexOf(i)>=0?"vac":"")+'">'+a+'</th>';});
-    head+='</tr></thead>';
-    var body='<tbody>';
-    comps.forEach(function(c){
-      body+='<tr><td class="name">'+c.n+'</td>';
-      c.c.forEach(function(v,i){body+='<td class="'+(vacCols.indexOf(i)>=0?"vac":"")+'">'+mark(v)+'</td>';});
-      body+='</tr>';
-    });
-    // YOU row — wins the vacant columns
-    body+='<tr class="you"><td class="name" id="tblYou">'+brand+'</td>';
-    var youVals=[1,2,1,1,1,1]; // strong on cert + inspection
-    youVals.forEach(function(v,i){
-      var m=(vacCols.indexOf(i)>=0)?'<span class="mk star">★</span>':mark(v);
-      body+='<td class="'+(vacCols.indexOf(i)>=0?"vac":"")+'">'+m+'</td>';
-    });
-    body+='</tr></tbody>';
-    t.innerHTML=head+body;
-  }
+  $("#ai").onclick=function(){
+    var a=$("#answer");a.classList.add("on");a.innerHTML='<div class="skel" style="width:90%"></div><div class="skel" style="width:100%"></div><div class="skel" style="width:70%"></div>';
+    $("#ai").disabled=true;
+    var data=factors.map(function(f,i){return f+": "+brand+" "+you[i]+"/10 vs "+rivals[ri].n+" "+rivals[ri].v[i]+"/10";}).join("\n");
+    var sys="Eres analista de estrategia comercial. Compara a "+brand+" contra un competidor en varios factores (escala 0-10). "+
+      "En español de Chile, breve: di en qué factores "+brand+" GANA (y cómo usarlo para vender), y en cuáles está DÉBIL (y 1 acción concreta para cada uno). Máx 5 viñetas. Sé directo y accionable.";
+    fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1000,system:sys,messages:[{role:"user",content:data}]})
+    }).then(function(r){return r.json();}).then(function(d){
+      var t="";if(d&&d.content)t=d.content.filter(function(i){return i.type==="text";}).map(function(i){return i.text;}).join("").trim();
+      a.textContent=t||"No pude analizar ahora.";
+    }).catch(function(){a.textContent="No pude conectar ahora ⚠️. Reintenta.";}).then(function(){$("#ai").disabled=false;});
+  };
 
-  /* ---- AI exec read ---- */
-  function dataSummary(){
-    var lines=[];
-    lines.push("Sector: servicios de instalación especializada. "+comps.length+" competidores auditados.");
-    lines.push("Atributos evaluados: "+attrs.join(", ")+".");
-    comps.forEach(function(c){
-      var s=attrs.map(function(a,i){return a+": "+(c.c[i]===1?"sí":c.c[i]===2?"parcial":"no");}).join("; ");
-      lines.push("- "+c.n+" (presencia "+c.share+"%): "+s+".");
-    });
-    lines.push("Hallazgo de datos: ningún competidor tiene 'Certificación real' ni 'Inspección anual' (ambos vacíos). El cuadrante premium+certificado del mapa de posicionamiento está vacío.");
-    lines.push("Marca a posicionar: "+brand+", entrante, que SÍ puede ofrecer certificación real e inspección anual.");
-    return lines.join("\n");
-  }
-  function genExec(){
-    var btn=$("#genBtn");btn.disabled=true;
-    $("#execBody").innerHTML='<div class="skel" style="width:80%;height:18px;margin-bottom:14px"></div><div class="skel" style="width:100%"></div><div class="skel" style="width:92%"></div><div class="skel" style="width:60%;margin-top:14px"></div><div class="skel" style="width:88%"></div>';
-    var sys="Eres analista senior de estrategia de mercado. Con los datos del estudio de inteligencia competitiva de abajo, entrega una lectura ejecutiva. "+
-      "Responde SOLO con JSON válido, sin markdown, con la forma exacta:\n"+
-      '{"hallazgo":"...","oportunidad":"...","acciones":["...","...","..."]}\n'+
-      "hallazgo: 1-2 frases con la conclusión principal. oportunidad: el espacio de posicionamiento para la marca entrante, 1-2 frases. "+
-      "acciones: 3 acciones concretas y accionables para capturar esa vacancia. Español de Chile, directo, sin relleno. Usa solo los datos entregados.";
-    fetch("https://api.anthropic.com/v1/messages",{
-      method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1000,system:sys,messages:[{role:"user",content:dataSummary()}]})
-    }).then(function(r){return r.json();}).then(function(data){
-      var raw="";if(data&&data.content)raw=data.content.filter(function(i){return i.type==="text";}).map(function(i){return i.text;}).join("").trim();
-      raw=raw.replace(/```json|```/g,"").trim();
-      var o=JSON.parse(raw);
-      var acts=(o.acciones||[]).map(function(a,i){return '<div class="act"><span class="n">'+(i+1)+'</span><span>'+esc(a)+'</span></div>';}).join("");
-      $("#execBody").innerHTML=
-        '<div class="exec-out"><div class="lead">'+esc(o.hallazgo||"")+'</div>'+
-        '<div class="opp"><b>Oportunidad:</b> '+esc(o.oportunidad||"")+'</div>'+
-        '<div class="alabel">Acciones recomendadas</div><div class="acts">'+acts+'</div></div>';
-    }).catch(function(){
-      $("#execBody").innerHTML='<div class="exec-empty">No se pudo generar ahora ⚠️. Reintenta en unos segundos.<br>(Publicado, esto corre con la conexión segura del proyecto.)</div>';
-    }).then(function(){btn.disabled=false;});
-  }
-  function esc(s){return String(s).replace(/[&<>]/g,function(m){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[m];});}
-
-  /* ---- re-skin ---- */
-  var swColors=[{c:"#3D4EAB"},{c:"#0F8A5F"},{c:"#C0392B"},{c:"#E8852C"},{c:"#6D4AAF"}];
-  function applyAccent(c){
-    document.documentElement.style.setProperty("--accent",c);
-    var h=c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
-    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#16181F":"#fff");
-    [].slice.call(document.querySelectorAll(".sw")).forEach(function(el){el.classList.toggle("active",el.dataset.c===c);});
-  }
-  function buildSwatches(){var s=$("#swatches");s.innerHTML="";swColors.forEach(function(o){var b=document.createElement("button");b.className="sw";b.style.background=o.c;b.dataset.c=o.c;b.onclick=function(){applyAccent(o.c);drawMap();};s.appendChild(b);});}
-  function applyBrand(n){
-    brand=n||"Tu Marca";
-    var y=$("#youLabel");if(y)y.textContent=brand;
-    var sy=$("#sovYou");if(sy)sy.textContent=brand;
-    var ty=$("#tblYou");if(ty)ty.textContent=brand;
-  }
-  $("#inpBrand").addEventListener("input",function(e){applyBrand(e.target.value);});
-
-  /* ---- init ---- */
-  $("#mCode").textContent=code;$("#mDate").textContent=new Date().toLocaleDateString("es-CL");$("#mCount").textContent=comps.length;
-  buildSwatches();applyAccent("#3D4EAB");
-  drawMap();drawSov();drawTable();
-  $("#genBtn").onclick=genExec;
+  var SW=[{c:"#DB2777",c2:"#F472B6"},{c:"#2563EB",c2:"#5B8DEF"},{c:"#0D9488",c2:"#2DD4BF"},{c:"#7C3AED",c2:"#A855F7"},{c:"#EA580C",c2:"#F97A3D"}];
+  function ac(o){document.documentElement.style.setProperty("--accent",o.c);document.documentElement.style.setProperty("--accent-2",o.c2);
+    var h=o.c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
+    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#1A1217":"#fff");
+    [].slice.call(document.querySelectorAll(".sw")).forEach(function(e){e.classList.toggle("active",e.dataset.c===o.c);});radar();}
+  function bsw(){var s=$("#sw");s.innerHTML="";SW.forEach(function(o){var b=document.createElement("button");b.className="sw";b.style.background=o.c;b.dataset.c=o.c;b.onclick=function(){ac(o);};s.appendChild(b);});}
+  function ab(n){brand=n||"Marca";$("#bl").textContent=brand;$("#lm").textContent=brand.charAt(0).toUpperCase();$("#legYou").textContent=brand;$("#thYou").textContent=brand;}
+  $("#ib").addEventListener("input",function(e){ab(e.target.value);refresh();});
+  bsw();ac(SW[0]);ab("Radar");rivalSel();refresh();
 })();
 </script>
 </body>

@@ -9,151 +9,136 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --accent:#4F6BFF;--accent-2:#7C8CFF;--accent-ink:#fff;
-    --ink:#15161C;--muted:#787C8A;--line:#E9E9F1;--surface:#F4F5FA;--card:#fff;
+    --accent:#4F46E5;--accent-2:#7C6FF0;--accent-ink:#fff;--wa:#25D366;--ok:#22C55E;--warn:#E0A53B;--bad:#EF4444;
+    --ink:#E9EAF6;--muted:#8A8FA8;--line:#262A40;--card:#161A2C;--bg:#0B0D1A;
     --display:"Bricolage Grotesque",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;
   }
   *{box-sizing:border-box}
   body{margin:0;font-family:var(--body);color:var(--ink);
-    background:radial-gradient(70% 50% at 50% 0%,color-mix(in srgb,var(--accent) 16%,transparent),transparent 60%),var(--surface);
+    background:radial-gradient(85% 60% at 50% 0%,color-mix(in srgb,var(--accent) 22%,transparent),transparent 58%),var(--bg);
     min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:24px 18px 50px;-webkit-font-smoothing:antialiased}
   button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
   input{font-family:inherit}
-  .top{width:100%;max-width:640px;display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+  .top{width:100%;max-width:600px;display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
   .logo{display:flex;align-items:center;gap:11px}
-  .logo .m{width:36px;height:36px;border-radius:10px;background:var(--accent);display:grid;place-items:center;color:var(--accent-ink);font-family:var(--display);font-weight:800;font-size:17px;transition:background .35s}
-  .logo b{font-family:var(--display);font-size:19px;display:block;line-height:1}
-  .logo span{font-size:11.5px;color:var(--muted)}
+  .logo .m{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:800;font-size:17px}
+  .logo b{font-family:var(--display);font-size:19px;color:#fff;display:block;line-height:1}.logo span{font-size:11.5px;color:var(--muted)}
   .controls{margin-left:auto;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-  .brand-inp{height:36px;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:0 11px;font-size:13px;width:130px;outline:none}
-  .swatches{display:flex;gap:6px}.sw{width:22px;height:22px;border-radius:999px;border:2px solid transparent}.sw.active{border-color:var(--ink);transform:scale(1.1)}
-  .card{width:100%;max-width:640px;background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:0 20px 60px rgba(20,18,40,.08);padding:30px 28px}
-  .bot{display:flex;align-items:center;gap:13px;margin-bottom:20px}
-  .bot .face{width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;flex:0 0 auto;transition:background .35s}
-  .bot .face svg{width:28px;height:28px;stroke:#fff;fill:none;stroke-width:1.8}
-  .bot .t b{font-family:var(--display);font-size:16px;display:block}
-  .bot .t span{font-size:12.5px;color:var(--muted)}
-  .progress{display:flex;gap:6px;margin-bottom:22px}
-  .progress i{height:5px;border-radius:999px;background:var(--line);flex:1;transition:.3s}
-  .progress i.on{background:var(--accent)}
-  .q{font-family:var(--display);font-weight:800;font-size:21px;letter-spacing:-.01em;margin:0 0 18px;line-height:1.2}
+  .ti{height:36px;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:0 11px;font-size:13px;width:120px;outline:none;color:#fff}
+  .swatches{display:flex;gap:6px}.sw{width:22px;height:22px;border-radius:999px;border:2px solid transparent}.sw.active{border-color:#fff;transform:scale(1.1)}
+  .card{width:100%;max-width:600px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:28px 26px;box-shadow:0 24px 60px rgba(0,0,0,.4)}
+  .card h2{font-family:var(--display);font-weight:800;font-size:22px;margin:0 0 4px;color:#fff}
+  .card .sub{font-size:13.5px;color:var(--muted);margin:0 0 22px}
+  .prog{display:flex;gap:6px;margin-bottom:20px}.prog i{height:4px;flex:1;border-radius:999px;background:var(--line)}.prog i.on{background:var(--accent)}
+  .q .ql{font-size:16px;font-weight:600;margin-bottom:16px;color:#fff}
   .opts{display:flex;flex-direction:column;gap:10px}
-  .opt{border:1px solid var(--line);border-radius:13px;padding:15px;font-size:14.5px;font-weight:500;text-align:left;transition:.15s;display:flex;align-items:center;gap:12px}
-  .opt:hover{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 5%,transparent)}
-  .opt .e{font-size:20px}
-  .start p{font-size:14.5px;color:var(--muted);line-height:1.5;margin:0 0 20px}
-  .btn{height:52px;border-radius:14px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:15px;width:100%;display:flex;align-items:center;justify-content:center;gap:9px;transition:background .35s,filter .15s}
-  .btn:hover{filter:brightness(1.05)}
-  .step{display:none}.step.on{display:block;animation:f .3s ease}@keyframes f{from{opacity:0;transform:translateY(6px)}to{opacity:1}}
-  .skel{height:14px;background:linear-gradient(90deg,var(--surface),var(--line),var(--surface));background-size:200% 100%;border-radius:6px;animation:sh 1.2s infinite;margin-bottom:10px}
-  @keyframes sh{to{background-position:-200% 0}}
-  .res .lead{font-family:var(--display);font-weight:800;font-size:20px;line-height:1.25;margin:6px 0 18px}
-  .act{border:1px solid var(--line);border-radius:14px;padding:15px;margin-bottom:11px;display:flex;gap:13px}
-  .act .n{width:30px;height:30px;border-radius:9px;background:var(--accent);color:#fff;font-weight:800;display:grid;place-items:center;flex:0 0 auto}
-  .act b{font-size:14.5px;display:block;margin-bottom:5px}
-  .act .tags{display:flex;gap:8px;flex-wrap:wrap}
-  .act .tag{font-size:11px;font-weight:700;padding:4px 9px;border-radius:999px;background:color-mix(in srgb,var(--accent) 12%,transparent);color:var(--accent)}
-  .act .tag.t{background:color-mix(in srgb,#2E9E66 14%,transparent);color:#2E9E66}
-  .credit{font-size:12px;color:var(--muted);margin-top:20px;text-align:center}
-  @media(max-width:560px){.card{padding:24px 20px}}
+  .opt{border:1px solid var(--line);border-radius:13px;padding:14px;font-size:14px;text-align:left;transition:.12s;color:var(--ink)}
+  .opt:hover{border-color:var(--accent)}.opt.on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent)}
+  .nav{display:flex;gap:10px;margin-top:20px}
+  .btn{height:50px;border-radius:13px;font-weight:700;font-size:15px;flex:1;display:flex;align-items:center;justify-content:center;gap:8px;transition:filter .15s}
+  .btn-p{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff}.btn-p:hover{filter:brightness(1.08)}.btn-p:disabled{opacity:.45}
+  .btn-g{background:transparent;border:1px solid var(--line);color:var(--ink);flex:0 0 auto;padding:0 18px}
+  .step{display:none}.step.on{display:block;animation:f .25s ease}@keyframes f{from{opacity:0;transform:translateY(8px)}to{opacity:1}}
+  .result .ring{position:relative;width:140px;height:140px;margin:0 auto 8px}
+  .result .ring svg{width:140px;height:140px;transform:rotate(-90deg)}
+  .result .ring .pc{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+  .result .ring .pc b{font-family:var(--display);font-weight:800;font-size:36px;line-height:1;color:#fff}.result .ring .pc span{font-size:11px;color:var(--muted)}
+  .result h2,.result .sub{text-align:center}
+  .block{margin-top:18px}.block .bl{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+  .li{display:flex;gap:10px;font-size:13.5px;line-height:1.45;padding:8px 0;border-bottom:1px solid var(--line)}.li:last-child{border:none}
+  .li .ic{flex:0 0 auto}
+  .reco{display:flex;gap:11px;padding:11px;border:1px solid var(--line);border-radius:12px;margin-bottom:9px}
+  .reco .pri{font-size:10px;font-weight:700;padding:3px 8px;border-radius:999px;height:fit-content;white-space:nowrap}
+  .pri.alta{background:color-mix(in srgb,var(--bad) 18%,transparent);color:#FCA5A5}
+  .pri.media{background:color-mix(in srgb,var(--warn) 18%,transparent);color:#FCD34D}
+  .pri.win{background:color-mix(in srgb,var(--ok) 16%,transparent);color:#86EFAC}
+  .reco .tx b{font-size:13.5px;display:block;color:#fff}.reco .tx span{font-size:12.5px;color:var(--muted)}
+  .skel{height:14px;background:linear-gradient(90deg,var(--card),var(--line),var(--card));background-size:200% 100%;border-radius:6px;animation:sh 1.2s infinite;margin-bottom:11px}@keyframes sh{to{background-position:-200% 0}}
+  .wabtn{height:50px;border-radius:13px;background:var(--wa);color:#fff;font-weight:700;font-size:15px;width:100%;display:flex;align-items:center;justify-content:center;gap:9px;margin-top:18px}
+  .wabtn svg{width:18px;height:18px;fill:#fff}
+  .credit{font-size:12px;color:var(--muted);margin-top:18px;text-align:center}
 </style>
 </head>
 <body>
   <div class="top">
-    <div class="logo"><div class="m" id="lm">N</div><div><b id="bl">Núcleo</b><span>Diagnóstico digital · demo</span></div></div>
-    <div class="controls"><input class="brand-inp" id="ib" value="Núcleo" maxlength="16"><div class="swatches" id="sw"></div></div>
+    <div class="logo"><div class="m" id="lm">N</div><div><b id="bl">Nivela</b><span>Diagnóstico digital · demo</span></div></div>
+    <div class="controls"><input class="ti" id="ib" value="Nivela" maxlength="16"><div class="swatches" id="sw"></div></div>
   </div>
 
   <div class="card">
-    <div class="bot"><div class="face"><svg viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="12" rx="3"/><path d="M9 12h.01M15 12h.01M12 4v3M8 19v2M16 19v2"/></svg></div>
-      <div class="t"><b>Nio, tu asistente</b><span>En 4 preguntas te digo qué resolver primero</span></div></div>
-    <div class="progress" id="pg"></div>
-
-    <div class="step on start" id="s0">
-      <h2 class="q">Hagamos un diagnóstico rápido de tu negocio 👋</h2>
-      <p>Respóndeme 4 preguntas simples y te armo un plan priorizado: qué automatizar primero, con su impacto y tiempo estimado. Sin costo, en 1 minuto.</p>
-      <button class="btn" id="go">Empezar diagnóstico</button>
+    <div class="prog" id="prog"></div>
+    <div id="quiz"></div>
+    <div class="step" id="loading">
+      <h2>Analizando tu negocio…</h2><div class="sub">La IA está armando tu diagnóstico</div>
+      <div class="skel" style="width:60%;height:20px;margin:18px 0"></div><div class="skel" style="width:100%"></div><div class="skel" style="width:90%"></div><div class="skel" style="width:80%"></div>
     </div>
-
-    <div class="step" id="sq"></div>
-
-    <div class="step" id="sl">
-      <h2 class="q">Analizando tu negocio…</h2>
-      <div class="skel" style="width:80%"></div><div class="skel" style="width:100%"></div><div class="skel" style="width:92%"></div><div class="skel" style="width:70%"></div>
-    </div>
-
-    <div class="step res" id="sr"></div>
+    <div class="step result" id="result"></div>
   </div>
-  <div class="credit">Demo interactiva · solución re-skineable · genera plan con IA real</div>
+  <div class="credit">Demo interactiva · solución re-skineable · IA real</div>
 
 <script>
 (function(){
   "use strict";
   function $(s){return document.querySelector(s);}
-  var brand="Núcleo";
-  var questions=[
-    {q:"¿A qué se dedica tu negocio?",o:[["🏗️","Construcción / obras / contratista"],["🛠️","Servicios técnicos / terreno"],["🛒","Comercio / venta de productos"],["💼","Servicios profesionales"]]},
-    {q:"¿Cuál es tu mayor dolor hoy?",o:[["⏳","Pierdo mucho tiempo en tareas manuales"],["📉","Me llegan pocos clientes nuevos"],["🗂️","Tengo todo desordenado / en papel"],["📵","No respondo a tiempo las consultas"]]},
-    {q:"¿Cuántas personas trabajan contigo?",o:[["👤","Solo yo / 1-3"],["👥","4-15"],["🏢","16-50"],["🏭","Más de 50"]]},
-    {q:"¿Qué tienes hoy digitalizado?",o:[["🚫","Casi nada, parto de cero"],["📱","Solo redes sociales / WhatsApp"],["🌐","Tengo web pero no vende"],["⚙️","Algunos sistemas sueltos"]]}
+  function esc(s){return String(s).replace(/[&<>]/g,function(m){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[m];});}
+  var brand="Nivela";
+  var Q=[
+    {q:"¿Cómo reciben hoy a sus clientes nuevos?",o:["Solo de boca en boca","Redes sociales","Web + redes","Web, redes y publicidad"]},
+    {q:"¿Cómo agendan o toman pedidos?",o:["Por teléfono / papel","WhatsApp manual","Planilla o app","Sistema automático"]},
+    {q:"¿Tienen forma de cotizar rápido?",o:["No, demora días","A mano cada vez","Plantilla","Cotizador automático"]},
+    {q:"¿Miden resultados (ventas, clientes)?",o:["No medimos","En la cabeza","Planilla","Dashboard en vivo"]},
+    {q:"¿Cómo es su presencia digital?",o:["Casi nula","Solo Instagram","Web básica","Web pro + reseñas"]}
   ];
-  var answers=[];var qi=0;
+  var ans=[],step=0;
 
-  function dots(){var p=$("#pg");p.innerHTML="";questions.forEach(function(_,i){p.insertAdjacentHTML("beforeend",'<i class="'+(i<=qi?"on":"")+'"></i>');});}
-  function show(id){[].slice.call(document.querySelectorAll(".step")).forEach(function(e){e.classList.remove("on");});$("#"+id).classList.add("on");}
-
+  function prog(){$("#prog").innerHTML=Q.map(function(_,i){return '<i class="'+(i<=step?"on":"")+'"></i>';}).join("");}
   function renderQ(){
-    dots();var Q=questions[qi];
-    $("#sq").innerHTML='<h2 class="q">'+Q.q+'</h2><div class="opts">'+
-      Q.o.map(function(o,i){return '<button class="opt" data-i="'+i+'"><span class="e">'+o[0]+'</span> '+o[1]+'</button>';}).join("")+'</div>';
-    show("sq");
-    [].slice.call($("#sq").querySelectorAll(".opt")).forEach(function(b){
-      b.onclick=function(){answers.push(Q.o[+b.dataset.i][1]);qi++;if(qi<questions.length)renderQ();else analyze();};
-    });
+    prog();
+    $("#quiz").innerHTML='<div class="step on"><h2>Diagnóstico en 5 preguntas</h2><div class="sub">Pregunta '+(step+1)+' de '+Q.length+'</div><div class="q"><div class="ql">'+Q[step].q+'</div><div class="opts">'+
+      Q[step].o.map(function(o,i){return '<button class="opt'+(ans[step]===i?" on":"")+'" data-i="'+i+'">'+o+'</button>';}).join("")+
+      '</div></div><div class="nav">'+(step>0?'<button class="btn btn-g" id="back">‹</button>':'')+'<button class="btn btn-p" id="next" '+(ans[step]==null?"disabled":"")+'>'+(step===Q.length-1?"Ver diagnóstico":"Siguiente")+'</button></div></div>';
+    [].slice.call($("#quiz").querySelectorAll(".opt")).forEach(function(b){b.onclick=function(){ans[step]=+b.dataset.i;renderQ();};});
+    var nx=$("#next");if(nx)nx.onclick=function(){if(step<Q.length-1){step++;renderQ();}else run();};
+    var bk=$("#back");if(bk)bk.onclick=function(){step--;renderQ();};
   }
 
-  function analyze(){
-    dots();show("sl");
-    var sys="Eres consultor de transformación digital para PYMEs y contratistas en Chile. "+
-      "Con el diagnóstico de abajo, entrega un plan priorizado. Responde SOLO con JSON válido, sin markdown, forma exacta:\n"+
-      '{"resumen":"...","acciones":[{"titulo":"...","impacto":"...","tiempo":"..."},{...},{...}]}\n'+
-      "resumen: 1-2 frases con la conclusión. acciones: exactamente 3, priorizadas por impacto, concretas y accionables. "+
-      "impacto: beneficio en pocas palabras (ej: 'recupera ~8 HH/semana'). tiempo: estimado de implementación (ej: '3-5 días'). Español de Chile, directo.";
-    var usr="Diagnóstico:\n- Rubro: "+answers[0]+"\n- Mayor dolor: "+answers[1]+"\n- Tamaño: "+answers[2]+"\n- Digitalización actual: "+answers[3];
+  function run(){
+    $("#quiz").innerHTML="";$("#loading").classList.add("on");prog();
+    var score=Math.round(ans.reduce(function(a,v){return a+v;},0)/(Q.length*3)*100);
+    var resumen=Q.map(function(q,i){return q.q+" → "+q.o[ans[i]];}).join("\n");
+    var sys="Eres consultor de transformación digital para pymes. Con las respuestas de un diagnóstico, responde SOLO JSON válido sin markdown, forma exacta:\n"+
+      '{"nivel":"...","resumen":"...","brechas":["...","..."],"recomendaciones":[{"pri":"alta|media|win","t":"...","d":"..."}]}\n'+
+      "nivel: una palabra (Inicial/Básico/Intermedio/Avanzado). resumen: 2 frases. brechas: 3 puntos débiles concretos. recomendaciones: 4 acciones, cada una con pri (alta=importante, media, win=quick win fácil), t=título corto, d=beneficio en 1 frase. Español de Chile, concreto.";
     fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1000,system:sys,messages:[{role:"user",content:usr}]})
+      body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1000,system:sys,messages:[{role:"user",content:"Negocio: "+brand+"\nRespuestas:\n"+resumen+"\nPuntaje calculado: "+score+"/100"}]})
     }).then(function(r){return r.json();}).then(function(d){
       var raw="";if(d&&d.content)raw=d.content.filter(function(i){return i.type==="text";}).map(function(i){return i.text;}).join("").trim();
-      raw=raw.replace(/```json|```/g,"").trim();var o=JSON.parse(raw);renderRes(o);
-    }).catch(function(){
-      $("#sr").innerHTML='<div class="bot"><div class="face"><svg viewBox="0 0 24 24"><path d="M12 8v5M12 16h.01"/><circle cx="12" cy="12" r="9"/></svg></div><div class="t"><b>No pude conectar</b><span>Reintenta en unos segundos</span></div></div><button class="btn" onclick="location.reload()">Reintentar</button>';
-      show("sr");
-    });
+      raw=raw.replace(/```json|```/g,"").trim();show(score,JSON.parse(raw));
+    }).catch(function(){$("#loading").classList.remove("on");$("#quiz").innerHTML='<div class="step on"><h2>Ups</h2><div class="sub">No se pudo analizar ahora. Reintenta.</div></div>';});
+  }
+  function show(score,o){
+    $("#loading").classList.remove("on");
+    var col=score>=70?"var(--ok)":score>=40?"var(--warn)":"var(--bad)";
+    var ic={alta:"🔴",media:"🟡",win:"⚡"};
+    $("#result").classList.add("on");
+    $("#result").innerHTML=
+      '<div class="ring"><svg viewBox="0 0 140 140"><circle cx="70" cy="70" r="60" fill="none" stroke="var(--line)" stroke-width="12"/><circle cx="70" cy="70" r="60" fill="none" stroke="'+col+'" stroke-width="12" stroke-linecap="round" stroke-dasharray="377" stroke-dashoffset="'+(377*(1-score/100))+'" style="transition:stroke-dashoffset 1s"/></svg><div class="pc"><b>'+score+'</b><span>de 100</span></div></div>'+
+      '<h2>Madurez digital: '+esc(o.nivel||"")+'</h2><div class="sub">'+esc(o.resumen||"")+'</div>'+
+      '<div class="block"><div class="bl">Brechas detectadas</div>'+(o.brechas||[]).map(function(x){return '<div class="li"><span class="ic">⚠️</span>'+esc(x)+'</div>';}).join("")+'</div>'+
+      '<div class="block"><div class="bl">Plan recomendado</div>'+(o.recomendaciones||[]).map(function(r){return '<div class="reco"><span class="pri '+(r.pri||"media")+'">'+(ic[r.pri]||"")+' '+(r.pri==="win"?"Quick win":r.pri==="alta"?"Prioritario":"Medio")+'</span><div class="tx"><b>'+esc(r.t||"")+'</b><span>'+esc(r.d||"")+'</span></div></div>';}).join("")+'</div>'+
+      '<button class="wabtn" id="wa"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-8.6 15l-1.4 5 5.2-1.4A10 10 0 1012 2z"/></svg> Quiero avanzar con esto</button>';
+    $("#wa").onclick=function(){window.open("https://wa.me/?text="+encodeURIComponent("Hola "+brand+", hice el diagnóstico digital (puntaje "+score+"/100) y quiero avanzar con el plan."),"_blank");};
   }
 
-  function renderRes(o){
-    var acts=(o.acciones||[]).map(function(a,i){
-      return '<div class="act"><div class="n">'+(i+1)+'</div><div><b>'+esc(a.titulo)+'</b><div class="tags"><span class="tag">'+esc(a.impacto)+'</span><span class="tag t">⏱ '+esc(a.tiempo)+'</span></div></div></div>';
-    }).join("");
-    $("#sr").innerHTML='<div class="bot"><div class="face"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="t"><b>Tu plan está listo</b><span>Priorizado por impacto</span></div></div>'+
-      '<div class="lead">'+esc(o.resumen||"")+'</div>'+acts+
-      '<button class="btn" style="margin-top:8px" id="cta">Quiero que lo implementen</button>';
-    show("sr");dots();
-    var c=$("#cta");if(c)c.onclick=function(){window.open("https://wa.me/?text="+encodeURIComponent("Hola "+brand+", hice el diagnóstico y quiero avanzar con el plan."),"_blank");};
-  }
-  function esc(s){return String(s).replace(/[&<>]/g,function(m){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[m];});}
-
-  $("#go").onclick=function(){qi=0;answers=[];renderQ();};
-
-  var SW=[{c:"#4F6BFF",c2:"#7C8CFF"},{c:"#0D9488",c2:"#2DD4BF"},{c:"#E8852C",c2:"#F5B445"},{c:"#7C3AED",c2:"#A855F7"},{c:"#C0392B",c2:"#E26B68"}];
+  var SW=[{c:"#4F46E5",c2:"#7C6FF0"},{c:"#0D9488",c2:"#2DD4BF"},{c:"#2563EB",c2:"#5B8DEF"},{c:"#C2410C",c2:"#EA7A3C"},{c:"#BE185D",c2:"#EC4899"}];
   function ac(o){document.documentElement.style.setProperty("--accent",o.c);document.documentElement.style.setProperty("--accent-2",o.c2);
     var h=o.c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
-    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#15161C":"#fff");
+    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#0B0D1A":"#fff");
     [].slice.call(document.querySelectorAll(".sw")).forEach(function(e){e.classList.toggle("active",e.dataset.c===o.c);});}
   function bsw(){var s=$("#sw");s.innerHTML="";SW.forEach(function(o){var b=document.createElement("button");b.className="sw";b.style.background=o.c;b.dataset.c=o.c;b.onclick=function(){ac(o);};s.appendChild(b);});}
   function ab(n){brand=n||"Marca";$("#bl").textContent=brand;$("#lm").textContent=brand.charAt(0).toUpperCase();}
   $("#ib").addEventListener("input",function(e){ab(e.target.value);});
-  bsw();ac(SW[0]);ab("Núcleo");dots();
+  bsw();ac(SW[0]);ab("Nivela");renderQ();
 })();
 </script>
 </body>

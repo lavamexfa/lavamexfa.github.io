@@ -3,365 +3,138 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Inspección de Terreno · Demo CO-DATA</title>
+<title>Inspección de Terreno · Demo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --accent:#E8852C;
-    --accent-ink:#fff;
-    --ok:#2E9E66;
-    --fail:#E0533D;
-    --na:#9AA0A8;
-    --ink:#16181C;
-    --muted:#7A828C;
-    --line:#E8E6E1;
-    --bg:#1A1C22;
-    --screen:#FBFAF8;
-    --card:#fff;
-    --display:"Bricolage Grotesque",system-ui,sans-serif;
-    --body:"Inter",system-ui,sans-serif;
-    --mono:"JetBrains Mono",monospace;
+    --accent:#EA580C;--accent-2:#F97A3D;--accent-ink:#fff;--wa:#25D366;--ok:#2E9E66;--warn:#E0A53B;--na:#9AA3AF;
+    --ink:#1A140F;--muted:#857A70;--line:#ECE4DC;--surface:#F7F2EC;--card:#fff;
+    --display:"Bricolage Grotesque",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",monospace;
   }
   *{box-sizing:border-box}
-  body{margin:0;font-family:var(--body);color:var(--ink);
-    background:radial-gradient(80% 60% at 50% 0%,color-mix(in srgb,var(--accent) 16%,transparent),transparent 60%),var(--bg);
-    min-height:100vh;-webkit-font-smoothing:antialiased}
+  body{margin:0;font-family:var(--body);color:var(--ink);background:var(--surface);-webkit-font-smoothing:antialiased}
   button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
   input{font-family:inherit}
-
-  .stage{max-width:1080px;margin:0 auto;padding:26px 22px 50px;display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center}
-  @media (max-width:880px){.stage{grid-template-columns:1fr;justify-items:center;gap:26px}}
-
-  /* left copy */
-  .pitch .logo{display:flex;align-items:center;gap:11px;margin-bottom:22px}
-  .pitch .logo .m{width:38px;height:38px;border-radius:11px;background:var(--accent);display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:800;font-size:18px;transition:background .35s}
-  .pitch .logo b{font-family:var(--display);font-size:20px;color:#fff;display:block;line-height:1}
-  .pitch .logo span{font-size:11.5px;color:#A7ADB8}
-  .pitch h1{font-family:var(--display);font-weight:800;font-size:clamp(28px,4vw,40px);color:#fff;letter-spacing:-.02em;line-height:1.06;margin:0 0 16px}
-  .pitch h1 em{font-style:normal;color:var(--accent);transition:color .35s}
-  .pitch p{font-size:15px;color:#B6BCC6;max-width:42ch;margin:0 0 24px;line-height:1.55}
-  .feats{display:flex;flex-direction:column;gap:13px;margin-bottom:26px}
-  .feat{display:flex;gap:12px;align-items:center;font-size:14px;color:#D4D8DF}
-  .feat .fi{width:32px;height:32px;border-radius:9px;background:rgba(255,255,255,.06);display:grid;place-items:center;flex:0 0 auto}
-  .feat .fi svg{width:17px;height:17px;stroke:var(--accent);fill:none;stroke-width:1.7}
-  .reskin{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-  .reskin input{height:36px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:9px;padding:0 12px;color:#fff;font-size:13px;width:140px;outline:none}
-  .reskin input::placeholder{color:#8A909B}
-  .swatches{display:flex;gap:6px}
-  .sw{width:22px;height:22px;border-radius:999px;border:2px solid transparent;transition:.15s}
-  .sw.active{border-color:#fff;transform:scale(1.1)}
-
-  /* phone */
-  .phone{width:390px;max-width:92vw;background:#0C0D11;border-radius:46px;padding:13px;box-shadow:0 40px 90px rgba(0,0,0,.5),inset 0 0 0 2px rgba(255,255,255,.06)}
-  .screen{background:var(--screen);border-radius:34px;overflow:hidden;height:740px;max-height:78vh;display:flex;flex-direction:column;position:relative}
-  .statusbar{height:30px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;font-size:12px;font-weight:600;color:var(--ink);flex:0 0 auto}
-  .notch{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:120px;height:26px;background:#0C0D11;border-radius:0 0 16px 16px;z-index:5}
-  .appbar{padding:10px 18px 12px;display:flex;align-items:center;gap:11px;border-bottom:1px solid var(--line);flex:0 0 auto;background:var(--card)}
-  .appbar .m{width:30px;height:30px;border-radius:8px;background:var(--accent);display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:800;font-size:14px;transition:background .35s}
-  .appbar .ti b{font-family:var(--display);font-size:14px;display:block;line-height:1}
-  .appbar .ti span{font-size:10.5px;color:var(--muted)}
-  .appbar .step{margin-left:auto;font-size:10.5px;color:var(--muted);font-family:var(--mono)}
-
-  .view{flex:1;overflow-y:auto;padding:18px}
-  .view::-webkit-scrollbar{width:0}
-
-  /* scan screen */
-  .scan{display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:24px}
-  .scan h2{font-family:var(--display);font-size:19px;margin:0 0 6px}
-  .scan p{font-size:13px;color:var(--muted);margin:0 0 24px;max-width:26ch}
-  .qr{width:180px;height:180px;border-radius:18px;background:#fff;border:1px solid var(--line);position:relative;display:grid;place-items:center;margin-bottom:8px;overflow:hidden}
-  .qr svg{width:140px;height:140px}
-  .qr .laser{position:absolute;left:14px;right:14px;height:2px;background:var(--accent);box-shadow:0 0 12px 2px var(--accent);border-radius:2px;animation:scan 2.2s ease-in-out infinite}
-  @keyframes scan{0%,100%{top:18px}50%{top:160px}}
-  @media (prefers-reduced-motion:reduce){.qr .laser{animation:none;top:90px}}
-  .scan-hint{font-size:11px;color:var(--muted);margin-bottom:22px}
-
-  /* generic buttons */
-  .btn{height:50px;border-radius:14px;font-weight:600;font-size:15px;display:flex;align-items:center;justify-content:center;gap:9px;width:100%;transition:.15s,background .35s}
-  .btn svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.9}
-  .btn-pri{background:var(--accent);color:var(--accent-ink)}
-  .btn-pri:hover{filter:brightness(1.05)}
-  .btn-pri:disabled{opacity:.45;cursor:not-allowed;filter:none}
-  .btn-gh{background:var(--card);border:1px solid var(--line);color:var(--ink)}
-  .btn-gh:hover{border-color:var(--ink)}
-  .foot{padding:14px 18px;border-top:1px solid var(--line);background:var(--card);flex:0 0 auto;display:flex;gap:10px}
-
-  /* asset card */
-  .asset{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px}
-  .asset .tag{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:700;color:var(--accent);
-    background:color-mix(in srgb,var(--accent) 12%,transparent);padding:5px 10px;border-radius:999px;margin-bottom:11px}
-  .asset h2{font-family:var(--display);font-size:18px;margin:0 0 3px}
-  .asset .code{font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:14px}
-  .asset .rows{display:flex;flex-direction:column;gap:9px}
-  .asset .r{display:flex;justify-content:space-between;font-size:13px;border-bottom:1px dashed var(--line);padding-bottom:8px}
-  .asset .r:last-child{border:none;padding:0}
-  .asset .r span:first-child{color:var(--muted)}
-  .asset .r b{font-weight:600}
-  .asset .r b.warn{color:var(--accent)}
-
-  /* checklist */
-  .progress{display:flex;align-items:center;gap:10px;margin-bottom:16px}
-  .progress .bar{flex:1;height:7px;background:var(--line);border-radius:999px;overflow:hidden}
-  .progress .fill{height:100%;width:0;background:var(--accent);border-radius:999px;transition:width .3s,background .35s}
-  .progress .pc{font-size:12px;font-family:var(--mono);color:var(--muted)}
-  .check{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px;margin-bottom:11px}
-  .check .ch-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
-  .check b{font-size:13.5px;font-weight:600;line-height:1.3}
-  .check .ph{font-size:11px;color:var(--accent);margin-top:9px;display:inline-flex;align-items:center;gap:6px;cursor:pointer}
-  .check .ph svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8}
-  .check .ph.has{color:var(--ok)}
-  .thumb{width:46px;height:46px;border-radius:9px;margin-top:9px;background:linear-gradient(135deg,#cfd4da,#aeb4bd);display:none;place-items:center;color:#fff;font-size:10px}
-  .thumb.show{display:grid}
-  .tri{display:flex;gap:6px;flex:0 0 auto}
-  .tri button{width:34px;height:30px;border-radius:8px;border:1px solid var(--line);font-size:11px;font-weight:700;color:var(--muted);background:var(--card);transition:.12s;display:grid;place-items:center}
-  .tri button.ok.on{background:var(--ok);border-color:var(--ok);color:#fff}
-  .tri button.fail.on{background:var(--fail);border-color:var(--fail);color:#fff}
-  .tri button.na.on{background:var(--na);border-color:var(--na);color:#fff}
-
-  /* signature */
-  .sig-h{font-family:var(--display);font-size:17px;margin:4px 0 4px}
-  .sig-sub{font-size:12.5px;color:var(--muted);margin:0 0 16px}
-  .sig-field{margin-bottom:14px}
-  .sig-field label{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px}
-  .sig-field input{width:100%;height:42px;border:1px solid var(--line);border-radius:11px;padding:0 12px;font-size:14px;outline:none;background:var(--card)}
-  .sig-field input:focus{border-color:var(--accent)}
-  .pad-wrap{position:relative;border:2px dashed var(--line);border-radius:14px;background:var(--card);overflow:hidden}
-  #sigPad{display:block;width:100%;height:170px;touch-action:none;cursor:crosshair}
-  .pad-ph{position:absolute;inset:0;display:grid;place-items:center;color:var(--na);font-size:13px;pointer-events:none}
-  .pad-ph.hide{display:none}
-  .pad-clear{position:absolute;top:8px;right:10px;font-size:11px;color:var(--muted);background:var(--screen);border:1px solid var(--line);border-radius:8px;padding:4px 9px}
-
-  /* result */
-  .result{text-align:center;padding-top:10px}
-  .verdict{width:90px;height:90px;border-radius:999px;display:grid;place-items:center;margin:6px auto 16px;animation:pop .4s ease}
-  @keyframes pop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
-  .verdict svg{width:46px;height:46px;stroke:#fff;fill:none;stroke-width:2.4}
-  .verdict.ok{background:var(--ok)}.verdict.obs{background:var(--accent)}.verdict.bad{background:var(--fail)}
-  .result h2{font-family:var(--display);font-size:22px;margin:0 0 4px}
-  .result .rcode{font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:18px}
-  .acta{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:left;margin-bottom:14px}
-  .acta .ar{display:flex;justify-content:space-between;font-size:13px;padding:7px 0;border-bottom:1px dashed var(--line)}
-  .acta .ar:last-child{border:none}
-  .acta .ar span:first-child{color:var(--muted)}
-  .acta .ar b.ok{color:var(--ok)}.acta .ar b.fail{color:var(--fail)}
-  .acta .sigimg{margin-top:10px;border-top:1px solid var(--line);padding-top:10px}
-  .acta .sigimg img{max-height:60px}
-  .acta .sigimg span{font-size:11px;color:var(--muted);display:block}
-
-  .credit{grid-column:1/-1;text-align:center;font-size:12px;color:#8A909B;margin-top:8px}
-  .credit b{color:#D4D8DF}
+  .shell{max-width:620px;margin:0 auto;padding:24px 20px 50px}
+  .top{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+  .logo{display:flex;align-items:center;gap:11px}
+  .logo .m{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:800;font-size:18px}
+  .logo b{font-family:var(--display);font-size:20px;display:block;line-height:1}.logo span{font-size:11.5px;color:var(--muted)}
+  .controls{margin-left:auto;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .ti{height:36px;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:0 11px;font-size:13px;width:120px;outline:none}
+  .swatches{display:flex;gap:6px}.sw{width:22px;height:22px;border-radius:999px;border:2px solid transparent}.sw.active{border-color:var(--ink);transform:scale(1.1)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 10px 30px rgba(20,18,30,.06)}
+  .head{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;padding:18px 20px;display:flex;align-items:center;gap:16px;transition:background .35s}
+  .head .t{flex:1}.head .t b{font-family:var(--display);font-weight:800;font-size:18px;display:block}.head .t span{font-size:12px;opacity:.9}
+  .ring{position:relative;width:56px;height:56px;flex:0 0 auto}
+  .ring svg{width:56px;height:56px;transform:rotate(-90deg)}
+  .ring .pc{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:14px}
+  .body{padding:10px 0}
+  .it{padding:14px 20px;border-bottom:1px solid var(--line)}
+  .it .q{font-size:14px;font-weight:600;margin-bottom:10px}
+  .opts{display:flex;gap:8px}
+  .opts button{flex:1;height:38px;border:1px solid var(--line);border-radius:10px;font-size:12.5px;font-weight:600;color:var(--muted);display:flex;align-items:center;justify-content:center;gap:5px;transition:.12s}
+  .opts button.ok.on{background:var(--ok);color:#fff;border-color:var(--ok)}
+  .opts button.obs.on{background:var(--warn);color:#fff;border-color:var(--warn)}
+  .opts button.na.on{background:var(--na);color:#fff;border-color:var(--na)}
+  .photo{margin-top:9px;height:36px;border:1px dashed var(--line);border-radius:9px;font-size:12.5px;color:var(--muted);display:flex;align-items:center;justify-content:center;gap:7px;width:100%}
+  .photo.on{border-style:solid;border-color:var(--ok);color:var(--ok)}
+  .photo svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8}
+  .sign{padding:16px 20px}
+  .sign .l{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:9px;display:flex;justify-content:space-between}
+  .sign .l button{font-size:12px;color:var(--accent);font-weight:600}
+  canvas{width:100%;height:120px;border:1px solid var(--line);border-radius:12px;background:var(--surface);touch-action:none;display:block}
+  .foot{padding:16px 20px 20px}
+  .wabtn{height:50px;border-radius:13px;background:var(--wa);color:#fff;font-weight:700;font-size:15px;width:100%;display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:8px}
+  .wabtn svg{width:18px;height:18px;fill:#fff}.wabtn:disabled{opacity:.45;cursor:not-allowed}
+  .dlbtn{height:44px;border-radius:11px;background:var(--surface);border:1px solid var(--line);font-weight:600;font-size:13.5px;width:100%}
+  .credit{text-align:center;font-size:12px;color:var(--muted);margin-top:18px}
 </style>
 </head>
 <body>
-<div class="stage">
-
-  <div class="pitch">
-    <div class="logo">
-      <div class="m" id="logoMark">N</div>
-      <div><b id="brandLogo">Nivela</b><span>Inspección digital de terreno · CO-DATA</span></div>
-    </div>
-    <h1>La inspección que antes era en papel, ahora vive en el <em id="leadWord">celular</em>.</h1>
-    <p>Escanea el activo, registra el estado, adjunta evidencia y firma en pantalla. El acta se genera sola — sin planillas, sin perder hojas, con trazabilidad total.</p>
-    <div class="feats">
-      <div class="feat"><span class="fi"><svg viewBox="0 0 24 24"><path d="M4 7V4h3M20 7V4h-3M4 17v3h3M20 17v3h-3M8 12h8"/></svg></span> Escaneo QR del activo en terreno</div>
-      <div class="feat"><span class="fi"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></span> Checklist con evidencia fotográfica</div>
-      <div class="feat"><span class="fi"><svg viewBox="0 0 24 24"><path d="M3 17c3-4 6 2 9-2s6 1 9-3"/><path d="M3 21h18"/></svg></span> Firma digital en pantalla</div>
-      <div class="feat"><span class="fi"><svg viewBox="0 0 24 24"><path d="M14 3v5h5M7 3h7l5 5v11a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2z"/></svg></span> Acta con veredicto al instante</div>
-    </div>
-    <div class="reskin">
-      <input id="inpBrand" value="Nivela" maxlength="18" aria-label="Nombre">
-      <div class="swatches" id="swatches"></div>
-    </div>
+<div class="shell">
+  <div class="top">
+    <div class="logo"><div class="m" id="lm">V</div><div><b id="bl">Verifica</b><span>Inspección de terreno · demo</span></div></div>
+    <div class="controls"><input class="ti" id="ib" value="Verifica" maxlength="16"><div class="swatches" id="sw"></div></div>
   </div>
 
-  <!-- PHONE -->
-  <div class="phone">
-    <div class="screen">
-      <div class="notch"></div>
-      <div class="statusbar"><span id="clock">9:41</span><span>◍ ▮▮▮ ⌁</span></div>
-      <div class="appbar">
-        <div class="m" id="appMark">N</div>
-        <div class="ti"><b id="appName">Nivela</b><span>Inspección de terreno</span></div>
-        <div class="step" id="stepLbl">QR</div>
-      </div>
-
-      <div class="view" id="view"></div>
-      <div class="foot" id="foot"></div>
+  <div class="card">
+    <div class="head">
+      <div class="t"><b id="bizName">Verifica</b><span>Checklist de inspección · Frente Norte</span></div>
+      <div class="ring"><svg viewBox="0 0 56 56"><circle cx="28" cy="28" r="24" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="5"/><circle id="ringFill" cx="28" cy="28" r="24" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-dasharray="150.8" stroke-dashoffset="150.8" style="transition:stroke-dashoffset .4s"/></svg><div class="pc" id="ringPct">0%</div></div>
+    </div>
+    <div class="body" id="items"></div>
+    <div class="sign">
+      <div class="l"><span>Firma del responsable</span><button id="clr">Borrar</button></div>
+      <canvas id="sig"></canvas>
+    </div>
+    <div class="foot">
+      <button class="wabtn" id="wa" disabled><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-8.6 15l-1.4 5 5.2-1.4A10 10 0 1012 2z"/></svg> Enviar reporte por WhatsApp</button>
+      <button class="dlbtn" id="dl">⬇ Descargar reporte</button>
     </div>
   </div>
-
-  <div class="credit">App de terreno desarrollada por <b>CO-DATA</b> · Demo interactiva</div>
+  <div class="credit">Demo interactiva · solución re-skineable · checklist de ejemplo</div>
 </div>
 
 <script>
 (function(){
   "use strict";
-  function $(s,r){return (r||document).querySelector(s);}
-  function pad2(n){return String(n).padStart(2,"0");}
-  function fmtDate(d){return ""+d.getFullYear()+pad2(d.getMonth()+1)+pad2(d.getDate());}
-
-  /* ---- fictional asset ---- */
-  var asset={code:"AC-0428",tipo:"Línea de vida horizontal",ubic:"Planta Quelén · Nivel 3",norma:"EN 795",ultima:"hace 11 meses",vence:"24 días"};
+  function $(s){return document.querySelector(s);}
+  var brand="Verifica";
   var items=[
-    {id:1,t:"Estado general y corrosión del sistema",photo:true},
-    {id:2,t:"Fijaciones y anclajes estructurales",photo:true},
-    {id:3,t:"Tensión y continuidad del cable",photo:false},
-    {id:4,t:"Señalización y etiquetado vigente",photo:false},
-    {id:5,t:"Componentes de absorción de energía",photo:true},
-    {id:6,t:"Documentación y certificado vigente",photo:false}
+    {q:"¿EPP completo del personal?",st:null,photo:false},
+    {q:"¿Señalización y demarcación correcta?",st:null,photo:false},
+    {q:"¿Equipos con inspección vigente?",st:null,photo:false},
+    {q:"¿Área de trabajo ordenada y limpia?",st:null,photo:false},
+    {q:"¿Extintores accesibles y cargados?",st:null,photo:false},
+    {q:"¿Permisos de trabajo en regla?",st:null,photo:false}
   ];
-  var state={screen:"scan",checks:{},photos:{},inspector:"",sigData:null};
-  var reportCode="INS-"+fmtDate(new Date())+"-"+Math.floor(1000+Math.random()*9000);
-
-  /* ---- nav ---- */
-  function go(s){state.screen=s;render();}
-  var stepNames={scan:"QR",asset:"Activo",check:"Checklist",sign:"Firma",result:"Acta"};
+  var stOpts=[["ok","✓ OK"],["obs","⚠ Obs."],["na","– N/A"]];
 
   function render(){
-    $("#stepLbl").textContent=stepNames[state.screen]||"";
-    var v=$("#view"),f=$("#foot");v.scrollTop=0;
-    if(state.screen==="scan")return renderScan(v,f);
-    if(state.screen==="asset")return renderAsset(v,f);
-    if(state.screen==="check")return renderCheck(v,f);
-    if(state.screen==="sign")return renderSign(v,f);
-    if(state.screen==="result")return renderResult(v,f);
+    $("#items").innerHTML=items.map(function(it,i){
+      return '<div class="it"><div class="q">'+(i+1)+'. '+it.q+'</div><div class="opts">'+
+        stOpts.map(function(o){return '<button class="'+o[0]+(it.st===o[0]?" on":"")+'" data-i="'+i+'" data-s="'+o[0]+'">'+o[1]+'</button>';}).join("")+
+        '</div><button class="photo'+(it.photo?" on":"")+'" data-ph="'+i+'"><svg viewBox="0 0 24 24"><path d="M4 7h3l2-2h6l2 2h3v12H4zM12 16a3.5 3.5 0 100-7 3.5 3.5 0 000 7z"/></svg>'+(it.photo?"Foto adjunta":"Adjuntar foto")+'</button></div>';
+    }).join("");
+    [].slice.call($("#items").querySelectorAll("[data-s]")).forEach(function(b){b.onclick=function(){items[+b.dataset.i].st=b.dataset.s;render();};});
+    [].slice.call($("#items").querySelectorAll("[data-ph]")).forEach(function(b){b.onclick=function(){var it=items[+b.dataset.ph];it.photo=!it.photo;render();};});
+    var done=items.filter(function(i){return i.st;}).length,pct=Math.round(done/items.length*100);
+    $("#ringPct").textContent=pct+"%";$("#ringFill").style.strokeDashoffset=150.8*(1-pct/100);
+    $("#wa").disabled=done<items.length;
   }
 
-  /* ---- scan ---- */
-  function renderScan(v,f){
-    v.innerHTML=
-      '<div class="scan"><h2>Escanea el activo</h2><p>Apunta al código QR pegado en el equipo para cargar su ficha.</p>'+
-      '<div class="qr">'+qrSVG()+'<div class="laser"></div></div>'+
-      '<div class="scan-hint">Código QR del activo · '+asset.code+'</div></div>';
-    f.innerHTML='<button class="btn btn-pri" id="doScan"><svg viewBox="0 0 24 24"><path d="M4 7V4h3M20 7V4h-3M4 17v3h3M20 17v3h-3"/><path d="M7 12h10"/></svg> Simular escaneo</button>';
-    $("#doScan").onclick=function(){go("asset");};
-  }
-  function qrSVG(){
-    // decorative pseudo-QR
-    var cells="",g=11,s=12;var seed=7;
-    for(var y=0;y<g;y++)for(var x=0;x<g;x++){seed=(seed*1103515245+12345)&0x7fffffff;if((seed>>7)%2===0)cells+='<rect x="'+(x*s)+'" y="'+(y*s)+'" width="'+s+'" height="'+s+'" fill="#16181C"/>';}
-    function corner(cx,cy){return '<rect x="'+cx+'" y="'+cy+'" width="36" height="36" fill="#16181C"/><rect x="'+(cx+6)+'" y="'+(cy+6)+'" width="24" height="24" fill="#fff"/><rect x="'+(cx+12)+'" y="'+(cy+12)+'" width="12" height="12" fill="#16181C"/>';}
-    return '<svg viewBox="0 0 132 132">'+cells+corner(0,0)+corner(96,0)+corner(0,96)+'</svg>';
-  }
+  // signature
+  var c=$("#sig"),cx=c.getContext("2d"),drawing=false,dpr=Math.min(window.devicePixelRatio||1,2);
+  function sz(){var r=c.getBoundingClientRect();c.width=r.width*dpr;c.height=r.height*dpr;cx.setTransform(dpr,0,0,dpr,0,0);cx.lineWidth=2.2;cx.lineCap="round";cx.strokeStyle="#1A140F";}
+  function pos(e){var r=c.getBoundingClientRect();var t=e.touches?e.touches[0]:e;return {x:t.clientX-r.left,y:t.clientY-r.top};}
+  function down(e){drawing=true;var p=pos(e);cx.beginPath();cx.moveTo(p.x,p.y);e.preventDefault();}
+  function move(e){if(!drawing)return;var p=pos(e);cx.lineTo(p.x,p.y);cx.stroke();e.preventDefault();}
+  function up(){drawing=false;}
+  c.addEventListener("mousedown",down);c.addEventListener("mousemove",move);window.addEventListener("mouseup",up);
+  c.addEventListener("touchstart",down,{passive:false});c.addEventListener("touchmove",move,{passive:false});c.addEventListener("touchend",up);
+  $("#clr").onclick=function(){cx.clearRect(0,0,c.width,c.height);};
 
-  /* ---- asset ---- */
-  function renderAsset(v,f){
-    v.innerHTML=
-      '<div class="asset"><span class="tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg> Activo identificado</span>'+
-      '<h2>'+asset.tipo+'</h2><div class="code">'+asset.code+' · Norma '+asset.norma+'</div>'+
-      '<div class="rows">'+
-        '<div class="r"><span>Ubicación</span><b>'+asset.ubic+'</b></div>'+
-        '<div class="r"><span>Última inspección</span><b>'+asset.ultima+'</b></div>'+
-        '<div class="r"><span>Recertificación</span><b class="warn">vence en '+asset.vence+'</b></div>'+
-        '<div class="r"><span>Ítems a revisar</span><b>'+items.length+'</b></div>'+
-      '</div></div>';
-    f.innerHTML='<button class="btn btn-gh" id="back" style="flex:0 0 auto;width:52px">‹</button><button class="btn btn-pri" id="start">Iniciar inspección</button>';
-    $("#back").onclick=function(){go("scan");};
-    $("#start").onclick=function(){go("check");};
+  function report(){
+    var lbl={ok:"OK",obs:"OBSERVACIÓN",na:"N/A"};
+    return "REPORTE DE INSPECCIÓN · "+brand+"\nFrente Norte · "+new Date().toLocaleDateString("es-CL")+"\n\n"+
+      items.map(function(it,i){return (i+1)+". "+it.q+" → "+(lbl[it.st]||"—")+(it.photo?" [con foto]":"");}).join("\n")+
+      "\n\nObservaciones: "+items.filter(function(i){return i.st==="obs";}).length+" · Firmado por responsable.";
   }
+  $("#wa").onclick=function(){window.open("https://wa.me/?text="+encodeURIComponent(report()),"_blank");};
+  $("#dl").onclick=function(){var b=new Blob([report()],{type:"text/plain"}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download="inspeccion.txt";document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u);};
 
-  /* ---- checklist ---- */
-  function renderCheck(v,f){
-    var done=Object.keys(state.checks).length,pct=Math.round(done/items.length*100);
-    var html='<div class="progress"><div class="bar"><div class="fill" id="pf"></div></div><div class="pc">'+done+'/'+items.length+'</div></div>';
-    items.forEach(function(it){
-      var val=state.checks[it.id];
-      html+='<div class="check"><div class="ch-top"><b>'+it.t+'</b>'+
-        '<div class="tri">'+
-          '<button class="ok'+(val==="ok"?" on":"")+'" data-c="'+it.id+'" data-v="ok">OK</button>'+
-          '<button class="fail'+(val==="fail"?" on":"")+'" data-c="'+it.id+'" data-v="fail">✕</button>'+
-          '<button class="na'+(val==="na"?" on":"")+'" data-c="'+it.id+'" data-v="na">N/A</button>'+
-        '</div></div>'+
-        (it.photo?'<div class="ph'+(state.photos[it.id]?" has":"")+'" data-ph="'+it.id+'"><svg viewBox="0 0 24 24"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13" r="3"/></svg>'+(state.photos[it.id]?"Foto adjunta":"Adjuntar evidencia")+'</div><div class="thumb'+(state.photos[it.id]?" show":"")+'" data-th="'+it.id+'">IMG</div>':'')+
-        '</div>';
-    });
-    v.innerHTML=html;
-    $("#pf").style.width=pct+"%";
-    var allDone=done===items.length;
-    f.innerHTML='<button class="btn btn-gh" id="back" style="flex:0 0 auto;width:52px">‹</button><button class="btn btn-pri" id="next"'+(allDone?"":" disabled")+'>'+(allDone?"Continuar a firma":"Completa los "+items.length+" ítems")+'</button>';
-    [].slice.call(v.querySelectorAll(".tri button")).forEach(function(b){
-      b.onclick=function(){state.checks[b.dataset.c]=b.dataset.v;renderCheck(v,f);};
-    });
-    [].slice.call(v.querySelectorAll("[data-ph]")).forEach(function(b){
-      b.onclick=function(){state.photos[b.dataset.ph]=true;renderCheck(v,f);};
-    });
-    $("#back").onclick=function(){go("asset");};
-    var nx=$("#next");if(allDone)nx.onclick=function(){go("sign");};
-  }
-
-  /* ---- signature ---- */
-  function renderSign(v,f){
-    v.innerHTML=
-      '<div class="sig-h">Firma del inspector</div><p class="sig-sub">Firma con el dedo o el mouse para validar la inspección.</p>'+
-      '<div class="sig-field"><label>Nombre del inspector</label><input id="inspName" placeholder="Nombre y apellido" value="'+(state.inspector||"")+'"></div>'+
-      '<div class="pad-wrap"><canvas id="sigPad"></canvas><div class="pad-ph" id="padPh">✍ Firma aquí</div><button class="pad-clear" id="padClear">Borrar</button></div>';
-    f.innerHTML='<button class="btn btn-gh" id="back" style="flex:0 0 auto;width:52px">‹</button><button class="btn btn-pri" id="finish" disabled>Firmar y generar acta</button>';
-    $("#back").onclick=function(){go("check");};
-    $("#inspName").addEventListener("input",function(e){state.inspector=e.target.value;});
-    initPad();
-  }
-  function initPad(){
-    var c=$("#sigPad"),ph=$("#padPh"),fin=$("#finish");
-    var rect=c.getBoundingClientRect();var dpr=window.devicePixelRatio||1;
-    c.width=rect.width*dpr;c.height=170*dpr;c.style.height="170px";
-    var ctx=c.getContext("2d");ctx.scale(dpr,dpr);ctx.lineWidth=2.4;ctx.lineCap="round";ctx.lineJoin="round";ctx.strokeStyle="#16181C";
-    var drawing=false,has=false,last=null;
-    function pos(e){var r=c.getBoundingClientRect();var p=e.touches?e.touches[0]:e;return {x:p.clientX-r.left,y:p.clientY-r.top};}
-    function start(e){e.preventDefault();drawing=true;last=pos(e);if(!has){has=true;ph.classList.add("hide");fin.disabled=false;}}
-    function move(e){if(!drawing)return;e.preventDefault();var p=pos(e);ctx.beginPath();ctx.moveTo(last.x,last.y);ctx.lineTo(p.x,p.y);ctx.stroke();last=p;}
-    function end(){drawing=false;}
-    c.addEventListener("mousedown",start);c.addEventListener("mousemove",move);window.addEventListener("mouseup",end);
-    c.addEventListener("touchstart",start,{passive:false});c.addEventListener("touchmove",move,{passive:false});c.addEventListener("touchend",end);
-    $("#padClear").onclick=function(){ctx.clearRect(0,0,c.width,c.height);has=false;ph.classList.remove("hide");fin.disabled=true;state.sigData=null;};
-    $("#finish").onclick=function(){state.sigData=c.toDataURL("image/png");state.inspector=$("#inspName").value||"Inspector";go("result");};
-  }
-
-  /* ---- result ---- */
-  function renderResult(v,f){
-    var fails=0,oks=0,nas=0;
-    items.forEach(function(it){var c=state.checks[it.id];if(c==="fail")fails++;else if(c==="ok")oks++;else nas++;});
-    var verdict,vclass,vlabel,vicon;
-    if(fails===0){verdict="ok";vlabel="Aprobado";vicon='<path d="M4 13l5 5L20 6"/>';}
-    else if(fails<=1){verdict="obs";vlabel="Con observaciones";vicon='<path d="M12 8v5M12 17h.01M10.3 3.9l-8 14A2 2 0 004 21h16a2 2 0 001.7-3l-8-14a2 2 0 00-3.4 0z"/>';}
-    else{verdict="bad";vlabel="Rechazado";vicon='<path d="M6 6l12 12M18 6L6 18"/>';}
-    v.innerHTML=
-      '<div class="result"><div class="verdict '+verdict+'"><svg viewBox="0 0 24 24">'+vicon+'</svg></div>'+
-      '<h2>'+vlabel+'</h2><div class="rcode">'+reportCode+'</div>'+
-      '<div class="acta">'+
-        '<div class="ar"><span>Activo</span><b>'+asset.code+' · '+asset.tipo+'</b></div>'+
-        '<div class="ar"><span>Inspector</span><b>'+(state.inspector||"Inspector")+'</b></div>'+
-        '<div class="ar"><span>Conformes</span><b class="ok">'+oks+'</b></div>'+
-        '<div class="ar"><span>No conformes</span><b class="fail">'+fails+'</b></div>'+
-        '<div class="ar"><span>No aplica</span><b>'+nas+'</b></div>'+
-        '<div class="ar"><span>Fecha</span><b>'+new Date().toLocaleDateString("es-CL")+'</b></div>'+
-        '<div class="sigimg"><span>Firma registrada:</span>'+(state.sigData?'<img src="'+state.sigData+'" alt="firma">':'')+'</div>'+
-      '</div></div>';
-    f.innerHTML='<button class="btn btn-gh" id="share" style="flex:1"><svg viewBox="0 0 24 24"><path d="M4 12v7a1 1 0 001 1h14a1 1 0 001-1v-7M16 6l-4-4-4 4M12 2v13"/></svg> Compartir</button><button class="btn btn-pri" id="again" style="flex:1">Nueva</button>';
-    $("#again").onclick=function(){state={screen:"scan",checks:{},photos:{},inspector:"",sigData:null};reportCode="INS-"+fmtDate(new Date())+"-"+Math.floor(1000+Math.random()*9000);go("scan");};
-    $("#share").onclick=function(){
-      var txt="Acta de inspección "+reportCode+" · "+asset.code+" · Resultado: "+vlabel+" ("+oks+" conformes, "+fails+" no conformes).";
-      window.open("https://wa.me/?text="+encodeURIComponent(txt),"_blank");
-    };
-  }
-
-  /* ---- re-skin ---- */
-  var swColors=[{c:"#E8852C"},{c:"#2E5BD6"},{c:"#0F8A5F"},{c:"#C0392B"},{c:"#6D4AAF"}];
-  function applyAccent(c){
-    document.documentElement.style.setProperty("--accent",c);
-    var h=c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
-    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#16181C":"#fff");
-    [].slice.call(document.querySelectorAll(".sw")).forEach(function(el){el.classList.toggle("active",el.dataset.c===c);});
-  }
-  function buildSwatches(){var s=$("#swatches");s.innerHTML="";swColors.forEach(function(o){var b=document.createElement("button");b.className="sw";b.style.background=o.c;b.dataset.c=o.c;b.onclick=function(){applyAccent(o.c);};s.appendChild(b);});}
-  function applyBrand(n){n=n||"App";$("#brandLogo").textContent=n;$("#appName").textContent=n;$("#logoMark").textContent=n.charAt(0).toUpperCase();$("#appMark").textContent=n.charAt(0).toUpperCase();}
-  $("#inpBrand").addEventListener("input",function(e){applyBrand(e.target.value);});
-
-  /* ---- init ---- */
-  (function clock(){var d=new Date();$("#clock").textContent=pad2(d.getHours())+":"+pad2(d.getMinutes());})();
-  buildSwatches();applyAccent("#E8852C");applyBrand("Nivela");
-  render();
+  var SW=[{c:"#EA580C",c2:"#F97A3D"},{c:"#2563EB",c2:"#5B8DEF"},{c:"#0D9488",c2:"#2DD4BF"},{c:"#7C3AED",c2:"#A855F7"},{c:"#16161A",c2:"#444"}];
+  function ac(o){document.documentElement.style.setProperty("--accent",o.c);document.documentElement.style.setProperty("--accent-2",o.c2);
+    var h=o.c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
+    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#1A140F":"#fff");
+    [].slice.call(document.querySelectorAll(".sw")).forEach(function(e){e.classList.toggle("active",e.dataset.c===o.c);});}
+  function bsw(){var s=$("#sw");s.innerHTML="";SW.forEach(function(o){var b=document.createElement("button");b.className="sw";b.style.background=o.c;b.dataset.c=o.c;b.onclick=function(){ac(o);};s.appendChild(b);});}
+  function ab(n){brand=n||"Marca";$("#bl").textContent=brand;$("#lm").textContent=brand.charAt(0).toUpperCase();$("#bizName").textContent=brand;}
+  $("#ib").addEventListener("input",function(e){ab(e.target.value);});
+  bsw();ac(SW[0]);ab("Verifica");render();sz();window.addEventListener("resize",sz);
 })();
 </script>
 </body>

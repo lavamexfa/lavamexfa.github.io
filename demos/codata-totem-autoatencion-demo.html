@@ -9,137 +9,108 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --accent:#0E7C86;--accent-2:#16A8B0;--accent-ink:#fff;
-    --ink:#10181A;--muted:#7C8A8C;--line:#E4ECEC;--card:#fff;--bg:#0E1A1C;
+    --accent:#DC2626;--accent-2:#F87171;--accent-ink:#fff;--ok:#16A34A;
+    --ink:#1A1212;--muted:#8A7A7A;--line:#EEE2E2;--surface:#F8F1F1;--card:#fff;--bg:#1A0F0F;
     --display:"Bricolage Grotesque",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",monospace;
   }
   *{box-sizing:border-box}
   body{margin:0;font-family:var(--body);color:var(--ink);
-    background:radial-gradient(80% 60% at 50% 0%,color-mix(in srgb,var(--accent) 30%,transparent),transparent 60%),var(--bg);
-    min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:22px 18px 40px;-webkit-font-smoothing:antialiased}
-  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
-  input{font-family:inherit}
-  .top{width:100%;max-width:520px;display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+    background:radial-gradient(80% 55% at 50% 0%,color-mix(in srgb,var(--accent) 22%,transparent),transparent 56%),var(--bg);
+    min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:24px 18px 50px;-webkit-font-smoothing:antialiased}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}input{font-family:inherit}
+  .top{width:100%;max-width:560px;display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
   .logo{display:flex;align-items:center;gap:11px}
-  .logo .m{width:34px;height:34px;border-radius:10px;background:var(--accent);display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:800;font-size:16px;transition:background .35s}
-  .logo b{font-family:var(--display);font-size:18px;color:#fff;display:block;line-height:1}.logo span{font-size:11px;color:#9DB2B3}
-  .controls{margin-left:auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-  .ti{height:34px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:9px;padding:0 10px;color:#fff;font-size:13px;width:110px;outline:none}
-  .swatches{display:flex;gap:5px}.sw{width:20px;height:20px;border-radius:999px;border:2px solid transparent}.sw.active{border-color:#fff;transform:scale(1.1)}
-  .kiosk{width:100%;max-width:520px;background:var(--card);border-radius:28px;overflow:hidden;box-shadow:0 40px 90px rgba(0,0,0,.5);min-height:620px;display:flex;flex-direction:column}
-  .khead{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;padding:26px 26px 22px;text-align:center;transition:background .35s;position:relative}
-  .khead .big{width:60px;height:60px;border-radius:18px;background:rgba(255,255,255,.2);display:grid;place-items:center;margin:0 auto 12px;font-family:var(--display);font-weight:800;font-size:28px}
-  .khead h1{font-family:var(--display);font-weight:800;font-size:24px;margin:0 0 4px;letter-spacing:-.01em}
-  .khead p{font-size:13.5px;opacity:.9;margin:0}
-  .kbody{flex:1;padding:22px;display:flex;flex-direction:column}
-  .menu{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-  .big-btn{aspect-ratio:1/.92;border:1px solid var(--line);border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;transition:.15s;background:var(--card)}
-  .big-btn:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 16px 36px rgba(14,124,134,.15)}
-  .big-btn .ic{width:56px;height:56px;border-radius:16px;background:color-mix(in srgb,var(--accent) 12%,transparent);display:grid;place-items:center}
-  .big-btn .ic svg{width:28px;height:28px;stroke:var(--accent);fill:none;stroke-width:1.7}
-  .big-btn b{font-size:16px;font-family:var(--display)}
-  .pane{display:none;flex:1;flex-direction:column}.pane.on{display:flex;animation:f .25s ease}@keyframes f{from{opacity:0;transform:translateY(8px)}to{opacity:1}}
-  .back{align-self:flex-start;font-size:14px;color:var(--muted);margin-bottom:14px;font-weight:600}
-  .center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px}
-  .ticket{font-family:var(--mono);font-weight:700;font-size:64px;color:var(--accent);line-height:1}
-  .center h2{font-family:var(--display);font-size:22px;margin:6px 0 2px}
-  .center p{font-size:14px;color:var(--muted);margin:0;max-width:30ch}
-  .num{font-family:var(--display);font-weight:800;font-size:40px;margin:4px 0}
-  .list{width:100%}
-  .li{display:flex;justify-content:space-between;padding:14px 4px;border-bottom:1px solid var(--line);font-size:15px}
-  .li:last-child{border:none}.li b{font-family:var(--mono)}
-  .ipt{width:100%;height:54px;border:1px solid var(--line);border-radius:14px;padding:0 16px;font-size:16px;outline:none;text-align:center;margin-bottom:14px}
-  .ipt:focus{border-color:var(--accent)}
-  .cta{height:56px;border-radius:16px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:16px;width:100%;transition:background .35s,filter .15s}
-  .cta:hover{filter:brightness(1.05)}
-  .nfc{width:90px;height:90px;border-radius:999px;border:3px dashed var(--accent);display:grid;place-items:center;margin:6px auto;animation:pulse 1.8s infinite}
-  .nfc svg{width:40px;height:40px;stroke:var(--accent);fill:none;stroke-width:1.7}
-  @keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.06);opacity:.7}}
-  @media(prefers-reduced-motion:reduce){.nfc{animation:none}}
-  .credit{font-size:12px;color:#9DB2B3;margin-top:16px;text-align:center}
+  .logo .m{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:800;font-size:17px}
+  .logo b{font-family:var(--display);font-size:19px;color:#fff;display:block;line-height:1}.logo span{font-size:11.5px;color:#C9B0B0}
+  .controls{margin-left:auto;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .ti{height:36px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:9px;padding:0 11px;color:#fff;font-size:13px;width:120px;outline:none}
+  .swatches{display:flex;gap:6px}.sw{width:22px;height:22px;border-radius:999px;border:2px solid transparent}.sw.active{border-color:#fff;transform:scale(1.1)}
+  .kiosk{width:100%;max-width:560px;background:var(--card);border-radius:26px;overflow:hidden;box-shadow:0 40px 90px rgba(0,0,0,.45);min-height:600px;display:flex;flex-direction:column}
+  .kh{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;padding:22px 24px;text-align:center;transition:background .35s}
+  .kh b{font-family:var(--display);font-weight:800;font-size:24px;display:block}.kh span{font-size:13px;opacity:.92}
+  .cats{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:18px}
+  .cat{border:1px solid var(--line);border-radius:16px;padding:22px;text-align:center;transition:.12s}
+  .cat:hover{border-color:var(--accent);transform:translateY(-2px)}
+  .cat .e{font-size:38px;display:block;margin-bottom:8px}.cat b{font-size:15px}
+  .menu{flex:1;padding:8px 18px;overflow-y:auto}
+  .back{font-size:13px;color:var(--accent);font-weight:600;padding:10px 0}
+  .item{display:flex;align-items:center;gap:13px;padding:13px 0;border-bottom:1px solid var(--line)}
+  .item .e{width:48px;height:48px;border-radius:13px;background:color-mix(in srgb,var(--accent) 11%,transparent);display:grid;place-items:center;font-size:24px;flex:0 0 auto}
+  .item .i{flex:1}.item .i b{font-size:15px;display:block}.item .i span{font-family:var(--mono);font-size:13px;color:var(--accent);font-weight:700}
+  .item .add{width:40px;height:40px;border-radius:12px;background:var(--accent);color:#fff;font-size:24px;font-weight:700;flex:0 0 auto}
+  .cartbar{padding:14px 18px;border-top:1px solid var(--line)}
+  .cartbar .pay{height:56px;border-radius:15px;background:var(--accent);color:#fff;font-weight:700;font-size:17px;width:100%;display:flex;align-items:center;justify-content:center;gap:10px}
+  .cartbar .pay:disabled{opacity:.4}
+  .cartbar .pay .n{background:rgba(255,255,255,.25);border-radius:999px;padding:2px 11px;font-size:14px}
+  .done{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 24px}
+  .done .big{font-size:60px;margin-bottom:10px}
+  .done h2{font-family:var(--display);font-size:24px;margin:0 0 6px}.done p{font-size:14px;color:var(--muted);margin:0 0 18px}
+  .ticket{background:var(--surface);border:2px dashed var(--accent);border-radius:18px;padding:22px 40px;margin-bottom:20px}
+  .ticket .lbl{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
+  .ticket .num{font-family:var(--display);font-weight:800;font-size:56px;color:var(--accent);line-height:1}
+  .done button{height:50px;border-radius:13px;background:var(--surface);border:1px solid var(--line);font-weight:600;font-size:14px;padding:0 26px}
+  .step{display:none;flex-direction:column;flex:1}.step.on{display:flex;animation:f .25s ease}@keyframes f{from{opacity:0}to{opacity:1}}
+  .credit{font-size:12px;color:#C9B0B0;margin-top:18px;text-align:center}
 </style>
 </head>
 <body>
   <div class="top">
     <div class="logo"><div class="m" id="lm">A</div><div><b id="bl">Atiende</b><span>Tótem de autoatención · demo</span></div></div>
-    <div class="controls"><input class="ti" id="ib" value="Atiende" maxlength="14"><div class="swatches" id="sw"></div></div>
+    <div class="controls"><input class="ti" id="ib" value="Atiende" maxlength="16"><div class="swatches" id="sw"></div></div>
   </div>
 
   <div class="kiosk">
-    <div class="khead"><div class="big" id="kg">A</div><h1 id="kt">Bienvenido a Atiende</h1><p>Toca una opción para comenzar</p></div>
-    <div class="kbody">
-      <div class="pane on" id="home">
-        <div class="menu">
-          <button class="big-btn" data-go="turno"><div class="ic"><svg viewBox="0 0 24 24"><path d="M5 8h14M5 12h14M5 16h8"/><circle cx="12" cy="3" r="0"/></svg></div><b>Tomar turno</b></button>
-          <button class="big-btn" data-go="catalogo"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 5h16v4H4zM4 11h16v8H4z"/></svg></div><b>Catálogo</b></button>
-          <button class="big-btn" data-go="estado"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg></div><b>Consultar estado</b></button>
-          <button class="big-btn" data-go="pago"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 7h18v10H3zM3 11h18"/></svg></div><b>Pagar</b></button>
-        </div>
-      </div>
+    <div class="kh"><b id="bizName">Atiende</b><span>Toca para comenzar tu pedido</span></div>
 
-      <div class="pane" id="turno">
-        <button class="back" data-back>‹ Volver</button>
-        <div class="center"><div class="ticket" id="tk">A-042</div><h2>Tu turno está listo</h2><p>Toma asiento. Te llamaremos por pantalla y altavoz.</p></div>
-        <button class="cta" data-back>Listo</button>
-      </div>
+    <div class="step on" id="sCats"><div class="cats" id="cats"></div></div>
 
-      <div class="pane" id="catalogo">
-        <button class="back" data-back>‹ Volver</button>
-        <div class="list" style="margin-top:6px">
-          <div class="li"><span>Servicio estándar</span><b>$48.000</b></div>
-          <div class="li"><span>Servicio premium</span><b>$75.000</b></div>
-          <div class="li"><span>Consulta inicial</span><b>$25.000</b></div>
-          <div class="li"><span>Atención a domicilio</span><b>$95.000</b></div>
-        </div>
-        <button class="cta" data-back style="margin-top:auto">Volver al inicio</button>
-      </div>
+    <div class="step" id="sMenu">
+      <div class="menu" id="menu"></div>
+      <div class="cartbar"><button class="pay" id="pay" disabled>Pagar pedido <span class="n" id="cn">0</span></button></div>
+    </div>
 
-      <div class="pane" id="estado">
-        <button class="back" data-back>‹ Volver</button>
-        <div class="center" style="gap:14px">
-          <h2>Consulta tu pedido</h2>
-          <input class="ipt" id="code" placeholder="Ej: PED-2048" value="PED-2048">
-          <button class="cta" id="lookup">Consultar</button>
-          <div id="statusOut"></div>
-        </div>
-      </div>
-
-      <div class="pane" id="pago">
-        <button class="back" data-back>‹ Volver</button>
-        <div class="center">
-          <p>Total a pagar</p><div class="num" id="amt">$48.000</div>
-          <div class="nfc"><svg viewBox="0 0 24 24"><path d="M5 9a9 9 0 0114 0M8 12a5 5 0 018 0M11 15a1.5 1.5 0 012 0"/></svg></div>
-          <h2 style="font-size:18px">Acerca tu tarjeta o teléfono</h2>
-          <p>Pago seguro sin contacto</p>
-          <button class="cta" id="payOk" style="margin-top:12px">Simular pago ✓</button>
-        </div>
+    <div class="step" id="sDone">
+      <div class="done">
+        <div class="big">✅</div><h2>¡Pedido confirmado!</h2><p>Retira cuando llamemos tu número</p>
+        <div class="ticket"><div class="lbl">Tu número</div><div class="num" id="num">A-00</div></div>
+        <button id="again">Nuevo pedido</button>
       </div>
     </div>
   </div>
-  <div class="credit">Demo interactiva · solución re-skineable · datos de ejemplo</div>
+  <div class="credit">Demo interactiva · solución re-skineable · menú de ejemplo</div>
 
 <script>
 (function(){
   "use strict";
   function $(s){return document.querySelector(s);}
-  function show(id){[].slice.call(document.querySelectorAll(".pane")).forEach(function(p){p.classList.remove("on");});$("#"+id).classList.add("on");}
-  [].slice.call(document.querySelectorAll("[data-go]")).forEach(function(b){b.onclick=function(){
-    if(b.dataset.go==="turno"){$("#tk").textContent="A-0"+(30+Math.floor(Math.random()*60));}
-    show(b.dataset.go);
-  };});
-  document.addEventListener("click",function(e){var bk=e.target.closest("[data-back]");if(bk)show("home");});
-  $("#lookup").onclick=function(){var c=$("#code").value||"PED-0000";$("#statusOut").innerHTML='<div style="margin-top:10px;background:color-mix(in srgb,var(--accent) 9%,transparent);border-radius:12px;padding:14px 16px;font-size:14px"><b>'+c+'</b> · En preparación 🟢<br><span style="color:var(--muted);font-size:12.5px">Listo para retiro en ~15 min</span></div>';};
-  $("#payOk").onclick=function(){$("#pago").querySelector(".center").innerHTML='<div style="font-size:54px">✅</div><h2>¡Pago recibido!</h2><p>Gracias por tu compra</p><button class="cta" data-back style="margin-top:12px">Finalizar</button>';};
+  function clp(n){return "$"+n.toLocaleString("es-CL");}
+  var brand="Atiende";
+  var cats=[["🍔","Comida",[["🍔","Hamburguesa",5900],["🌭","Completo",3500],["🍟","Papas fritas",2900],["🥪","Sándwich",4500]]],["🥤","Bebidas",[["🥤","Bebida",2000],["🧃","Jugo natural",2800],["☕","Café",2200],["💧","Agua",1500]]],["🍰","Postres",[["🍰","Torta",3200],["🍦","Helado",2500],["🍩","Dona",1800]]],["🎟️","Promos",[["🎟️","Combo dúo",9900],["👨‍👩‍👧","Combo familiar",18900]]]];
+  var cart={},curCat=0;
 
-  var SW=[{c:"#0E7C86",c2:"#16A8B0"},{c:"#2563EB",c2:"#5B8DEF"},{c:"#7C3AED",c2:"#A855F7"},{c:"#E8852C",c2:"#F5B445"},{c:"#16161A",c2:"#444"}];
+  function renderCats(){$("#cats").innerHTML=cats.map(function(c,i){return '<button class="cat" data-i="'+i+'"><span class="e">'+c[0]+'</span><b>'+c[1]+'</b></button>';}).join("");
+    [].slice.call($("#cats").querySelectorAll(".cat")).forEach(function(b){b.onclick=function(){curCat=+b.dataset.i;renderMenu();go("sMenu");};});}
+  function renderMenu(){
+    var items=cats[curCat][2];
+    $("#menu").innerHTML='<div class="back" id="back">‹ Volver a categorías</div>'+items.map(function(it,i){return '<div class="item"><span class="e">'+it[0]+'</span><div class="i"><b>'+it[1]+'</b><span>'+clp(it[2])+'</span></div><button class="add" data-c="'+curCat+'" data-i="'+i+'">+</button></div>';}).join("");
+    $("#back").onclick=function(){go("sCats");};
+    [].slice.call($("#menu").querySelectorAll(".add")).forEach(function(b){b.onclick=function(){var k=b.dataset.c+"-"+b.dataset.i;cart[k]=(cart[k]||0)+1;updateCart();};});
+  }
+  function updateCart(){var n=Object.keys(cart).reduce(function(a,k){return a+cart[k];},0);$("#cn").textContent=n;$("#pay").disabled=n===0;}
+  $("#pay").onclick=function(){$("#num").textContent="A-"+("0"+Math.floor(10+Math.random()*89)).slice(-2);go("sDone");};
+  $("#again").onclick=function(){cart={};updateCart();go("sCats");};
+
+  function go(id){[".step"].forEach(function(){});[].slice.call(document.querySelectorAll(".step")).forEach(function(s){s.classList.remove("on");});$("#"+id).classList.add("on");}
+
+  var SW=[{c:"#DC2626",c2:"#F87171"},{c:"#EA580C",c2:"#F97A3D"},{c:"#16A34A",c2:"#34C759"},{c:"#7C3AED",c2:"#A855F7"},{c:"#2563EB",c2:"#5B8DEF"}];
   function ac(o){document.documentElement.style.setProperty("--accent",o.c);document.documentElement.style.setProperty("--accent-2",o.c2);
     var h=o.c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
-    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#10181A":"#fff");
+    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#1A1212":"#fff");
     [].slice.call(document.querySelectorAll(".sw")).forEach(function(e){e.classList.toggle("active",e.dataset.c===o.c);});}
   function bsw(){var s=$("#sw");s.innerHTML="";SW.forEach(function(o){var b=document.createElement("button");b.className="sw";b.style.background=o.c;b.dataset.c=o.c;b.onclick=function(){ac(o);};s.appendChild(b);});}
-  function ab(n){$("#bl").textContent=n||"Marca";$("#lm").textContent=(n||"M").charAt(0).toUpperCase();$("#kg").textContent=(n||"M").charAt(0).toUpperCase();$("#kt").textContent="Bienvenido a "+(n||"Marca");}
+  function ab(n){brand=n||"Marca";$("#bl").textContent=brand;$("#lm").textContent=brand.charAt(0).toUpperCase();$("#bizName").textContent=brand;}
   $("#ib").addEventListener("input",function(e){ab(e.target.value);});
-  bsw();ac(SW[0]);ab("Atiende");
+  bsw();ac(SW[0]);ab("Atiende");renderCats();updateCart();
 })();
 </script>
 </body>

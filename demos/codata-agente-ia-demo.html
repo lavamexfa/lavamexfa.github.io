@@ -3,376 +3,149 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Agente de Atención IA · Demo CO-DATA</title>
+<title>Agente de Atención IA · Demo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --accent:#2E5BD6;
-    --accent-ink:#fff;
-    --ink:#14141A;
-    --ink-soft:#3A3942;
-    --muted:#6E6B76;
-    --line:#E7E4EC;
-    --surface:#FAFAFC;
-    --surface-2:#F1F0F6;
-    --card:#FFFFFF;
-    --bot:#F1F0F6;
-    --radius:16px;
-    --shadow:0 1px 2px rgba(20,18,30,.04),0 10px 30px rgba(20,18,30,.08);
-    --shadow-lg:0 30px 70px rgba(20,18,30,.22);
-    --display:"Bricolage Grotesque",system-ui,sans-serif;
-    --body:"Inter",system-ui,sans-serif;
+    --accent:#16A34A;--accent-2:#34C759;--accent-ink:#fff;--wa:#25D366;
+    --ink:#0F1713;--muted:#7B867F;--line:#E6ECE8;--screen:#EFEFEA;--card:#fff;--bg:#0E1A14;
+    --display:"Bricolage Grotesque",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;
   }
   *{box-sizing:border-box}
-  body{margin:0;font-family:var(--body);color:var(--ink);background:
-    radial-gradient(120% 90% at 90% 0%,color-mix(in srgb,var(--accent) 9%,transparent),transparent 60%),
-    var(--surface);min-height:100vh;-webkit-font-smoothing:antialiased}
-  button{font-family:inherit;cursor:pointer;border:none;background:none}
-  textarea,input{font-family:inherit}
-  .shell{max-width:1180px;margin:0 auto;padding:30px 22px 50px}
+  body{margin:0;font-family:var(--body);color:var(--ink);
+    background:radial-gradient(85% 60% at 50% 0%,color-mix(in srgb,var(--accent) 24%,transparent),transparent 58%),var(--bg);
+    min-height:100vh;-webkit-font-smoothing:antialiased}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  input{font-family:inherit}
+  .stage{max-width:1000px;margin:0 auto;padding:24px 22px 50px;display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center}
+  @media(max-width:860px){.stage{grid-template-columns:1fr;justify-items:center;gap:24px}}
+  .pitch .logo{display:flex;align-items:center;gap:11px;margin-bottom:20px}
+  .pitch .logo .m{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:800;font-size:18px}
+  .pitch .logo b{font-family:var(--display);font-size:20px;color:#fff;display:block;line-height:1}.pitch .logo span{font-size:11.5px;color:#9DB0A6}
+  .pitch h1{font-family:var(--display);font-weight:800;font-size:clamp(26px,4vw,38px);color:#fff;letter-spacing:-.02em;line-height:1.08;margin:0 0 16px}
+  .pitch h1 em{font-style:normal;color:var(--accent-2)}
+  .pitch p{font-size:15px;color:#B5C2BB;max-width:40ch;margin:0 0 22px;line-height:1.55}
+  .feats{display:flex;flex-direction:column;gap:11px;margin-bottom:22px}
+  .feat{display:flex;gap:12px;align-items:center;font-size:14px;color:#D2DCD6}
+  .feat .fi{width:30px;height:30px;border-radius:9px;background:rgba(255,255,255,.07);display:grid;place-items:center;flex:0 0 auto;font-size:15px}
+  .reskin{display:flex;flex-direction:column;gap:10px}
+  .reskin .r1{display:flex;gap:10px;flex-wrap:wrap}
+  .reskin input{height:38px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:9px;padding:0 12px;color:#fff;font-size:13px;outline:none}
+  #ibName{width:140px}#ibBiz{flex:1;min-width:160px}
+  .swatches{display:flex;gap:6px}.sw{width:22px;height:22px;border-radius:999px;border:2px solid transparent}.sw.active{border-color:#fff;transform:scale(1.1)}
 
-  /* topbar */
-  .top{display:flex;align-items:center;gap:14px;margin-bottom:26px;flex-wrap:wrap}
-  .top .logo{display:flex;align-items:center;gap:10px}
-  .top .logo .m{width:34px;height:34px;border-radius:9px;background:var(--ink);display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:800;font-size:16px}
-  .top .logo b{font-family:var(--display);font-size:18px;letter-spacing:-.02em}
-  .top .logo span{font-size:12px;color:var(--muted);display:block;margin-top:-2px}
-  .top .tag{margin-left:auto;font-size:12px;color:var(--muted);background:var(--card);border:1px solid var(--line);
-    padding:7px 13px;border-radius:999px;display:flex;align-items:center;gap:7px}
-  .top .tag .d{width:7px;height:7px;border-radius:999px;background:#2F9E5B;box-shadow:0 0 0 3px rgba(47,158,91,.18)}
-
-  .lead{margin:0 0 24px}
-  .lead h1{font-family:var(--display);font-weight:800;font-size:clamp(26px,4vw,40px);letter-spacing:-.03em;margin:0 0 8px;line-height:1.05}
-  .lead h1 em{font-style:normal;color:var(--accent);transition:color .35s}
-  .lead p{font-size:15.5px;color:var(--ink-soft);max-width:60ch;margin:0}
-
-  .layout{display:grid;grid-template-columns:380px 1fr;gap:22px;align-items:start}
-
-  /* config panel */
-  .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
-  .panel-head{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
-  .panel-head svg{width:18px;height:18px;stroke:var(--accent);fill:none;stroke-width:1.7}
-  .panel-head b{font-family:var(--display);font-size:15px}
-  .panel-body{padding:18px}
-  .fld{margin-bottom:16px}
-  .fld label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:7px}
-  .fld input[type=text]{width:100%;height:40px;border:1px solid var(--line);border-radius:10px;padding:0 12px;font-size:14px;background:var(--surface);outline:none}
-  .fld input[type=text]:focus,.fld textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 14%,transparent)}
-  .fld textarea{width:100%;min-height:168px;border:1px solid var(--line);border-radius:10px;padding:11px 12px;font-size:13px;line-height:1.5;background:var(--surface);outline:none;resize:vertical;color:var(--ink-soft)}
-  .swatches{display:flex;gap:8px}
-  .sw{width:28px;height:28px;border-radius:999px;border:2px solid transparent;transition:.15s}
-  .sw.active{border-color:var(--ink);transform:scale(1.08)}
-  .presets{display:flex;flex-direction:column;gap:8px}
-  .preset{border:1px solid var(--line);border-radius:11px;padding:11px 12px;text-align:left;display:flex;align-items:center;gap:11px;transition:.15s;background:var(--surface)}
-  .preset:hover{border-color:var(--ink);transform:translateY(-1px)}
-  .preset .pc{width:26px;height:26px;border-radius:7px;flex:0 0 auto}
-  .preset b{font-size:13px;display:block;font-family:var(--display)}
-  .preset span{font-size:11px;color:var(--muted)}
-  .apply-note{font-size:11.5px;color:var(--muted);margin-top:4px;display:flex;gap:6px;align-items:flex-start;line-height:1.4}
-  .apply-note svg{width:13px;height:13px;stroke:var(--accent);flex:0 0 auto;margin-top:2px;fill:none;stroke-width:2}
-
-  /* chat */
-  .chat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);
-    display:flex;flex-direction:column;height:640px;overflow:hidden}
-  .chat-head{padding:15px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;
-    background:linear-gradient(180deg,var(--surface-2),var(--card))}
-  .chat-head .av{width:40px;height:40px;border-radius:999px;background:var(--accent);display:grid;place-items:center;
-    color:var(--accent-ink);font-family:var(--display);font-weight:800;font-size:17px;transition:background .35s;flex:0 0 auto}
-  .chat-head .who b{font-family:var(--display);font-size:15px;display:block;line-height:1.1}
-  .chat-head .who span{font-size:12px;color:#2F9E5B;display:flex;align-items:center;gap:6px;margin-top:2px}
-  .chat-head .who span .d{width:6px;height:6px;border-radius:999px;background:#2F9E5B}
-  .chat-head .brain{margin-left:auto;font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px;text-align:right}
-  .chat-head .brain svg{width:15px;height:15px;stroke:var(--accent);fill:none;stroke-width:1.6}
-
-  .stream{flex:1;overflow-y:auto;padding:20px 18px;display:flex;flex-direction:column;gap:14px}
-  .msg{max-width:80%;font-size:14px;line-height:1.5;padding:11px 14px;border-radius:15px;white-space:pre-wrap;word-wrap:break-word}
-  .msg.bot{background:var(--bot);color:var(--ink);border-bottom-left-radius:5px;align-self:flex-start}
-  .msg.user{background:var(--accent);color:var(--accent-ink);border-bottom-right-radius:5px;align-self:flex-end;transition:background .35s}
-  .typing{display:flex;gap:4px;padding:14px;background:var(--bot);border-radius:15px;border-bottom-left-radius:5px;align-self:flex-start;width:fit-content}
-  .typing i{width:7px;height:7px;border-radius:999px;background:var(--muted);opacity:.5;animation:bop 1.2s infinite}
-  .typing i:nth-child(2){animation-delay:.18s}.typing i:nth-child(3){animation-delay:.36s}
-  @keyframes bop{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-5px);opacity:1}}
-  @media (prefers-reduced-motion:reduce){.typing i{animation:none}}
-
-  .chips{display:flex;gap:8px;flex-wrap:wrap;padding:0 18px 12px}
-  .chip{font-size:12.5px;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:8px 13px;
-    color:var(--ink-soft);transition:.15s}
-  .chip:hover{border-color:var(--accent);color:var(--accent)}
-
-  .composer{border-top:1px solid var(--line);padding:12px 14px;display:flex;gap:10px;align-items:flex-end;background:var(--card)}
-  .composer textarea{flex:1;border:1px solid var(--line);border-radius:12px;padding:11px 13px;font-size:14px;
-    resize:none;max-height:120px;outline:none;background:var(--surface);line-height:1.4}
-  .composer textarea:focus{border-color:var(--accent)}
-  .send{width:44px;height:44px;border-radius:12px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;
-    flex:0 0 auto;transition:.15s,background .35s}
-  .send:hover{filter:brightness(1.05)}
-  .send:disabled{opacity:.4;cursor:not-allowed}
-  .send svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2}
-
-  .foot-credit{text-align:center;font-size:12px;color:var(--muted);margin-top:24px}
-  .foot-credit b{color:var(--ink)}
-
-  @media (max-width:900px){
-    .layout{grid-template-columns:1fr}
-    .chat{height:70vh;min-height:520px}
-    .top .tag{margin-left:0}
-  }
+  .phone{width:380px;max-width:92vw;background:#0A140E;border-radius:44px;padding:12px;box-shadow:0 40px 90px rgba(0,0,0,.5),inset 0 0 0 2px rgba(255,255,255,.06)}
+  .screen{background:var(--screen);border-radius:34px;overflow:hidden;height:700px;max-height:80vh;display:flex;flex-direction:column}
+  .wa-head{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;padding:14px 16px;display:flex;align-items:center;gap:11px;transition:background .35s}
+  .wa-head .av{width:42px;height:42px;border-radius:999px;background:rgba(255,255,255,.22);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:18px;flex:0 0 auto}
+  .wa-head b{font-size:15px;display:block;line-height:1.2}.wa-head span{font-size:11.5px;opacity:.9}
+  .wa-head .on{width:8px;height:8px;border-radius:999px;background:#7DF5A0;display:inline-block;margin-right:5px}
+  .chat{flex:1;overflow-y:auto;padding:16px 14px;display:flex;flex-direction:column;gap:9px;background-image:linear-gradient(rgba(0,0,0,.015),rgba(0,0,0,.015))}
+  .chat::-webkit-scrollbar{width:0}
+  .msg{max-width:80%;padding:9px 13px;border-radius:14px;font-size:13.5px;line-height:1.45;white-space:pre-wrap;word-wrap:break-word}
+  .msg.bot{background:var(--card);border:1px solid var(--line);align-self:flex-start;border-bottom-left-radius:5px}
+  .msg.me{background:color-mix(in srgb,var(--accent) 88%,#fff);color:#fff;align-self:flex-end;border-bottom-right-radius:5px}
+  .typing{align-self:flex-start;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px 14px;display:flex;gap:4px}
+  .typing i{width:7px;height:7px;border-radius:999px;background:var(--muted);animation:bl 1.2s infinite}
+  .typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+  @keyframes bl{0%,60%,100%{opacity:.3}30%{opacity:1}}
+  .chips{display:flex;gap:7px;flex-wrap:wrap;padding:0 14px 8px}
+  .chip{font-size:12px;border:1px solid var(--accent);color:var(--accent);background:var(--card);border-radius:999px;padding:7px 12px;transition:.12s}
+  .chip:hover{background:var(--accent);color:#fff}
+  .bar{padding:10px 12px;border-top:1px solid var(--line);background:var(--card);display:flex;gap:8px;align-items:center;flex:0 0 auto}
+  .bar input{flex:1;height:42px;border:1px solid var(--line);border-radius:999px;padding:0 15px;font-size:14px;outline:none;background:var(--screen)}
+  .bar input:focus{border-color:var(--accent)}
+  .bar .send{width:42px;height:42px;border-radius:999px;background:var(--accent);display:grid;place-items:center;flex:0 0 auto}
+  .bar .send svg{width:19px;height:19px;fill:none;stroke:#fff;stroke-width:2}
+  .wacta{margin:0 14px 12px;height:46px;border-radius:12px;background:var(--wa);color:#fff;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;gap:9px}
+  .wacta svg{width:18px;height:18px;fill:#fff}
+  .credit{grid-column:1/-1;text-align:center;font-size:12px;color:#92A39A;margin-top:6px}
 </style>
 </head>
 <body>
-<div class="shell">
-
-  <div class="top">
-    <div class="logo">
-      <div class="m">C</div>
-      <div><b>CO-DATA</b><span>Inteligencia digital y automatización</span></div>
+<div class="stage">
+  <div class="pitch">
+    <div class="logo"><div class="m" id="lm">A</div><div><b id="bl">Atiende</b><span>Vendedor IA 24/7 · demo</span></div></div>
+    <h1>Un vendedor que <em>nunca duerme</em>.</h1>
+    <p>Responde dudas, recomienda y agenda — al instante, a cualquier hora. Y cuando el cliente está listo, lo pasa a WhatsApp para cerrar.</p>
+    <div class="feats">
+      <div class="feat"><span class="fi">⚡</span> Responde en segundos, 24/7</div>
+      <div class="feat"><span class="fi">🧠</span> Sabe solo de TU negocio (no inventa)</div>
+      <div class="feat"><span class="fi">📲</span> Captura el lead y lo lleva a WhatsApp</div>
     </div>
-    <div class="tag"><span class="d"></span> Demo · IA en vivo</div>
+    <div class="reskin">
+      <div class="r1"><input id="ibName" value="Atiende" maxlength="16" placeholder="Marca"><input id="ibBiz" value="cafetería de especialidad" maxlength="40" placeholder="¿Qué negocio es?"></div>
+      <div class="swatches" id="sw"></div>
+    </div>
   </div>
 
-  <div class="lead">
-    <h1>Tu cliente atendido 24/7 por <em id="leadBrand">Aurora</em></h1>
-    <p>Un agente que responde <b>solo</b> con la información del negocio. No inventa precios ni datos: si no lo sabe, lo dice y deriva a contacto. Edita la base de conocimiento abajo y pruébalo al instante.</p>
-  </div>
+  <div class="phone"><div class="screen">
+    <div class="wa-head"><div class="av" id="av">A</div><div><b id="bizName">Atiende</b><span><span class="on"></span>en línea · responde al instante</span></div></div>
+    <div class="chat" id="chat"></div>
+    <div class="chips" id="chips"></div>
+    <button class="wacta" id="wacta"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-8.6 15l-1.4 5 5.2-1.4A10 10 0 1012 2z"/></svg> Continuar en WhatsApp</button>
+    <div class="bar"><input id="inp" placeholder="Escribe tu pregunta…"><button class="send" id="send"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg></button></div>
+  </div></div>
 
-  <div class="layout">
-
-    <!-- config -->
-    <div class="panel">
-      <div class="panel-head">
-        <svg viewBox="0 0 24 24"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="3.4"/></svg>
-        <b>Configura el agente</b>
-      </div>
-      <div class="panel-body">
-        <div class="fld">
-          <label>Nombre del negocio</label>
-          <input type="text" id="inpBrand" value="Aurora" maxlength="24">
-        </div>
-        <div class="fld">
-          <label>Color de marca</label>
-          <div class="swatches" id="swatches"></div>
-        </div>
-        <div class="fld">
-          <label>Base de conocimiento (lo único que sabe)</label>
-          <textarea id="inpKnow"></textarea>
-          <div class="apply-note">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7"/></svg>
-            El agente responde solo con esto. Cámbialo y la próxima respuesta ya usa la info nueva.
-          </div>
-        </div>
-        <div class="fld" style="margin-bottom:0">
-          <label>Cargar ejemplo de rubro</label>
-          <div class="presets" id="presets"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- chat -->
-    <div class="chat">
-      <div class="chat-head">
-        <div class="av" id="chatAv">A</div>
-        <div class="who">
-          <b id="chatName">Asistente Aurora</b>
-          <span><span class="d"></span> En línea · responde al instante</span>
-        </div>
-        <div class="brain">
-          <svg viewBox="0 0 24 24"><path d="M9 3a3 3 0 00-3 3 3 3 0 00-2 5 3 3 0 001 5 3 3 0 005 1.5V3z"/><path d="M15 3a3 3 0 013 3 3 3 0 012 5 3 3 0 01-1 5 3 3 0 01-5 1.5V3z"/></svg>
-          Conocimiento<br>cerrado
-        </div>
-      </div>
-      <div class="stream" id="stream"></div>
-      <div class="chips" id="chips"></div>
-      <div class="composer">
-        <textarea id="input" rows="1" placeholder="Escribe tu pregunta…"></textarea>
-        <button class="send" id="send" aria-label="Enviar"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="foot-credit">Motor de atención desarrollado por <b>CO-DATA</b> · Esta demo usa IA real</div>
+  <div class="credit">Demo interactiva · solución re-skineable · IA real (en producción va con backend seguro)</div>
 </div>
 
 <script>
 (function(){
   "use strict";
   function $(s){return document.querySelector(s);}
+  var brand="Atiende",biz="cafetería de especialidad";
+  var history=[];
+  var starters=["¿Qué horarios tienen?","¿Cuánto cuesta?","¿Tienen delivery?","Quiero reservar"];
 
-  var brand="Aurora";
-  var messages=[]; // {role, content}
-  var busy=false;
-
-  var swColors=[
-    {c:"#2E5BD6",n:"Cobalto"},{c:"#B7791F",n:"Oro"},{c:"#3E7C59",n:"Bosque"},
-    {c:"#C0392B",n:"Carmesí"},{c:"#6D4AAF",n:"Violeta"},{c:"#14141A",n:"Grafito"}
-  ];
-
-  var defaultKnow=
-"NEGOCIO: Aurora.cl — tienda premium de productos de alta calidad con despacho a todo Chile.\n"+
-"HORARIO ATENCIÓN: Lunes a viernes de 9:00 a 18:00 hrs.\n"+
-"DESPACHO: Gratis en compras sobre $40.000. A todo Chile vía Chilexpress, Starken y Blue Express. Llega en 24 a 72 hrs hábiles.\n"+
-"GARANTÍA: 2 años en todos los productos. Garantía de satisfacción: 10 días para cambio o devolución.\n"+
-"PAGOS: Webpay con 3 a 6 cuotas precio contado. También transferencia.\n"+
-"PRODUCTOS: 3 líneas. Pro (alto rendimiento, $160.000 a $500.000), Esencial (equilibrio calidad-precio, $65.000 a $120.000) y Compacta (portátil y regalos, $35.000 a $95.000).\n"+
-"REGALOS EMPRESA: Hacemos despacho corporativo y personalización para regalos sobre 10 unidades.\n"+
-"CONTACTO: ventas@aurora.cl · +56 2 0000 0000.\n"+
-"DEVOLUCIONES: El producto debe estar sin uso y con su embalaje. El reembolso se hace al medio de pago original.";
-
-  var presets=[
-    {brand:"Aurora", accent:"#2E5BD6", chips:["¿Tienen despacho gratis?","¿Cuánto demora el envío?","¿Qué garantía tienen?","Quiero un regalo para empresa"], know:defaultKnow},
-    {brand:"Ferrolux", accent:"#C0392B",
-     chips:["¿Venden al por mayor?","¿Tienen retiro en tienda?","¿Hacen factura?","¿Manejan EPP?"],
-     know:
-"NEGOCIO: Ferrolux — ferretería y equipamiento profesional para obra, taller y construcción.\n"+
-"HORARIO: Lunes a viernes 8:30 a 19:00, sábado 9:00 a 14:00.\n"+
-"RETIRO: Retiro en tienda gratis el mismo día (Av. Industrial 1200, Santiago). Despacho a RM en 24 hrs.\n"+
-"MAYORISTA: Sí, precios por volumen sobre 20 unidades o compras sobre $300.000. Pide cotización a ventas@ferrolux.cl.\n"+
-"FACTURA: Emitimos boleta y factura. Para factura necesitamos razón social, RUT y giro.\n"+
-"EPP: Manejamos línea completa de seguridad: cascos, arnés, guantes, lentes, calzado de seguridad.\n"+
-"GARANTÍA: Herramientas con garantía de fábrica de 1 año. Despacho a regiones por pagar.\n"+
-"PAGOS: Webpay, transferencia y crédito directo a empresas con convenio."},
-    {brand:"Cumbre", accent:"#3E7C59",
-     chips:["¿Qué llevo para trekking?","¿Tienen tallas?","¿Hacen cambios?","¿Despachan a regiones?"],
-     know:
-"NEGOCIO: Cumbre — tienda outdoor de equipo de trekking, camping y montaña de alto rendimiento.\n"+
-"HORARIO: Lunes a domingo 10:00 a 20:00 en tienda Mall Plaza; online 24/7.\n"+
-"DESPACHO: Gratis sobre $50.000. A todo Chile en 2 a 5 días hábiles. Despacho express en RM (24 hrs) con costo adicional.\n"+
-"TALLAS: Ropa de XS a XXL. Calzado del 36 al 46. Tenemos guía de tallas en cada producto.\n"+
-"CAMBIOS: 30 días para cambio de talla sin costo dentro de RM. Producto sin uso con etiqueta.\n"+
-"ASESORÍA: Asesoramos armado de equipo según destino (cordillera, sur de Chile, alta montaña).\n"+
-"GARANTÍA: Productos técnicos con garantía del fabricante. Arriendo de equipo no disponible por ahora.\n"+
-"CONTACTO: hola@cumbre.cl · +56 9 0000 0000."}
-  ];
-
-  function applyAccent(c){
-    document.documentElement.style.setProperty("--accent",c);
-    var h=c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
-    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#14141A":"#fff");
-    [].slice.call(document.querySelectorAll(".sw")).forEach(function(el){el.classList.toggle("active",el.dataset.c===c);});
+  function add(role,text){
+    var d=document.createElement("div");d.className="msg "+(role==="me"?"me":"bot");d.textContent=text;
+    $("#chat").appendChild(d);$("#chat").scrollTop=$("#chat").scrollHeight;
   }
-  function applyBrand(name){
-    brand=name||"el negocio";
-    $("#leadBrand").textContent=brand;
-    $("#chatName").textContent="Asistente "+brand;
-    $("#chatAv").textContent=brand.charAt(0).toUpperCase();
+  function typing(on){
+    var ex=$("#typing");
+    if(on){if(ex)return;var d=document.createElement("div");d.className="typing";d.id="typing";d.innerHTML="<i></i><i></i><i></i>";$("#chat").appendChild(d);$("#chat").scrollTop=$("#chat").scrollHeight;}
+    else if(ex)ex.remove();
+  }
+  function chips(list){$("#chips").innerHTML="";list.forEach(function(c){var b=document.createElement("button");b.className="chip";b.textContent=c;b.onclick=function(){ask(c);};$("#chips").appendChild(b);});}
+
+  function ask(text){
+    add("me",text);history.push({role:"user",content:text});$("#chips").innerHTML="";typing(true);
+    var sys="Eres el asistente de atención de un negocio: "+biz+" llamado \""+brand+"\". "+
+      "Responde como vendedor cercano y útil en español de Chile, breve (2-4 frases), siempre orientado a que el cliente avance (reservar, comprar, visitar). "+
+      "Si no sabes un dato puntual (precio exacto, dirección), no lo inventes: ofrece tomar el contacto o continuar por WhatsApp. Usa un tono amable y profesional.";
+    fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1000,system:sys,messages:history})
+    }).then(function(r){return r.json();}).then(function(d){
+      typing(false);
+      var t="";if(d&&d.content)t=d.content.filter(function(i){return i.type==="text";}).map(function(i){return i.text;}).join("").trim();
+      t=t||"¿Te ayudo a coordinar por WhatsApp?";
+      add("bot",t);history.push({role:"assistant",content:t});
+    }).catch(function(){typing(false);add("bot","Se me cayó la conexión 😅. ¿Seguimos por WhatsApp y te respondo al tiro?");});
   }
 
-  function buildSwatches(){
-    var s=$("#swatches");s.innerHTML="";
-    swColors.forEach(function(o){
-      var b=document.createElement("button");b.className="sw";b.style.background=o.c;b.dataset.c=o.c;b.title=o.n;
-      b.onclick=function(){applyAccent(o.c);};s.appendChild(b);
-    });
-  }
-  function buildPresets(){
-    var p=$("#presets");p.innerHTML="";
-    presets.forEach(function(pr){
-      var b=document.createElement("button");b.className="preset";
-      b.innerHTML='<div class="pc" style="background:'+pr.accent+'"></div><div><b>'+pr.brand+'</b><span>Cargar negocio de ejemplo</span></div>';
-      b.onclick=function(){loadPreset(pr);};p.appendChild(b);
-    });
-  }
-  function loadPreset(pr){
-    $("#inpBrand").value=pr.brand;applyBrand(pr.brand);
-    applyAccent(pr.accent);
-    $("#inpKnow").value=pr.know;
-    resetChat(pr.chips);
+  $("#send").onclick=function(){var v=$("#inp").value.trim();if(v){$("#inp").value="";ask(v);}};
+  $("#inp").addEventListener("keydown",function(e){if(e.key==="Enter")$("#send").click();});
+  $("#wacta").onclick=function(){window.open("https://wa.me/?text="+encodeURIComponent("Hola "+brand+", vengo del asistente y quiero más info."),"_blank");};
+
+  function boot(){
+    $("#chat").innerHTML="";history=[];
+    add("bot","¡Hola! 👋 Soy el asistente de "+brand+". ¿En qué te ayudo hoy?");
+    chips(starters);
   }
 
-  function buildChips(list){
-    var c=$("#chips");c.innerHTML="";
-    list.forEach(function(q){
-      var b=document.createElement("button");b.className="chip";b.textContent=q;
-      b.onclick=function(){ if(!busy){ send(q); } };
-      c.appendChild(b);
-    });
-  }
-
-  function addMsg(role,text){
-    var d=document.createElement("div");d.className="msg "+(role==="user"?"user":"bot");d.textContent=text;
-    $("#stream").appendChild(d);scrollDown();return d;
-  }
-  function scrollDown(){var s=$("#stream");s.scrollTop=s.scrollHeight;}
-
-  function resetChat(chips){
-    messages=[];$("#stream").innerHTML="";
-    addMsg("bot","¡Hola! 👋 Soy el asistente de "+brand+". Puedo ayudarte con dudas sobre despachos, garantía, productos y más. ¿En qué te ayudo?");
-    buildChips(chips || presets[0].chips);
-  }
-
-  function showTyping(){
-    var t=document.createElement("div");t.className="typing";t.id="typing";
-    t.innerHTML="<i></i><i></i><i></i>";$("#stream").appendChild(t);scrollDown();
-  }
-  function hideTyping(){var t=$("#typing");if(t)t.remove();}
-
-  function systemPrompt(){
-    var know=$("#inpKnow").value.trim();
-    return "Eres el asistente virtual de atención al cliente del negocio \""+brand+"\". "+
-    "Respondes preguntas de clientes de forma cercana, clara y breve, en español de Chile, con tono amable y profesional (puedes usar uno o dos emojis con moderación).\n\n"+
-    "REGLA MÁS IMPORTANTE: responde ÚNICAMENTE con la información de la BASE DE CONOCIMIENTO de abajo. "+
-    "Si la respuesta no está en la base de conocimiento, NO la inventes: di honestamente que no manejas ese dato y ofrece derivar al contacto del negocio. "+
-    "Nunca inventes precios, plazos, stock ni políticas que no estén escritas. No hables de otros temas ajenos al negocio.\n\n"+
-    "BASE DE CONOCIMIENTO:\n"+ (know || "(sin información cargada)");
-  }
-
-  function send(text){
-    if(busy)return;
-    var msg=(text!==undefined)?text:$("#input").value.trim();
-    if(!msg)return;
-    $("#input").value="";autoGrow();
-    addMsg("user",msg);
-    messages.push({role:"user",content:msg});
-    busy=true;$("#send").disabled=true;
-    showTyping();
-
-    fetch("https://api.anthropic.com/v1/messages",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({
-        model:"claude-sonnet-4-6",
-        max_tokens:1000,
-        system:systemPrompt(),
-        messages:messages
-      })
-    }).then(function(r){return r.json();}).then(function(data){
-      hideTyping();
-      var txt="";
-      if(data && data.content){
-        txt=data.content.filter(function(i){return i.type==="text";}).map(function(i){return i.text;}).join("\n").trim();
-      }
-      if(!txt) txt="Disculpa, no pude generar una respuesta en este momento. ¿Puedes reformular tu pregunta?";
-      addMsg("bot",txt);
-      messages.push({role:"assistant",content:txt});
-    }).catch(function(){
-      hideTyping();
-      addMsg("bot","No pude conectarme en este momento ⚠️. Reintenta en unos segundos. (En un sitio publicado, esto corre con la conexión segura de tu negocio.)");
-    }).then(function(){
-      busy=false;$("#send").disabled=false;$("#input").focus();
-    });
-  }
-
-  function autoGrow(){
-    var t=$("#input");t.style.height="auto";t.style.height=Math.min(t.scrollHeight,120)+"px";
-  }
-
-  // events
-  $("#send").onclick=function(){send();};
-  $("#input").addEventListener("input",autoGrow);
-  $("#input").addEventListener("keydown",function(e){
-    if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send();}
-  });
-  $("#inpBrand").addEventListener("input",function(e){applyBrand(e.target.value);});
-
-  // init
-  buildSwatches();
-  buildPresets();
-  applyAccent("#2E5BD6");
-  $("#inpKnow").value=defaultKnow;
-  applyBrand("Aurora");
-  resetChat(presets[0].chips);
+  var SW=[{c:"#16A34A",c2:"#34C759"},{c:"#2563EB",c2:"#5B8DEF"},{c:"#7C3AED",c2:"#A855F7"},{c:"#C2410C",c2:"#EA7A3C"},{c:"#0D9488",c2:"#2DD4BF"}];
+  function ac(o){document.documentElement.style.setProperty("--accent",o.c);document.documentElement.style.setProperty("--accent-2",o.c2);
+    var h=o.c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
+    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#0F1713":"#fff");
+    [].slice.call(document.querySelectorAll(".sw")).forEach(function(e){e.classList.toggle("active",e.dataset.c===o.c);});}
+  function bsw(){var s=$("#sw");s.innerHTML="";SW.forEach(function(o){var b=document.createElement("button");b.className="sw";b.style.background=o.c;b.dataset.c=o.c;b.onclick=function(){ac(o);};s.appendChild(b);});}
+  function ab(n){brand=n||"Marca";$("#bl").textContent=brand;$("#lm").textContent=brand.charAt(0).toUpperCase();$("#av").textContent=brand.charAt(0).toUpperCase();$("#bizName").textContent=brand;}
+  $("#ibName").addEventListener("input",function(e){ab(e.target.value);});
+  $("#ibBiz").addEventListener("input",function(e){biz=e.target.value||"negocio";});
+  bsw();ac(SW[0]);ab("Atiende");boot();
 })();
 </script>
 </body>

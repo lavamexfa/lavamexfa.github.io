@@ -6,54 +6,56 @@
 <title>Encuesta Rápida · Demo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --accent:#2563EB;--accent-ink:#fff;--ok:#2E9E66;--warn:#E0A53B;--bad:#E0533D;
+    --accent:#2563EB;--accent-2:#5B8DEF;--accent-ink:#fff;--ok:#2E9E66;--warn:#E0A53B;--bad:#E0533D;--star:#F5B445;
     --ink:#15161C;--muted:#767C8A;--line:#E8E9F0;--surface:#F4F5FA;--card:#fff;
-    --display:"Bricolage Grotesque",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;
+    --display:"Bricolage Grotesque",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",monospace;
   }
   *{box-sizing:border-box}
   body{margin:0;font-family:var(--body);color:var(--ink);
-    background:radial-gradient(70% 50% at 50% 0%,color-mix(in srgb,var(--accent) 14%,transparent),transparent 60%),var(--surface);
+    background:radial-gradient(70% 50% at 50% 0%,color-mix(in srgb,var(--accent) 13%,transparent),transparent 60%),var(--surface);
     min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:24px 18px 50px;-webkit-font-smoothing:antialiased}
   button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
   input,textarea{font-family:inherit}
-  .top{width:100%;max-width:520px;display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+  .top{width:100%;max-width:540px;display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
   .logo{display:flex;align-items:center;gap:11px}
-  .logo .m{width:36px;height:36px;border-radius:10px;background:var(--accent);display:grid;place-items:center;color:var(--accent-ink);font-family:var(--display);font-weight:800;font-size:17px;transition:background .35s}
+  .logo .m{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;color:var(--accent-ink);font-family:var(--display);font-weight:800;font-size:17px}
   .logo b{font-family:var(--display);font-size:19px;display:block;line-height:1}.logo span{font-size:11.5px;color:var(--muted)}
   .controls{margin-left:auto;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-  .ti{height:36px;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:0 11px;font-size:13px;width:120px;outline:none}
+  .ti{height:36px;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:0 11px;font-size:13px;width:110px;outline:none}
   .swatches{display:flex;gap:6px}.sw{width:22px;height:22px;border-radius:999px;border:2px solid transparent}.sw.active{border-color:var(--ink);transform:scale(1.1)}
-  .card{width:100%;max-width:520px;background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:0 20px 60px rgba(20,18,40,.08);padding:30px 28px}
+  .card{width:100%;max-width:540px;background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:0 20px 60px rgba(20,18,40,.08);padding:28px 26px}
   .card h2{font-family:var(--display);font-weight:800;font-size:21px;margin:0 0 4px}
   .card .sub{font-size:13.5px;color:var(--muted);margin:0 0 22px}
-  .q{margin-bottom:22px}
-  .q .ql{font-size:14.5px;font-weight:600;margin-bottom:11px}
-  .nps{display:flex;gap:6px;flex-wrap:wrap}
-  .nps button{width:38px;height:42px;border:1px solid var(--line);border-radius:10px;font-weight:700;font-size:14px;color:var(--muted);transition:.12s}
+  .q{margin-bottom:22px}.q .ql{font-size:14.5px;font-weight:600;margin-bottom:11px}
+  .nps{display:flex;gap:5px;flex-wrap:wrap}
+  .nps button{width:36px;height:42px;border:1px solid var(--line);border-radius:9px;font-weight:700;font-size:14px;color:var(--muted);transition:.12s}
   .nps button:hover{border-color:var(--accent);color:var(--accent)}
-  .nps button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .nps button.on{background:var(--accent);color:#fff;border-color:var(--accent);transform:translateY(-2px)}
   .nps-l{display:flex;justify-content:space-between;font-size:10.5px;color:var(--muted);margin-top:6px}
+  .stars{display:flex;gap:6px}
+  .stars button{font-size:34px;color:var(--line);transition:.12s}
+  .stars button.lit{color:var(--star);transform:scale(1.05)}
   .opts{display:flex;flex-direction:column;gap:9px}
-  .opt{border:1px solid var(--line);border-radius:12px;padding:13px 14px;font-size:14px;text-align:left;transition:.12s}
-  .opt:hover{border-color:var(--accent)}
-  .opt.on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 6%,transparent);font-weight:600}
-  textarea{width:100%;min-height:80px;border:1px solid var(--line);border-radius:12px;padding:11px 12px;font-size:14px;outline:none;resize:vertical}
-  textarea:focus{border-color:var(--accent)}
-  .btn{height:50px;border-radius:13px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:15px;width:100%;transition:background .35s,filter .15s}
+  .opt{border:1px solid var(--line);border-radius:12px;padding:13px 14px;font-size:14px;text-align:left;transition:.12s;display:flex;align-items:center;gap:10px}
+  .opt:hover{border-color:var(--accent)}.opt.on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 6%,transparent);font-weight:600}
+  .opt .e{font-size:18px}
+  .btn{height:50px;border-radius:13px;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:var(--accent-ink);font-weight:700;font-size:15px;width:100%;transition:filter .15s}
   .btn:hover{filter:brightness(1.05)}.btn:disabled{opacity:.5;cursor:not-allowed}
   .step{display:none}.step.on{display:block;animation:f .25s ease}@keyframes f{from{opacity:0;transform:translateY(6px)}to{opacity:1}}
-  .res .big{font-size:48px;text-align:center;margin-bottom:6px}
-  .res h2{text-align:center}
-  .res .sub{text-align:center}
-  .agg{margin-top:18px}
+  .res .big{font-size:46px;text-align:center;margin-bottom:4px}
+  .res h2,.res .sub{text-align:center}
+  .nps-score{display:flex;align-items:center;justify-content:center;gap:14px;margin:18px 0}
+  .nps-score .v{font-family:var(--display);font-weight:800;font-size:40px;line-height:1}
+  .nps-score .lab{font-size:12px;color:var(--muted)}
   .agg .al{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:16px 0 10px}
   .arow{margin-bottom:10px}
   .arow .l{display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px}
   .arow .t{height:9px;background:var(--surface);border-radius:999px;overflow:hidden}
-  .arow .f{height:100%;border-radius:999px;background:var(--accent);width:0;transition:width .8s ease}
+  .arow .f{height:100%;border-radius:999px;transition:width .6s}
+  .count{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:center;margin-top:6px}
   .credit{font-size:12px;color:var(--muted);margin-top:20px;text-align:center}
 </style>
 </head>
@@ -66,66 +68,72 @@
   <div class="card">
     <div class="step on" id="s1">
       <h2 id="title">¿Cómo fue tu experiencia con Pulse?</h2>
-      <div class="sub">Te toma 20 segundos · tu opinión nos ayuda 🙏</div>
-
-      <div class="q"><div class="ql">1. ¿Qué tan probable es que nos recomiendes? (0–10)</div>
-        <div class="nps" id="nps"></div>
-        <div class="nps-l"><span>Nada probable</span><span>Muy probable</span></div>
-      </div>
-      <div class="q"><div class="ql">2. ¿Qué fue lo que más valoraste?</div>
-        <div class="opts" id="opts"></div>
-      </div>
-      <div class="q"><div class="ql">3. ¿Algo que mejorarías? (opcional)</div>
-        <textarea id="open" placeholder="Cuéntanos…"></textarea>
-      </div>
-      <button class="btn" id="send" disabled>Enviar encuesta</button>
+      <div class="sub">Te toma 20 segundos · tus respuestas se tabulan en vivo 📊</div>
+      <div class="q"><div class="ql">1. ¿Qué tan probable es que nos recomiendes? (0–10)</div><div class="nps" id="nps"></div><div class="nps-l"><span>Nada probable</span><span>Muy probable</span></div></div>
+      <div class="q"><div class="ql">2. ¿Cómo calificas la atención?</div><div class="stars" id="stars"></div></div>
+      <div class="q"><div class="ql">3. ¿Qué fue lo que más valoraste?</div><div class="opts" id="opts"></div></div>
+      <button class="btn" id="send" disabled>Enviar respuesta</button>
     </div>
 
     <div class="step res" id="s2">
-      <div class="big">🙌</div>
-      <h2>¡Gracias por responder!</h2>
-      <div class="sub">Así van las respuestas hasta ahora:</div>
-      <div class="agg">
-        <div class="al">Recomendación (NPS)</div>
-        <div class="arow"><div class="l"><span>Promotores (9-10)</span><span>62%</span></div><div class="t"><div class="f" data-w="62" style="background:var(--ok)"></div></div></div>
-        <div class="arow"><div class="l"><span>Pasivos (7-8)</span><span>27%</span></div><div class="t"><div class="f" data-w="27" style="background:var(--warn)"></div></div></div>
-        <div class="arow"><div class="l"><span>Detractores (0-6)</span><span>11%</span></div><div class="t"><div class="f" data-w="11" style="background:var(--bad)"></div></div></div>
-        <div class="al">Lo más valorado</div>
-        <div class="arow" id="aggOpts"></div>
-      </div>
-      <button class="btn" id="again" style="margin-top:18px">Responder de nuevo</button>
+      <div class="big">📊</div><h2>¡Gracias! Así van las respuestas</h2>
+      <div class="sub">Tabulado en vivo con cada envío real</div>
+      <div class="nps-score"><div><div class="v" id="npsV" style="color:var(--accent)">0</div><div class="lab">NPS</div></div><div><div class="v" id="starV" style="color:var(--star)">0,0</div><div class="lab">★ atención</div></div></div>
+      <div class="agg"><div class="al">Recomendación</div><div id="npsBars"></div><div class="al">Lo más valorado</div><div id="optBars"></div></div>
+      <div class="count" id="count"></div>
+      <button class="btn" id="again" style="margin-top:16px">Responder otra vez</button>
     </div>
   </div>
-  <div class="credit">Demo interactiva · solución re-skineable · resultados de ejemplo</div>
+  <div class="credit">Demo interactiva · solución re-skineable · tabulación real en memoria</div>
 
 <script>
 (function(){
   "use strict";
   function $(s){return document.querySelector(s);}
   var brand="Pulse";
-  var state={nps:null,opt:null};
   var options=[["⚡","Rapidez"],["💬","Atención"],["💎","Calidad"],["💰","Precio"]];
-  var aggOpt=[["Rapidez",41],["Atención",28],["Calidad",21],["Precio",10]];
+  // estado acumulado (parte con algo de data sembrada para que se vea vivo)
+  var DB={nps:[9,10,8,7,9,6,10,8],stars:[5,4,5,3,5,4],opt:[3,4,2,1]};
+  var sel={nps:null,star:null,opt:null};
 
-  function nps(){var c=$("#nps");c.innerHTML="";for(var i=0;i<=10;i++){(function(v){var b=document.createElement("button");b.textContent=v;b.onclick=function(){state.nps=v;[].slice.call(c.children).forEach(function(x){x.classList.remove("on");});b.classList.add("on");check();};c.appendChild(b);})(i);}}
-  function opts(){var c=$("#opts");c.innerHTML="";options.forEach(function(o,i){var b=document.createElement("button");b.className="opt";b.innerHTML=o[0]+"  "+o[1];b.onclick=function(){state.opt=i;[].slice.call(c.children).forEach(function(x){x.classList.remove("on");});b.classList.add("on");check();};c.appendChild(b);});}
-  function check(){$("#send").disabled=!(state.nps!==null&&state.opt!==null);}
+  function nps(){var c=$("#nps");c.innerHTML="";for(var i=0;i<=10;i++){(function(v){var b=document.createElement("button");b.textContent=v;b.onclick=function(){sel.nps=v;[].slice.call(c.children).forEach(function(x){x.classList.remove("on");});b.classList.add("on");check();};c.appendChild(b);})(i);}}
+  function stars(){var c=$("#stars");c.innerHTML="";for(var i=1;i<=5;i++){(function(v){var b=document.createElement("button");b.textContent="★";b.onclick=function(){sel.star=v;[].slice.call(c.children).forEach(function(x,k){x.classList.toggle("lit",k<v);});check();};c.appendChild(b);})(i);}}
+  function opts(){var c=$("#opts");c.innerHTML="";options.forEach(function(o,i){var b=document.createElement("button");b.className="opt";b.innerHTML='<span class="e">'+o[0]+'</span> '+o[1];b.onclick=function(){sel.opt=i;[].slice.call(c.children).forEach(function(x){x.classList.remove("on");});b.classList.add("on");check();};c.appendChild(b);});}
+  function check(){$("#send").disabled=!(sel.nps!==null&&sel.star!==null&&sel.opt!==null);}
 
   $("#send").onclick=function(){
+    DB.nps.push(sel.nps);DB.stars.push(sel.star);DB.opt[sel.opt]++;
+    showResults();
     $("#s1").classList.remove("on");$("#s2").classList.add("on");
-    $("#aggOpts").innerHTML=aggOpt.map(function(o){return '<div style="margin-bottom:10px"><div class="l" style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px"><span>'+o[0]+'</span><span>'+o[1]+'%</span></div><div class="t"><div class="f" style="width:0;background:var(--accent)" data-w="'+o[1]+'"></div></div></div>';}).join("");
-    [].slice.call(document.querySelectorAll("#s2 .f")).forEach(function(f){requestAnimationFrame(function(){requestAnimationFrame(function(){f.style.width=f.dataset.w+"%";});});});
   };
-  $("#again").onclick=function(){state={nps:null,opt:null};$("#s2").classList.remove("on");$("#s1").classList.add("on");nps();opts();$("#open").value="";check();};
+  $("#again").onclick=function(){sel={nps:null,star:null,opt:null};$("#s2").classList.remove("on");$("#s1").classList.add("on");nps();stars();opts();check();};
 
-  var SW=[{c:"#2563EB"},{c:"#0D9488"},{c:"#7C3AED"},{c:"#E8852C"},{c:"#16161A"}];
-  function ac(o){document.documentElement.style.setProperty("--accent",o.c);var h=o.c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
+  function showResults(){
+    var n=DB.nps.length;
+    var prom=DB.nps.filter(function(x){return x>=9;}).length;
+    var det=DB.nps.filter(function(x){return x<=6;}).length;
+    var pas=n-prom-det;
+    var npsScore=Math.round((prom-det)/n*100);
+    $("#npsV").textContent=(npsScore>0?"+":"")+npsScore;
+    var avgStar=DB.stars.reduce(function(a,b){return a+b;},0)/DB.stars.length;
+    $("#starV").textContent=avgStar.toFixed(1).replace(".",",");
+    function bar(label,val,tot,color){var pct=tot?Math.round(val/tot*100):0;return '<div class="arow"><div class="l"><span>'+label+'</span><span>'+pct+'% ('+val+')</span></div><div class="t"><div class="f" style="width:0;background:'+color+'" data-w="'+pct+'"></div></div></div>';}
+    $("#npsBars").innerHTML=bar("Promotores (9-10)",prom,n,"var(--ok)")+bar("Pasivos (7-8)",pas,n,"var(--warn)")+bar("Detractores (0-6)",det,n,"var(--bad)");
+    var optTot=DB.opt.reduce(function(a,b){return a+b;},0);
+    $("#optBars").innerHTML=options.map(function(o,i){return bar(o[0]+" "+o[1],DB.opt[i],optTot,"var(--accent)");}).join("");
+    $("#count").textContent=n+" respuestas registradas";
+    setTimeout(function(){[].slice.call(document.querySelectorAll("#s2 .f")).forEach(function(f){f.style.width=f.dataset.w+"%";});},60);
+  }
+
+  var SW=[{c:"#2563EB",c2:"#5B8DEF"},{c:"#0D9488",c2:"#2DD4BF"},{c:"#7C3AED",c2:"#A855F7"},{c:"#C2410C",c2:"#EA7A3C"},{c:"#16161A",c2:"#444"}];
+  function ac(o){document.documentElement.style.setProperty("--accent",o.c);document.documentElement.style.setProperty("--accent-2",o.c2);
+    var h=o.c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
     document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#15161C":"#fff");
     [].slice.call(document.querySelectorAll(".sw")).forEach(function(e){e.classList.toggle("active",e.dataset.c===o.c);});}
   function bsw(){var s=$("#sw");s.innerHTML="";SW.forEach(function(o){var b=document.createElement("button");b.className="sw";b.style.background=o.c;b.dataset.c=o.c;b.onclick=function(){ac(o);};s.appendChild(b);});}
   function ab(n){brand=n||"Marca";$("#bl").textContent=brand;$("#lm").textContent=brand.charAt(0).toUpperCase();$("#title").textContent="¿Cómo fue tu experiencia con "+brand+"?";}
   $("#ib").addEventListener("input",function(e){ab(e.target.value);});
-  bsw();ac(SW[0]);ab("Pulse");nps();opts();
+  bsw();ac(SW[0]);ab("Pulse");nps();stars();opts();
 })();
 </script>
 </body>

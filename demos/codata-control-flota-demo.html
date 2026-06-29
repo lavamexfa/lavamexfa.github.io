@@ -3,78 +3,70 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Control de Flota en Vivo · Demo</title>
+<title>Control de Flota · Demo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --accent:#1F6FEB;--accent-ink:#fff;--ok:#2ECC71;--warn:#E0A53B;--bad:#E0533D;
-    --ink:#E7EDF6;--muted:#8A95A6;--line:#243042;--panel:#141B26;--map:#0E141E;--bg:#0A0F16;
+    --accent:#2563EB;--accent-2:#5B8DEF;--accent-ink:#fff;--ok:#3DDC97;--warn:#FFC24B;--bad:#FF6B81;
+    --ink:#E8EEF7;--muted:#8693AB;--line:#1F2740;--card:#121A2E;--bg:#070B16;
     --display:"Bricolage Grotesque",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",monospace;
   }
   *{box-sizing:border-box}
-  body{margin:0;font-family:var(--body);color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+  body{margin:0;font-family:var(--body);color:var(--ink);
+    background:radial-gradient(1000px 500px at 80% -10%,rgba(37,99,235,.14),transparent 60%),var(--bg);
+    min-height:100vh;-webkit-font-smoothing:antialiased}
   button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
   input{font-family:inherit}
-  .shell{max-width:1080px;margin:0 auto;padding:24px 20px 50px}
-  .top{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+  .shell{max-width:1040px;margin:0 auto;padding:24px 20px 50px}
+  .top{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
   .logo{display:flex;align-items:center;gap:11px}
-  .logo .m{width:36px;height:36px;border-radius:10px;background:var(--accent);display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:800;font-size:17px;transition:background .35s}
-  .logo b{font-family:var(--display);font-size:19px;display:block;line-height:1;color:#fff}.logo span{font-size:11.5px;color:var(--muted)}
+  .logo .m{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:800;font-size:18px}
+  .logo b{font-family:var(--display);font-size:20px;color:#fff;display:block;line-height:1}.logo span{font-size:11.5px;color:var(--muted)}
   .controls{margin-left:auto;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-  .ti{height:36px;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:0 11px;font-size:13px;width:120px;outline:none;color:#fff}
+  .ti{height:36px;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:0 11px;font-size:13px;width:120px;outline:none;color:#fff}
   .swatches{display:flex;gap:6px}.sw{width:22px;height:22px;border-radius:999px;border:2px solid transparent}.sw.active{border-color:#fff;transform:scale(1.1)}
-  .lead{margin:0 0 16px}.lead h1{font-family:var(--display);font-weight:800;font-size:clamp(22px,3vw,30px);letter-spacing:-.02em;margin:0 0 4px;color:#fff}
-  .lead p{font-size:14px;color:var(--muted);margin:0;max-width:60ch}
-  .wrap{display:grid;grid-template-columns:1fr 320px;gap:16px;align-items:start}
-  @media(max-width:840px){.wrap{grid-template-columns:1fr}}
-  .mapbox{background:var(--map);border:1px solid var(--line);border-radius:16px;overflow:hidden;position:relative}
-  canvas{display:block;width:100%;height:460px}
-  .stats{position:absolute;top:12px;left:12px;display:flex;gap:8px}
-  .stat{background:rgba(10,15,22,.8);border:1px solid var(--line);border-radius:10px;padding:7px 11px;backdrop-filter:blur(4px)}
-  .stat b{font-family:var(--display);font-size:16px;display:block;line-height:1}.stat span{font-size:10px;color:var(--muted)}
-  .panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden}
-  .ph{padding:13px 16px;border-bottom:1px solid var(--line);font-family:var(--display);font-size:15px;color:#fff}
-  .list{max-height:300px;overflow-y:auto}
-  .veh{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:11px;cursor:pointer;transition:.12s}
-  .veh:hover{background:rgba(255,255,255,.03)}.veh.sel{background:color-mix(in srgb,var(--accent) 16%,transparent)}
-  .veh .d{width:9px;height:9px;border-radius:999px;flex:0 0 auto}
-  .veh .inf{flex:1;min-width:0}.veh .inf b{font-size:13.5px;display:block;color:#fff}.veh .inf span{font-size:11px;color:var(--muted);font-family:var(--mono)}
-  .veh .sp{font-size:11px;font-family:var(--mono);color:var(--muted)}
-  .detail{padding:14px 16px;border-top:1px solid var(--line)}
-  .detail .dt{font-size:13px;color:var(--muted);display:flex;justify-content:space-between;padding:5px 0}
-  .detail .dt b{color:#fff;font-family:var(--mono)}
-  .fuel{height:8px;background:var(--map);border-radius:999px;overflow:hidden;margin:8px 0 2px}
-  .fuel .f{height:100%;border-radius:999px;transition:width .4s}
+  .kpis{display:flex;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:11px 15px;flex:1;min-width:110px}
+  .kpi b{font-family:var(--display);font-size:20px;display:block;line-height:1;color:#fff}.kpi span{font-size:11px;color:var(--muted)}
+  .kpi.ok b{color:var(--ok)}.kpi.warn b{color:var(--warn)}
+  .grid{display:grid;grid-template-columns:1fr 320px;gap:16px;align-items:start}
+  @media(max-width:780px){.grid{grid-template-columns:1fr}}
+  .mapwrap{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  .mh{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+  .mh b{font-family:var(--display);font-size:15px;color:#fff}.mh .live{font-size:11px;color:var(--ok);font-weight:700}.mh .live i{width:7px;height:7px;border-radius:999px;background:var(--ok);display:inline-block;margin-right:5px;animation:pulse 1.4s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+  canvas{display:block;width:100%;height:380px}
+  .list{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  .lh{padding:12px 16px;border-bottom:1px solid var(--line);font-family:var(--display);font-size:15px;color:#fff}
+  .veh{display:flex;align-items:center;gap:11px;padding:12px 16px;border-bottom:1px solid var(--line)}
+  .veh:last-child{border:none}
+  .veh .dot{width:10px;height:10px;border-radius:999px;flex:0 0 auto}
+  .veh .i{flex:1;min-width:0}.veh .i b{font-size:13.5px;display:block}.veh .i span{font-size:11px;color:var(--muted)}
+  .veh .sp{font-family:var(--mono);font-size:12px;text-align:right}.veh .sp b{display:block;color:#fff}.veh .sp span{font-size:10px;color:var(--muted)}
   .credit{text-align:center;font-size:12px;color:var(--muted);margin-top:22px}
 </style>
 </head>
 <body>
 <div class="shell">
   <div class="top">
-    <div class="logo"><div class="m" id="lm">N</div><div><b id="bl">Nodo</b><span>Control de flota en vivo · demo</span></div></div>
+    <div class="logo"><div class="m" id="lm">N</div><div><b id="bl">Nodo</b><span>Control de flota · demo</span></div></div>
     <div class="controls"><input class="ti" id="ib" value="Nodo" maxlength="16"><div class="swatches" id="sw"></div></div>
   </div>
-  <div class="lead"><h1>Toda tu flota, en un mapa, en tiempo real</h1>
-    <p>Ubicación, estado, velocidad, combustible y mantenciones de cada vehículo — sin llamar a nadie.</p></div>
 
-  <div class="wrap">
-    <div class="mapbox">
-      <canvas id="cv"></canvas>
-      <div class="stats">
-        <div class="stat"><b id="sRoute">0</b><span>en ruta</span></div>
-        <div class="stat"><b id="sStop">0</b><span>detenidos</span></div>
-        <div class="stat"><b id="sMaint">0</b><span>mantención</span></div>
-      </div>
-    </div>
-    <div class="panel">
-      <div class="ph">Vehículos</div>
-      <div class="list" id="list"></div>
-      <div class="detail" id="detail"></div>
-    </div>
+  <div class="kpis">
+    <div class="kpi ok"><b id="kMov">0</b><span>en ruta</span></div>
+    <div class="kpi warn"><b id="kIdle">0</b><span>detenidos</span></div>
+    <div class="kpi"><b id="kSpd">0</b><span>vel. promedio km/h</span></div>
+    <div class="kpi"><b id="kVeh">0</b><span>vehículos</span></div>
   </div>
-  <div class="credit">Demo interactiva · solución re-skineable · flota de ejemplo</div>
+
+  <div class="grid">
+    <div class="mapwrap"><div class="mh"><b>Mapa en vivo</b><span class="live"><i></i>EN VIVO</span></div><canvas id="cv"></canvas></div>
+    <div class="list"><div class="lh">Vehículos</div><div id="vlist"></div></div>
+  </div>
+  <div class="credit">Demo interactiva · solución re-skineable · seguimiento de ejemplo</div>
 </div>
 
 <script>
@@ -84,92 +76,68 @@
   var cv=$("#cv"),ctx=cv.getContext("2d"),W=0,H=0,dpr=Math.min(window.devicePixelRatio||1,2);
   function resize(){var r=cv.getBoundingClientRect();W=r.width;H=r.height;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);}
   window.addEventListener("resize",resize);
-
-  var COL={ok:getC("--ok"),warn:getC("--warn"),bad:getC("--bad")};
   function getC(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
 
-  // normalized routes (0..1)
-  var fleet=[
-    {name:"Camión 01",plate:"JKLP-21",status:"ruta",fuel:78,path:[[.08,.2],[.5,.2],[.5,.55],[.88,.55],[.88,.85]],t:0,sp:1},
-    {name:"Camioneta 02",plate:"RTBV-44",status:"ruta",fuel:54,path:[[.9,.15],[.55,.15],[.55,.45],[.15,.45],[.15,.8]],t:0,sp:1.4},
-    {name:"Camión 03",plate:"MNQS-07",status:"detenido",fuel:31,path:[[.3,.85],[.3,.35],[.7,.35]],t:.5,sp:0},
-    {name:"Grúa 04",plate:"WXYZ-90",status:"mantencion",fuel:12,path:[[.72,.75],[.72,.28]],t:.3,sp:0},
-    {name:"Camioneta 05",plate:"ABCD-13",status:"ruta",fuel:66,path:[[.12,.6],[.45,.6],[.45,.9],[.82,.9]],t:0,sp:1.1}
+  var veh=[
+    {p:"GHK-12",d:"Camioneta 1",t:0.05,sp:62,idle:false,col:"--ok"},
+    {p:"JLM-44",d:"Camión grúa",t:0.4,sp:48,idle:false,col:"--ok"},
+    {p:"PRT-08",d:"Camioneta 2",t:0.7,sp:0,idle:true,col:"--warn"},
+    {p:"XZB-91",d:"Furgón",t:0.85,sp:55,idle:false,col:"--ok"}
   ];
-  var sel=0;
-
-  function px(p){return [p[0]*W,p[1]*H];}
-  function roads(){
-    ctx.strokeStyle="#1a2433";ctx.lineWidth=14;ctx.lineCap="round";ctx.lineJoin="round";
-    fleet.forEach(function(v){ctx.beginPath();v.path.forEach(function(p,i){var c=px(p);if(i===0)ctx.moveTo(c[0],c[1]);else ctx.lineTo(c[0],c[1]);});ctx.stroke();});
+  // rutas (paths) como listas de puntos relativos
+  function routes(){return [
+    [[0.08,0.85],[0.25,0.6],[0.45,0.65],[0.6,0.4],[0.85,0.3]],
+    [[0.1,0.2],[0.3,0.35],[0.5,0.25],[0.7,0.5],[0.9,0.55]],
+    [[0.15,0.5],[0.4,0.5],[0.65,0.7],[0.9,0.8]],
+    [[0.05,0.4],[0.3,0.75],[0.55,0.85],[0.8,0.6],[0.92,0.2]]
+  ];}
+  function ptOn(route,t){
+    var n=route.length-1,seg=Math.min(n-1,Math.floor(t*n)),f=t*n-seg;
+    var a=route[seg],b=route[seg+1];
+    return [(a[0]+(b[0]-a[0])*f)*W,(a[1]+(b[1]-a[1])*f)*H];
   }
-  function posOf(v){
-    var segs=v.path.length-1;var tt=v.t*segs;var i=Math.min(Math.floor(tt),segs-1);var f=tt-i;
-    var a=px(v.path[i]),b=px(v.path[i+1]);
-    return {x:a[0]+(b[0]-a[0])*f,y:a[1]+(b[1]-a[1])*f,ang:Math.atan2(b[1]-a[1],b[0]-a[0])};
+  function drawRoute(route){
+    ctx.beginPath();route.forEach(function(p,i){var x=p[0]*W,y=p[1]*H;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);});
+    ctx.strokeStyle="rgba(134,147,171,.22)";ctx.lineWidth=3;ctx.stroke();
   }
-  function color(s){return s==="ruta"?COL.ok:s==="detenido"?COL.warn:COL.bad;}
-
-  function loop(){
-    requestAnimationFrame(loop);
+  function frame(){
     ctx.clearRect(0,0,W,H);
-    roads();
-    var r=0,st=0,mt=0;
-    fleet.forEach(function(v,idx){
-      if(v.status==="ruta"){v.t+=0.0006*v.sp;if(v.t>=1)v.t=0;v.fuel=Math.max(4,v.fuel-0.002);r++;}
-      else if(v.status==="detenido")st++;else mt++;
-      var p=posOf(v);
-      // selection ring
-      if(idx===sel){ctx.beginPath();ctx.arc(p.x,p.y,16,0,7);ctx.strokeStyle=getC("--accent");ctx.lineWidth=2.5;ctx.stroke();}
-      // marker
-      var c=color(v.status);
-      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.ang);
-      ctx.fillStyle=c;roundRect(-9,-6,18,12,3);ctx.fill();
-      ctx.fillStyle="#0A0F16";ctx.beginPath();ctx.moveTo(9,0);ctx.lineTo(3,-3);ctx.lineTo(3,3);ctx.closePath();ctx.fill();
-      ctx.restore();
-      if(v.status==="mantencion"&&Math.floor(Date.now()/400)%2===0){ctx.beginPath();ctx.arc(p.x,p.y,12,0,7);ctx.strokeStyle=c;ctx.lineWidth=1.5;ctx.stroke();}
-      v._pos=p;
+    // grid bg
+    ctx.strokeStyle="rgba(255,255,255,.03)";ctx.lineWidth=1;
+    for(var gx=0;gx<W;gx+=40){ctx.beginPath();ctx.moveTo(gx,0);ctx.lineTo(gx,H);ctx.stroke();}
+    for(var gy=0;gy<H;gy+=40){ctx.beginPath();ctx.moveTo(0,gy);ctx.lineTo(W,gy);ctx.stroke();}
+    var rs=routes();
+    rs.forEach(drawRoute);
+    veh.forEach(function(v,i){
+      if(!v.idle){v.t+=v.sp/60000;if(v.t>=1)v.t=0;}
+      var p=ptOn(rs[i],v.t),col=getC(v.col);
+      // halo
+      ctx.fillStyle=col+"33";ctx.beginPath();ctx.arc(p[0],p[1],13,0,7);ctx.fill();
+      ctx.fillStyle=col;ctx.beginPath();ctx.arc(p[0],p[1],7,0,7);ctx.fill();
+      ctx.fillStyle="#fff";ctx.font="9px "+'"JetBrains Mono",monospace';ctx.textAlign="center";ctx.fillText("🚐",p[0],p[1]-12);
+      ctx.fillStyle=getC("--ink");ctx.fillStyle="rgba(255,255,255,.7)";ctx.font="9px Inter";ctx.fillText(v.p,p[0],p[1]+20);
     });
-    $("#sRoute").textContent=r;$("#sStop").textContent=st;$("#sMaint").textContent=mt;
-    updateDetailLive();
+    requestAnimationFrame(frame);
   }
-  function roundRect(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
 
-  function statusLabel(s){return s==="ruta"?"En ruta":s==="detenido"?"Detenido":"Mantención";}
-  function renderList(){
-    $("#list").innerHTML=fleet.map(function(v,i){
-      return '<div class="veh '+(i===sel?"sel":"")+'" data-i="'+i+'"><span class="d" style="background:'+color(v.status)+'"></span><div class="inf"><b>'+v.name+'</b><span>'+v.plate+'</span></div><span class="sp">'+statusLabel(v.status)+'</span></div>';
+  function list(){
+    $("#vlist").innerHTML=veh.map(function(v){
+      return '<div class="veh"><span class="dot" style="background:var('+v.col+')"></span><div class="i"><b>'+v.d+'</b><span>'+v.p+(v.idle?" · detenido 14 min":" · en ruta")+'</span></div><div class="sp"><b>'+v.sp+'</b><span>km/h</span></div></div>';
     }).join("");
-    [].slice.call($("#list").querySelectorAll(".veh")).forEach(function(el){el.onclick=function(){sel=+el.dataset.i;renderList();renderDetail();};});
-  }
-  function renderDetail(){
-    var v=fleet[sel];
-    var fc=v.fuel<20?COL.bad:v.fuel<40?COL.warn:COL.ok;
-    var maint=v.status==="mantencion"?"En taller ahora":(v.fuel<25?"Próxima: esta semana":"Próxima: en 1.200 km");
-    $("#detail").innerHTML=
-      '<div class="dt"><span>Vehículo</span><b>'+v.name+'</b></div>'+
-      '<div class="dt"><span>Patente</span><b>'+v.plate+'</b></div>'+
-      '<div class="dt"><span>Estado</span><b style="color:'+color(v.status)+'">'+statusLabel(v.status)+'</b></div>'+
-      '<div class="dt" id="spRow"><span>Velocidad</span><b id="spVal">—</b></div>'+
-      '<div class="dt"><span>Mantención</span><b>'+maint+'</b></div>'+
-      '<div style="font-size:13px;color:var(--muted);margin-top:6px">Combustible <b style="float:right;color:#fff;font-family:var(--mono)">'+Math.round(v.fuel)+'%</b></div>'+
-      '<div class="fuel"><div class="f" style="width:'+v.fuel+'%;background:'+fc+'"></div></div>';
-  }
-  function updateDetailLive(){
-    var v=fleet[sel],el=$("#spVal");if(!el)return;
-    var sp=v.status==="ruta"?(38+Math.round(Math.sin(Date.now()/600)*8)):0;
-    el.textContent=sp+" km/h";
+    var mov=veh.filter(function(v){return !v.idle;}),idle=veh.filter(function(v){return v.idle;});
+    $("#kMov").textContent=mov.length;$("#kIdle").textContent=idle.length;$("#kVeh").textContent=veh.length;
+    $("#kSpd").textContent=Math.round(mov.reduce(function(a,v){return a+v.sp;},0)/(mov.length||1));
   }
 
-  var SW=[{c:"#1F6FEB"},{c:"#0D9488"},{c:"#7C3AED"},{c:"#E8852C"},{c:"#E0533D"}];
-  function ac(o){document.documentElement.style.setProperty("--accent",o.c);var h=o.c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
-    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#0A0F16":"#fff");
+  var SW=[{c:"#2563EB",c2:"#5B8DEF"},{c:"#0D9488",c2:"#2DD4BF"},{c:"#7C3AED",c2:"#A855F7"},{c:"#EA580C",c2:"#F97A3D"},{c:"#16A34A",c2:"#34C759"}];
+  function ac(o){document.documentElement.style.setProperty("--accent",o.c);document.documentElement.style.setProperty("--accent-2",o.c2);
+    var h=o.c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
+    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#070B16":"#fff");
     [].slice.call(document.querySelectorAll(".sw")).forEach(function(e){e.classList.toggle("active",e.dataset.c===o.c);});}
   function bsw(){var s=$("#sw");s.innerHTML="";SW.forEach(function(o){var b=document.createElement("button");b.className="sw";b.style.background=o.c;b.dataset.c=o.c;b.onclick=function(){ac(o);};s.appendChild(b);});}
   function ab(n){$("#bl").textContent=n||"Marca";$("#lm").textContent=(n||"M").charAt(0).toUpperCase();}
   $("#ib").addEventListener("input",function(e){ab(e.target.value);});
-
-  bsw();ac(SW[0]);ab("Nodo");resize();renderList();renderDetail();loop();
+  bsw();ac(SW[0]);ab("Nodo");resize();list();frame();
 })();
 </script>
 </body>

@@ -3,144 +3,119 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Asistente por Voz · Demo</title>
+<title>Asistente de Voz · Demo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --accent:#6C4BE0;--accent-2:#9B7BF0;--accent-ink:#fff;
-    --ink:#16141C;--muted:#7A7686;--line:#EAE7F1;--surface:#F4F3FA;--card:#fff;
+    --accent:#7C3AED;--accent-2:#C084FC;--accent-ink:#fff;--ok:#22C55E;
+    --ink:#ECE7F5;--muted:#9189A6;--line:#262136;--card:#15101F;--bg:#0A0712;
     --display:"Bricolage Grotesque",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;
   }
   *{box-sizing:border-box}
   body{margin:0;font-family:var(--body);color:var(--ink);
-    background:radial-gradient(70% 50% at 50% 0%,color-mix(in srgb,var(--accent) 16%,transparent),transparent 60%),var(--surface);
+    background:radial-gradient(80% 60% at 50% 10%,color-mix(in srgb,var(--accent) 26%,transparent),transparent 58%),var(--bg);
     min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:24px 18px 50px;-webkit-font-smoothing:antialiased}
   button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
-  textarea,input{font-family:inherit}
-  .top{width:100%;max-width:560px;display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+  input{font-family:inherit}
+  .top{width:100%;max-width:520px;display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
   .logo{display:flex;align-items:center;gap:11px}
-  .logo .m{width:36px;height:36px;border-radius:10px;background:var(--accent);display:grid;place-items:center;color:var(--accent-ink);font-family:var(--display);font-weight:800;font-size:17px;transition:background .35s}
-  .logo b{font-family:var(--display);font-size:19px;display:block;line-height:1}.logo span{font-size:11.5px;color:var(--muted)}
+  .logo .m{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:800;font-size:17px}
+  .logo b{font-family:var(--display);font-size:19px;color:#fff;display:block;line-height:1}.logo span{font-size:11.5px;color:var(--muted)}
   .controls{margin-left:auto;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-  .ti{height:36px;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:0 11px;font-size:13px;width:120px;outline:none}
-  .swatches{display:flex;gap:6px}.sw{width:22px;height:22px;border-radius:999px;border:2px solid transparent}.sw.active{border-color:var(--ink);transform:scale(1.1)}
-  .lead{width:100%;max-width:560px;text-align:center;margin-bottom:18px}
-  .lead h1{font-family:var(--display);font-weight:800;font-size:clamp(23px,3.2vw,32px);letter-spacing:-.02em;margin:0 0 5px}
-  .lead p{font-size:14px;color:var(--muted);margin:0;max-width:48ch;margin-inline:auto}
-  .card{width:100%;max-width:560px;background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:0 20px 60px rgba(20,18,40,.08);padding:28px 26px;text-align:center}
-  .mic{width:96px;height:96px;border-radius:999px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;margin:6px auto 14px;transition:background .35s;position:relative}
-  .mic svg{width:42px;height:42px;stroke:#fff;fill:none;stroke-width:1.8}
-  .mic.rec::after{content:"";position:absolute;inset:-6px;border-radius:999px;border:3px solid var(--accent);animation:pulse 1.2s infinite}
-  @keyframes pulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.25);opacity:0}}
-  @media(prefers-reduced-motion:reduce){.mic.rec::after{animation:none}}
-  .state{font-size:13px;color:var(--muted);margin-bottom:14px;min-height:18px}
-  .transcript{border:1px solid var(--line);border-radius:14px;padding:14px;min-height:90px;font-size:14.5px;line-height:1.55;text-align:left;margin-bottom:14px;background:var(--surface);outline:none}
-  .transcript:empty::before{content:"Aquí aparece lo que dices…";color:var(--muted)}
-  .actions{display:flex;gap:9px;flex-wrap:wrap;justify-content:center;margin-bottom:6px}
-  .act{border:1px solid var(--line);border-radius:11px;padding:10px 14px;font-size:13px;font-weight:600;color:var(--ink);transition:.15s;display:flex;align-items:center;gap:7px}
-  .act:hover{border-color:var(--accent);color:var(--accent)}
-  .act:disabled{opacity:.5;cursor:not-allowed}
-  .act .e{font-size:15px}
-  .out{margin-top:18px;text-align:left;border-top:1px solid var(--line);padding-top:18px;display:none}
-  .out.on{display:block}
-  .out .ol{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:9px}
-  .out .ob{font-size:14px;line-height:1.6;white-space:pre-wrap;background:color-mix(in srgb,var(--accent) 6%,transparent);border-radius:12px;padding:14px}
-  .skel{height:13px;background:linear-gradient(90deg,var(--surface),var(--line),var(--surface));background-size:200% 100%;border-radius:6px;animation:sh 1.2s infinite;margin-bottom:9px}
-  @keyframes sh{to{background-position:-200% 0}}
-  .note{font-size:11.5px;color:var(--muted);margin-top:14px;line-height:1.4}
+  .ti{height:36px;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:0 11px;font-size:13px;width:120px;outline:none;color:#fff}
+  .swatches{display:flex;gap:6px}.sw{width:22px;height:22px;border-radius:999px;border:2px solid transparent}.sw.active{border-color:#fff;transform:scale(1.1)}
+  .lead{width:100%;max-width:520px;text-align:center;margin-bottom:20px}
+  .lead h1{font-family:var(--display);font-weight:800;font-size:clamp(23px,3.4vw,32px);letter-spacing:-.02em;margin:0 0 5px;color:#fff}
+  .lead p{font-size:14px;color:var(--muted);margin:0;max-width:46ch;margin-inline:auto}
+  .orb-wrap{position:relative;width:200px;height:200px;margin:6px auto 18px;display:grid;place-items:center}
+  .orb{width:130px;height:130px;border-radius:999px;background:radial-gradient(circle at 35% 30%,var(--accent-2),var(--accent));box-shadow:0 0 60px color-mix(in srgb,var(--accent) 55%,transparent);transition:transform .2s;display:grid;place-items:center}
+  .orb.listening{animation:breathe 1.4s ease-in-out infinite}
+  @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+  .ring{position:absolute;border-radius:999px;border:2px solid color-mix(in srgb,var(--accent) 40%,transparent);opacity:0}
+  .orb.listening~.ring{animation:ripple 1.8s ease-out infinite}
+  .orb.listening~.ring.r2{animation-delay:.6s}.orb.listening~.ring.r3{animation-delay:1.2s}
+  @keyframes ripple{0%{width:130px;height:130px;opacity:.6}100%{width:200px;height:200px;opacity:0}}
+  .orb svg{width:46px;height:46px;fill:#fff}
+  .state{text-align:center;font-size:13px;color:var(--muted);min-height:18px;margin-bottom:14px}
+  .convo{width:100%;max-width:520px;display:flex;flex-direction:column;gap:9px;margin-bottom:16px;max-height:240px;overflow-y:auto}
+  .msg{max-width:85%;padding:10px 14px;border-radius:15px;font-size:13.5px;line-height:1.45}
+  .msg.me{background:color-mix(in srgb,var(--accent) 80%,#000);color:#fff;align-self:flex-end;border-bottom-right-radius:5px}
+  .msg.bot{background:var(--card);border:1px solid var(--line);align-self:flex-start;border-bottom-left-radius:5px}
+  .micbtn{width:74px;height:74px;border-radius:999px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;margin:0 auto;box-shadow:0 12px 30px color-mix(in srgb,var(--accent) 45%,transparent);transition:transform .15s}
+  .micbtn:active{transform:scale(.94)}.micbtn.on{background:linear-gradient(135deg,#EF4444,#F87171)}
+  .micbtn svg{width:30px;height:30px;fill:#fff}
+  .fallback{width:100%;max-width:520px;display:flex;gap:8px;margin-top:14px}
+  .fallback input{flex:1;height:44px;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:0 13px;font-size:14px;color:#fff;outline:none}
+  .fallback button{width:44px;height:44px;border-radius:11px;background:var(--accent);display:grid;place-items:center}
+  .fallback button svg{width:18px;height:18px;fill:none;stroke:#fff;stroke-width:2}
   .credit{font-size:12px;color:var(--muted);margin-top:18px;text-align:center}
 </style>
 </head>
 <body>
   <div class="top">
-    <div class="logo"><div class="m" id="lm">V</div><div><b id="bl">Voz</b><span>Asistente por voz · demo</span></div></div>
+    <div class="logo"><div class="m" id="lm">V</div><div><b id="bl">Voz</b><span>Asistente de voz · demo</span></div></div>
     <div class="controls"><input class="ti" id="ib" value="Voz" maxlength="16"><div class="swatches" id="sw"></div></div>
   </div>
-  <div class="lead"><h1>Habla y deja que la IA lo escriba</h1>
-    <p>Dicta una nota con tu voz y conviértela en un correo formal, un resumen o una tarea — al instante.</p></div>
+  <div class="lead"><h1>Habla y te responde</h1>
+    <p>Toca el micrófono, pregunta en voz alta y el asistente te responde — por texto y por voz.</p></div>
 
-  <div class="card">
-    <button class="mic" id="mic"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3M8 21h8"/></svg></button>
-    <div class="state" id="state">Toca el micrófono y empieza a hablar</div>
-    <div class="transcript" id="tr" contenteditable="true"></div>
-    <div class="actions">
-      <button class="act" data-a="correo" disabled><span class="e">✉️</span> Correo formal</button>
-      <button class="act" data-a="resumen" disabled><span class="e">📝</span> Resumir</button>
-      <button class="act" data-a="tarea" disabled><span class="e">✅</span> Crear tarea</button>
-    </div>
-    <div class="out" id="out"></div>
-    <div class="note" id="note"></div>
-  </div>
-  <div class="credit">Demo interactiva · solución re-skineable · voz + IA real</div>
+  <div class="orb-wrap"><div class="orb" id="orb"><svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 003-3V6a3 3 0 00-6 0v5a3 3 0 003 3zM19 11a7 7 0 01-14 0M12 18v3"/></svg></div><div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div></div>
+  <div class="state" id="state">Toca el micrófono para hablar</div>
+
+  <div class="convo" id="convo"></div>
+
+  <button class="micbtn" id="mic"><svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 003-3V6a3 3 0 00-6 0v5a3 3 0 003 3zM19 11a7 7 0 01-14 0M12 18v3M8 21h8"/></svg></button>
+
+  <div class="fallback"><input id="txt" placeholder="…o escribe tu pregunta aquí"><button id="send"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg></button></div>
+  <div class="credit">Demo interactiva · solución re-skineable · IA + voz real del navegador</div>
 
 <script>
 (function(){
   "use strict";
   function $(s){return document.querySelector(s);}
+  var brand="Voz",history=[];
   var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   var rec=null,listening=false;
-  function setActs(){var has=$("#tr").textContent.trim().length>0;[].slice.call(document.querySelectorAll(".act")).forEach(function(b){b.disabled=!has;});}
-
-  if(SR){
-    rec=new SR();rec.lang="es-CL";rec.continuous=true;rec.interimResults=true;
-    var base="";
-    rec.onresult=function(e){
-      var interim="";
-      for(var i=e.resultIndex;i<e.results.length;i++){
-        if(e.results[i].isFinal)base+=e.results[i][0].transcript+" ";
-        else interim+=e.results[i][0].transcript;
-      }
-      $("#tr").textContent=(base+interim).trim();setActs();
-    };
-    rec.onend=function(){listening=false;$("#mic").classList.remove("rec");$("#state").textContent="Listo. Edita si quieres y elige una acción.";};
-    rec.onerror=function(ev){listening=false;$("#mic").classList.remove("rec");$("#state").textContent="No pude escuchar ("+ev.error+"). Puedes escribir abajo.";};
-  } else {
-    $("#note").textContent="Tu navegador no soporta dictado por voz (usa Chrome/Edge y permite el micrófono). Igual puedes escribir en el cuadro y usar la IA.";
+  if(SR){rec=new SR();rec.lang="es-CL";rec.interimResults=false;rec.maxAlternatives=1;
+    rec.onresult=function(e){var t=e.results[0][0].transcript;ask(t);};
+    rec.onend=function(){listening=false;ui(false);};
+    rec.onerror=function(){listening=false;ui(false);$("#state").textContent="No te escuché bien, reintenta o escribe.";};
   }
+  function ui(on){listening=on;$("#orb").classList.toggle("listening",on);$("#mic").classList.toggle("on",on);$("#state").textContent=on?"Escuchando… habla ahora":"Toca el micrófono para hablar";}
 
   $("#mic").onclick=function(){
-    if(!SR){$("#tr").focus();return;}
-    if(listening){rec.stop();return;}
-    try{$("#tr").textContent="";base="";rec.start();listening=true;$("#mic").classList.add("rec");$("#state").textContent="Escuchando… habla ahora 🎙️";}
-    catch(e){$("#state").textContent="Toca de nuevo para escuchar.";}
+    if(!rec){$("#state").textContent="Este navegador no soporta voz — usa el texto de abajo.";$("#txt").focus();return;}
+    if(listening){rec.stop();ui(false);return;}
+    try{rec.start();ui(true);}catch(e){}
   };
-  $("#tr").addEventListener("input",setActs);
+  $("#send").onclick=function(){var v=$("#txt").value.trim();if(v){$("#txt").value="";ask(v);}};
+  $("#txt").addEventListener("keydown",function(e){if(e.key==="Enter")$("#send").click();});
 
-  [].slice.call(document.querySelectorAll(".act")).forEach(function(b){
-    b.onclick=function(){run(b.dataset.a);};
-  });
+  function add(role,text){var d=document.createElement("div");d.className="msg "+(role==="me"?"me":"bot");d.textContent=text;$("#convo").appendChild(d);$("#convo").scrollTop=$("#convo").scrollHeight;}
+  function speak(text){if(!window.speechSynthesis)return;var u=new SpeechSynthesisUtterance(text);u.lang="es-CL";u.rate=1.03;window.speechSynthesis.cancel();window.speechSynthesis.speak(u);}
 
-  function run(mode){
-    var t=$("#tr").textContent.trim();if(!t)return;
-    if(listening){rec.stop();}
-    var labels={correo:"Correo formal",resumen:"Resumen",tarea:"Tareas"};
-    var o=$("#out");o.classList.add("on");
-    o.innerHTML='<div class="ol">'+labels[mode]+'</div><div class="ob"><div class="skel" style="width:90%"></div><div class="skel" style="width:100%"></div><div class="skel" style="width:70%"></div></div>';
-    var sys=mode==="correo"?"Convierte la nota dictada en un correo profesional y claro en español de Chile, con saludo y cierre. Responde solo el correo.":
-            mode==="resumen"?"Resume la nota dictada en 3-4 viñetas claras con lo esencial, en español de Chile. Responde solo las viñetas.":
-            "Extrae de la nota dictada una lista de tareas accionables (verbo + qué), en español de Chile. Si hay responsables o plazos, inclúyelos. Responde solo la lista.";
+  function ask(text){
+    add("me",text);history.push({role:"user",content:text});$("#state").textContent="Pensando…";
+    var sys="Eres un asistente de voz de "+brand+", cercano y útil, en español de Chile. Responde BREVE (1-3 frases), natural para escuchar en voz alta, sin listas largas ni markdown. Si te preguntan algo del negocio, responde con criterio comercial.";
     fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1000,system:sys,messages:[{role:"user",content:t}]})
+      body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1000,system:sys,messages:history})
     }).then(function(r){return r.json();}).then(function(d){
-      var x="";if(d&&d.content)x=d.content.filter(function(i){return i.type==="text";}).map(function(i){return i.text;}).join("").trim();
-      o.innerHTML='<div class="ol">'+labels[mode]+'</div><div class="ob">'+esc(x||"No pude generar. Reintenta.")+'</div>';
-    }).catch(function(){
-      o.innerHTML='<div class="ol">'+labels[mode]+'</div><div class="ob">No pude conectar ⚠️. Reintenta en unos segundos.</div>';
-    });
+      var t="";if(d&&d.content)t=d.content.filter(function(i){return i.type==="text";}).map(function(i){return i.text;}).join("").trim();
+      t=t||"¿Me lo repites?";add("bot",t);history.push({role:"assistant",content:t});speak(t);$("#state").textContent="Toca el micrófono para hablar";
+    }).catch(function(){add("bot","Se me cortó la conexión. ¿Reintentamos?");$("#state").textContent="Toca el micrófono para hablar";});
   }
-  function esc(s){return String(s).replace(/[&<>]/g,function(m){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[m];});}
 
-  var SW=[{c:"#6C4BE0",c2:"#9B7BF0"},{c:"#0D9488",c2:"#2DD4BF"},{c:"#2563EB",c2:"#5B8DEF"},{c:"#E8852C",c2:"#F5B445"},{c:"#16161A",c2:"#444"}];
+  var SW=[{c:"#7C3AED",c2:"#C084FC"},{c:"#2563EB",c2:"#60A5FA"},{c:"#0D9488",c2:"#2DD4BF"},{c:"#E5356B",c2:"#FF7BA3"},{c:"#16A34A",c2:"#34C759"}];
   function ac(o){document.documentElement.style.setProperty("--accent",o.c);document.documentElement.style.setProperty("--accent-2",o.c2);
     var h=o.c.replace("#",""),r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
-    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#16141C":"#fff");
+    document.documentElement.style.setProperty("--accent-ink",(0.299*r+0.587*g+0.114*b)>150?"#0A0712":"#fff");
     [].slice.call(document.querySelectorAll(".sw")).forEach(function(e){e.classList.toggle("active",e.dataset.c===o.c);});}
   function bsw(){var s=$("#sw");s.innerHTML="";SW.forEach(function(o){var b=document.createElement("button");b.className="sw";b.style.background=o.c;b.dataset.c=o.c;b.onclick=function(){ac(o);};s.appendChild(b);});}
-  function ab(n){$("#bl").textContent=n||"Marca";$("#lm").textContent=(n||"M").charAt(0).toUpperCase();}
+  function ab(n){brand=n||"Marca";$("#bl").textContent=brand;$("#lm").textContent=brand.charAt(0).toUpperCase();}
   $("#ib").addEventListener("input",function(e){ab(e.target.value);});
-  bsw();ac(SW[0]);ab("Voz");setActs();
+  bsw();ac(SW[0]);ab("Voz");add("bot","¡Hola! Soy tu asistente de voz. Tócame el micrófono y pregúntame lo que quieras.");
 })();
 </script>
 </body>
