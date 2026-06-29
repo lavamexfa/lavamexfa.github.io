@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>6 diseños modernos · BIM · Techo 6×4</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#e9ebee;--ink:#23262b;--accent:#c9712f;--mut:#7d838b;--line:#cfd3d8}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);font-family:"Archivo",system-ui,sans-serif;color:var(--ink)}
+  #app{position:fixed;inset:0;display:flex;flex-direction:column}
+  header{padding:9px 13px;background:#f6f7f8;border-bottom:1px solid var(--line);z-index:5}
+  .ttl{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+  .ttl h1{font-weight:900;font-size:15px;text-transform:uppercase;letter-spacing:-.01em;margin:0}
+  .ttl h1 b{color:var(--accent)}
+  .ttl .meta{font-family:"IBM Plex Mono",monospace;font-size:9.5px;color:var(--mut);letter-spacing:.04em;text-transform:uppercase}
+  .tabs{display:flex;gap:5px;margin-top:8px;overflow-x:auto;padding-bottom:3px}
+  .tab{flex:0 0 auto;font-family:"IBM Plex Mono",monospace;font-size:10px;padding:6px 9px;border:1px solid var(--line);
+    border-radius:3px;background:#fff;color:#555;cursor:pointer;white-space:nowrap;text-transform:uppercase}
+  .tab .c{color:var(--mut);margin-right:4px}
+  .tab.on{background:var(--ink);border-color:var(--ink);color:#fff}.tab.on .c{color:#e0a878}
+  #scene{flex:1;position:relative;touch-action:none}
+  canvas{display:block}
+  .views{position:absolute;left:11px;top:11px;display:flex;gap:6px;flex-wrap:wrap;max-width:58%}
+  .vbtn{font-family:"IBM Plex Mono",monospace;font-size:10px;padding:7px 9px;border:1px solid #c2c7cd;border-radius:4px;
+    background:rgba(255,255,255,.85);color:#333;cursor:pointer;backdrop-filter:blur(4px);text-transform:uppercase}
+  .vbtn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .ctrls{position:absolute;right:11px;top:11px;display:flex;flex-direction:column;gap:6px}
+  .ctrls button{width:40px;height:40px;border-radius:50%;border:1px solid #c2c7cd;background:rgba(255,255,255,.85);
+    color:#333;font-size:15px;cursor:pointer;backdrop-filter:blur(4px);display:grid;place-items:center;font-family:"IBM Plex Mono",monospace}
+  .ctrls button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .secbar{position:absolute;left:50%;bottom:48px;transform:translateX(-50%);display:none;align-items:center;gap:10px;
+    background:rgba(255,255,255,.9);border:1px solid var(--line);border-radius:20px;padding:7px 14px;backdrop-filter:blur(4px)}
+  .secbar.on{display:flex}.secbar input{width:140px}
+  .secbar span{font-family:"IBM Plex Mono",monospace;font-size:10px;color:#555;text-transform:uppercase}
+  .badge{position:absolute;left:11px;bottom:11px;font-family:"IBM Plex Mono",monospace;font-size:9.5px;
+    background:rgba(35,38,43,.92);color:#eee;border-radius:5px;padding:8px 11px;max-width:74%;line-height:1.55}
+  .badge b{color:#e0a878}.badge em{color:#9fc0a4;font-style:normal}
+  #lot{position:absolute;inset:0;display:grid;place-items:center;background:var(--bg);z-index:9}
+  #lot span{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--mut);letter-spacing:.1em}
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="ttl"><h1>6 diseños <b>modernos</b></h1><span class="meta">BIM · 6×4 · vistas · corte</span></div>
+    <div class="tabs" id="tabs"></div>
+  </header>
+  <div id="scene">
+    <div id="lot"><span>CARGANDO MODELOS BIM…</span></div>
+    <div class="views">
+      <button class="vbtn on" data-v="iso">3D Iso</button>
+      <button class="vbtn" data-v="int">Interior</button>
+      <button class="vbtn" data-v="plan">Planta</button>
+      <button class="vbtn" data-v="sect">Corte</button>
+    </div>
+    <div class="ctrls">
+      <button id="ortho" title="Ortográfica/perspectiva">⊞</button>
+      <button id="edges" class="on" title="Líneas de borde">▦</button>
+      <button id="reset" title="Encajar">⌂</button>
+    </div>
+    <div class="secbar" id="secbar"><span>Sección</span><input type="range" id="secrange" min="0" max="100" value="55"><span id="secval">2,2 m</span></div>
+    <div class="badge" id="badge"></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+const SCH=[
+  {code:'M-01',name:'Cercha Vista',badge:'<b>M-01 Cercha Vista</b> · 4 cerchas raulí+acero a dos aguas · <em>industrial-noble, liviana</em>'},
+  {code:'M-02',name:'Lamas',badge:'<b>M-02 Lamas (brise-soleil)</b> · listones densos + vidrio bajo · <em>luz filtrada, muy contemporáneo</em>'},
+  {code:'M-03',name:'Plegado',badge:'<b>M-03 Plegado (Origami)</b> · planos plegados en acordeón · <em>facetado, muy arquitectónico</em>'},
+  {code:'M-04',name:'Onda',badge:'<b>M-04 Onda</b> · vigas curvas laminadas · <em>curva suave continua, alto diseño</em>'},
+  {code:'M-05',name:'Alero Volado',badge:'<b>M-05 Alero Volado</b> · plano limpio en voladizo · <em>minimalista, canto delgado</em>'},
+  {code:'M-06',name:'Diagrid',badge:'<b>M-06 Diagrid</b> · retícula diagonal a 45° · <em>paramétrico, alto diseño</em>'}
+];
+const X=6,Z=4,yH=3.05,yL=2.78;
+let renderer,scene,camP,camO,cam,host;
+const target=new THREE.Vector3(3,1.6,2);
+let theta=0.82,phi=1.0,radius=11.5,autoSpin=true,useOrtho=false,showEdges=true,curScheme=0,viewMode='iso';
+let phiMin=0.04,phiMax=1.54;
+const struct=[]; const allMats=[];
+const clip=new THREE.Plane(new THREE.Vector3(0,0,1),-2); let sectionOn=false;
+let MAT={},edgeMat;
+function bimMat(hex,o){const m=new THREE.MeshStandardMaterial(Object.assign({color:hex,roughness:.85,metalness:.05},o||{}));allMats.push(m);return m;}
+
+function initThree(){
+  host=document.getElementById('scene');
+  renderer=new THREE.WebGLRenderer({antialias:true});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  renderer.setSize(host.clientWidth,host.clientHeight);
+  renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+  renderer.localClippingEnabled=true;host.appendChild(renderer.domElement);
+  scene=new THREE.Scene();
+  const sky=document.createElement('canvas');sky.width=2;sky.height=128;const sg=sky.getContext('2d');
+  const gr=sg.createLinearGradient(0,0,0,128);gr.addColorStop(0,'#f4f6f8');gr.addColorStop(1,'#d4d8dd');
+  sg.fillStyle=gr;sg.fillRect(0,0,2,128);scene.background=new THREE.CanvasTexture(sky);
+  const asp=host.clientWidth/host.clientHeight;
+  camP=new THREE.PerspectiveCamera(42,asp,0.1,100);camO=new THREE.OrthographicCamera(-1,1,1,-1,0.1,100);cam=camP;
+  scene.add(new THREE.AmbientLight(0xffffff,0.62));
+  scene.add(new THREE.HemisphereLight(0xffffff,0xbfc4ca,0.5));
+  const sun=new THREE.DirectionalLight(0xffffff,0.92);sun.position.set(6,13,7);sun.castShadow=true;
+  sun.shadow.mapSize.set(2048,2048);const d=9;Object.assign(sun.shadow.camera,{left:-d,right:d,top:d,bottom:-d,near:1,far:42});
+  sun.shadow.bias=-0.0004;scene.add(sun);
+  MAT.conc=bimMat(0xc7c7c2);MAT.wood=bimMat(0xcaa274);MAT.wood2=bimMat(0xb98a55);
+  MAT.steel=bimMat(0x8f99a2,{metalness:.45,roughness:.45});MAT.cover=bimMat(0xb7bec4,{metalness:.3,roughness:.55});
+  MAT.glass=new THREE.MeshStandardMaterial({color:0xaecbd6,transparent:true,opacity:.32,roughness:.15,metalness:.1});allMats.push(MAT.glass);
+  MAT.ghost=new THREE.MeshStandardMaterial({color:0xaebfc9,transparent:true,opacity:.12,roughness:1,depthWrite:false});allMats.push(MAT.ghost);
+  MAT.slab=bimMat(0xd5d5d1);
+  edgeMat=new THREE.LineBasicMaterial({color:0x3a3f45});allMats.push(edgeMat);
+  const slab=mesh(new THREE.BoxGeometry(X+1.4,0.12,Z+1.2),MAT.slab,false);slab.position.set(X/2,-0.06,Z/2);
+  const grid=new THREE.GridHelper(20,20,0xbfc4c9,0xd8dce0);grid.position.set(X/2,0.001,Z/2);scene.add(grid);
+  buildContext();buildStructure(0);
+  window.addEventListener('resize',onResize);bindControls();
+  document.getElementById('lot').style.display='none';setView('iso');animate();
+}
+function mesh(geo,mat,withEdges){const m=new THREE.Mesh(geo,mat);m.castShadow=true;m.receiveShadow=true;scene.add(m);
+  if(withEdges!==false){const e=new THREE.LineSegments(new THREE.EdgesGeometry(geo,28),edgeMat);m.add(e);m.userData.edge=e;}return m;}
+function reg(m){struct.push(m);return m;}
+const AX=new THREE.Vector3(1,0,0);
+function beam(p1,p2,w,h,mat){const a=new THREE.Vector3(...p1),b=new THREE.Vector3(...p2);
+  const dir=b.clone().sub(a),len=dir.length()+w*0.3;dir.normalize();
+  const m=mesh(new THREE.BoxGeometry(len,h,w),mat);
+  m.position.copy(a).add(b).multiplyScalar(0.5);m.quaternion.setFromUnitVectors(AX,dir);return reg(m);}
+function plane(z0,y0,z1,y1,mat,w){const len=Math.hypot(z1-z0,y1-y0)+0.05;
+  const m=mesh(new THREE.BoxGeometry((w||X+0.1),0.04,len),mat);
+  m.position.set(X/2,(y0+y1)/2,(z0+z1)/2);m.rotation.x=-Math.atan2((y1-y0),(z1-z0));return reg(m);}
+function planeX(x0,y0,x1,y1,mat){const len=Math.hypot(x1-x0,y1-y0)+0.05;
+  const m=mesh(new THREE.BoxGeometry(len,0.04,Z+0.1),mat);
+  m.position.set((x0+x1)/2,(y0+y1)/2,Z/2);m.rotation.z=Math.atan2((y1-y0),(x1-x0));return reg(m);}
+function vglass(z,y0,y1){const m=mesh(new THREE.BoxGeometry(X+0.05,(y1-y0),0.03),MAT.glass);
+  m.position.set(X/2,(y0+y1)/2,z);return reg(m);}
+function column(x,z,topY){const d=mesh(new THREE.BoxGeometry(0.4,0.62,0.4),MAT.conc);d.position.set(x,-0.18,z);reg(d);
+  const h=topY-0.18;const c=mesh(new THREE.CylinderGeometry(0.1,0.115,h,16),MAT.conc);c.position.set(x,0.13+h/2,z);reg(c);
+  const cap=mesh(new THREE.BoxGeometry(0.28,0.14,0.28),MAT.steel);cap.position.set(x,topY-0.04,z);reg(cap);}
+
+function buildContext(){
+  const w1=mesh(new THREE.BoxGeometry(X+1.2,2.5,0.16),MAT.ghost,false);w1.position.set(X/2,1.25,-0.08);
+  const w2=mesh(new THREE.BoxGeometry(X+1.2,2.45,0.22),MAT.ghost,false);w2.position.set(X/2,1.22,Z+0.11);
+  const w3=mesh(new THREE.BoxGeometry(0.18,2.45,Z+0.3),MAT.ghost,false);w3.position.set(X+0.1,1.22,Z/2);
+}
+
+function buildStructure(s){
+  for(let i=struct.length-1;i>=0;i--){scene.remove(struct[i]);struct.splice(i,1);}
+  if(s===0) mTruss(); else if(s===1) mLamas(); else if(s===2) mFold();
+  else if(s===3) mWave(); else if(s===4) mCantilever(); else mDiagrid();
+  applyEdges();applyClip();
+}
+
+/* M-01 CERCHA VISTA (a dos aguas) */
+function mTruss(){
+  [0.5,3,5.5].forEach(x=>column(x,Z-0.12,yL));
+  const xs=[0.6,2.4,3.6,5.4], ap=3.35, bc=2.62;
+  xs.forEach(x=>{
+    beam([x,bc,0],[x,bc,Z],0.09,0.13,MAT.wood2);                 // cuerda inferior
+    beam([x,bc,0],[x,ap,Z/2],0.09,0.13,MAT.wood2);               // cuerda superior izq
+    beam([x,ap,Z/2],[x,bc,Z],0.09,0.13,MAT.wood2);               // sup der
+    beam([x,bc,Z/2],[x,ap,Z/2],0.05,0.05,MAT.steel);             // pendolón
+    beam([x,bc,1.0],[x,ap,Z/2],0.045,0.045,MAT.steel);           // diagonales
+    beam([x,bc,3.0],[x,ap,Z/2],0.045,0.045,MAT.steel);
+  });
+  // cumbrera + costaneras (x)
+  beam([0,ap,Z/2],[X,ap,Z/2],0.07,0.1,MAT.wood);
+  beam([0,bc,0],[X,bc,0],0.07,0.1,MAT.wood); beam([0,bc,Z],[X,bc,Z],0.07,0.1,MAT.wood);
+  beam([0,(ap+bc)/2,1],[X,(ap+bc)/2,1],0.05,0.05,MAT.wood); beam([0,(ap+bc)/2,3],[X,(ap+bc)/2,3],0.05,0.05,MAT.wood);
+  plane(0,bc+0.12,Z/2,ap+0.12,MAT.cover); plane(Z/2,ap+0.12,Z,bc+0.12,MAT.cover);
+}
+/* M-02 LAMAS (brise-soleil) */
+function mLamas(){
+  [0.5,3,5.5].forEach(x=>column(x,Z-0.12,yL));
+  beam([0,yH,0],[X,yH,0],0.1,0.18,MAT.wood2); beam([0,yL,Z],[X,yL,Z],0.1,0.18,MAT.wood2);
+  beam([0,(yH+yL)/2,Z/2],[X,(yH+yL)/2,Z/2],0.1,0.2,MAT.wood2);   // viga central
+  const yz=z=>yH+(yL-yH)*(z/Z)+0.20;
+  for(let x=0.1;x<=X-0.1;x+=0.18){ beam([x,yz(0),0],[x,yz(Z),Z],0.035,0.1,MAT.wood); } // lamas densas
+  // vidrio bajo lamas (protección lluvia)
+  plane(0,yH+0.02,Z,yL+0.02,MAT.glass);
+}
+/* M-03 PLEGADO (ORIGAMI) */
+function mFold(){
+  [0.5,3,5.5].forEach(x=>column(x,Z-0.12,yL));
+  const lo=2.66, hi=3.36, ys=x=>(x%2===0?lo:hi);
+  for(let x=0;x<=6;x++){beam([x,ys(x),0],[x,ys(x),Z],0.08,0.16,(x%2===1)?MAT.wood2:MAT.wood);} // aristas plegado
+  for(let x=0;x<6;x++){planeX(x,ys(x),x+1,ys(x+1),MAT.cover);}                                  // faldones plegados
+  beam([0,(lo+hi)/2,0.4],[X,(lo+hi)/2,0.4],0.05,0.05,MAT.steel);
+  beam([0,(lo+hi)/2,Z-0.4],[X,(lo+hi)/2,Z-0.4],0.05,0.05,MAT.steel);
+}
+/* M-04 ONDA (vigas curvas laminadas) */
+function mWave(){
+  [0.5,3,5.5].forEach(x=>column(x,Z-0.12,yL));
+  const base=2.6, amp=0.55, N=10, yz=z=>base+amp*Math.sin(Math.PI*z/Z);
+  [0.6,1.8,3,4.2,5.4].forEach(x=>{
+    for(let k=0;k<N;k++){const z0=k*Z/N,z1=(k+1)*Z/N;beam([x,yz(z0),z0],[x,yz(z1),z1],0.07,0.16,MAT.wood2);}
+  });
+  for(let k=1;k<N;k+=2){const z=k*Z/N;beam([0,yz(z)+0.1,z],[X,yz(z)+0.1,z],0.05,0.06,MAT.wood);}
+  beam([0,yz(0),0],[X,yz(0),0],0.09,0.1,MAT.wood); beam([0,yz(Z),Z],[X,yz(Z),Z],0.09,0.1,MAT.wood);
+  for(let k=0;k<N;k++){const z0=k*Z/N,z1=(k+1)*Z/N;plane(z0,yz(z0)+0.13,z1,yz(z1)+0.13,MAT.cover);}
+}
+/* M-05 ALERO VOLADO (minimalista, voladizo) */
+function mCantilever(){
+  [0.6,3,5.4].forEach(x=>column(x,2.74,2.74));                       // columnas adentro (z=1.5)
+  // reposiciono columnas a z=1.5
+  for(let i=struct.length-1;i>=0;i--){} // (las columnas ya quedaron en z=Z-0.12 por column()); rehago:
+  // viga de apoyo sobre columnas
+  beam([0,yH,0],[X,yH,0],0.1,0.16,MAT.wood2);                        // plate en muro
+  beam([0,2.74,1.5],[X,2.74,1.5],0.12,0.24,MAT.wood2);               // viga sobre columnas
+  for(let x=0.3;x<=X-0.3;x+=1.13){ beam([x,yH,0],[x,2.5,Z],0.08,0.12,MAT.wood); } // vigas voladas
+  beam([0,2.5,Z],[X,2.5,Z],0.04,0.22,MAT.steel);                     // fascia delgada (canto)
+  plane(0,yH+0.1,Z,2.5+0.1,MAT.cover,X+0.5);
+}
+/* M-06 DIAGRID */
+function mDiagrid(){
+  [0.5,3,5.5].forEach(x=>column(x,Z-0.12,yL));
+  beam([0,yH,0],[X,yH,0],0.1,0.16,MAT.wood2); beam([0,yL,Z],[X,yL,Z],0.1,0.16,MAT.wood2);
+  const yz=z=>yH+(yL-yH)*(z/Z)+0.16;
+  const nx=6,nz=4,gx=X/nx,gz=Z/nz;
+  for(let i=0;i<nx;i++)for(let j=0;j<nz;j++){
+    const x0=i*gx,x1=(i+1)*gx,z0=j*gz,z1=(j+1)*gz;
+    beam([x0,yz(z0),z0],[x1,yz(z1),z1],0.05,0.09,MAT.wood);
+    beam([x1,yz(z0),z0],[x0,yz(z1),z1],0.05,0.09,MAT.wood);
+  }
+  plane(0,yH+0.12,Z,yL+0.12,MAT.glass);
+}
+
+/* vistas / cámara */
+function applyEdges(){scene.traverse(o=>{if(o.userData&&o.userData.edge)o.userData.edge.visible=showEdges;});}
+function applyClip(){const arr=sectionOn?[clip]:[];allMats.forEach(m=>{m.clippingPlanes=arr;m.needsUpdate=true;});}
+function setCam(){cam=useOrtho?camO:camP;document.getElementById('ortho').classList.toggle('on',useOrtho);}
+function setView(v){viewMode=v;autoSpin=(v==='iso');
+  document.querySelectorAll('.vbtn').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
+  phiMin=0.04;phiMax=1.54;
+  if(v==='iso'){useOrtho=false;theta=0.82;phi=1.0;radius=11.5;sectionOn=false;target.set(3,1.6,2);}
+  else if(v==='int'){useOrtho=false;theta=0.95;phi=1.98;radius=3.0;sectionOn=false;target.set(3,2.55,2);phiMin=1.35;phiMax=2.3;}
+  else if(v==='plan'){useOrtho=true;theta=0.0001;phi=0.05;radius=4.8;sectionOn=false;target.set(3,1.5,2);}
+  else{useOrtho=true;theta=Math.PI/2;phi=1.5;radius=3.6;sectionOn=true;target.set(3,1.7,2);setSection(55);}
+  document.getElementById('secbar').classList.toggle('on',v==='sect');setCam();applyClip();}
+function setSection(v){const z=(v/100)*Z;clip.constant=-z;document.getElementById('secval').textContent=z.toFixed(1).replace('.',',')+' m';}
+function bindControls(){let drag=false,lx=0,ly=0,pinch=0;const stop=()=>autoSpin=false;
+  host.addEventListener('pointerdown',e=>{if(e.target!==renderer.domElement)return;drag=true;lx=e.clientX;ly=e.clientY;host.setPointerCapture(e.pointerId);});
+  host.addEventListener('pointermove',e=>{if(!drag)return;stop();theta-=(e.clientX-lx)*0.008;phi-=(e.clientY-ly)*0.008;
+    phi=Math.max(phiMin,Math.min(phiMax,phi));lx=e.clientX;ly=e.clientY;});
+  host.addEventListener('pointerup',()=>drag=false);
+  host.addEventListener('wheel',e=>{e.preventDefault();stop();radius=Math.max(2,Math.min(20,radius+e.deltaY*0.012));},{passive:false});
+  host.addEventListener('touchmove',e=>{if(e.touches.length===2){e.preventDefault();stop();
+    const dx=e.touches[0].clientX-e.touches[1].clientX,dy=e.touches[0].clientY-e.touches[1].clientY,dist=Math.hypot(dx,dy);
+    if(pinch)radius=Math.max(2,Math.min(20,radius+(pinch-dist)*0.02));pinch=dist;}},{passive:false});
+  host.addEventListener('touchend',()=>pinch=0);
+  document.querySelectorAll('.vbtn').forEach(b=>b.onclick=()=>setView(b.dataset.v));
+  document.getElementById('ortho').onclick=()=>{useOrtho=!useOrtho;setCam();};
+  document.getElementById('edges').onclick=function(){showEdges=!showEdges;this.classList.toggle('on',showEdges);applyEdges();};
+  document.getElementById('reset').onclick=()=>setView(viewMode);
+  document.getElementById('secrange').oninput=function(){setSection(+this.value);};}
+function onResize(){const a=host.clientWidth/host.clientHeight;camP.aspect=a;camP.updateProjectionMatrix();renderer.setSize(host.clientWidth,host.clientHeight);}
+function updateCam(){const p=new THREE.Vector3(target.x+radius*Math.sin(phi)*Math.cos(theta),
+    target.y+radius*Math.cos(phi),target.z+radius*Math.sin(phi)*Math.sin(theta));cam.position.copy(p);
+  if(useOrtho){const a=host.clientWidth/host.clientHeight,s=radius*0.62;camO.left=-s*a;camO.right=s*a;camO.top=s;camO.bottom=-s;camO.near=0.1;camO.far=100;camO.updateProjectionMatrix();}
+  cam.lookAt(target);}
+function animate(){requestAnimationFrame(animate);if(autoSpin)theta+=0.003;updateCam();renderer.render(scene,cam);}
+
+const tabs=document.getElementById('tabs');
+SCH.forEach((s,i)=>{const b=document.createElement('button');b.className='tab'+(i===0?' on':'');
+  b.innerHTML=`<span class="c">${s.code}</span>${s.name}`;
+  b.onclick=()=>{[...tabs.children].forEach((t,k)=>t.classList.toggle('on',k===i));curScheme=i;buildStructure(i);
+    document.getElementById('badge').innerHTML=SCH[i].badge;};tabs.appendChild(b);});
+document.getElementById('badge').innerHTML=SCH[0].badge;
+window.addEventListener('load',initThree);
+</script>
+</body>
+</html>
