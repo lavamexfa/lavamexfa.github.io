@@ -70,8 +70,8 @@
 const SCH=[
   {code:'M-01',name:'Cercha Vista',badge:'<b>M-01 Cercha Vista</b> · 4 cerchas raulí+acero a dos aguas · <em>industrial-noble, liviana</em>'},
   {code:'M-02',name:'Lamas',badge:'<b>M-02 Lamas (brise-soleil)</b> · listones densos + vidrio bajo · <em>luz filtrada, muy contemporáneo</em>'},
-  {code:'M-03',name:'Plegado',badge:'<b>M-03 Plegado (Origami)</b> · planos plegados en acordeón · <em>facetado, muy arquitectónico</em>'},
-  {code:'M-04',name:'Onda',badge:'<b>M-04 Onda</b> · vigas curvas laminadas · <em>curva suave continua, alto diseño</em>'},
+  {code:'M-03',name:'Quincho',badge:'<b>M-03 Quincho</b> · vigas vistas + cielo machihembrado · <em>cálido y premium, lo más pedido</em>'},
+  {code:'M-04',name:'Atensorada',badge:'<b>M-04 Atensorada</b> · vigas con tensores de acero · <em>industrial fino, estructura expresada</em>'},
   {code:'M-05',name:'Alero Volado',badge:'<b>M-05 Alero Volado</b> · plano limpio en voladizo · <em>minimalista, canto delgado</em>'},
   {code:'M-06',name:'Diagrid',badge:'<b>M-06 Diagrid</b> · retícula diagonal a 45° · <em>paramétrico, alto diseño</em>'}
 ];
@@ -143,8 +143,8 @@ function buildContext(){
 
 function buildStructure(s){
   for(let i=struct.length-1;i>=0;i--){scene.remove(struct[i]);struct.splice(i,1);}
-  if(s===0) mTruss(); else if(s===1) mLamas(); else if(s===2) mFold();
-  else if(s===3) mWave(); else if(s===4) mCantilever(); else mDiagrid();
+  if(s===0) mTruss(); else if(s===1) mLamas(); else if(s===2) mQuincho();
+  else if(s===3) mAtensorada(); else if(s===4) mCantilever(); else mDiagrid();
   applyEdges();applyClip();
 }
 
@@ -176,25 +176,35 @@ function mLamas(){
   // vidrio bajo lamas (protección lluvia)
   plane(0,yH+0.02,Z,yL+0.02,MAT.glass);
 }
-/* M-03 PLEGADO (ORIGAMI) */
-function mFold(){
+/* M-03 QUINCHO · vigas vistas + cielo machihembrado */
+function mQuincho(){
   [0.5,3,5.5].forEach(x=>column(x,Z-0.12,yL));
-  const lo=2.66, hi=3.36, ys=x=>(x%2===0?lo:hi);
-  for(let x=0;x<=6;x++){beam([x,ys(x),0],[x,ys(x),Z],0.08,0.16,(x%2===1)?MAT.wood2:MAT.wood);} // aristas plegado
-  for(let x=0;x<6;x++){planeX(x,ys(x),x+1,ys(x+1),MAT.cover);}                                  // faldones plegados
-  beam([0,(lo+hi)/2,0.4],[X,(lo+hi)/2,0.4],0.05,0.05,MAT.steel);
-  beam([0,(lo+hi)/2,Z-0.4],[X,(lo+hi)/2,Z-0.4],0.05,0.05,MAT.steel);
+  beam([0,yH,0],[X,yH,0],0.12,0.18,MAT.wood2);
+  beam([0,yL,Z],[X,yL,Z],0.12,0.18,MAT.wood2);
+  const yz=z=>yH+(yL-yH)*(z/Z), pitch=Math.atan2((yH-yL),Z);
+  // vigas vistas
+  [0.5,1.75,3,4.25,5.5].forEach(x=>beam([x,yz(0),0],[x,yz(Z),Z],0.12,0.20,MAT.wood2));
+  // cielo machihembrado (tablas que corren en X, bajo las vigas)
+  for(let z=0.09;z<Z;z+=0.16){const y=yz(z)-0.215;
+    const m=mesh(new THREE.BoxGeometry(X+0.1,0.022,0.15),MAT.wood);m.position.set(X/2,y,z);m.rotation.x=pitch;reg(m);}
+  // cubierta sobre las vigas
+  plane(0,yz(0)+0.13,Z,yz(Z)+0.13,MAT.cover);
 }
-/* M-04 ONDA (vigas curvas laminadas) */
-function mWave(){
+/* M-04 ATENSORADA · vigas con tensores de acero (underslung) */
+function mAtensorada(){
   [0.5,3,5.5].forEach(x=>column(x,Z-0.12,yL));
-  const base=2.6, amp=0.55, N=10, yz=z=>base+amp*Math.sin(Math.PI*z/Z);
-  [0.6,1.8,3,4.2,5.4].forEach(x=>{
-    for(let k=0;k<N;k++){const z0=k*Z/N,z1=(k+1)*Z/N;beam([x,yz(z0),z0],[x,yz(z1),z1],0.07,0.16,MAT.wood2);}
+  beam([0,yH,0],[X,yH,0],0.12,0.18,MAT.wood2);
+  beam([0,yL,Z],[X,yL,Z],0.12,0.18,MAT.wood2);
+  const yz=z=>yH+(yL-yH)*(z/Z);
+  [0.6,2.2,3.8,5.4].forEach(x=>{
+    beam([x,yz(0),0],[x,yz(Z),Z],0.10,0.16,MAT.wood2);                       // viga
+    const yk=yz(Z/2)-0.45;                                                    // punto bajo del tensor
+    beam([x,yz(Z/2)-0.09,Z/2],[x,yk,Z/2],0.045,0.045,MAT.steel);             // pendolón
+    beam([x,yz(0)-0.07,0.12],[x,yk,Z/2],0.025,0.025,MAT.steel);              // tensor 1
+    beam([x,yz(Z)-0.07,Z-0.12],[x,yk,Z/2],0.025,0.025,MAT.steel);            // tensor 2
   });
-  for(let k=1;k<N;k+=2){const z=k*Z/N;beam([0,yz(z)+0.1,z],[X,yz(z)+0.1,z],0.05,0.06,MAT.wood);}
-  beam([0,yz(0),0],[X,yz(0),0],0.09,0.1,MAT.wood); beam([0,yz(Z),Z],[X,yz(Z),Z],0.09,0.1,MAT.wood);
-  for(let k=0;k<N;k++){const z0=k*Z/N,z1=(k+1)*Z/N;plane(z0,yz(z0)+0.13,z1,yz(z1)+0.13,MAT.cover);}
+  for(let k=1;k<=3;k++){const z=k*Z/4,y=yz(z)+0.12;beam([0,y,z],[X,y,z],0.05,0.06,MAT.wood);} // costaneras
+  plane(0,yz(0)+0.16,Z,yz(Z)+0.16,MAT.cover);
 }
 /* M-05 ALERO VOLADO (minimalista, voladizo) */
 function mCantilever(){
