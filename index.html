@@ -59,10 +59,10 @@ h1,h2,h3,.disp{font-family:'Bebas Neue',sans-serif;font-weight:400;letter-spacin
 
 /* ===== HOME ===== */
 .hero{position:relative;min-height:80dvh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
-.hero-bg{position:absolute;inset:-4%;background:url(banner.jpg) 62% center/cover no-repeat;animation:kb 22s ease-in-out infinite alternate}@keyframes kb{from{transform:scale(1)}to{transform:scale(1.08) translateX(-2%)}}@media (prefers-reduced-motion:reduce){.hero-bg{animation:none}}
+.hero-bg{position:absolute;inset:-4%;background:url(banner.jpg) 78% center/cover no-repeat;animation:kb 22s ease-in-out infinite alternate}@keyframes kb{from{transform:scale(1)}to{transform:scale(1.08) translateX(-2%)}}@media (prefers-reduced-motion:reduce){.hero-bg{animation:none}}
 .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,21,18,.3) 0%,rgba(14,21,18,.06) 35%,rgba(14,21,18,.76) 78%,var(--bg) 100%)}
 .hero-in{position:relative;z-index:2;padding:0 var(--pad) 38px}
-.hero-logo{width:130px;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.5);margin-bottom:14px}
+.hero-logo{width:122px;border-radius:12px;box-shadow:0 10px 34px rgba(0,0,0,.6);margin-bottom:16px;border:1px solid rgba(255,255,255,.12)}
 .hero h1{font-size:clamp(38px,9.6vw,64px);line-height:1.1;letter-spacing:2.5px;color:var(--crema);text-shadow:0 2px 20px rgba(0,0,0,.45)}
 .hero h1 em{font-style:normal;color:var(--eco)}
 .hero .sub{color:#DCE7DF;margin-top:16px;font-size:16px;line-height:1.65;max-width:34ch}
@@ -305,6 +305,7 @@ footer .fine{font-size:12px;color:#5F7168;line-height:1.7}
   <div class="hero">
     <div class="hero-bg"></div>
     <div class="hero-in">
+      <img class="hero-logo shine" src="logo.jpg" alt="Lavame x Fa">
       <div class="hero-top">
       <span class="chip"><span class="dot"></span>Lavado ecológico · Santiago Norte</span>
       <div class="wx" id="wx"><div class="wx-now"><b id="wx-hora">--:--</b><span>Santiago</span></div><div class="wx-days" id="wx-days"></div><p class="wx-msg" id="wx-msg"></p></div>
@@ -326,22 +327,18 @@ footer .fine{font-size:12px;color:#5F7168;line-height:1.7}
   <div class="doors">
     <button class="door big" data-go="domicilio">
       <span class="bg" style="background-image:url(vanreal.jpg)"></span>
-      <span class="tag eco">El clásico</span>
-      <span class="door-in"><span><h3>A domicilio</h3><small>Ecológico · Detailing · Retiro y entrega</small></span><span class="arr">→</span></span>
+      <span class="tag eco">A domicilio</span>
+      <span class="door-in"><span><h3>Lavado ecológico</h3><small>Sin agua · sin ruido · desde $15.000</small></span><span class="arr">→</span></span>
     </button>
-    <button class="door" data-go="empresas">
-      <span class="bg" style="background-image:url(condominio.jpg)"></span>
-      <span class="tag eco">Sello verde</span>
-      <span class="door-in"><span><h3>Empresas y condominios</h3><small>Punto de servicio · Convenios · Informe ecológico</small></span><span class="arr">→</span></span>
-    </button>
-    <button class="door gold" data-go="detailing">
+    <button class="door big gold" data-go="detailing">
       <span class="bg" style="background-image:url(suv.jpg)"></span>
-      <span class="tag">Premium</span>
+      <span class="tag">A domicilio</span>
       <span class="door-in"><span><h3>Detailing Premium</h3><small>Interior + exterior · desde $150.000</small></span><span class="arr">→</span></span>
     </button>
-    <button class="door" data-go="apoyo">
-      <span class="bg" style="background-image:url(spray.jpg)"></span>
-      <span class="door-in"><span><h3>Clean Home &amp; Office</h3><small>Limpieza con máquina · Vapor · Consulta</small></span><span class="arr">→</span></span>
+    <button class="door big" data-go="empresas">
+      <span class="bg" style="background-image:url(condominio.jpg)"></span>
+      <span class="tag eco">Sello verde</span>
+      <span class="door-in"><span><h3>Empresas y condominios</h3><small>Flotas · convenios · Clean Office · beneficios</small></span><span class="arr">→</span></span>
     </button>
   </div>
 
@@ -349,7 +346,7 @@ footer .fine{font-size:12px;color:#5F7168;line-height:1.7}
     <button class="qbtn full" data-go="agenda">
       <span><b>Agenda online y asegura tu hora</b><span> Reservas con solo el 30% — el resto al recibir tu auto</span></span><span style="font-size:20px;color:var(--eco)">📅</span>
     </button>
-    <button class="qbtn" data-go="galeria"><b>Galería y reels</b><span>Mira cómo trabajamos</span></button>
+    <button class="qbtn" data-go="galeria"><b>Galería y videos</b><span>Mira cómo trabajamos</span></button>
     <a class="qbtn" href="lavame-x-fa-juego.html"><b>Juega con la Gotita</b><span>Hay sorpresa 🎁</span></a>
   </div>
 
@@ -521,6 +518,45 @@ footer .fine{font-size:12px;color:#5F7168;line-height:1.7}
       <p style="margin-bottom:12px">Mira cómo es una visita real:</p>
       <div class="vgrid"><button class="vcard" data-v="clip02.mp4"><img src="clip02.jpg" alt="Así llegamos" loading="lazy"><span class="vplay">▶</span></button><button class="vcard" data-v="clip06.mp4"><img src="clip06.jpg" alt="Trabajo en terreno" loading="lazy"><span class="vplay">▶</span></button></div>
     </div>
+    <div class="vbadge"><span>✦ Clean Office &amp; Home ✦</span></div>
+    <div class="card">
+      <h3>Limpieza de espacios 🏢</h3>
+      <p>El mismo estándar, ahora en tus oficinas o en la casa de tus trabajadores: sillas, alfombras, sillones, tapices y colchones con máquina profesional. Coordinamos fuera de horario para no interrumpir la operación.</p>
+      <ul>
+        <li>Clean Office: puestos de trabajo, salas de reunión, recepción</li>
+        <li>Clean Home: convenio para trabajadores y residentes</li>
+        <li>Limpieza express con máquina: esa mancha, ese sillón, ese rincón</li>
+      </ul>
+      <div class="gal" style="margin-top:14px"><img class="wide" src="clean01.jpg" alt="Clean Office" loading="lazy"><img src="clean02.jpg" alt="Clean" loading="lazy"><img src="clean03.jpg" alt="Clean" loading="lazy"></div>
+      <button class="btn ghost" style="margin-top:14px" onclick="wsp('Hola! Quiero cotizar CLEAN OFFICE / HOME para mi empresa: ')">Cotizar Clean Office</button>
+    </div>
+
+    <div class="vbadge"><span>✦ Flotas ✦</span></div>
+    <div class="card">
+      <h3>Flotas de trabajo 🚐</h3>
+      <p>Camionetas, vans y vehículos de reparto: mantención de imagen programada en tu propio patio, con frecuencia fija y un solo responsable. Tu flota es tu publicidad rodante — que se vea como corresponde.</p>
+      <ul>
+        <li>Plan semanal, quincenal o mensual con precio cerrado</li>
+        <li>Lavado ecológico + interiores de cabina</li>
+        <li>Vapor industrial para motores, chasis y bajos</li>
+        <li>Reporte de servicios ejecutados por patente</li>
+      </ul>
+      <button class="btn ghost" style="margin-top:14px" onclick="wsp('Hola! Quiero cotizar mantención de FLOTA. Tenemos X vehículos: ')">Cotizar mi flota</button>
+    </div>
+
+    <div class="vbadge"><span>✦ Beneficios ✦</span></div>
+    <div class="card">
+      <h3>Convenio de beneficios 🎁</h3>
+      <p>Súmanos a tu paquete de beneficios, como una caja de compensación. Sin costo de instalación para la empresa y con tarifa preferente para cada trabajador.</p>
+      <ul>
+        <li>Tarifa convenio para todo el personal y sus familias</li>
+        <li>Jornadas en terreno con agenda coordinada por RR.HH.</li>
+        <li>Material de difusión interna listo para enviar</li>
+        <li>Informe ecológico anual con el ahorro de agua logrado</li>
+      </ul>
+      <button class="btn ghost" style="margin-top:14px" onclick="wsp('Hola! Quiero sumar Lavame x Fa a los BENEFICIOS de mi empresa: ')">Quiero el convenio</button>
+    </div>
+
     <button class="btn wsp" onclick="wsp('Hola! Quiero información del servicio para EMPRESAS / CONDOMINIOS. Les escribo de: ')">Cotizar para mi empresa o edificio</button>
     <button class="btn ghost" data-go="galeria">Ver más videos de nuestro trabajo</button>
   </div>
