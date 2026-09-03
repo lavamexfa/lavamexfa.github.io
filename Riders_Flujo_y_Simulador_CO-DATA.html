@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Riders — Flujo de Caja y Simulador · by CO-DATA</title>
+<style>
+  :root{
+    --navy:#1E2761; --ice:#CADCFC; --green:#1F6D3B; --greenbg:#E7F3EB;
+    --red:#A3271C; --redbg:#FBE9E7; --gold:#946F00; --goldbg:#FBF2DF;
+    --gray:#F4F6FB; --muted:#5B6B8C; --line:#E2E6F0;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif; background:#f2f4fa; color:#222; padding-bottom:30px;}
+  header{background:var(--navy); color:#fff; padding:20px 16px 16px;}
+  header .brand{display:flex; align-items:baseline; justify-content:space-between;}
+  header h1{font-size:1.2rem; letter-spacing:.5px;}
+  header .by{font-size:.68rem; color:var(--ice); letter-spacing:.5px;}
+  header p{color:var(--ice); font-size:.82rem; margin-top:8px; line-height:1.45;}
+  .wrap{max-width:560px; margin:0 auto; padding:0 12px;}
+
+  .card{background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px; margin-top:12px; box-shadow:0 2px 8px rgba(30,39,97,.05);}
+  .card h2{font-size:.78rem; text-transform:uppercase; letter-spacing:.8px; color:var(--muted); margin-bottom:10px;}
+
+  .btnrow{display:flex; flex-wrap:wrap; gap:7px;}
+  .btn{
+    flex:1 1 auto; min-width:56px; padding:10px 6px; border-radius:10px;
+    border:2px solid var(--line); background:#fff; font-size:.95rem; font-weight:800;
+    color:var(--navy); cursor:pointer; transition:all .15s; text-align:center;
+  }
+  .btn small{display:block; font-weight:400; font-size:.6rem; color:var(--muted); margin-top:2px;}
+  .btn.active{background:var(--navy); border-color:var(--navy); color:#fff;}
+  .btn.active small{color:var(--ice);}
+  .btn:active{transform:scale(.96);}
+
+  .meses{display:flex; gap:6px; overflow-x:auto; padding-bottom:6px; -webkit-overflow-scrolling:touch;}
+  .chip{
+    flex:0 0 auto; padding:9px 13px; border-radius:20px; border:2px solid var(--line);
+    background:#fff; font-size:.82rem; font-weight:800; color:var(--navy); cursor:pointer; white-space:nowrap;
+  }
+  .chip.active{background:var(--navy); border-color:var(--navy); color:#fff;}
+
+  .linea{display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--line); font-size:.88rem;}
+  .linea:last-child{border-bottom:none;}
+  .linea .n{color:#333;}
+  .linea .n small{display:block; color:var(--muted); font-size:.68rem;}
+  .linea .v{font-weight:700; font-variant-numeric:tabular-nums;}
+  .v.ing{color:var(--green);}
+  .v.gas{color:var(--red);}
+  .subhead{margin:10px 0 2px; font-size:.7rem; font-weight:800; letter-spacing:.8px; text-transform:uppercase;}
+  .subhead.ing{color:var(--green);}
+  .subhead.gas{color:var(--red);}
+  .totline{background:var(--gray); border-radius:9px; padding:9px 10px; margin-top:6px;
+    display:flex; justify-content:space-between; font-weight:800; font-size:.9rem;}
+  .totline.ing{color:var(--green); background:var(--greenbg);}
+  .totline.gas{color:var(--red); background:var(--redbg);}
+
+  .queda{
+    margin-top:12px; background:var(--goldbg); border:2px solid #EAD9A8; border-radius:14px;
+    padding:14px; text-align:center;
+  }
+  .queda .lbl{font-size:.72rem; text-transform:uppercase; letter-spacing:.8px; color:var(--gold); font-weight:800;}
+  .queda .big{font-size:1.9rem; font-weight:900; color:var(--gold); margin-top:2px; font-variant-numeric:tabular-nums;}
+  .queda .ref{font-size:.72rem; color:var(--muted); margin-top:5px;}
+
+  .lectura{
+    margin-top:12px; background:var(--goldbg); border-radius:12px; padding:12px 14px;
+    font-size:.84rem; color:#5a4a10; line-height:1.55;
+  }
+  .lectura b{color:var(--gold);}
+
+  .legend{font-size:.7rem; color:var(--muted); margin-bottom:8px;}
+  .legend .g{color:var(--green); font-weight:800;}
+  .legend .r{color:var(--red); font-weight:800;}
+  .rowitem{display:flex; align-items:center; gap:8px; padding:8px 0; border-bottom:1px solid var(--line);}
+  .rowitem:last-child{border-bottom:none;}
+  .rowitem .per{flex:0 0 104px; font-size:.72rem; font-weight:700; color:var(--navy); line-height:1.25;}
+  .rowitem .per small{display:block; font-weight:400; color:var(--muted); font-size:.62rem;}
+  .rowitem .barzone{flex:1; position:relative; height:24px; background:var(--gray); border-radius:7px; overflow:hidden;}
+  .rowitem .bar{position:absolute; left:0; top:0; bottom:0; border-radius:7px; transition:width .35s ease;}
+  .rowitem .bar.pos{background:var(--green);}
+  .rowitem .bar.neg{background:var(--red);}
+  .rowitem .val{flex:0 0 122px; text-align:right; font-variant-numeric:tabular-nums;}
+  .rowitem .val .q{font-size:.84rem; font-weight:800; color:var(--navy);}
+  .rowitem .val .d{font-size:.64rem; font-weight:700;}
+  .pos-t{color:var(--green);} .neg-t{color:var(--red);}
+
+  table{width:100%; border-collapse:collapse; font-size:.8rem;}
+  th{background:var(--navy); color:#fff; padding:7px 5px; font-size:.64rem; text-transform:uppercase; letter-spacing:.4px; text-align:right;}
+  th:first-child{text-align:left;}
+  td{padding:8px 5px; border-bottom:1px solid var(--line); text-align:right; font-variant-numeric:tabular-nums;}
+  td:first-child{text-align:left; font-weight:700; color:var(--navy);}
+  tr:nth-child(even) td{background:var(--gray);}
+  td.ing{color:var(--green);}
+  td.gas{color:var(--red);}
+  td.net{font-weight:800; color:var(--gold);}
+
+  footer{margin-top:18px; text-align:center; font-size:.68rem; color:var(--muted);}
+  footer b{color:var(--navy);}
+  .pulse{animation:pulse .3s ease;}
+  @keyframes pulse{0%{opacity:.5;} 100%{opacity:1;}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap" style="padding:0;">
+    <div class="brand">
+      <h1>RIDERS · Flujo de Caja y Simulador</h1>
+      <span class="by">creado por CO-DATA</span>
+    </div>
+    <p>Elige un <b>%</b> y un <b>IPC</b>, y mira tu mes en detalle, cómo evoluciona en el tiempo, y el total por año. La comisión ya cerrada con el dueño es <b>7% los primeros 6 meses, 10% fijo desde el mes 7</b>. Septiembre es obra; en <b>octubre Lavame x Fa abre y empieza a pagar</b>.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="card">
+    <h2>1 · % de comisión (sobre todos tus subarriendos)</h2>
+    <div class="btnrow" id="pctBtns">
+      <button class="btn" data-v="5">5%</button>
+      <button class="btn active" data-v="7">7%<small>meses 1-6</small></button>
+      <button class="btn" data-v="10">10%<small>desde mes 7 (fijo)</small></button>
+      <button class="btn" data-v="15">15%</button>
+      <button class="btn" data-v="20">20%</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>2 · IPC anual (desde julio 2028)</h2>
+    <div class="btnrow" id="ipcBtns">
+      <button class="btn active" data-v="0">Sin IPC<small>tu propuesta</small></button>
+      <button class="btn" data-v="3">3%</button>
+      <button class="btn" data-v="5">5%</button>
+      <button class="btn" data-v="8">8%<small>tipo 2022</small></button>
+    </div>
+  </div>
+
+  <div class="lectura" id="lectura"></div>
+
+  <div class="card">
+    <h2>3 · Tu mes en detalle</h2>
+    <div class="meses" id="mesChips"></div>
+    <div id="detalle"></div>
+  </div>
+
+  <div class="queda" id="queda"></div>
+
+  <div class="card">
+    <h2>4 · Cómo evoluciona en el tiempo (lo que te queda al mes)</h2>
+    <div class="legend"><span class="g">verde</span> = ganas más que hoy · <span class="r">rojo</span> = menos que hoy (hoy: $1.100.000)</div>
+    <div id="timeline"></div>
+  </div>
+
+  <div class="card">
+    <h2>5 · Resumen anual</h2>
+    <table>
+      <thead><tr><th>Año</th><th>Ingresos</th><th>Gastos</th><th>Te queda</th></tr></thead>
+      <tbody id="anual"></tbody>
+    </table>
+  </div>
+
+  <footer>Preparado para <b>Riders Barbershop</b> · desarrollado por <b>CO-DATA</b> · cifras en pesos chilenos</footer>
+</div>
+
+<script>
+const ITEMS = [
+  ["3 habitaciones (2° piso)", "contrato consolidado", 1100000],
+  ["Puesto 1", "1° piso · $80.000/sem × 4", 320000],
+  ["Puesto 2", "1° piso · $90.000/sem × 4", 360000],
+  ["Puesto 3", "1° piso · $30.000/sem × 4", 120000],
+];
+const HAB = ITEMS.reduce((s,i)=>s+i[2],0); // 1.900.000
+const HOY = 1100000;
+const MESES = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
+
+let pct = 7, ipc = 0;
+let selY = 2026, selM = 10;
+
+const CHIPS = [];
+{ let y=2026,m=9; while(!(y===2028&&m===1)){ CHIPS.push([y,m]); m++; if(m===13){m=1;y++;} } }
+[[2028,7],[2029,7],[2030,7],[2031,7]].forEach(x=>CHIPS.push(x));
+
+const MOM = [
+  ["Sep 2026",     "obra del local (aún no paga)", 2026, 9],
+  ["Oct–Nov 2026", "local abre: +$450.000",        2026, 10],
+  ["Dic26–Feb27",  "local en tope $600.000",       2027, 1],
+  ["Mar27–Jun28",  "renta sube a $1.300.000",      2027, 6],
+  ["Jul 2028",     "1er reajuste IPC",             2028, 7],
+  ["Jul 2029",     "2° reajuste IPC",              2029, 7],
+  ["Jul 2030",     "3er reajuste IPC",             2030, 7],
+  ["Jul 2031",     "4° reajuste IPC",              2031, 7],
+];
+
+function patioDe(y,m){
+  const k=y*100+m;
+  if(k<202610) return 0;
+  if(k<202612) return 450000;
+  return 600000;
+}
+function rentaDe(y,m){
+  const k=y*100+m;
+  let base;
+  if(k<202612) base=1100000;
+  else if(k<202703) base=1200000;
+  else base=1300000;
+  let n=0;
+  if(y>2028||(y===2028&&m>=7)) n=(y-2028)+(m>=7?1:0);
+  return base*Math.pow(1+ipc/100,n);
+}
+function flujo(y,m){
+  const patio=patioDe(y,m);
+  const ingreso=HAB+patio;
+  const renta=rentaDe(y,m);
+  const com=ingreso*pct/100;
+  const queda=ingreso-renta-com;
+  return {patio,ingreso,renta,com,queda,delta:queda-HOY};
+}
+const fmt = n => "$" + Math.round(n).toLocaleString("es-CL");
+
+function render(){
+  // chips
+  document.getElementById("mesChips").innerHTML = CHIPS.map(([y,m])=>{
+    const act=(y===selY&&m===selM)?"active":"";
+    return `<button class="chip ${act}" data-y="${y}" data-m="${m}">${MESES[m-1]} ${String(y).slice(2)}</button>`;
+  }).join("");
+
+  // detalle del mes
+  const f = flujo(selY,selM);
+  let html = `<div class="subhead ing" style="margin-top:12px;">Ingresos — ${MESES[selM-1]} ${selY}</div>`;
+  ITEMS.forEach(([n,sub,v])=>{
+    html += `<div class="linea"><div class="n">${n}<small>${sub}</small></div><div class="v ing">${fmt(v)}</div></div>`;
+  });
+  if(f.patio>0){
+    html += `<div class="linea"><div class="n">Local Lavame x Fa<small>patio · abrió en octubre 2026</small></div><div class="v ing">${fmt(f.patio)}</div></div>`;
+  }else{
+    html += `<div class="linea"><div class="n">Local Lavame x Fa<small>patio · en obra este mes</small></div><div class="v" style="color:var(--muted)">$0</div></div>`;
+  }
+  html += `<div class="totline ing"><span>TOTAL INGRESOS</span><span>${fmt(f.ingreso)}</span></div>`;
+  html += `<div class="subhead gas">Gastos</div>`;
+  html += `<div class="linea"><div class="n">Arriendo al dueño${(ipc>0&&f.renta>1300000)?"<small>incluye reajuste IPC</small>":""}</div><div class="v gas">${fmt(f.renta)}</div></div>`;
+  html += `<div class="linea"><div class="n">Comisión ${pct}%<small>sobre el total de subarriendos</small></div><div class="v gas">${fmt(f.com)}</div></div>`;
+  html += `<div class="totline gas"><span>TOTAL GASTOS</span><span>${fmt(f.renta+f.com)}</span></div>`;
+  const det=document.getElementById("detalle");
+  det.innerHTML = html;
+  det.classList.remove("pulse"); void det.offsetWidth; det.classList.add("pulse");
+
+  // te queda
+  const q=document.getElementById("queda");
+  q.innerHTML = `<div class="lbl">Te queda — ${MESES[selM-1]} ${selY}</div><div class="big">${fmt(f.queda)}</div><div class="ref">Referencia — hoy, sin este acuerdo: $1.100.000/mes</div>`;
+  q.classList.remove("pulse"); void q.offsetWidth; q.classList.add("pulse");
+
+  // timeline
+  const data = MOM.map(([lbl,sub,y,m])=>({lbl,sub,...flujo(y,m)}));
+  const maxAbs = Math.max(...data.map(d=>Math.abs(d.queda)), HOY);
+  const tl=document.getElementById("timeline");
+  tl.innerHTML = data.map(d=>{
+    const w=Math.min(100,Math.abs(d.queda)/maxAbs*100);
+    return `<div class="rowitem">
+      <div class="per">${d.lbl}<small>${d.sub}</small></div>
+      <div class="barzone"><div class="bar ${d.delta>=0?"pos":"neg"}" style="width:${w}%"></div></div>
+      <div class="val">
+        <div class="q">${fmt(d.queda)}</div>
+        <div class="d ${d.delta>=0?"pos-t":"neg-t"}">${d.delta>=0?"+":"−"}${fmt(Math.abs(d.delta)).slice(1)} vs hoy</div>
+      </div>
+    </div>`;
+  }).join("");
+  tl.classList.remove("pulse"); void tl.offsetWidth; tl.classList.add("pulse");
+
+  // lectura
+  const reg = flujo(2027,6);
+  const far = flujo(2031,8);
+  let msg = `<b>Con ${pct}% y ${ipc===0?"sin IPC":"IPC "+ipc+"% anual"}:</b> en régimen te quedan <b>${fmt(reg.queda)}</b>/mes (${reg.delta>=0?"<b>+"+fmt(reg.delta)+"</b> sobre hoy":"<b>−"+fmt(Math.abs(reg.delta))+"</b> bajo hoy"}).`;
+  if(ipc>0){
+    msg += ` En 2031, tras los reajustes, ${far.delta>=0?"aún ganas <b>+"+fmt(far.delta)+"</b>/mes sobre hoy.":"quedas <b>−"+fmt(Math.abs(far.delta))+"</b>/mes bajo hoy — el IPC sin tope se come el margen año a año."}`;
+  } else {
+    msg += ` Sin IPC automático, ese margen <b>se mantiene estable</b> todos los años.`;
+  }
+  document.getElementById("lectura").innerHTML = msg;
+
+  // anual
+  let ah="";
+  for(let y=2026;y<=2031;y++){
+    let ing=0,gas=0; const m0=(y===2026)?9:1;
+    for(let m=m0;m<=12;m++){
+      const g=flujo(y,m);
+      ing+=g.ingreso; gas+=g.renta+g.com;
+    }
+    ah += `<tr><td>${y}${y===2026?" (4 m)":""}</td><td class="ing">${fmt(ing)}</td><td class="gas">${fmt(gas)}</td><td class="net">${fmt(ing-gas)}</td></tr>`;
+  }
+  document.getElementById("anual").innerHTML = ah;
+}
+
+document.getElementById("pctBtns").addEventListener("click",e=>{
+  const b=e.target.closest(".btn"); if(!b) return;
+  document.querySelectorAll("#pctBtns .btn").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active"); pct=parseFloat(b.dataset.v); render();
+});
+document.getElementById("ipcBtns").addEventListener("click",e=>{
+  const b=e.target.closest(".btn"); if(!b) return;
+  document.querySelectorAll("#ipcBtns .btn").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active"); ipc=parseFloat(b.dataset.v); render();
+});
+document.getElementById("mesChips").addEventListener("click",e=>{
+  const c=e.target.closest(".chip"); if(!c) return;
+  selY=parseInt(c.dataset.y); selM=parseInt(c.dataset.m); render();
+});
+
+render();
+</script>
+</body>
+</html>
