@@ -1,0 +1,156 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Tarifas Lavame por fa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600;700&display=swap">
+<style>
+:root{--bg:#121416;--panel:#1A1D20;--panel2:#22262A;--line:#2F3439;--ink:#F2EEE6;--mut:#9BA3AA;--cream:#EDE6D6;--acc:#39B4E6;--accD:#0B2F3F;--gold:#E8B84A;--ok:#6BD3A0;
+--disp:"Barlow Condensed","Arial Narrow",sans-serif;--body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 var(--body);padding-bottom:150px;
+background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:28px 28px}
+.w{max-width:960px;margin:0 auto;padding-inline:16px}
+header{padding-block:18px 10px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+header img{height:78px;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,.4)}
+header .t{flex:1;min-width:200px}
+header h1{font:800 clamp(30px,5.5vw,46px)/.95 var(--disp);letter-spacing:.02em;text-transform:uppercase;margin:0;color:var(--cream)}
+header p{margin:4px 0 0;color:var(--mut);font-size:14px}
+.sizes{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:rgba(18,20,22,.94);backdrop-filter:blur(6px);padding-block:10px;border-bottom:1px solid var(--line)}
+.sizes .in{display:flex;align-items:center;gap:10px}
+.sizes span.l{font:700 13px var(--disp);letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+.seg{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;flex:1;max-width:520px}
+.seg button{font:inherit;cursor:pointer;background:var(--panel);border:1.5px solid var(--line);color:var(--ink);border-radius:8px;padding:6px 4px;line-height:1.1}
+.seg button b{display:block;font:800 20px var(--disp)}.seg button small{font-size:11px;color:var(--mut)}
+.seg button[aria-pressed="true"]{border-color:var(--acc);background:var(--accD)}
+.seg button[aria-pressed="true"] small{color:var(--acc)}
+h2{font:800 26px var(--disp);letter-spacing:.04em;text-transform:uppercase;margin:26px 0 12px;display:flex;align-items:center;gap:10px;color:var(--cream)}
+h2::after{content:"";flex:1;height:2px;background:repeating-linear-gradient(90deg,var(--line) 0 10px,transparent 10px 16px)}
+.promos{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.promo{background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:14px;padding:18px;display:grid;gap:10px;position:relative;overflow:hidden}
+.promo.star{border-color:var(--gold)}
+.promo .tag{justify-self:start;font:700 12px var(--disp);letter-spacing:.12em;text-transform:uppercase;padding:4px 10px;border-radius:4px;background:var(--acc);color:#04202C}
+.promo.star .tag{background:var(--gold);color:#2A1C00}
+.promo h3{font:800 25px/1.05 var(--disp);text-transform:uppercase;margin:0;letter-spacing:.02em}
+.promo .sub{color:var(--mut);margin-top:-6px;font-size:14px}
+.price{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.price .big{font:800 44px/1 var(--disp);color:var(--cream);font-variant-numeric:tabular-nums}
+.price s{color:var(--mut);font-size:15px}.price .save{font-weight:700;color:var(--ok);font-size:14px}
+.promo ul{margin:0;padding:0;list-style:none;display:grid;gap:5px;font-size:14px}
+.promo li{padding-left:22px;position:relative}.promo li::before{content:"✓";position:absolute;left:2px;color:var(--acc);font-weight:700}
+.promo.star li::before{color:var(--gold)}
+.mini{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:8px;overflow:hidden;font-size:12.5px;text-align:center}
+.mini div{padding:6px 2px;border-right:1px solid var(--line)}.mini div:last-child{border-right:0}
+.mini div b{display:block;font:700 14px var(--disp);color:var(--mut)}
+.mini div.on{background:var(--accD)}.mini div.on b{color:var(--acc)}
+.promo .foot{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.promo .note{font-size:12.5px;color:var(--mut)}
+.add{font:700 14px var(--body);cursor:pointer;border:0;border-radius:8px;padding:10px 14px;background:var(--acc);color:#04202C}
+.promo.star .add{background:var(--gold);color:#2A1C00}
+.add.in{background:var(--ok);color:#04291A}
+.tbl{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+table{width:100%;border-collapse:collapse;table-layout:fixed}
+th,td{padding:0;border-bottom:1px solid var(--line);text-align:center}
+th:first-child,td:first-child{text-align:left;width:36%;padding:10px 8px 10px 14px}
+thead th{font:800 18px var(--disp);padding:9px 2px;background:#15181A;color:var(--mut)}
+thead th small{display:block;font:500 10.5px var(--body);color:var(--mut)}
+thead th.on{color:var(--acc)}
+tr.sec td{background:#15181A;padding:9px 14px;text-align:left}
+tr.sec b{font:800 17px var(--disp);letter-spacing:.06em;text-transform:uppercase;color:var(--cream)}
+tr.sec span{color:var(--mut);font-size:12.5px;margin-left:8px}
+td .n{font-weight:600;display:block;line-height:1.25}td .d{display:block;font-size:12px;color:var(--mut);margin-top:2px}
+tr.star td:first-child{box-shadow:inset 4px 0 0 var(--gold)}tr.star .n::after{content:" ★";color:var(--gold)}
+td.c button{all:unset;box-sizing:border-box;display:grid;place-items:center;width:100%;min-height:54px;cursor:pointer;font:600 14px var(--body);font-variant-numeric:tabular-nums;letter-spacing:-.01em;position:relative;color:var(--ink)}
+td.c.on button{color:var(--acc);background:rgba(57,180,230,.06)}
+td.c button:hover{background:rgba(57,180,230,.12)}
+td.c button.sel,td.c.on button.sel{background:var(--acc);color:#04202C}
+td.c button b{position:absolute;top:3px;right:4px;font-size:10px;background:#000;color:#fff;border-radius:8px;padding:0 5px;line-height:15px}
+td.c button:focus-visible,.seg button:focus-visible,.add:focus-visible{outline:2px solid var(--acc);outline-offset:-2px}
+td.q{font-size:13px;color:var(--mut)}td.q b{color:var(--ink)}
+.fine{color:var(--mut);font-size:12.5px;margin-top:12px;display:grid;gap:3px}
+.bar{position:fixed;left:0;right:0;bottom:0;background:#0B0C0D;border-top:2px solid var(--acc);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));z-index:6}
+.bi{max-width:960px;margin:0 auto;display:grid;gap:8px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.tot{font:800 32px/1 var(--disp);color:var(--acc);font-variant-numeric:tabular-nums}
+.sm{font-size:12.5px;color:var(--mut)}
+.btns{display:flex;gap:6px;flex-wrap:wrap}
+.btn{font:700 14px var(--body);padding:9px 12px;border-radius:8px;border:1.5px solid var(--acc);color:var(--acc);background:none;cursor:pointer;text-decoration:none}
+.btn.pri{background:var(--acc);color:#04202C}
+.lines{list-style:none;margin:0;padding:0;display:grid;gap:4px;max-height:32vh;overflow:auto;font-size:13px}
+.lines li{display:flex;align-items:center;gap:8px;border-bottom:1px solid #1E2226;padding-bottom:4px}
+.lines li span:first-child{flex:1}
+.lines button{font:inherit;width:26px;height:26px;border-radius:50%;border:1px solid #4A535A;background:none;color:#fff;cursor:pointer}
+@media (max-width:520px){th:first-child,td:first-child{width:34%;padding-left:10px}td.c button{font-size:12.5px}.price .big{font-size:38px}}
+@media (prefers-reduced-motion:no-preference){.promo,.add,td.c button{transition:background .15s,border-color .15s,color .15s}}
+[hidden]{display:none!important}
+</style>
+
+<style>.info{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:4px 0 14px}.info>div{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:grid;gap:2px}.info b{font:700 16px var(--disp);letter-spacing:.03em;color:var(--cream)}.info span{font-size:13px;color:var(--mut)}</style>
+</head><body><div class="w"><header>
+ <img alt="Lavame por fa" src="logo.jpg">
+ <div class="t"><h1>Tarifas Detailing &amp; Lavado</h1><p>Huechuraba · precios en pesos chilenos según el tamaño de tu auto</p></div>
+</header></div>
+<div class="w"><div class="info">
+ <div><b>📍 Local en Huechuraba</b><span>Lunes a domingo · 9:00 a 22:00</span></div>
+ <div><b>🚗 A domicilio 24/7</b><span>Huechuraba, Chicureo, La Dehesa, Vitacura, Las Condes y comunas cercanas · horario a convenir</span></div>
+ <div><b>👥 Más de 4 autos en un punto</b><span>Descuento especial para condominios, oficinas y familias</span></div>
+ <div><b>🏠 Volver al inicio</b><span><a href="./" style="color:var(--acc)">lavamexfa.com</a></span></div>
+</div></div>
+<div class="sizes"><div class="w in"><span class="l">Tu auto</span><div class="seg" id="seg"></div></div></div>
+
+<main class="w">
+ <h2>Promociones</h2>
+ <div class="promos" id="promos"></div>
+ <h2>Tabla de precios</h2>
+ <div class="tbl"><table><thead><tr id="hd"><th>Servicio</th></tr></thead><tbody id="tb"></tbody></table></div>
+ <div class="fine">
+  <span>Toca un precio para sumarlo a tu cotización. Tócalo otra vez para sumar otro auto igual.</span>
+  <span>Valores referenciales: se confirman al revisar el auto. Reserva tu hora con el 30%.</span>
+ </div>
+</main>
+
+<div class="bar" aria-live="polite"><div class="bi">
+ <div class="row">
+  <div><div class="tot" id="tot">$0</div><div class="sm" id="sum">Elige una promoción o toca un precio</div></div>
+  <div class="btns"><button class="btn" id="tg" type="button">Detalle</button><button class="btn" id="clr" type="button">Borrar</button><a class="btn" id="wa" target="_blank" rel="noopener">WhatsApp</a><a class="btn pri" id="ag" target="_blank" rel="noopener">Agendar 30%</a></div>
+ </div>
+ <ul class="lines" id="ln" hidden></ul>
+</div></div>
+
+<script>
+const CFG={"wa": "56987709905", "agenda": "https://lavamexfaa.site.agendapro.com/cl", "tallas": [["S", "Citycar"], ["M", "Sedán"], ["L", "SUV"], ["XL", "Pickup"]], "promos": [{"id": "pA", "tag": "Producto estrella", "n": "Detailing Exterior · Sellado Cerámico", "sub": "Protección de 6 meses a 1 año", "inc": ["Lavado y descontaminado con clay bar", "Pulido en 3 pasos para recuperar el brillo", "Sellado cerámico en carrocería y vidrios", "Plásticos exteriores tratados", "Ruedas de regalo (lavado y abrillantado)"], "p": [100000, 120000, 140000, 160000], "antes": null, "nota": "Listo el mismo día"}, {"id": "pB", "tag": "Promo de lanzamiento", "n": "Detailing Pro · Exterior + Interior Full", "sub": "Tu auto completo, por fuera y por dentro", "inc": ["Todo el Detailing Exterior con sellado cerámico", "Interior full: cielo, asientos, alfombras, puertas, tablero, consola y maletero", "Conductos de aire, marcos y bajadas de agua", "Tapiz o cuero, mismo precio"], "p": [150000, 175000, 210000, 240000], "antes": [180000, 210000, 250000, 290000], "nota": "Listo el mismo día"}], "secciones": [{"n": "Lavado", "inc": "Siempre con aspirado", "filas": [{"id": "lav", "n": "Lavado simple", "d": "Exterior + interior simple, con aspirado", "p": [27000, 30000, 35000, 40000]}, {"id": "ext", "n": "Solo exterior", "d": "Carrocería, vidrios y llantas", "p": [16000, 18000, 21000, 24000]}, {"id": "eco", "n": "Lavado ecológico", "d": "Sin agua · condominios y empresas", "p": [20000, 22000, 25000, 30000]}]}, {"n": "Detailing exterior", "inc": "Incluye carrocería, vidrios, plásticos y ruedas de regalo", "filas": [{"id": "d1", "n": "Sellado cerámico 6 meses a 1 año", "d": "Pulido 3 pasos + cerámico · listo el mismo día", "p": [100000, 120000, 140000, 160000], "star": true}, {"id": "d3", "n": "Cerámico 3 años", "d": "Acabado espejo · el auto se queda el día", "p": [125000, 150000, 175000, 200000]}, {"id": "d5", "n": "Grafeno 5 años", "d": "Máxima protección · el auto se queda 2 días", "p": [150000, 180000, 200000, 250000]}]}, {"n": "Detailing interior", "inc": "Tapiz o cuero, mismo precio", "filas": [{"id": "dif", "n": "Interior full", "d": "Cielo, asientos, alfombras, puertas, tablero, consola, ductos y maletero", "p": [80000, 90000, 110000, 130000]}]}, {"n": "Adicionales", "inc": "Se suman a cualquier servicio", "filas": [{"id": "spl", "n": "Sellado de plásticos", "d": "Brillo y protección 2 a 3 meses", "p": [20000, 30000, 40000, 50000]}, {"id": "sne", "n": "Sellado de neumáticos", "d": "Negro profundo que dura", "p": [30000, 30000, 40000, 50000]}, {"id": "sll", "n": "Sellado cerámico de llantas", "d": "El polvo de freno no se pega", "p": [30000, 40000, 60000, 70000]}, {"id": "sfo", "n": "Pulido y sellado de focos", "d": "El par, transparentes otra vez", "p": [40000, 50000, 60000, 70000]}, {"id": "mot", "n": "Lavado de motor con vapor", "d": "Con autorización firmada", "p": [40000, 40000, 50000, 60000]}]}, {"n": "Interior por zona", "inc": "Para limpiar solo una parte", "filas": [{"id": "cie", "n": "Cielo", "d": "", "p": [20000, 20000, 25000, 30000]}, {"id": "pue", "n": "Puertas", "d": "", "p": [20000, 20000, 25000, 30000]}, {"id": "alf", "n": "Alfombras", "d": "", "p": [25000, 25000, 30000, 40000]}, {"id": "mal", "n": "Maletero", "d": "", "p": [20000, 20000, 30000, 40000]}]}], "consulte": [{"n": "Lavado de chasis con vapor", "d": "Con taller socio y elevador", "desde": 60000}]};
+const $=id=>document.getElementById(id),f=n=>"$"+Math.round(n).toLocaleString("es-CL");
+const T=CFG.tallas,items={};let t=2,lines=[];
+CFG.secciones.forEach(s=>s.filas.forEach(r=>items[r.id]={...r,sec:s.n}));
+CFG.promos.forEach(p=>items[p.id]={...p,sec:"Promoción"});
+T.forEach((z,i)=>{const b=document.createElement("button");b.type="button";b.innerHTML=`<b>${z[0]}</b><small>${z[1]}</small>`;b.onclick=()=>{t=i;draw()};$("seg").appendChild(b);
+ $("hd").insertAdjacentHTML("beforeend",`<th>${z[0]}<small>${z[1]}</small></th>`)});
+function buildTable(){const tb=$("tb");tb.innerHTML="";
+ CFG.secciones.forEach(s=>{tb.insertAdjacentHTML("beforeend",`<tr class="sec"><td colspan="5"><b>${s.n}</b><span>${s.inc}</span></td></tr>`);
+  s.filas.forEach(r=>tb.insertAdjacentHTML("beforeend",`<tr class="${r.star?"star":""}"><td><span class="n">${r.n}</span>${r.d?`<span class="d">${r.d}</span>`:""}</td>`+
+   T.map((z,i)=>`<td class="c" data-col="${i}"><button type="button" data-id="${r.id}" data-t="${i}" aria-label="${r.n}, talla ${z[0]}, ${f(r.p[i])}">${f(r.p[i])}</button></td>`).join("")+`</tr>`))});
+ tb.insertAdjacentHTML("beforeend",`<tr class="sec"><td colspan="5"><b>Consulte</b><span>Se coordina y cotiza por WhatsApp</span></td></tr>`);
+ CFG.consulte.forEach(c=>tb.insertAdjacentHTML("beforeend",`<tr><td><span class="n">${c.n}</span><span class="d">${c.d}</span></td><td class="q" colspan="4">Desde <b>${f(c.desde)}</b></td></tr>`));}
+buildTable();
+$("tb").addEventListener("click",e=>{const b=e.target.closest("button[data-id]");if(!b)return;lines.push({id:b.dataset.id,t:+b.dataset.t});draw()});
+$("promos").addEventListener("click",e=>{const b=e.target.closest("button[data-p]");if(!b)return;const i=lines.findIndex(l=>l.id===b.dataset.p&&l.t===t);if(i>=0)lines.splice(i,1);else lines.push({id:b.dataset.p,t});draw()});
+$("ln").addEventListener("click",e=>{const b=e.target.closest("button[data-i]");if(!b)return;lines.splice(+b.dataset.i,1);draw()});
+$("clr").onclick=()=>{lines=[];draw()};$("tg").onclick=()=>{$("ln").hidden=!$("ln").hidden};$("ag").href=CFG.agenda;
+function draw(){
+ [...$("seg").children].forEach((b,i)=>b.setAttribute("aria-pressed",i===t));
+ [...$("hd").children].forEach((th,i)=>th.classList.toggle("on",i-1===t));
+ document.querySelectorAll("td.c").forEach(td=>td.classList.toggle("on",+td.dataset.col===t));
+ $("promos").innerHTML=CFG.promos.map((p,k)=>{const inCart=lines.some(l=>l.id===p.id&&l.t===t);
+  return `<article class="promo ${k===0?"star":""}"><span class="tag">${p.tag}</span><h3>${p.n}</h3><div class="sub">${p.sub}</div>
+  <div class="price"><span class="big">${f(p.p[t])}</span>${p.antes?`<s>${f(p.antes[t])}</s><span class="save">Ahorras ${f(p.antes[t]-p.p[t])}</span>`:""}</div>
+  <ul>${p.inc.map(x=>`<li>${x}</li>`).join("")}</ul>
+  <div class="mini">${T.map((z,i)=>`<div class="${i===t?"on":""}"><b>${z[0]}</b>${f(p.p[i])}</div>`).join("")}</div>
+  <div class="foot"><span class="note">${p.nota}</span><button type="button" class="add ${inCart?"in":""}" data-p="${p.id}">${inCart?"✓ Agregada":"Agregar a mi cotización"}</button></div></article>`}).join("");
+ document.querySelectorAll("td.c button").forEach(b=>{const n=lines.filter(l=>l.id===b.dataset.id&&l.t==b.dataset.t).length;b.classList.toggle("sel",n>0);b.innerHTML=f(items[b.dataset.id].p[b.dataset.t])+(n>1?`<b>×${n}</b>`:"")});
+ const tot=lines.reduce((a,l)=>a+items[l.id].p[l.t],0),k=lines.length;
+ $("tot").textContent=f(tot);
+ $("sum").textContent=k?`${k} servicio${k>1?"s":""} · reserva ${f(Math.round(tot*.3))}`:"Elige una promoción o toca un precio";
+ $("ln").innerHTML=lines.map((l,i)=>{const r=items[l.id];return `<li><span>${r.n} · talla ${T[l.t][0]}</span><span>${f(r.p[l.t])}</span><button type="button" data-i="${i}" aria-label="Quitar">−</button></li>`}).join("");
+ const msg="Hola Lavame por fa, quiero cotizar:\n"+lines.map(l=>`- ${items[l.id].n} (talla ${T[l.t][0]}): ${f(items[l.id].p[l.t])}`).join("\n")+`\nTotal: ${f(tot)}`;
+ $("wa").href=`https://wa.me/${CFG.wa}?text=${encodeURIComponent(msg)}`;
+}
+draw();
+</script>
+</body></html>
