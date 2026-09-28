@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reserva tu hora | Lavame x Fa</title>
+<meta name="description" content="Lavado y detailing premium en Huechuraba. Local en Pedro Fontova 7580 y a domicilio 24/7. Reserva en 1 minuto.">
+<link rel="icon" href="https://lavamexfa.com/logo.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#121416;--panel:#1A1D20;--panel2:#22262A;--line:#2F3439;--ink:#F2EEE6;--mut:#9BA3AA;--acc:#39B4E6;--gold:#E8B84A;--ok:#6BD3A0;--disp:"Barlow Condensed","Arial Narrow",sans-serif;--body:"Barlow",system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.45}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+header.top{position:sticky;top:0;z-index:20;background:rgba(18,20,22,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--disp);font-size:22px;font-weight:800;letter-spacing:.5px}
+.brand img{width:38px;height:38px;border-radius:50%;object-fit:cover}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:700;border-radius:12px;padding:12px 18px;font-size:15px;border:0;cursor:pointer;transition:transform .15s}
+.btn:active{transform:scale(.97)}
+.btn-acc{background:var(--acc);color:#04202C}
+.btn-gold{background:var(--gold);color:#2A1C00}
+.btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.hero{position:relative;min-height:78vh;display:flex;align-items:flex-end;overflow:hidden}
+.hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.45)}
+.hero .wrap{position:relative;padding-top:80px;padding-bottom:40px}
+.tag{display:inline-block;background:rgba(57,180,230,.15);color:var(--acc);border:1px solid rgba(57,180,230,.4);padding:5px 12px;border-radius:99px;font-size:13px;font-weight:600;margin-bottom:14px}
+h1{font-family:var(--disp);font-size:clamp(40px,8vw,72px);line-height:.95;font-weight:800;text-transform:uppercase}
+h1 span{color:var(--gold)}
+.hero p{font-size:18px;color:#d9d4ca;max-width:560px;margin:16px 0 22px}
+.hero .cta{display:flex;gap:10px;flex-wrap:wrap}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}
+.chip{background:rgba(0,0,0,.45);border:1px solid var(--line);padding:7px 12px;border-radius:10px;font-size:14px}
+section{padding:56px 0}
+h2{font-family:var(--disp);font-size:clamp(30px,5vw,42px);font-weight:800;text-transform:uppercase;line-height:1}
+.sub{color:var(--mut);margin:8px 0 26px;font-size:16px}
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.mode{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.mode img{width:100%;height:170px;object-fit:cover}
+.mode .in{padding:16px}
+.mode h3{font-family:var(--disp);font-size:24px;text-transform:uppercase}
+.mode p{color:var(--mut);font-size:15px;margin-top:4px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;counter-reset:s}
+.step{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px}
+.step b{display:block;font-family:var(--disp);font-size:34px;color:var(--acc);line-height:1}
+.step span{font-weight:600}
+.sizes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px;position:sticky;top:60px;z-index:10;background:var(--bg);padding:10px 0}
+.sz{flex:1;min-width:120px;background:var(--panel);border:1px solid var(--line);color:var(--ink);border-radius:12px;padding:10px;font-weight:700;cursor:pointer;font-family:var(--body);font-size:15px}
+.sz small{display:block;color:var(--mut);font-weight:500;font-size:12px}
+.sz.on{border-color:var(--acc);background:rgba(57,180,230,.12)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
+.card.star{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
+.card .ph{position:relative;height:190px}
+.card .ph img{width:100%;height:100%;object-fit:cover}
+.badge{position:absolute;top:10px;left:10px;background:var(--gold);color:#2A1C00;font-weight:800;font-size:12px;padding:5px 10px;border-radius:8px;text-transform:uppercase}
+.badge.b2{background:var(--acc);color:#04202C}
+.card .in{padding:16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.card h3{font-family:var(--disp);font-size:24px;text-transform:uppercase;line-height:1.05}
+.card .d{color:var(--mut);font-size:14.5px}
+.card ul{list-style:none;font-size:14px;color:#cfd4d8}
+.card li::before{content:"✓ ";color:var(--ok);font-weight:700}
+.price{display:flex;align-items:baseline;gap:8px;margin-top:auto;padding-top:8px}
+.price .n{font-family:var(--disp);font-size:34px;font-weight:800}
+.price .o{color:var(--mut);text-decoration:line-through}
+.time{font-size:13px;color:var(--mut)}
+.acts{display:flex;gap:8px}
+.acts .btn{flex:1;padding:11px 10px;font-size:14px}
+.extras{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.ex{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;justify-content:space-between;gap:10px;font-size:15px}
+.ex b{white-space:nowrap}
+.biz{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.biz .card .ph{height:220px}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.gal img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px}
+.map{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px;display:grid;gap:12px}
+footer{border-top:1px solid var(--line);padding:30px 0 100px;color:var(--mut);font-size:14px;text-align:center}
+.float{position:fixed;left:0;right:0;bottom:0;z-index:30;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(18,20,22,.95);border-top:1px solid var(--line);display:flex;gap:10px;max-width:1080px;margin:0 auto}
+.float .btn{flex:1}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="wrap">
+  <a class="brand" href="https://lavamexfa.com"><img src="https://lavamexfa.com/logo.jpg" alt="Lavame x Fa">LAVAME X FA</a>
+  <a class="btn btn-acc" href="https://reservasimple.com/lavamexfa" target="_blank" rel="noopener">Reservar</a>
+</div></header>
+
+<div class="hero">
+  <img class="bg" src="https://lavamexfa.com/eco19.jpg" alt="Auto con brillo espejo después del sellado cerámico">
+  <div class="wrap">
+    <span class="tag">⭐ Sellado cerámico listo el mismo día</span>
+    <h1>Tu auto <span>como nuevo</span>,<br>sin perder tu día</h1>
+    <p>Lavado y detailing premium en Huechuraba. Vienes a nuestro local o vamos donde estés. Tú eliges, nosotros nos encargamos.</p>
+    <div class="cta">
+      <a class="btn btn-gold" href="#servicios">Ver servicios y precios</a>
+      <a class="btn btn-ghost" id="waHero" href="#" target="_blank" rel="noopener">Cotizar por WhatsApp</a>
+    </div>
+    <div class="chips">
+      <span class="chip">📍 Pedro Fontova 7580, Huechuraba</span>
+      <span class="chip">🕘 Lun a dom · 9 a 22 h</span>
+      <span class="chip">🚗 Domicilio 24/7</span>
+    </div>
+  </div>
+</div>
+
+<section><div class="wrap">
+  <h2>Elige cómo te acomoda</h2>
+  <p class="sub">Mismo equipo, mismos productos profesionales, donde tú prefieras.</p>
+  <div class="modes">
+    <div class="mode"><img src="https://lavamexfa.com/det01.jpg" alt="Local Lavame x Fa en Huechuraba"><div class="in"><h3>📍 En nuestro local</h3><p>Pedro Fontova 7580, Huechuraba. Lunes a domingo de 9 a 22 h. Dejas el auto y lo retiras impecable.</p></div></div>
+    <div class="mode"><img src="https://lavamexfa.com/eco16.jpg" alt="Lavado a domicilio"><div class="in"><h3>🏠 A domicilio 24/7</h3><p>Vamos a tu casa u oficina en Huechuraba, Chicureo, La Dehesa, Vitacura, Las Condes y alrededores. Horario a convenir.</p></div></div>
+    <div class="mode"><img src="https://lavamexfa.com/condominio.jpg" alt="Lavado en condominios y empresas"><div class="in"><h3>🏢 Condominios y empresas</h3><p>Más de 4 autos en un mismo punto tienen descuento. Planes para flotas y estacionamientos.</p></div></div>
+  </div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
+  <h2>Reservar es así de simple</h2>
+  <p class="sub">En 1 minuto y desde el celular.</p>
+  <div class="steps">
+    <div class="step"><b>1</b><span>Elige el tamaño de tu auto</span><p class="time">Citycar, sedán, SUV o pickup</p></div>
+    <div class="step"><b>2</b><span>Escoge tu servicio</span><p class="time">Verás el precio exacto al tiro</p></div>
+    <div class="step"><b>3</b><span>Elige día y hora</span><p class="time">Local o domicilio</p></div>
+    <div class="step"><b>4</b><span>Asegura tu cupo con el 30%</span><p class="time">Mercado Pago, transferencia o efectivo</p></div>
+  </div>
+</div></section>
+
+<section id="servicios" style="padding-top:0"><div class="wrap">
+  <h2>Servicios y precios</h2>
+  <p class="sub">Toca el tamaño de tu auto y los precios se ajustan solos.</p>
+  <div class="sizes" id="sizes">
+    <button class="sz on" data-i="0">Citycar<small>Swift, Morning, Yaris</small></button>
+    <button class="sz" data-i="1">Sedán<small>Corolla, Elantra, Civic</small></button>
+    <button class="sz" data-i="2">SUV<small>CX-5, Tucson, RAV4</small></button>
+    <button class="sz" data-i="3">Pickup<small>Hilux, L200, Ranger</small></button>
+  </div>
+  <div class="grid" id="grid"></div>
+
+  <h2 style="margin-top:44px;font-size:30px">Súmale a tu servicio</h2>
+  <p class="sub">Adicionales que hacen la diferencia (precio según tamaño elegido).</p>
+  <div class="extras" id="extras"></div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
+  <h2>Resultados reales</h2>
+  <p class="sub">Autos de nuestros clientes. Así quedan.</p>
+  <div class="gal">
+    <img src="https://lavamexfa.com/eco12.jpg" alt="Porsche negro lavado" loading="lazy">
+    <img src="https://lavamexfa.com/eco09.jpg" alt="Interior de cuero beige limpio" loading="lazy">
+    <img src="https://lavamexfa.com/clip11.jpg" alt="Porsche azul con brillo" loading="lazy">
+    <img src="https://lavamexfa.com/det11.jpg" alt="SUV azul detallado" loading="lazy">
+    <img src="https://lavamexfa.com/eco21.jpg" alt="Interior de cuero negro" loading="lazy">
+    <img src="https://lavamexfa.com/det07.jpg" alt="SUV blanco lavado" loading="lazy">
+    <img src="https://lavamexfa.com/clip04.jpg" alt="Interior premium" loading="lazy">
+    <img src="https://lavamexfa.com/eco18.jpg" alt="Auto gris listo" loading="lazy">
+  </div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
+  <div class="map">
+    <h2 style="font-size:30px">📍 Visítanos</h2>
+    <p><b>Pedro Fontova 7580, Huechuraba</b><br>Lunes a domingo, de 9:00 a 22:00 h</p>
+    <div class="acts">
+      <a class="btn btn-acc" href="https://www.google.com/maps/search/?api=1&query=Pedro+Fontova+7580+Huechuraba" target="_blank" rel="noopener">Cómo llegar</a>
+      <a class="btn btn-ghost" href="https://wa.me/56987709905" target="_blank" rel="noopener">WhatsApp</a>
+    </div>
+  </div>
+</div></section>
+
+<footer>Lavame x Fa · Cuidado profesional para tu auto · +56 9 8770 9905<br>Precios referenciales, se confirman al ver el auto.</footer>
+
+<div class="float">
+  <a class="btn btn-ghost" id="waFloat" href="#" target="_blank" rel="noopener">💬 Cotizar</a>
+  <a class="btn btn-gold" href="https://reservasimple.com/lavamexfa" target="_blank" rel="noopener">📅 Reservar ahora</a>
+</div>
+
+<script>
+const R="https://reservasimple.com/lavamexfa",W="56987709905",IMG="https://lavamexfa.com/";
+const SZ=["citycar","sedán","SUV","pickup"];
+const S=[
+ {n:"Sellado cerámico 6 a 12 meses",img:"clip11.jpg",star:"⭐ Producto estrella",d:"Brillo espejo que repele agua y suciedad. Tu auto se lava fácil por meses.",l:["Pulido en 3 pasos","Cerámico en carrocería y vidrios","Ruedas de regalo","Listo el mismo día"],p:[100000,120000,140000,160000],t:"El auto queda el día"},
+ {n:"Detailing Pro: exterior + interior full",img:"clip04.jpg",star:"🔥 Promo lanzamiento",b2:1,d:"El paquete completo: tu auto por dentro y por fuera como recién salido de la automotora.",l:["Sellado cerámico exterior","Interior full con vapor","Listo el mismo día"],p:[150000,175000,210000,240000],o:[180000,210000,250000,290000],t:"El auto queda el día"},
+ {n:"Lavado simple con aspirado",img:"eco04.jpg",d:"El clásico bien hecho: exterior e interior simple, rápido y sin rayar.",l:["Carrocería, vidrios y llantas","Aspirado completo","Tablero y consola"],p:[27000,30000,35000,40000],t:"Aprox. 1 hora"},
+ {n:"Interior full",img:"eco09.jpg",d:"Limpieza profunda de todo el interior, en tapiz o cuero. Chao manchas y olores.",l:["Cielo, asientos y alfombras","Puertas, tablero y ductos","Maletero"],p:[80000,90000,110000,130000],t:"Aprox. 3 horas"},
+ {n:"Solo exterior",img:"det11.jpg",d:"Para cuando el auto está limpio por dentro y solo necesita brillar por fuera.",l:["Carrocería","Vidrios","Llantas"],p:[16000,18000,21000,24000],t:"Aprox. 45 min"},
+ {n:"Lavado ecológico sin agua",img:"eco16.jpg",d:"Ideal para condominios y oficinas: no mojamos el piso ni necesitamos manguera.",l:["Productos biodegradables","Sin manchar estacionamientos","Perfecto para varios autos"],p:[20000,22000,25000,30000],t:"Aprox. 1 hora"},
+ {n:"Cerámico 3 años",img:"eco12.jpg",d:"Protección de larga duración con acabado espejo profundo.",l:["Corrección de pintura","Cerámico profesional","Protección UV"],p:[125000,150000,175000,200000],t:"El auto queda el día"},
+ {n:"Grafeno 5 años",img:"eco23.jpg",d:"Lo máximo en protección: brillo intenso y resistencia por años.",l:["Corrección de pintura completa","Recubrimiento de grafeno","Máxima durabilidad"],p:[150000,180000,200000,250000],t:"El auto queda 2 días"}
+];
+const E=[["Pulido y sellado de focos (par)",[40000,50000,60000,70000]],["Sellado cerámico de llantas",[30000,40000,60000,70000]],["Sellado de plásticos",[20000,30000,40000,50000]],["Sellado de neumáticos",[30000,30000,40000,50000]],["Lavado de motor con vapor",[40000,40000,50000,60000]],["Interior por zona: alfombras",[25000,25000,30000,40000]],["Interior por zona: cielo",[20000,20000,25000,30000]],["Interior por zona: puertas",[20000,20000,25000,30000]],["Interior por zona: maletero",[20000,20000,30000,40000]],["Lavado de chasis con vapor",null]];
+const f=n=>"$"+n.toLocaleString("es-CL");
+const wa=t=>"https://wa.me/"+W+"?text="+encodeURIComponent(t);
+let i=0;
+function render(){
+ document.getElementById("grid").innerHTML=S.map(s=>`
+ <div class="card${s.star&&!s.b2?' star':''}">
+  <div class="ph"><img src="${IMG+s.img}" alt="${s.n}" loading="lazy">${s.star?`<span class="badge${s.b2?' b2':''}">${s.star}</span>`:''}</div>
+  <div class="in"><h3>${s.n}</h3><p class="d">${s.d}</p><ul>${s.l.map(x=>`<li>${x}</li>`).join('')}</ul>
+  <div class="price"><span class="n">${f(s.p[i])}</span>${s.o?`<span class="o">${f(s.o[i])}</span>`:''}</div>
+  <p class="time">${SZ[i]} · ${s.t}</p>
+  <div class="acts"><a class="btn btn-ghost" target="_blank" rel="noopener" href="${wa(`Hola! Quiero cotizar ${s.n} para mi ${SZ[i]} (${f(s.p[i])}). ¿Tienen hora?`)}">Consultar</a><a class="btn btn-acc" target="_blank" rel="noopener" href="${R}">Reservar</a></div>
+  </div></div>`).join("");
+ document.getElementById("extras").innerHTML=E.map(e=>`<div class="ex"><span>${e[0]}</span><b>${e[1]?f(e[1][i]):'desde $60.000'}</b></div>`).join("");
+ const m=wa(`Hola! Tengo un ${SZ[i]} y quiero cotizar un servicio en Lavame x Fa.`);
+ document.getElementById("waHero").href=m;document.getElementById("waFloat").href=m;
+}
+document.getElementById("sizes").addEventListener("click",e=>{const b=e.target.closest(".sz");if(!b)return;i=+b.dataset.i;document.querySelectorAll(".sz").forEach(x=>x.classList.toggle("on",x===b));render();});
+render();
+</script>
+</body>
+</html>
