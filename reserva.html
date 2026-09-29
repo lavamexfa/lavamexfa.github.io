@@ -78,13 +78,43 @@ h2{font-family:var(--disp);font-size:clamp(30px,5vw,42px);font-weight:800;text-t
 footer{border-top:1px solid var(--line);padding:30px 0 100px;color:var(--mut);font-size:14px;text-align:center}
 .float{position:fixed;left:0;right:0;bottom:0;z-index:30;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(18,20,22,.95);border-top:1px solid var(--line);display:flex;gap:10px;max-width:1080px;margin:0 auto}
 .float .btn{flex:1}
+.bk{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.65);display:none;align-items:flex-end;justify-content:center}
+.bk.on{display:flex}
+.bk .sh{background:var(--panel);border:1px solid var(--line);border-radius:20px 20px 0 0;width:100%;max-width:560px;max-height:92vh;overflow:auto;padding:18px 16px calc(20px + env(safe-area-inset-bottom))}
+.bk .hd{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:12px}
+.bk .hd h3{font-family:var(--disp);font-size:26px;text-transform:uppercase;line-height:1}
+.bk .hd p{color:var(--mut);font-size:14px;margin-top:4px}
+.bk .x{background:var(--panel2);border:1px solid var(--line);color:var(--ink);border-radius:10px;width:38px;height:38px;font-size:18px;cursor:pointer;flex:none}
+.bk .lb{font-weight:700;font-size:15px;margin:14px 0 8px}
+.bk .opts{display:flex;gap:8px}
+.bk .op{flex:1;background:var(--panel2);border:1px solid var(--line);color:var(--ink);border-radius:12px;padding:12px 8px;font-weight:700;font-family:var(--body);font-size:15px;cursor:pointer}
+.bk .op small{display:block;color:var(--mut);font-weight:500;font-size:12px}
+.bk .op.on{border-color:var(--acc);background:rgba(57,180,230,.14)}
+.bk .days{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
+.bk .dy{flex:none;width:64px;background:var(--panel2);border:1px solid var(--line);color:var(--ink);border-radius:12px;padding:8px 4px;text-align:center;cursor:pointer;font-family:var(--body)}
+.bk .dy b{display:block;font-family:var(--disp);font-size:24px;line-height:1.1}
+.bk .dy small{display:block;font-size:11px;color:var(--mut);text-transform:uppercase}
+.bk .dy.on{border-color:var(--acc);background:rgba(57,180,230,.14)}
+.bk .dy.off{opacity:.35;pointer-events:none}
+.bk .hrs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.bk .hr{background:var(--panel2);border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:10px 0;font-weight:700;font-family:var(--body);font-size:15px;cursor:pointer}
+.bk .hr.on{background:var(--acc);color:#04202C;border-color:var(--acc)}
+.bk input,.bk textarea{width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:12px;font-size:16px;font-family:var(--body);margin-bottom:8px}
+.bk .msg{color:var(--mut);font-size:14px;padding:10px 0}
+.bk .err{color:#ff8a80;font-size:14px;padding:6px 0}
+.bk .sum{background:var(--panel2);border:1px dashed var(--line);border-radius:12px;padding:12px;font-size:15px;margin-top:14px}
+.bk .go{width:100%;margin-top:12px;font-size:17px;padding:15px}
+.bk .go:disabled{opacity:.45}
+.bk .alt{display:block;text-align:center;color:var(--mut);font-size:13px;margin-top:12px;text-decoration:underline}
+.bk .ok{text-align:center;padding:10px 0}
+.bk .ok .big{font-size:54px}
 </style>
 </head>
 <body>
 
 <header class="top"><div class="wrap">
   <a class="brand" href="https://lavamexfa.com"><img src="https://lavamexfa.com/logo.jpg" alt="Lavame x Fa">LAVAME X FA</a>
-  <a class="btn btn-acc" href="https://reservasimple.com/lavamexfa" target="_blank" rel="noopener">Reservar</a>
+  <a class="btn btn-acc" href="#servicios">Reservar</a>
 </div></header>
 
 <div class="hero">
@@ -121,8 +151,8 @@ footer{border-top:1px solid var(--line);padding:30px 0 100px;color:var(--mut);fo
   <div class="steps">
     <div class="step"><b>1</b><span>Elige el tamaño de tu auto</span><p class="time">Citycar, sedán, SUV o pickup</p></div>
     <div class="step"><b>2</b><span>Escoge tu servicio</span><p class="time">Verás el precio exacto al tiro</p></div>
-    <div class="step"><b>3</b><span>Elige día y hora</span><p class="time">Local o domicilio</p></div>
-    <div class="step"><b>4</b><span>Asegura tu cupo con el 30%</span><p class="time">Mercado Pago, transferencia o efectivo</p></div>
+    <div class="step"><b>3</b><span>Elige día y hora libre</span><p class="time">Local o domicilio, ves los cupos en vivo</p></div>
+    <div class="step"><b>4</b><span>Pones tu nombre y listo</span><p class="time">Queda agendado al tiro · pagas al terminar</p></div>
   </div>
 </div></section>
 
@@ -172,8 +202,29 @@ footer{border-top:1px solid var(--line);padding:30px 0 100px;color:var(--mut);fo
 
 <div class="float">
   <a class="btn btn-ghost" id="waFloat" href="#" target="_blank" rel="noopener">💬 Cotizar</a>
-  <a class="btn btn-gold" href="https://reservasimple.com/lavamexfa" target="_blank" rel="noopener">📅 Reservar ahora</a>
+  <a class="btn btn-gold" href="#servicios">📅 Reservar ahora</a>
 </div>
+
+<div class="bk" id="bk" aria-hidden="true"><div class="sh" role="dialog" aria-label="Reservar hora">
+  <div class="hd"><div><h3 id="bkT">Reservar</h3><p id="bkS"></p></div><button class="x" id="bkX" aria-label="Cerrar">✕</button></div>
+  <div id="bkBody">
+    <div class="lb">1. ¿Dónde lo hacemos?</div>
+    <div class="opts" id="bkMode"></div>
+    <div class="lb">2. Elige el día</div>
+    <div class="days" id="bkDays"><div class="msg">Cargando horas libres…</div></div>
+    <div class="lb">3. Elige la hora</div>
+    <div class="hrs" id="bkHrs"><div class="msg" style="grid-column:1/-1">Primero elige un día.</div></div>
+    <div class="lb">4. Tus datos</div>
+    <input id="bkN" placeholder="Nombre y apellido" autocomplete="name">
+    <input id="bkP" type="tel" placeholder="WhatsApp (ej: 9 1234 5678)" autocomplete="tel">
+    <input id="bkE" type="email" placeholder="Correo (te llega la confirmación)" autocomplete="email">
+    <textarea id="bkA" rows="2" placeholder="Dirección y comuna (solo si es a domicilio) / modelo del auto"></textarea>
+    <div class="sum" id="bkSum"></div>
+    <div class="err" id="bkErr"></div>
+    <button class="btn btn-gold go" id="bkGo" disabled>Confirmar reserva</button>
+    <a class="alt" id="bkAlt" target="_blank" rel="noopener">¿Problemas? Reserva en la agenda completa</a>
+  </div>
+</div></div>
 
 <script>
 const R="https://reservasimple.com/lavamexfa",W="56987709905",IMG="https://lavamexfa.com/";
@@ -193,13 +244,13 @@ const f=n=>"$"+n.toLocaleString("es-CL");
 const wa=t=>"https://wa.me/"+W+"?text="+encodeURIComponent(t);
 let i=0;
 function render(){
- document.getElementById("grid").innerHTML=S.map(s=>`
+ document.getElementById("grid").innerHTML=S.map((s,k)=>`
  <div class="card${s.star&&!s.b2?' star':''}">
   <div class="ph"><img src="${IMG+s.img}" alt="${s.n}" loading="lazy">${s.star?`<span class="badge${s.b2?' b2':''}">${s.star}</span>`:''}</div>
   <div class="in"><h3>${s.n}</h3><p class="d">${s.d}</p><ul>${s.l.map(x=>`<li>${x}</li>`).join('')}</ul>
   <div class="price"><span class="n">${f(s.p[i])}</span>${s.o?`<span class="o">${f(s.o[i])}</span>`:''}</div>
   <p class="time">${SZ[i]} · ${s.t}</p>
-  <div class="acts"><a class="btn btn-ghost" target="_blank" rel="noopener" href="${wa(`Hola! Quiero cotizar ${s.n} para mi ${SZ[i]} (${f(s.p[i])}). ¿Tienen hora?`)}">Consultar</a><a class="btn btn-acc" target="_blank" rel="noopener" href="${R}?serviceId=${s.id}">Reservar</a></div>
+  <div class="acts"><a class="btn btn-ghost" target="_blank" rel="noopener" href="${wa(`Hola! Quiero cotizar ${s.n} para mi ${SZ[i]} (${f(s.p[i])}). ¿Tienen hora?`)}">Consultar</a><a class="btn btn-acc" target="_blank" rel="noopener" data-k="${k}" href="${R}?serviceId=${s.id}">Reservar</a></div>
   </div></div>`).join("");
  document.getElementById("extras").innerHTML=E.map(e=>`<div class="ex"><span>${e[0]}</span><b>${e[1]?f(e[1][i]):'desde $60.000'}</b></div>`).join("");
  const m=wa(`Hola! Tengo un ${SZ[i]} y quiero cotizar un servicio en Lavame x Fa.`);
@@ -207,6 +258,109 @@ function render(){
 }
 document.getElementById("sizes").addEventListener("click",e=>{const b=e.target.closest(".sz");if(!b)return;i=+b.dataset.i;document.querySelectorAll(".sz").forEach(x=>x.classList.toggle("on",x===b));render();});
 render();
+/* ===== Reserva dentro de la página (usa la agenda ReservaSimple) ===== */
+const API="https://api.reservasimple.com",STORE=7416,TZ="America/Santiago",HOOK="https://hook.us2.make.com/61ed6l8jqupcrp1w3rb7jv4vsrplabak";
+const $=id=>document.getElementById(id);
+const DN=["Dom","Lun","Mar","Mié","Jue","Vie","Sáb"],MN=["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+const WD=["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
+let B={};
+const p2=n=>String(n).padStart(2,"0");
+const toMin=t=>{const[a,b]=t.split(":").map(Number);return a*60+b};
+const beMs=(d,t)=>{const[y,m,dd]=d.split("-").map(Number);return Date.UTC(y,m-1,dd)+toMin(t)*6e4+3*36e5};/* agenda en hora Argentina (UTC-3) */
+const fmtBe=ms=>{const x=new Date(ms-3*36e5);return{d:`${x.getUTCFullYear()}-${p2(x.getUTCMonth()+1)}-${p2(x.getUTCDate())}`,t:`${p2(x.getUTCHours())}:${p2(x.getUTCMinutes())}`,w:x.getUTCDay()}};
+const fmtSt=ms=>{const o={};new Intl.DateTimeFormat("en-CA",{timeZone:TZ,year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",hourCycle:"h23",weekday:"short"}).formatToParts(new Date(ms)).forEach(x=>o[x.type]=x.value);return{d:`${o.year}-${o.month}-${o.day}`,t:`${o.hour}:${o.minute}`}};
+const arr=v=>typeof v==="string"?JSON.parse(v||"[]"):(v||[]);
+function openBk(k){
+ $("bkBody").innerHTML=BODY;const s=S[k];B={s,k,sz:i,staff:null,day:null,time:null,slots:{}};
+ $("bkT").textContent=s.n;$("bkS").textContent=`${SZ[i]} · ${f(s.p[i])} · ${s.t}`;
+ $("bkAlt").href=`${R}?serviceId=${s.id}`;$("bkErr").textContent="";
+ $("bkMode").innerHTML='<div class="msg">Cargando…</div>';$("bkDays").innerHTML="";$("bkHrs").innerHTML='<div class="msg" style="grid-column:1/-1">Primero elige un día.</div>';
+ $("bk").classList.add("on");$("bk").setAttribute("aria-hidden","false");document.body.style.overflow="hidden";upd();
+ fetch(`${API}/public/store/${STORE}/service/${s.id}/staff`).then(r=>r.json()).then(st=>{
+  B.staffs=st;$("bkMode").innerHTML=st.map((x,j)=>{const loc=/local/i.test(x.name);return`<button class="op" data-j="${j}">${x.name}<small>${loc?"Pedro Fontova 7580":"Vamos donde estés"}</small></button>`}).join("");
+  if(st.length===1)pickStaff(0);else{$("bkDays").innerHTML='<div class="msg">Elige local o domicilio para ver las horas libres.</div>'}
+ }).catch(()=>fail());
+}
+function fail(){$("bkMode").innerHTML="";$("bkDays").innerHTML='<div class="err">No pudimos cargar la agenda. Usa el enlace de abajo o escríbenos por WhatsApp.</div>'}
+function closeBk(){$("bk").classList.remove("on");$("bk").setAttribute("aria-hidden","true");document.body.style.overflow=""}
+async function pickStaff(j){
+ B.staff=B.staffs[j];B.day=null;B.time=null;
+ document.querySelectorAll("#bkMode .op").forEach(x=>x.classList.toggle("on",+x.dataset.j===j));
+ $("bkDays").innerHTML='<div class="msg">Buscando horas libres…</div>';$("bkHrs").innerHTML="";upd();
+ try{
+  const now=new Date(),ms=[];for(let a=0;a<2;a++){const d=new Date(now.getFullYear(),now.getMonth()+a,1);ms.push([d.getMonth()+1,d.getFullYear()])}
+  const res=await Promise.all(ms.map(([m,y])=>fetch(`${API}/public/store/${STORE}/availability?serviceId=${B.s.id}&staffId=${B.staff.id}&month=${m}&year=${y}`).then(r=>r.json())));
+  B.slots=calc(res);drawDays();
+ }catch(e){fail()}
+}
+function calc(res){
+ const a=res[0],dur=a.serviceDuration||60,step=a.timeSlotDuration||30,cap=a.maxCapacity||1;
+ const sv=arr(a.serviceSchedules),sf=arr(a.staffSchedules);
+ const busy=[],exc=[];
+ res.forEach(r=>{arr(r.bookings).forEach(b=>{let s=beMs(b.date,b.start_time),e=beMs(b.date,b.end_time);if(e<=s)e+=864e5;busy.push([s,e])});arr(r.exceptions).forEach(b=>{let s=beMs(b.date,b.start_time),e=beMs(b.date,b.end_time);if(e<=s)e+=864e5;exc.push([s,e])})});
+ const minT=Date.now()+(a.minBookingTime||0)*36e5,maxT=a.maxDateTime?beMs(a.maxDateTime.slice(0,10),a.maxDateTime.slice(11,16)):Date.now()+60*864e5;
+ const lim=Math.min(maxT,Date.now()+21*864e5),out={},seen=new Set();
+ for(let t0=Date.now()-864e5;t0<lim;t0+=864e5){
+  const bd=fmtBe(t0),w=WD[bd.w];
+  sv.filter(x=>x.day_of_week===w).forEach(x=>{(sf.length?sf.filter(y=>y.day_of_week===w):[{start_time:"00:00",end_time:"23:59"}]).forEach(y=>{
+   const st=Math.max(toMin(x.start_time),toMin(y.start_time)),en=Math.min(toMin(x.end_time),toMin(y.end_time));
+   for(let m=st;m<=en-dur;m+=step){
+    const s=beMs(bd.d,`${p2(Math.floor(m/60))}:${p2(m%60)}`),e=s+dur*6e4;
+    if(s<=minT||s>lim||seen.has(s))continue;
+    if(exc.some(q=>s<q[1]&&e>q[0]))continue;
+    if(busy.filter(q=>s<q[1]&&e>q[0]).length>=cap)continue;
+    seen.add(s);const sd=fmtSt(s);(out[sd.d]=out[sd.d]||[]).push({ms:s,t:sd.t});
+   }})});
+ }
+ Object.values(out).forEach(v=>v.sort((p,q)=>p.ms-q.ms));return out;
+}
+function drawDays(){
+ const ks=[],base=Date.now();for(let n=0;n<14;n++)ks.push(fmtSt(base+n*864e5).d);
+ const any=ks.some(k=>B.slots[k]);
+ if(!any){$("bkDays").innerHTML='<div class="msg">No quedan horas en los próximos 14 días. Escríbenos por WhatsApp y te buscamos un espacio.</div>';return}
+ $("bkDays").innerHTML=ks.map((k,n)=>{const[y,m,d]=k.split("-").map(Number),dt=new Date(Date.UTC(y,m-1,d,12));const c=(B.slots[k]||[]).length;return`<button class="dy${c?"":" off"}" data-k="${k}"><small>${n===0?"Hoy":n===1?"Mañana":DN[dt.getUTCDay()]}</small><b>${d}</b><small>${c?c+" hrs":"lleno"}</small></button>`}).join("");
+ const first=ks.find(k=>B.slots[k]);pickDay(first);
+}
+function pickDay(k){
+ B.day=k;B.time=null;document.querySelectorAll("#bkDays .dy").forEach(x=>x.classList.toggle("on",x.dataset.k===k));
+ $("bkHrs").innerHTML=(B.slots[k]||[]).map((x,j)=>`<button class="hr" data-j="${j}">${x.t}</button>`).join("");upd();
+}
+function pickHr(j){B.time=B.slots[B.day][j];document.querySelectorAll("#bkHrs .hr").forEach(x=>x.classList.toggle("on",+x.dataset.j===j));upd()}
+function nice(k){const[y,m,d]=k.split("-").map(Number),dt=new Date(Date.UTC(y,m-1,d,12));return`${DN[dt.getUTCDay()]} ${d} de ${MN[m-1]}`}
+function upd(){
+ const ok=B.staff&&B.time;
+ $("bkSum").innerHTML=ok?`✅ <b>${B.s.n}</b> · ${SZ[B.sz]}<br>📅 ${nice(B.day)} a las <b>${B.time.t}</b><br>${/local/i.test(B.staff.name)?"📍 Local Pedro Fontova 7580, Huechuraba":"🏠 A domicilio (te confirmamos la dirección por WhatsApp)"}<br>💵 ${f(B.s.p[B.sz])} referencial · pagas al terminar`:"Elige dónde, día y hora para ver tu resumen.";
+ $("bkGo").disabled=!ok;
+}
+async function confirmBk(){
+ const n=$("bkN").value.trim(),ph=$("bkP").value.replace(/[^\d+]/g,""),em=$("bkE").value.trim(),nt=$("bkA").value.trim();
+ const err=m=>{$("bkErr").textContent=m};
+ if(n.length<3)return err("Escribe tu nombre.");
+ if(ph.replace(/\D/g,"").length<8)return err("Escribe tu WhatsApp para confirmarte.");
+ if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em))return err("Escribe un correo válido (te llega la confirmación).");
+ if(!/local/i.test(B.staff.name)&&nt.length<5)return err("Escribe la dirección y comuna para ir a domicilio.");
+ err("");const g=$("bkGo");g.disabled=true;g.textContent="Reservando…";
+ const be=fmtBe(B.time.ms),tel=ph.startsWith("+")?ph:"+56"+ph.replace(/^56/,"");
+ const fd=new FormData();
+ [["serviceId",B.s.id],["staffId",B.staff.id],["clientName",`${n} · ${SZ[B.sz]}`],["clientEmail",em],["clientPhone",tel],["bookingDate",be.d],["startTime",be.t],["bookingSlots",JSON.stringify([{bookingDate:be.d,startTime:be.t}])],["paymentMethod","cash"]].forEach(x=>fd.append(x[0],x[1]));
+ try{
+  const r=await fetch(`${API}/public/store/${STORE}/booking`,{method:"POST",body:fd}),d=await r.json().catch(()=>({}));
+  if(!r.ok){g.disabled=false;g.textContent="Confirmar reserva";if(B.staff)pickStaff(B.staffs.indexOf(B.staff));return err((d.error||"Esa hora se acaba de ocupar.")+" Elige otra hora, por favor.")}
+  const modo=/local/i.test(B.staff.name)?"Local Pedro Fontova 7580":"A domicilio",fecha=nice(B.day),z=new Date(B.time.ms).toISOString().replace(/[-:]|\.\d{3}/g,""),z2=new Date(B.time.ms+90*6e4).toISOString().replace(/[-:]|\.\d{3}/g,"");
+  const gcal=`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("🚗 "+B.s.n+" · "+n)}&dates=${z}/${z2}&details=${encodeURIComponent(`${SZ[B.sz]} · ${f(B.s.p[B.sz])}\nCliente: ${n} ${tel}\n${nt}`)}&location=${encodeURIComponent(modo==="A domicilio"?nt:"Pedro Fontova 7580, Huechuraba")}`;
+  const wa2="https://wa.me/"+tel.replace(/\D/g,"")+"?text="+encodeURIComponent(`Hola ${n.split(" ")[0]}! Te habla Lavame x Fa. Confirmamos tu ${B.s.n} el ${fecha} a las ${B.time.t}. ¡Nos vemos!`);
+  try{fetch(HOOK,{method:"POST",mode:"no-cors",body:new URLSearchParams({nombre:n,telefono:tel,email:em,servicio:B.s.n,talla:SZ[B.sz],precio:f(B.s.p[B.sz]),modo,fecha,hora:B.time.t,nota:nt||"-",bookingId:d.bookingId||"",gcal,wa:wa2})})}catch(e){}
+  const me=wa(`Hola! Acabo de reservar ${B.s.n} para mi ${SZ[B.sz]} el ${fecha} a las ${B.time.t} (${modo}). Mi nombre es ${n}.${nt?" "+nt:""}`);
+  $("bkBody").innerHTML=`<div class="ok"><div class="big">✅</div><h3 style="font-family:var(--disp);font-size:28px;text-transform:uppercase">¡Reserva lista!</h3><p class="msg">${B.s.n} · ${SZ[B.sz]}<br><b>${fecha} a las ${B.time.t}</b><br>${modo}</p><p class="msg">Te enviamos la confirmación a tu correo. Pagas al terminar el servicio.</p><a class="btn btn-acc go" href="${me}" target="_blank" rel="noopener">💬 Avisar por WhatsApp</a></div>`;
+ }catch(e){g.disabled=false;g.textContent="Confirmar reserva";err("No se pudo conectar. Revisa tu internet o usa el enlace de abajo.")}
+}
+const BODY=$("bkBody").innerHTML;
+$("bk").addEventListener("click",e=>{const t=e.target;if(t.id==="bk"||t.closest("#bkX"))return closeBk();
+ let b;if(b=t.closest("#bkMode .op"))return pickStaff(+b.dataset.j);
+ if(b=t.closest("#bkDays .dy"))return pickDay(b.dataset.k);
+ if(b=t.closest("#bkHrs .hr"))return pickHr(+b.dataset.j);
+ if(t.closest("#bkGo"))return confirmBk();});
+$("grid").addEventListener("click",e=>{const a=e.target.closest("a[data-k]");if(!a)return;e.preventDefault();openBk(+a.dataset.k)});
 </script>
 </body>
 </html>
