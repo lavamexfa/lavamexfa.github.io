@@ -319,6 +319,11 @@ footer .fine{font-size:12px;color:#5F7168;line-height:1.7}
   <audio id="bgm" src="musica.mp3" loop preload="none"></audio>
   <button id="musicbtn" aria-label="Música Lavame x Fa"><span id="musicic">♪</span><span id="musictx">Música</span></button>
 
+  <div class="pxbar" style="display:flex;gap:8px;margin:18px var(--pad,20px) 8px;position:relative;z-index:3">
+    <a href="/precios" style="flex:1.4;display:flex;flex-direction:column;justify-content:center;background:#E8B84A;color:#2A1C00;text-decoration:none;border-radius:16px;padding:14px 16px;box-shadow:0 6px 20px rgba(232,184,74,.25)"><b style="font:800 22px/1 'Bebas Neue','Barlow Condensed',sans-serif;letter-spacing:1px">💰 VER PRECIOS</b><small style="font:600 12.5px 'Instrument Sans',sans-serif;margin-top:4px">Elige tu auto y cotiza en 2 toques</small></a>
+    <a href="/reserva.html" style="flex:1;display:flex;flex-direction:column;justify-content:center;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);color:#f4f1ea;text-decoration:none;border-radius:16px;padding:14px 14px"><b style="font:800 22px/1 'Bebas Neue','Barlow Condensed',sans-serif;letter-spacing:1px">📅 RESERVAR</b><small style="font:600 12.5px 'Instrument Sans',sans-serif;margin-top:4px;opacity:.75">En 1 minuto</small></a>
+  </div>
+
   <div class="playrow">
     <button class="playbtn" id="openvideo"><span class="pb shine">▶</span><span><b>Mira cómo funciona</b><small>40 segundos · el servicio completo, paso a paso</small></span></button>
   </div>
@@ -328,12 +333,12 @@ footer .fine{font-size:12px;color:#5F7168;line-height:1.7}
     <button class="door big" data-go="domicilio">
       <span class="bg" style="background-image:url(vanreal.jpg)"></span>
       <span class="tag eco">A domicilio</span>
-      <span class="door-in"><span><h3>Lavado ecológico</h3><small>Sin agua · sin ruido · desde $20.000</small></span><span class="arr">→</span></span>
+      <span class="door-in"><span><h3>Lavado ecológico</h3><small>Biodegradable · sin ruido · desde $16.000</small></span><span class="arr">→</span></span>
     </button>
     <button class="door big gold" data-go="detailing">
       <span class="bg" style="background-image:url(suv.jpg)"></span>
       <span class="tag">A domicilio</span>
-      <span class="door-in"><span><h3>Detailing Premium</h3><small>Interior + exterior · desde $150.000</small></span><span class="arr">→</span></span>
+      <span class="door-in"><span><h3>Detailing Premium</h3><small>Exterior + interior con detallado · desde $150.000</small></span><span class="arr">→</span></span>
     </button>
     <button class="door big" data-go="empresas">
       <span class="bg" style="background-image:url(condominio.jpg)"></span>
@@ -390,13 +395,13 @@ footer .fine{font-size:12px;color:#5F7168;line-height:1.7}
   <div class="wrap">
     <div class="mode" id="modes">
       <button class="mcard sel" data-mode="eco">
-        <span class="ic">🍃</span><span><b>Lavado ecológico</b><span>Shampoo con sellado cerámico, sin agua ni ruido</span><span class="pr">desde $20.000</span></span><span class="chk">✓</span>
+        <span class="ic">🍃</span><span><b>Lavado ecológico</b><span>Exterior o completo, productos biodegradables y sin ruido</span><span class="pr">desde $16.000</span></span><span class="chk">✓</span>
       </button>
       <button class="mcard" data-mode="full">
         <span class="ic">✨</span><span><b>Detailing interior full</b><span>Cielo, asientos, alfombras, puertas, tablero, consola, ductos y maletero</span><span class="pr">desde $80.000</span></span><span class="chk">✓</span>
       </button>
       <button class="mcard gold" data-mode="premium">
-        <span class="ic">💎</span><span><b>Detailing Pro · exterior + interior full</b><span>Sellado cerámico + interior full · promo de lanzamiento</span><span class="pr">desde $150.000 (antes $180.000)</span></span><span class="chk">✓</span>
+        <span class="ic">💎</span><span><b>Detailing Pro · exterior + interior full</b><span>Lavado exterior + interior con detallado según tu auto · promo de lanzamiento</span><span class="pr">desde $150.000 (antes $180.000)</span></span><span class="chk">✓</span>
       </button>
       <button class="mcard" data-mode="retiro">
         <span class="ic">🔑</span><span><b>Retiro y entrega</b><span>Pasamos a buscar tu auto y te lo devolvemos listo</span></span><span class="chk">✓</span>
@@ -442,7 +447,7 @@ footer .fine{font-size:12px;color:#5F7168;line-height:1.7}
     <div id="premiumbox" style="display:none">
       <div class="card gold">
         <h3 style="color:var(--oro)">Detailing Premium · desde $150.000</h3>
-        <p>Interior + exterior completo, auto chico. Es nuestro trabajo mayor: corrección, protección cerámica y registro documentado antes/después. Mira el proceso completo en la sección <b>Detailing Premium</b>.</p>
+        <p>Lavado exterior + interior completo, con detallado de interiores según tu auto (tapiz, cuero, plásticos). Desde $150.000 en citycar, con registro antes/después. Mira el proceso completo en la sección <b>Detailing Premium</b>.</p>
       </div>
       <div style="display:grid;gap:10px;margin-top:14px">
         <button class="btn gold" data-go="detailing">Ver el proceso completo →</button>
@@ -779,8 +784,8 @@ const PRECIOS = {
   extint: {S:27000, M:30000, L:35000, XL:40000},
   extdet: {S:80000, M:90000, L:110000, XL:130000}
 };
-const SZNAME = {S:"citycar", M:"sedán", L:"SUV", XL:"camioneta"};
-const LVNAME = {ext:"Solo exterior", extint:"Lavado simple con aspirado", extdet:"Detailing interior full"};
+const SZNAME = {S:"citycar", M:"sedán", L:"SUV/pickup mediana", XL:"SUV/pickup XL"};
+const LVNAME = {ext:"Lavado exterior", extint:"Lavado completo", extdet:"Detailing interior full"};
 const INC = {
   ext:    "Incluye: carrocería, vidrios y llantas por fuera.",
   extint: "Incluye: exterior + interior simple, siempre con aspirado.",
@@ -964,7 +969,7 @@ const ZONAS = [
 const ESCENAS = [
   {prop:"bote",  msg:"Con producto ecológico 🍃"},
   {prop:"gota",  msg:"¡Ahórrame! 400 L por lavado 💧"},
-  {prop:"hoja",  msg:"Sin agua, sin ruido ✦"},
+  {prop:"hoja",  msg:"Biodegradable, sin ruido ✦"},
   {prop:"brillo",msg:"Brillo de verdad ✨"},
   {prop:"reloj", msg:"Agenda con el 30% 📅"}
 ];
@@ -1029,8 +1034,8 @@ const gover = document.getElementById("gover"), gbody = document.getElementById(
 const norm = s => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
 
 const BRAIN = [
- {k:["precio","valor","cuanto","sale","cuesta","tarifa"], a:"Precios por talla (S citycar · M sedán · L SUV · XL pickup) 💚\n\nSOLO EXTERIOR: $16.000 · $18.000 · $21.000 · $24.000\nLAVADO SIMPLE con aspirado: $27.000 · $30.000 · $35.000 · $40.000\nLAVADO ECOLÓGICO: $20.000 · $22.000 · $25.000 · $30.000\nINTERIOR FULL: $80.000 · $90.000 · $110.000 · $130.000\n⭐ SELLADO CERÁMICO 6-12 meses: $100.000 · $120.000 · $140.000 · $160.000\n🔥 DETAILING PRO ext + int (promo): $150.000 · $175.000 · $210.000 · $240.000\n\nMás de 4 autos en un punto: descuento 😉 Todas las tarifas en lavamexfa.com/precios", c:["¿Cómo agendo?","Grupos de vecinos","Ir al cotizador"]},
- {k:["talla","tamano","citycar","sedan","suv","camioneta","hatchback"], a:"Las tallas son súper simples 🚗\n\nS = citycar o hatchback chico\nM = sedán\nL = SUV\nXL = camioneta o pickup\n\nSi tu auto está entre dos, dinos el modelo por WhatsApp y te lo confirmamos al tiro.", c:["Ver precios","Ir al cotizador"]},
+ {k:["precio","valor","cuanto","sale","cuesta","tarifa"], a:"Precios por tamaño (citycar · sedán · SUV/pickup mediana · SUV/pickup XL) 💚\n\nLAVADO EXTERIOR: $16.000 · $18.000 · $21.000 · $24.000\nLAVADO COMPLETO ext + int: $27.000 · $30.000 · $35.000 · $40.000\nINTERIOR FULL: $80.000 · $90.000 · $110.000 · $130.000\n⭐ SELLADO CERÁMICO 6-12 meses: $100.000 · $120.000 · $140.000 · $160.000\n🔥 DETAILING PRO ext + int con detallado (promo): $150.000 · $175.000 · $210.000 · $240.000\n\nMás de 4 autos en un punto: descuento 😉 Todas las tarifas en lavamexfa.com/precios", c:["¿Cómo agendo?","Grupos de vecinos","Ir al cotizador"]},
+ {k:["talla","tamano","citycar","sedan","suv","camioneta","hatchback"], a:"Las tallas son súper simples 🚗\n\nS = citycar o hatchback chico\nM = sedán\nL = SUV o pickup mediana (CR-V, Tucson, Hilux)\nXL = SUV o pickup grande (Tahoe, RAM, F-150)\n\nSi tu auto está entre dos, dinos el modelo por WhatsApp y te lo confirmamos al tiro.", c:["Ver precios","Ir al cotizador"]},
  {k:["ahorrame","ahorra","agua","seco","ecologic","litros","medio ambiente","sustentab","contamina","planeta"], a:"¡Ahórrame! 💧 Esa es mi frase — porque cada vez que lavas tu auto conmigo, ahorras hasta 400 litros de mí.\n\nLavamos SIN agua: nuestro shampoo trabaja con polímeros que encapsulan el polvo y lo levantan sin rayar, y deja un sellado cerámico (SiO2) que abrillanta y protege. Sin agua sucia a la calle, sin ruido. Por eso los condominios nos aman 🍃", c:["¿Raya la pintura?","Sello Espacio Verde","Colegios y talleres"]},
  {k:["colegio","escuela","educacion","taller ecologico","charla","ninos"], a:"¡Me encantan los colegios! 🏫 Llevo el mensaje \"¡Ahórrame!\" a comunidades educativas y actividades ecológicas: cómo cuidar el agua con acciones concretas que los niños entienden y repiten en la casa.\n\n¿Organizas algo en tu colegio o comunidad? Escríbenos y lo coordinamos.", c:["WhatsApp"]},
  {k:["raya","rayar","dana","pintura","seguro para","barniz","clearcoat"], a:"No raya 😊 El producto encapsula el polvo ANTES de que la microfibra lo toque, la lubricación hace el resto, y usamos un paño limpio por zona — nunca reciclamos paños entre autos.\n\nLlevamos más de 10 años perfeccionando esta técnica desde 2015. El barniz de tu auto queda más protegido después de nuestro lavado que antes (por el sellado cerámico).", c:["Ver precios","¿Cómo agendo?"]},
@@ -1038,7 +1043,7 @@ const BRAIN = [
  {k:["donde","zona","comuna","cobertura","llegan","huechuraba","quilicura","chicureo","dehesa","condes","vitacura"], a:"📍 Local en Huechuraba, abierto de lunes a domingo de 9 a 22 h.\n🚗 A domicilio 24/7, con horario a convenir: Huechuraba, Chicureo, La Dehesa, Vitacura, Las Condes y comunas cercanas.\n\n¿Otra comuna? Pregúntanos por WhatsApp, muchas veces igual llegamos.", c:["WhatsApp","Ver precios"]},
  {k:["retiro","buscar","buscan","devuelven","llaves","no estare","no estoy"], a:"¡Sí! Tenemos retiro y entrega 🔑 Pasamos a buscar tu auto, lo dejamos impecable y te lo devolvemos donde nos digas. El traslado se conversa según comuna y horario.", c:["Consultar retiro","Ver precios"]},
  {k:["empresa","oficina","trabajador","convenio","factura","flota","rrhh","recursos humanos"], a:"El servicio de empresas es nuestra especialidad 🏢 Instalamos un punto de lavado en tu estacionamiento en días fijos: tus trabajadores recuperan su fin de semana porque el auto se lava mientras trabajan.\n\nConvenio con factura, descuento por volumen (más de 4 autos en un punto), sin agua, sin ruido, sin enchufes. Y entregamos informe ecológico para tu memoria de sustentabilidad.", c:["Cotizar empresa","Sello Espacio Verde"]},
- {k:["condominio","edificio","vecino","comunidad","administra","grupo"], a:"En condominios funciona así 🏙 Los vecinos se juntan y todos pagan menos:\n\n• Más de 4 autos en un mismo punto: descuento para todos\n• Hasta 6 autos por jornada con hora reservada\n• El vecino que organiza el grupo tiene beneficio especial\n\nY como es sin agua ni ruido, la administración lo autoriza feliz.", c:["Cotizar mi edificio","Ver precios"]},
+ {k:["condominio","edificio","vecino","comunidad","administra","grupo"], a:"En condominios funciona así 🏙 Los vecinos se juntan y todos pagan menos:\n\n• Más de 4 autos en un mismo punto: descuento para todos\n• Hasta 6 autos por jornada con hora reservada\n• El vecino que organiza el grupo tiene beneficio especial\n\nY como es sin ruido y con productos biodegradables, la administración lo autoriza feliz.", c:["Cotizar mi edificio","Ver precios"]},
  {k:["sello","espacio verde","certificad","informe"], a:"El Sello Espacio Verde 🍃 certifica que tu empresa o condominio gestiona el lavado de forma ecológica. Entregamos un informe con el ahorro de agua y la gestión ambiental, listo para tu memoria de sustentabilidad. Es un plus real para la comunidad y la marca.", c:["Cotizar empresa"]},
  {k:["detailing","premium","pulido","ceramic","encerado","olor","nuevo","150","swirl","correccion"], a:"⭐ Producto estrella: sellado cerámico con pulido en 3 pasos, protección de 6 meses a 1 año, listo el mismo día. Desde $100.000 (citycar).\n\n¿Más duración? Cerámico 3 años desde $125.000 · Grafeno 5 años desde $150.000.\n🔥 Promo Detailing Pro (exterior + interior full) desde $150.000 (antes $180.000).\nInterior full solo: desde $80.000.\n\nReserva con el 30% y asegura tu cupo.", c:["Reservar cupo","Cotizar detailing","Ver el proceso"]},
  {k:["tapiz","alfombra","sillon","colchon","asiento","mancha","vapor"], a:"Tapices, alfombras, sillones y colchones se cotizan aparte, según tamaño y estado 🧽 Y para casos mayores tenemos VAPOR INDUSTRIAL: desengrase de cocinas, motores, toldos y muros con vapor seco, casi sin agua. Mándanos una foto por WhatsApp y te cotizamos al tiro.", c:["WhatsApp"]},
@@ -1121,6 +1126,5 @@ function sendG(){ const v = gin.value.trim(); if(!v) return; gin.value = ""; bra
 document.getElementById("gsend").addEventListener("click", sendG);
 gin.addEventListener("keydown", e => { if(e.key === "Enter") sendG(); });
 </script>
-<a id="preciosbtn" href="/precios" style="position:fixed;top:14px;left:14px;z-index:76;background:#E8B84A;color:#2A1C00;font:700 15px 'Instrument Sans',sans-serif;padding:9px 15px;border-radius:24px;text-decoration:none;box-shadow:0 4px 16px rgba(0,0,0,.45)">💰 Precios</a>
 </body>
 </html>
