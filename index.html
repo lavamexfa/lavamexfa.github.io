@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Lavame x Fa — Lavado ecológico premium a domicilio | Santiago</title>
-<meta name="description" content="Lavado ecológico sin agua y detailing premium a domicilio. Casas, edificios, condominios y empresas. Santiago Norte, desde 2015.">
+<meta name="description" content="Lavado ecológico con productos biodegradables y detailing premium a domicilio. Casas, edificios, condominios y empresas. Santiago Norte, desde 2015.">
 <link rel="icon" type="image/jpeg" href="logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -433,7 +433,7 @@ footer .fine{font-size:12px;color:#5F7168;line-height:1.7}
             <button class="lvl" data-lv="extdet"><span><b>Detailing interior full</b><small>Cielo, asientos, alfombras, puertas, tablero, ductos y maletero</small></span><span class="pl" data-pl="extdet"></span></button>
           </div>
         </div>
-        <div class="total"><div><p class="lbl">Total</p><p class="amt dim shine" id="amt">—</p></div><p style="font-size:12px;color:var(--mut);text-align:right">a domicilio<br>sin agua 🍃</p></div>
+        <div class="total"><div><p class="lbl">Total</p><p class="amt dim shine" id="amt">—</p></div><p style="font-size:12px;color:var(--mut);text-align:right">a domicilio<br>biodegradable 🍃</p></div>
         <p class="tinc" id="inc"></p>
         <div class="tfoot">
           <button class="btn wsp" id="wspgo"><span id="wsptxt">Pedir este lavado</span></button>
@@ -483,7 +483,7 @@ footer .fine{font-size:12px;color:#5F7168;line-height:1.7}
       <p>Instalamos el servicio en tu estacionamiento, en días fijos. Tus trabajadores recuperan su fin de semana: el auto se lava mientras ellos trabajan.</p>
       <ul>
         <li>Convenio mensual con facturación</li>
-        <li>Protocolo para recintos exigentes: sin agua, sin ruido, sin enchufes</li>
+        <li>Protocolo para recintos exigentes: sin ruido, sin enchufes y con productos biodegradables</li>
         <li>Precio preferente por volumen: más de 4 autos en un punto, descuento</li>
         <li>Coordinación directa con administración o RR.HH.</li>
       </ul>
@@ -658,7 +658,7 @@ footer .fine{font-size:12px;color:#5F7168;line-height:1.7}
     <div class="card"><h3>Clean Home 🏠</h3><p>Sillones, alfombras, colchones y tapices de tu casa, con máquina profesional y productos seguros para tu familia.</p><div class="gal" style="margin-top:14px"><img class="wide" src="clean01.jpg" alt="Clean Home" loading="lazy"><img src="clean02.jpg" alt="Clean Home" loading="lazy"><img src="clean03.jpg" alt="Clean Office" loading="lazy"></div></div>
     <div class="card"><h3>Clean Office 💼</h3><p>Sillas, alfombras y espacios de trabajo. Coordinamos fuera de horario para no interrumpir tu operación.</p></div>
     <div class="card"><h3>Limpieza express con máquina ⚡</h3><p>Intervención rápida y puntual: esa mancha, ese sillón, ese rincón. Agenda corta.</p></div>
-    <div class="card"><h3>Vapor industrial ♨️</h3><p>Desengrase y sanitizado con vapor seco de alta temperatura: cocinas y campanas, motores y bajos de vehículos, flotas, toldos, fachadas y muros. Elimina grasa, bacterias y olores de raíz, sin químicos agresivos y casi sin agua.</p><img src="vapor2.jpg" alt="Aplicaciones de vapor industrial" loading="lazy" style="border-radius:12px;border:1px solid var(--line);margin-top:14px"><img src="vapor1.jpg" alt="Vapor industrial en cocina" loading="lazy" style="border-radius:12px;border:1px solid var(--line);margin-top:10px"></div>
+    <div class="card"><h3>Vapor industrial ♨️</h3><p>Desengrase y sanitizado con vapor seco de alta temperatura: cocinas y campanas, motores y bajos de vehículos, flotas, toldos, fachadas y muros. Elimina grasa, bacterias y olores de raíz, sin químicos agresivos y con muy poca agua.</p><img src="vapor2.jpg" alt="Aplicaciones de vapor industrial" loading="lazy" style="border-radius:12px;border:1px solid var(--line);margin-top:14px"><img src="vapor1.jpg" alt="Vapor industrial en cocina" loading="lazy" style="border-radius:12px;border:1px solid var(--line);margin-top:10px"></div>
     <p class="note">Estos servicios se cotizan a medida según lo que necesites.</p>
     <button class="btn wsp" onclick="wsp('Hola! Quiero cotizar limpieza CLEAN HOME / OFFICE. Necesito: ')">Consultar por WhatsApp</button>
   </div>
@@ -1036,29 +1036,29 @@ const norm = s => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,""
 const BRAIN = [
  {k:["precio","valor","cuanto","sale","cuesta","tarifa"], a:"Precios por tamaño (citycar · sedán · SUV/pickup mediana · SUV/pickup XL) 💚\n\nLAVADO EXTERIOR: $16.000 · $18.000 · $21.000 · $24.000\nLAVADO COMPLETO ext + int: $27.000 · $30.000 · $35.000 · $40.000\nINTERIOR FULL: $80.000 · $90.000 · $110.000 · $130.000\n⭐ SELLADO CERÁMICO 6-12 meses: $100.000 · $120.000 · $140.000 · $160.000\n🔥 DETAILING PRO ext + int con detallado (promo): $150.000 · $175.000 · $210.000 · $240.000\n\nMás de 4 autos en un punto: descuento 😉 Todas las tarifas en lavamexfa.com/precios", c:["¿Cómo agendo?","Grupos de vecinos","Ir al cotizador"]},
  {k:["talla","tamano","citycar","sedan","suv","camioneta","hatchback"], a:"Las tallas son súper simples 🚗\n\nS = citycar o hatchback chico\nM = sedán\nL = SUV o pickup mediana (CR-V, Tucson, Hilux)\nXL = SUV o pickup grande (Tahoe, RAM, F-150)\n\nSi tu auto está entre dos, dinos el modelo por WhatsApp y te lo confirmamos al tiro.", c:["Ver precios","Ir al cotizador"]},
- {k:["ahorrame","ahorra","agua","seco","ecologic","litros","medio ambiente","sustentab","contamina","planeta"], a:"¡Ahórrame! 💧 Esa es mi frase — porque cada vez que lavas tu auto conmigo, ahorras hasta 400 litros de mí.\n\nLavamos SIN agua: nuestro shampoo trabaja con polímeros que encapsulan el polvo y lo levantan sin rayar, y deja un sellado cerámico (SiO2) que abrillanta y protege. Sin agua sucia a la calle, sin ruido. Por eso los condominios nos aman 🍃", c:["¿Raya la pintura?","Sello Espacio Verde","Colegios y talleres"]},
+ {k:["ahorrame","ahorra","agua","seco","ecologic","litros","medio ambiente","sustentab","contamina","planeta"], a:"¡Ahórrame! 💧 Esa es mi frase — porque cada vez que lavas tu auto conmigo, ahorras hasta 400 litros de mí.\n\nLavamos con muy poca agua y productos biodegradables: el shampoo encapsula el polvo y lo levanta sin rayar. Nada de agua sucia a la calle y sin ruido. Por eso los condominios nos aman 🍃", c:["¿Raya la pintura?","Sello Espacio Verde","Colegios y talleres"]},
  {k:["colegio","escuela","educacion","taller ecologico","charla","ninos"], a:"¡Me encantan los colegios! 🏫 Llevo el mensaje \"¡Ahórrame!\" a comunidades educativas y actividades ecológicas: cómo cuidar el agua con acciones concretas que los niños entienden y repiten en la casa.\n\n¿Organizas algo en tu colegio o comunidad? Escríbenos y lo coordinamos.", c:["WhatsApp"]},
  {k:["raya","rayar","dana","pintura","seguro para","barniz","clearcoat"], a:"No raya 😊 El producto encapsula el polvo ANTES de que la microfibra lo toque, la lubricación hace el resto, y usamos un paño limpio por zona — nunca reciclamos paños entre autos.\n\nLlevamos más de 10 años perfeccionando esta técnica desde 2015. El barniz de tu auto queda más protegido después de nuestro lavado que antes (por el sellado cerámico).", c:["Ver precios","¿Cómo agendo?"]},
  {k:["agenda","agendar","hora","reserva","cita","cuando pueden","disponib","30"], a:"Agendar es fácil y tu hora queda ASEGURADA 📅\nLocal en Huechuraba: lunes a domingo 9 a 22 h · A domicilio 24/7.\n\n1️⃣ Agenda online: eliges día y hora, reservas con solo el 30% y el resto lo pagas al recibir tu auto brillando.\n2️⃣ O escríbenos por WhatsApp y coordinamos al tiro.\n\n¿Cuál prefieres?", c:["Agenda online","WhatsApp","Ver precios"]},
  {k:["donde","zona","comuna","cobertura","llegan","huechuraba","quilicura","chicureo","dehesa","condes","vitacura"], a:"📍 Local en Huechuraba, abierto de lunes a domingo de 9 a 22 h.\n🚗 A domicilio 24/7, con horario a convenir: Huechuraba, Chicureo, La Dehesa, Vitacura, Las Condes y comunas cercanas.\n\n¿Otra comuna? Pregúntanos por WhatsApp, muchas veces igual llegamos.", c:["WhatsApp","Ver precios"]},
  {k:["retiro","buscar","buscan","devuelven","llaves","no estare","no estoy"], a:"¡Sí! Tenemos retiro y entrega 🔑 Pasamos a buscar tu auto, lo dejamos impecable y te lo devolvemos donde nos digas. El traslado se conversa según comuna y horario.", c:["Consultar retiro","Ver precios"]},
- {k:["empresa","oficina","trabajador","convenio","factura","flota","rrhh","recursos humanos"], a:"El servicio de empresas es nuestra especialidad 🏢 Instalamos un punto de lavado en tu estacionamiento en días fijos: tus trabajadores recuperan su fin de semana porque el auto se lava mientras trabajan.\n\nConvenio con factura, descuento por volumen (más de 4 autos en un punto), sin agua, sin ruido, sin enchufes. Y entregamos informe ecológico para tu memoria de sustentabilidad.", c:["Cotizar empresa","Sello Espacio Verde"]},
+ {k:["empresa","oficina","trabajador","convenio","factura","flota","rrhh","recursos humanos"], a:"El servicio de empresas es nuestra especialidad 🏢 Instalamos un punto de lavado en tu estacionamiento en días fijos: tus trabajadores recuperan su fin de semana porque el auto se lava mientras trabajan.\n\nConvenio con factura, descuento por volumen (más de 4 autos en un punto), sin ruido y sin enchufes. Y entregamos informe ecológico para tu memoria de sustentabilidad.", c:["Cotizar empresa","Sello Espacio Verde"]},
  {k:["condominio","edificio","vecino","comunidad","administra","grupo"], a:"En condominios funciona así 🏙 Los vecinos se juntan y todos pagan menos:\n\n• Más de 4 autos en un mismo punto: descuento para todos\n• Hasta 6 autos por jornada con hora reservada\n• El vecino que organiza el grupo tiene beneficio especial\n\nY como es sin ruido y con productos biodegradables, la administración lo autoriza feliz.", c:["Cotizar mi edificio","Ver precios"]},
  {k:["sello","espacio verde","certificad","informe"], a:"El Sello Espacio Verde 🍃 certifica que tu empresa o condominio gestiona el lavado de forma ecológica. Entregamos un informe con el ahorro de agua y la gestión ambiental, listo para tu memoria de sustentabilidad. Es un plus real para la comunidad y la marca.", c:["Cotizar empresa"]},
  {k:["detailing","premium","pulido","ceramic","encerado","olor","nuevo","150","swirl","correccion"], a:"⭐ Producto estrella: sellado cerámico con pulido en 3 pasos, protección de 6 meses a 1 año, listo el mismo día. Desde $100.000 (citycar).\n\n¿Más duración? Cerámico 3 años desde $125.000 · Grafeno 5 años desde $150.000.\n🔥 Promo Detailing Pro (exterior + interior full) desde $150.000 (antes $180.000).\nInterior full solo: desde $80.000.\n\nReserva con el 30% y asegura tu cupo.", c:["Reservar cupo","Cotizar detailing","Ver el proceso"]},
- {k:["tapiz","alfombra","sillon","colchon","asiento","mancha","vapor"], a:"Tapices, alfombras, sillones y colchones se cotizan aparte, según tamaño y estado 🧽 Y para casos mayores tenemos VAPOR INDUSTRIAL: desengrase de cocinas, motores, toldos y muros con vapor seco, casi sin agua. Mándanos una foto por WhatsApp y te cotizamos al tiro.", c:["WhatsApp"]},
+ {k:["tapiz","alfombra","sillon","colchon","asiento","mancha","vapor"], a:"Tapices, alfombras, sillones y colchones se cotizan aparte, según tamaño y estado 🧽 Y para casos mayores tenemos VAPOR INDUSTRIAL: desengrase de cocinas, motores, toldos y muros con vapor seco, usando muy poca agua. Mándanos una foto por WhatsApp y te cotizamos al tiro.", c:["WhatsApp"]},
  {k:["casa","hogar","home","office","limpieza de","aseo"], a:"¡También limpiamos tu espacio! 🏠 Clean Home y Clean Office: sillones, alfombras y tapices de tu casa u oficina con máquina profesional. Se cotiza a medida por WhatsApp.", c:["Ver Clean Home","WhatsApp"]},
  {k:["pago","pagar","efectivo","transferencia","tarjeta","debito","credito"], a:"Puedes pagar por transferencia o efectivo al momento del servicio 💳 Si agendas online, reservas con el 30% y el saldo lo pagas al recibir tu auto. Para empresas trabajamos con factura y convenio mensual.", c:["Agenda online","¿Cómo agendo?"]},
  {k:["demora","cuanto se demora","tiempo","dura el","duracion"], a:"Un lavado ecológico exterior toma alrededor de 40-60 minutos según tamaño y estado ⏱ Con interior, algo más. El Detailing Premium es un trabajo de varias horas — por eso se agenda con cupo especial de fin de semana.", c:["Ver precios","¿Cómo agendo?"]},
  {k:["embajador","recomendar","referido","beneficio","descuento por"], a:"El programa Embajador 🎁 es para los que nos recomiendan seguido: vecinos, conserjes, líderes de grupo. Tienen beneficios especiales por cada auto que llega gracias a ellos. Pregunta por WhatsApp y te contamos cómo funciona.", c:["WhatsApp"]},
  {k:["quienes","historia","desde cuando","anos","experiencia","porfa"], a:"Somos Lavame x Fa 💚 Todo partió el 2015 con el mensaje que la gente escribía con el dedo en los vidrios sucios: \"lávame, de porfa\". Lo tomamos en serio y lo convertimos en un oficio.\n\nMás de una década después seguimos respondiendo esa petición, auto por auto, cuidando el agua del planeta. Santiago Norte es nuestra casa.", c:["Ver galería","Ver precios"]},
  {k:["juego","jugar","gotita","premio","sorpresa","cupon"], a:"¡Tenemos un juego! 🎮 Juega conmigo y hay sorpresa para los buenos jugadores 🎁 Tócalo desde la portada: \"Juega con la Gotita\".", c:["Ver precios"]},
- {k:["hola","buenas","buenos dias","que tal","hey","wena"], a:"¡Hola! 💧 Soy la Gotita de Lavame x Fa. ¡Ahórrame! Pregúntame lo que quieras: precios, cómo lavamos sin agua, empresas, condominios, detailing… ¡me lo sé todo!", c:["Ver precios","¿Cómo funciona sin agua?","Empresas","¿Cómo agendo?"]}
+ {k:["hola","buenas","buenos dias","que tal","hey","wena"], a:"¡Hola! 💧 Soy la Gotita de Lavame x Fa. ¡Ahórrame! Pregúntame lo que quieras: precios, cómo lavamos, empresas, condominios, detailing… ¡me lo sé todo!", c:["Ver precios","¿Cómo lavamos?","Empresas","¿Cómo agendo?"]}
 ];
 
 const ACTIONS = {
   "Ver precios": () => brain("precio"),
-  "¿Cómo funciona sin agua?": () => brain("agua"),
+  "¿Cómo lavamos?": () => brain("agua"),
   "¿Raya la pintura?": () => brain("raya"),
   "Empresas": () => brain("empresa"),
   "¿Cómo agendo?": () => brain("agendar"),
@@ -1107,8 +1107,8 @@ function brain(q, echo){
   setTimeout(() => {
     if(best){ addMsg(best.a, "bot"); setChips(best.c); }
     else {
-      addMsg("Esa me la sé a medias 😅 Pero por WhatsApp te la responden al tiro. ¿O quieres que te cuente de precios, empresas o el lavado sin agua?", "bot");
-      setChips(["Ver precios","Empresas","¿Cómo funciona sin agua?","WhatsApp"]);
+      addMsg("Esa me la sé a medias 😅 Pero por WhatsApp te la responden al tiro. ¿O quieres que te cuente de precios, empresas o el lavado ecológico?", "bot");
+      setChips(["Ver precios","Empresas","¿Cómo lavamos?","WhatsApp"]);
     }
   }, 350);
 }
@@ -1116,7 +1116,7 @@ function openG(){
   gover.classList.add("open");
   if(!gbody.children.length){
     addMsg("¡Hola! 💧 Soy la Gotita, tu GUÍA en Lavame x Fa — mi frase es \"¡Ahórrame!\" porque cada lavado me ahorra hasta 400 litros.\n\nTe guío por todo: precios, cómo funciona, agendar tu hora, empresas, condominios, retiro… ¡Pregunta nomás o toca un botón!", "bot");
-    setChips(["Ver precios","¿Cómo funciona sin agua?","Empresas","¿Cómo agendo?"]);
+    setChips(["Ver precios","¿Cómo lavamos?","Empresas","¿Cómo agendo?"]);
   }
 }
 function closeG(){ gover.classList.remove("open"); }
