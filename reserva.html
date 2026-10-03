@@ -118,7 +118,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 100px;color:var(--mut);fo
 </div></header>
 
 <div class="hero">
-  <img class="bg" src="https://lavamexfa.com/eco19.jpg" alt="Auto con brillo espejo después del sellado cerámico">
+  <img class="bg" src="https://lavamexfa.com/eco19.jpg" alt="Auto brillante después del sellado cerámico">
   <div class="wrap">
     <span class="tag">⭐ Sellado cerámico listo el mismo día</span>
     <h1>Tu auto <span>como nuevo</span>,<br>sin perder tu día</h1>
@@ -162,8 +162,8 @@ footer{border-top:1px solid var(--line);padding:30px 0 100px;color:var(--mut);fo
   <div class="sizes" id="sizes">
     <button class="sz on" data-i="0">Citycar<small>Swift, Morning, Yaris</small></button>
     <button class="sz" data-i="1">Sedán<small>Corolla, Elantra, Civic</small></button>
-    <button class="sz" data-i="2">SUV<small>CX-5, Tucson, RAV4</small></button>
-    <button class="sz" data-i="3">Pickup<small>Hilux, L200, Ranger</small></button>
+    <button class="sz" data-i="2">SUV / Pickup mediana<small>CR-V, Tucson, Hilux, L200</small></button>
+    <button class="sz" data-i="3">SUV / Pickup XL<small>Tahoe, Land Cruiser, RAM, F-150</small></button>
   </div>
   <div class="grid" id="grid"></div>
 
@@ -228,15 +228,14 @@ footer{border-top:1px solid var(--line);padding:30px 0 100px;color:var(--mut);fo
 
 <script>
 const R="https://reservasimple.com/lavamexfa",W="56987709905",IMG="https://lavamexfa.com/";
-const SZ=["citycar","sedán","SUV","pickup"];
+const SZ=["citycar","sedán","SUV/pickup mediana","SUV/pickup XL"];
 const S=[
- {id:12640,n:"Sellado cerámico 6 a 12 meses",img:"clip11.jpg",star:"⭐ Producto estrella",d:"Brillo espejo que repele agua y suciedad. Tu auto se lava fácil por meses.",l:["Pulido en 3 pasos","Cerámico en carrocería y vidrios","Ruedas de regalo","Listo el mismo día"],p:[100000,120000,140000,160000],t:"El auto queda el día"},
- {id:12644,n:"Detailing Pro: exterior + interior full",img:"clip04.jpg",star:"🔥 Promo lanzamiento",b2:1,d:"El paquete completo: tu auto por dentro y por fuera como recién salido de la automotora.",l:["Sellado cerámico exterior","Interior full con vapor","Listo el mismo día"],p:[150000,175000,210000,240000],o:[180000,210000,250000,290000],t:"El auto queda el día"},
- {id:12637,n:"Lavado simple con aspirado",img:"eco04.jpg",d:"El clásico bien hecho: exterior e interior simple, rápido y sin rayar.",l:["Carrocería, vidrios y llantas","Aspirado completo","Tablero y consola"],p:[27000,30000,35000,40000],t:"Aprox. 1 hora"},
+ {id:12640,n:"Sellado cerámico 6 a 12 meses",img:"clip11.jpg",star:"⭐ Producto estrella",d:"Abrillantado de la pintura con protección: repele agua y suciedad y tu auto se lava fácil por meses.",l:["Pulido en 3 pasos","Cerámico en carrocería y vidrios","Ruedas de regalo","Listo el mismo día"],p:[100000,120000,140000,160000],t:"El auto queda el día"},
+ {id:12644,n:"Detailing Pro: exterior + interior con detallado",img:"clip04.jpg",star:"🔥 Promo lanzamiento",b2:1,d:"Lavado exterior + interior completo, con detallado de interiores según tu auto.",l:["Lavado exterior completo","Detallado de interiores según tu auto (tapiz, cuero, plásticos)","Listo el mismo día"],p:[150000,175000,210000,240000],o:[180000,210000,250000,290000],t:"El auto queda el día"},
+ {id:12638,n:"Lavado exterior",img:"det11.jpg",d:"Para cuando el auto está limpio por dentro y solo necesita brillar por fuera.",l:["Carrocería","Vidrios","Llantas"],p:[16000,18000,21000,24000],t:"Aprox. 45 min"},
+ {id:12637,n:"Lavado completo",img:"eco04.jpg",d:"Exterior + interior: rápido, bien hecho y sin rayar.",l:["Carrocería, vidrios y llantas","Aspirado completo","Tablero y consola"],p:[27000,30000,35000,40000],t:"Aprox. 1 hora"},
  {id:12643,n:"Interior full",img:"eco09.jpg",d:"Limpieza profunda de todo el interior, en tapiz o cuero. Chao manchas y olores.",l:["Cielo, asientos y alfombras","Puertas, tablero y ductos","Maletero"],p:[80000,90000,110000,130000],t:"Aprox. 3 horas"},
- {id:12638,n:"Solo exterior",img:"det11.jpg",d:"Para cuando el auto está limpio por dentro y solo necesita brillar por fuera.",l:["Carrocería","Vidrios","Llantas"],p:[16000,18000,21000,24000],t:"Aprox. 45 min"},
- {id:12639,n:"Lavado ecológico sin agua",img:"eco16.jpg",d:"Ideal para condominios y oficinas: no mojamos el piso ni necesitamos manguera.",l:["Productos biodegradables","Sin manchar estacionamientos","Perfecto para varios autos"],p:[20000,22000,25000,30000],t:"Aprox. 1 hora"},
- {id:12641,n:"Cerámico 3 años",img:"eco12.jpg",d:"Protección de larga duración con acabado espejo profundo.",l:["Corrección de pintura","Cerámico profesional","Protección UV"],p:[125000,150000,175000,200000],t:"El auto queda el día"},
+ {id:12641,n:"Cerámico 3 años",img:"eco12.jpg",d:"Protección de larga duración con brillo profundo.",l:["Corrección de pintura","Cerámico profesional","Protección UV"],p:[125000,150000,175000,200000],t:"El auto queda el día"},
  {id:12642,n:"Grafeno 5 años",img:"eco23.jpg",d:"Lo máximo en protección: brillo intenso y resistencia por años.",l:["Corrección de pintura completa","Recubrimiento de grafeno","Máxima durabilidad"],p:[150000,180000,200000,250000],t:"El auto queda 2 días"}
 ];
 const E=[["Pulido y sellado de focos (par)",[40000,50000,60000,70000]],["Sellado cerámico de llantas",[30000,40000,60000,70000]],["Sellado de plásticos",[20000,30000,40000,50000]],["Sellado de neumáticos",[30000,30000,40000,50000]],["Lavado de motor con vapor",[40000,40000,50000,60000]],["Interior por zona: alfombras",[25000,25000,30000,40000]],["Interior por zona: cielo",[20000,20000,25000,30000]],["Interior por zona: puertas",[20000,20000,25000,30000]],["Interior por zona: maletero",[20000,20000,30000,40000]],["Lavado de chasis con vapor",null]];
