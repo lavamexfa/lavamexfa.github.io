@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Precios · Lavame x Fa</title>
+<meta name="description" content="Precios de lavado y detailing Lavame x Fa según el tamaño de tu auto. A domicilio y en local Pedro Fontova 7580, Huechuraba.">
+<meta property="og:title" content="💰 Precios Lavame x Fa">
+<meta property="og:description" content="Elige el tamaño de tu auto y mira todos los precios. A domicilio o en local Huechuraba.">
+<meta property="og:image" content="https://lavamexfa.com/logo.jpg">
+<link rel="icon" href="/logo.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Barlow:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#121416;--card:#1A1D20;--line:#2F3439;--tx:#F2EEE6;--mut:#9aa0a6;--acc:#E8B84A;--ok:#25D366}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--tx);font-family:Barlow,system-ui,sans-serif;padding:0 16px 110px;max-width:620px;margin:0 auto}
+header{display:flex;align-items:center;gap:14px;padding:22px 0 10px}
+header img{width:58px;height:58px;border-radius:50%;border:3px solid var(--acc);object-fit:cover}
+h1{font:800 34px/1 "Barlow Condensed";letter-spacing:.5px}
+.sub{color:var(--acc);font-weight:600;font-size:15px;margin-top:4px}
+.info{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px;font-size:13px;color:var(--mut)}
+.info span{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:5px 11px}
+.pick{position:sticky;top:0;background:var(--bg);padding:14px 0 10px;z-index:5;border-bottom:1px solid var(--line)}
+.pick p{font:700 13px Barlow;letter-spacing:2px;color:var(--mut);margin-bottom:8px}
+.sizes{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.sizes button{background:var(--card);border:2px solid var(--line);color:var(--tx);border-radius:12px;padding:8px 4px;font:700 14px Barlow;cursor:pointer;line-height:1.15}
+.sizes button small{display:block;font:500 11px Barlow;color:var(--mut);margin-top:2px}
+.sizes button.on{border-color:var(--acc);background:#2a2412}
+.sizes button.on small{color:var(--acc)}
+h2{font:800 22px "Barlow Condensed";letter-spacing:1px;margin:24px 0 2px}
+.note{color:var(--mut);font-size:13px;margin-bottom:10px}
+.row{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 14px;margin-bottom:8px}
+.row.star{border-color:var(--acc)}
+.row .n{flex:1}
+.row b{display:block;font-size:16px}
+.row i{font-style:normal;color:var(--mut);font-size:13px}
+.tag{display:inline-block;background:var(--acc);color:#2A1C00;font:800 11px Barlow;padding:2px 8px;border-radius:10px;margin-bottom:4px}
+.pr{text-align:right;font:800 24px "Barlow Condensed";color:var(--acc);white-space:nowrap}
+.pr s{display:block;font:600 13px Barlow;color:#7d8389}
+.foot{color:var(--mut);font-size:12.5px;margin-top:18px;line-height:1.5}
+.cta{position:fixed;left:0;right:0;bottom:0;display:flex;gap:8px;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:rgba(18,20,22,.96);border-top:1px solid var(--line);max-width:620px;margin:0 auto}
+.cta a{flex:1;text-align:center;text-decoration:none;font:800 17px "Barlow Condensed";letter-spacing:.5px;padding:13px 6px;border-radius:12px}
+.cta .r{background:var(--acc);color:#2A1C00}
+.cta .w{background:var(--ok);color:#fff}
+</style>
+</head>
+<body>
+<header>
+  <img src="/logo.jpg" alt="Lavame x Fa">
+  <div><h1>PRECIOS</h1><div class="sub">Lavame x Fa · a domicilio o en local</div></div>
+</header>
+<div class="info">
+  <span>🏡 A domicilio: Huechuraba, Chicureo, La Dehesa y alrededores</span>
+  <span>📍 Local: Pedro Fontova 7580, Huechuraba · todos los días 9 a 22 h</span>
+  <span>👥 4 autos o más en un mismo punto: descuento para todos</span>
+</div>
+
+<div class="pick">
+  <p>1 · ELIGE EL TAMAÑO DE TU AUTO</p>
+  <div class="sizes" id="sizes"></div>
+</div>
+
+<div id="list"></div>
+
+<p class="foot">Precios en pesos chilenos, pagas al terminar el servicio. Son valores referenciales: se confirman al ver el auto (estado, suciedad extrema o pelos de mascota pueden variar el valor).</p>
+
+<div class="cta">
+  <a class="r" href="/reserva.html">📅 RESERVAR HORA</a>
+  <a class="w" id="wa" href="https://wa.me/56987709905">💬 WHATSAPP</a>
+</div>
+
+<script>
+const T=[["Citycar","Spark, Yaris, Swift"],["Sedán","Corolla, Elantra"],["SUV / Pickup mediana","CR-V, Tucson, Hilux"],["SUV / Pickup XL","Tahoe, RAM, F-150"]];
+const TS=["Citycar","Sedán","SUV/Pick mediana","SUV/Pick XL"];
+const D=[
+ {h:"⭐ Más pedidos",n:"",f:[
+  {n:"Sellado cerámico 6 a 12 meses",d:"Abrillantado con protección · pulido 3 pasos · ruedas de regalo · listo el mismo día",p:[100000,120000,140000,160000],tag:"Producto estrella",star:1},
+  {n:"Detailing Pro: exterior + interior full",d:"Sellado cerámico + interior full con vapor · listo el mismo día",p:[150000,175000,210000,240000],o:[180000,210000,250000,290000],tag:"Promo lanzamiento",star:1},
+  {n:"Lavado simple con aspirado",d:"Carrocería, vidrios, llantas, aspirado, tablero y consola · aprox. 1 h",p:[27000,30000,35000,40000]}]},
+ {h:"Lavados",n:"Siempre bien hecho y sin rayar",f:[
+  {n:"Solo exterior",d:"Carrocería, vidrios y llantas · aprox. 45 min",p:[16000,18000,21000,24000]},
+  {n:"Lavado ecológico a domicilio",d:"Productos biodegradables · ideal condominios y oficinas · aprox. 1 h",p:[20000,22000,25000,30000]}]},
+ {h:"Interior",n:"Tapiz o cuero, mismo precio",f:[
+  {n:"Interior full",d:"Cielo, asientos, alfombras, puertas, tablero, ductos y maletero · aprox. 3 h",p:[80000,90000,110000,130000]},
+  {n:"Solo cielo",d:"",p:[20000,20000,25000,30000]},
+  {n:"Solo puertas",d:"",p:[20000,20000,25000,30000]},
+  {n:"Solo alfombras",d:"",p:[25000,25000,30000,40000]},
+  {n:"Solo maletero",d:"",p:[20000,20000,30000,40000]}]},
+ {h:"Protección larga duración",n:"",f:[
+  {n:"Cerámico 3 años",d:"Corrección de pintura + cerámico profesional · el auto queda el día",p:[125000,150000,175000,200000]},
+  {n:"Grafeno 5 años",d:"Máxima protección · el auto queda 2 días",p:[150000,180000,200000,250000]}]},
+ {h:"Adicionales",n:"Se suman a cualquier servicio",f:[
+  {n:"Sellado de plásticos",d:"Brillo y protección 2 a 3 meses",p:[20000,30000,40000,50000]},
+  {n:"Sellado de neumáticos",d:"",p:[30000,30000,40000,50000]},
+  {n:"Sellado cerámico de llantas",d:"",p:[30000,40000,60000,70000]},
+  {n:"Pulido y sellado de focos (el par)",d:"",p:[40000,50000,60000,70000]},
+  {n:"Lavado de motor con vapor",d:"Con autorización firmada",p:[40000,40000,50000,60000]}]}
+];
+const $=s=>document.getElementById(s),f=n=>"$"+n.toLocaleString("es-CL");
+let k=0;try{const v=+new URLSearchParams(location.search).get("t");if(v>=1&&v<=4)k=v-1}catch(e){}
+function draw(){
+ $("sizes").innerHTML=T.map((t,i)=>`<button class="${i==k?"on":""}" data-i="${i}">${TS[i]}<small>${t[1]}</small></button>`).join("");
+ $("list").innerHTML=D.map(s=>`<h2>${s.h}</h2>${s.n?`<p class="note">${s.n}</p>`:""}`+s.f.map(r=>`<div class="row${r.star?" star":""}"><div class="n">${r.tag?`<span class="tag">${r.tag}</span>`:""}<b>${r.n}</b>${r.d?`<i>${r.d}</i>`:""}</div><div class="pr">${r.o?`<s>${f(r.o[k])}</s>`:""}${f(r.p[k])}</div></div>`).join("")).join("");
+ $("wa").href="https://wa.me/56987709905?text="+encodeURIComponent("Hola! Vi los precios. Mi auto es "+T[k][0]+" y quiero agendar");
+}
+$("sizes").addEventListener("click",e=>{const b=e.target.closest("button");if(b){k=+b.dataset.i;draw()}});
+draw();
+</script>
+</body>
+</html>
