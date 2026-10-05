@@ -99,10 +99,13 @@ const WA = '56987709905';
 // ======================
 const $ = id => document.getElementById(id);
 const P = new URLSearchParams(location.search);
-const src = (P.get('o') || 'directo').toLowerCase().replace(/[^a-z0-9_-]/g,'').slice(0,20);
+// Código único del cliente (se genera una vez y se recuerda en ese celular)
+let COD; try { COD = localStorage.getItem('lxf_cod'); } catch(_){}
+if (!COD) { const n = (crypto.getRandomValues(new Uint32Array(1))[0] % 9000) + 1000; COD = 'LXF-' + n; try { localStorage.setItem('lxf_cod', COD); } catch(_){} }
+const src = 'web';
 const val = id => $(id).value.trim().replace(/\s+/g,' ').slice(0,60);
 function buildMsg(){
-  return `Hola Lavame x Fa! 👋 Quiero mi 10% de dcto x fa 🙏\n\nNombre: ${val('nombre')}\nComuna: ${val('comuna')}\nAuto: ${val('auto')}\n\n(código ${src.toUpperCase()})`;
+  return `Hola Lavame x Fa! 👋 Quiero mi 10% de dcto x fa 🙏\n\nNombre: ${val('nombre')}\nComuna: ${val('comuna')}\nAuto: ${val('auto')}\n\nMi código: ${COD}`;
 }
 function setHref(){ $('waBtn').href = `https://wa.me/${WA}?text=${encodeURIComponent(buildMsg())}`; }
 ['nombre','comuna','auto'].forEach(id=>$(id).addEventListener('input', setHref));
@@ -112,7 +115,7 @@ $('saveBtn').addEventListener('click', ()=> setTimeout(unlock2, 600));
 $('waBtn').addEventListener('click', ()=>{
   setHref();
   $('st2').classList.add('done'); $('st2').querySelector('.n').textContent='✓'; $('okmsg').hidden=false;
-  if (SHEET_URL) { try { navigator.sendBeacon(SHEET_URL, new URLSearchParams({nombre:val('nombre'),comuna:val('comuna'),auto:val('auto'),fuente:src,acepta:'sí'})); } catch(_){} }
+  if (SHEET_URL) { try { navigator.sendBeacon(SHEET_URL, new URLSearchParams({nombre:val('nombre'),comuna:val('comuna'),auto:val('auto'),codigo:COD,acepta:'sí'})); } catch(_){} }
 });
 // si no tocó el paso 1, igual se habilita el paso 2 a los 6 s
 setTimeout(()=> $('st2').classList.remove('dim'), 6000);
