@@ -48,6 +48,7 @@ input:focus,select:focus{border-color:var(--gold)}
 .chk{display:flex;gap:10px;align-items:flex-start;margin:12px 0;font-size:12.5px;color:var(--mut)}
 .chk input{width:22px;height:22px;flex:0 0 22px;margin:0;accent-color:var(--gold)}
 .err{color:var(--err);font-size:13px;min-height:16px}
+.mini{font-size:12px;color:var(--mut);margin:8px 0 0;text-align:center}
 .okmsg{color:var(--ok);font-size:14px;font-weight:600;padding:8px 0}
 footer{margin-top:auto;padding-top:22px;text-align:center;font-size:12px;color:var(--mut)}
 footer a{color:var(--mut)}
@@ -59,7 +60,7 @@ footer a{color:var(--mut)}
   <div class="chips"><span>🚿 Lavado</span><span>✨ Sellado cerámico</span><span>🧽 Detailing interior</span><span>🏠 Local y domicilio</span></div>
 
   <h1>Háblanos y recibe 10% de descuento 🎁</h1>
-  <p class="lead">Guárdanos y escríbenos por WhatsApp: tu descuento te llega al tiro.</p>
+  <p class="lead">1) Guárdanos  2) Pide tu descuento por WhatsApp. Te llega al tiro.</p>
 
   <div class="step" id="st1">
     <div class="n">1</div>
@@ -70,8 +71,14 @@ footer a{color:var(--mut)}
 
   <div class="step dim" id="st2">
     <div class="n">2</div>
-    <div class="t">Háblanos por WhatsApp<small>El mensaje ya va escrito: solo toca <b>Enviar</b>.</small>
-      <a class="btn wa" id="waBtn" href="#" target="_blank" rel="noopener">💬 Quiero mi 10% x fa</a>
+    <div class="t">Pide tu 10% por WhatsApp<small>Escribe tus datos y toca el botón: el mensaje sale listo.</small>
+      <label for="nombre">Tu nombre</label><input id="nombre" autocomplete="name" placeholder="Ej: Juan Pérez">
+      <div class="row">
+        <div><label for="comuna">Comuna</label><input id="comuna" list="comunas" placeholder="Ej: Huechuraba"><datalist id="comunas"><option>Huechuraba</option><option>Conchalí</option><option>Recoleta</option><option>Quilicura</option><option>Colina</option><option>Chicureo</option><option>Vitacura</option><option>Lo Barnechea</option><option>Las Condes</option><option>Independencia</option><option>Renca</option></datalist></div>
+        <div><label for="auto">Tu auto</label><input id="auto" placeholder="Ej: Kia Rio"></div>
+      </div>
+      <a class="btn wa" id="waBtn" href="#" target="_blank" rel="noopener" style="margin-top:14px">💬 Quiero mi 10% de dcto x fa</a>
+      <p class="mini">Al enviar aceptas recibir promos de Lavame x Fa. Para salir escribe BAJA.</p>
     </div>
   </div>
   <p class="okmsg" id="okmsg" hidden>¡Listo! Tu 10% te llega por WhatsApp 🙌</p>
@@ -83,21 +90,6 @@ footer a{color:var(--mut)}
     <a href="https://g.page/r/CTtzfAJowFS9EAI/review" target="_blank" rel="noopener">⭐ Reseñas</a>
   </div>
 
-  <details id="det">
-    <summary>¿Prefieres dejar tus datos aquí? (opcional)</summary>
-    <form id="f" novalidate>
-      <label for="nombre">Nombre</label><input id="nombre" name="nombre" autocomplete="name">
-      <label for="cel">Celular</label><input id="cel" name="celular" type="tel" inputmode="tel" autocomplete="tel" placeholder="+56 9 1234 5678">
-      <div class="row">
-        <div><label for="comuna">Comuna</label><select id="comuna" name="comuna"><option value="">Elige…</option><option>Huechuraba</option><option>Conchalí</option><option>Recoleta</option><option>Quilicura</option><option>Colina / Chicureo</option><option>Vitacura</option><option>Lo Barnechea</option><option>Las Condes</option><option>Independencia</option><option>Renca</option><option>Otra</option></select></div>
-        <div><label for="auto">Auto</label><input id="auto" name="auto" placeholder="Ej: Kia Rio"></div>
-      </div>
-      <label class="chk"><input type="checkbox" id="ok"><span>Acepto que Lavame x Fa guarde mis datos para enviarme promociones. Me doy de baja escribiendo "BAJA".</span></label>
-      <div class="err" id="err"></div>
-      <button class="btn gold" type="submit" id="send">Enviar mis datos</button>
-    </form>
-  </details>
-
   <footer>Lavame x Fa · <a href="/">lavamexfa.com</a> · WhatsApp +56 9 8770 9905</footer>
 </main>
 <script>
@@ -108,24 +100,22 @@ const WA = '56987709905';
 const $ = id => document.getElementById(id);
 const P = new URLSearchParams(location.search);
 const src = (P.get('o') || 'directo').toLowerCase().replace(/[^a-z0-9_-]/g,'').slice(0,20);
-const msg = `Hola Lavame x Fa! 👋 Ya los guardé. Quiero mi 10% de descuento x fa 🙏 (código ${src.toUpperCase()})`;
-$('waBtn').href = `https://wa.me/${WA}?text=${encodeURIComponent(msg)}`;
+const val = id => $(id).value.trim().replace(/\s+/g,' ').slice(0,60);
+function buildMsg(){
+  return `Hola Lavame x Fa! 👋 Quiero mi 10% de dcto x fa 🙏\n\nNombre: ${val('nombre')}\nComuna: ${val('comuna')}\nAuto: ${val('auto')}\n\n(código ${src.toUpperCase()})`;
+}
+function setHref(){ $('waBtn').href = `https://wa.me/${WA}?text=${encodeURIComponent(buildMsg())}`; }
+['nombre','comuna','auto'].forEach(id=>$(id).addEventListener('input', setHref));
+setHref();
 function unlock2(){ $('st1').classList.add('done'); $('st1').querySelector('.n').textContent='✓'; $('st2').classList.remove('dim'); }
 $('saveBtn').addEventListener('click', ()=> setTimeout(unlock2, 600));
-$('waBtn').addEventListener('click', ()=>{ $('st2').classList.add('done'); $('st2').querySelector('.n').textContent='✓'; $('okmsg').hidden=false; });
-// si vuelve a la página sin haber tocado el paso 1, igual dejamos el paso 2 a mano después de 6 s
-setTimeout(()=> $('st2').classList.remove('dim'), 6000);
-
-$('f').addEventListener('submit', async e=>{
-  e.preventDefault(); $('err').textContent='';
-  const d = Object.fromEntries(new FormData($('f')));
-  if (!d.nombre.trim() || d.celular.replace(/\D/g,'').length<8) { $('err').textContent='Pon al menos nombre y celular.'; return; }
-  if (!$('ok').checked) { $('err').textContent='Marca la casilla para poder enviarte promociones.'; return; }
-  d.fuente=src; d.acepta='sí';
-  $('send').disabled=true; $('send').textContent='Enviando…';
-  if (SHEET_URL) { try { await fetch(SHEET_URL,{method:'POST',mode:'no-cors',body:new URLSearchParams(d)}); } catch(_){} }
-  $('f').innerHTML='<p class="okmsg">¡Listo, '+(d.nombre.trim().split(' ')[0].replace(/[<>&]/g,''))+'! Quedaste registrado 🙌</p>';
+$('waBtn').addEventListener('click', ()=>{
+  setHref();
+  $('st2').classList.add('done'); $('st2').querySelector('.n').textContent='✓'; $('okmsg').hidden=false;
+  if (SHEET_URL) { try { navigator.sendBeacon(SHEET_URL, new URLSearchParams({nombre:val('nombre'),comuna:val('comuna'),auto:val('auto'),fuente:src,acepta:'sí'})); } catch(_){} }
 });
+// si no tocó el paso 1, igual se habilita el paso 2 a los 6 s
+setTimeout(()=> $('st2').classList.remove('dim'), 6000);
 </script>
 </body>
 </html>
