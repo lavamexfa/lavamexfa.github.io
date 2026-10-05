@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Lavame x Fa · Guárdanos</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0f0e0c">
+<meta property="og:title" content="Lavame x Fa · Lavado y detailing">
+<meta property="og:description" content="Guárdanos y recibe 10% de descuento por WhatsApp.">
+<meta property="og:image" content="https://lavamexfa.com/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0f0e0c;--card:#1a1815;--ink:#f4f1ea;--mut:rgba(244,241,234,.64);--line:rgba(255,255,255,.14);--gold:#E8B84A;--ok:#5fb39a;--err:#e07a6c}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 Inter,system-ui,sans-serif}
+main{max-width:460px;margin:0 auto;padding:20px 16px 34px;min-height:100svh;display:flex;flex-direction:column}
+.hero{position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--line);aspect-ratio:16/10;background:#000 url(det06.jpg) center/cover}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05) 30%,rgba(15,14,12,.95))}
+.hero .in{position:absolute;left:16px;right:16px;bottom:14px;z-index:1;display:flex;align-items:center;gap:12px}
+.hero img{width:54px;height:54px;border-radius:13px;object-fit:cover;border:1px solid var(--line)}
+.hero b{font:800 28px/1 'Barlow Condensed',sans-serif;letter-spacing:.5px;display:block}
+.hero span{font-size:13px;color:var(--mut)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 6px}
+.chips span{font-size:13px;padding:6px 11px;border-radius:99px;background:var(--card);border:1px solid var(--line)}
+h1{font:800 32px/1.04 'Barlow Condensed',sans-serif;margin:14px 0 6px;letter-spacing:.3px}
+p.lead{color:var(--mut);margin:0 0 16px;font-size:15px}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:18px;border-radius:16px;border:0;font:700 17px Inter,sans-serif;cursor:pointer;text-decoration:none;transition:transform .08s,opacity .2s}
+.btn:active{transform:scale(.98)}
+.gold{background:var(--gold);color:#17140f}
+.wa{background:#25D366;color:#06210f}
+.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);font-weight:600;padding:14px}
+.step{display:flex;gap:12px;align-items:flex-start;padding:14px;border-radius:16px;background:var(--card);border:1px solid var(--line);margin-bottom:10px}
+.step .n{flex:0 0 30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:700;background:rgba(232,184,74,.16);color:var(--gold)}
+.step.done .n{background:rgba(95,179,154,.18);color:var(--ok)}
+.step .t{flex:1}.step .t small{display:block;color:var(--mut);font-size:13px;margin-top:2px}
+.step .btn{margin-top:10px}
+.dim{opacity:.45;pointer-events:none}
+.links{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.links a{padding:12px;border-radius:12px;background:var(--card);border:1px solid var(--line);color:var(--ink);text-decoration:none;font-size:14px;font-weight:600;text-align:center}
+details{margin-top:14px;border:1px solid var(--line);border-radius:14px;padding:4px 14px;background:var(--card)}
+summary{cursor:pointer;padding:10px 0;font-size:14px;color:var(--mut)}
+label{display:block;font-size:13px;font-weight:600;margin:10px 0 4px}
+input,select{width:100%;padding:13px;border-radius:12px;border:1px solid var(--line);background:#0f0e0c;color:var(--ink);font:16px Inter,sans-serif;outline:none}
+input:focus,select:focus{border-color:var(--gold)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chk{display:flex;gap:10px;align-items:flex-start;margin:12px 0;font-size:12.5px;color:var(--mut)}
+.chk input{width:22px;height:22px;flex:0 0 22px;margin:0;accent-color:var(--gold)}
+.err{color:var(--err);font-size:13px;min-height:16px}
+.okmsg{color:var(--ok);font-size:14px;font-weight:600;padding:8px 0}
+footer{margin-top:auto;padding-top:22px;text-align:center;font-size:12px;color:var(--mut)}
+footer a{color:var(--mut)}
+</style>
+</head>
+<body>
+<main>
+  <div class="hero"><div class="in"><img src="logo.jpg" alt=""><div><b>LAVAME X FA</b><span>Pedro Fontova 7580 · Huechuraba</span></div></div></div>
+  <div class="chips"><span>🚿 Lavado</span><span>✨ Sellado cerámico</span><span>🧽 Detailing interior</span><span>🏠 Local y domicilio</span></div>
+
+  <h1>Háblanos y recibe 10% de descuento 🎁</h1>
+  <p class="lead">Guárdanos y escríbenos por WhatsApp: tu descuento te llega al tiro.</p>
+
+  <div class="step" id="st1">
+    <div class="n">1</div>
+    <div class="t">Guarda nuestro contacto<small>Se abre la ficha: toca <b>Guardar</b> o <b>Crear contacto</b>.</small>
+      <a class="btn gold" id="saveBtn" href="lavamexfa.vcf" download="Lavame x Fa.vcf">📇 Guardar contacto</a>
+    </div>
+  </div>
+
+  <div class="step dim" id="st2">
+    <div class="n">2</div>
+    <div class="t">Háblanos por WhatsApp<small>El mensaje ya va escrito: solo toca <b>Enviar</b>.</small>
+      <a class="btn wa" id="waBtn" href="#" target="_blank" rel="noopener">💬 Quiero mi 10% x fa</a>
+    </div>
+  </div>
+  <p class="okmsg" id="okmsg" hidden>¡Listo! Tu 10% te llega por WhatsApp 🙌</p>
+
+  <div class="links">
+    <a href="/precios">💰 Precios</a>
+    <a href="/reserva.html">📅 Reservar</a>
+    <a href="https://instagram.com/lavamexfaa" target="_blank" rel="noopener">📸 Instagram</a>
+    <a href="https://g.page/r/CTtzfAJowFS9EAI/review" target="_blank" rel="noopener">⭐ Reseñas</a>
+  </div>
+
+  <details id="det">
+    <summary>¿Prefieres dejar tus datos aquí? (opcional)</summary>
+    <form id="f" novalidate>
+      <label for="nombre">Nombre</label><input id="nombre" name="nombre" autocomplete="name">
+      <label for="cel">Celular</label><input id="cel" name="celular" type="tel" inputmode="tel" autocomplete="tel" placeholder="+56 9 1234 5678">
+      <div class="row">
+        <div><label for="comuna">Comuna</label><select id="comuna" name="comuna"><option value="">Elige…</option><option>Huechuraba</option><option>Conchalí</option><option>Recoleta</option><option>Quilicura</option><option>Colina / Chicureo</option><option>Vitacura</option><option>Lo Barnechea</option><option>Las Condes</option><option>Independencia</option><option>Renca</option><option>Otra</option></select></div>
+        <div><label for="auto">Auto</label><input id="auto" name="auto" placeholder="Ej: Kia Rio"></div>
+      </div>
+      <label class="chk"><input type="checkbox" id="ok"><span>Acepto que Lavame x Fa guarde mis datos para enviarme promociones. Me doy de baja escribiendo "BAJA".</span></label>
+      <div class="err" id="err"></div>
+      <button class="btn gold" type="submit" id="send">Enviar mis datos</button>
+    </form>
+  </details>
+
+  <footer>Lavame x Fa · <a href="/">lavamexfa.com</a> · WhatsApp +56 9 8770 9905</footer>
+</main>
+<script>
+// === CONFIGURACIÓN ===
+const SHEET_URL = '';            // URL del Apps Script (planilla). Vacío = solo WhatsApp.
+const WA = '56987709905';
+// ======================
+const $ = id => document.getElementById(id);
+const P = new URLSearchParams(location.search);
+const src = (P.get('o') || 'directo').toLowerCase().replace(/[^a-z0-9_-]/g,'').slice(0,20);
+const msg = `Hola Lavame x Fa! 👋 Ya los guardé. Quiero mi 10% de descuento x fa 🙏 (código ${src.toUpperCase()})`;
+$('waBtn').href = `https://wa.me/${WA}?text=${encodeURIComponent(msg)}`;
+function unlock2(){ $('st1').classList.add('done'); $('st1').querySelector('.n').textContent='✓'; $('st2').classList.remove('dim'); }
+$('saveBtn').addEventListener('click', ()=> setTimeout(unlock2, 600));
+$('waBtn').addEventListener('click', ()=>{ $('st2').classList.add('done'); $('st2').querySelector('.n').textContent='✓'; $('okmsg').hidden=false; });
+// si vuelve a la página sin haber tocado el paso 1, igual dejamos el paso 2 a mano después de 6 s
+setTimeout(()=> $('st2').classList.remove('dim'), 6000);
+
+$('f').addEventListener('submit', async e=>{
+  e.preventDefault(); $('err').textContent='';
+  const d = Object.fromEntries(new FormData($('f')));
+  if (!d.nombre.trim() || d.celular.replace(/\D/g,'').length<8) { $('err').textContent='Pon al menos nombre y celular.'; return; }
+  if (!$('ok').checked) { $('err').textContent='Marca la casilla para poder enviarte promociones.'; return; }
+  d.fuente=src; d.acepta='sí';
+  $('send').disabled=true; $('send').textContent='Enviando…';
+  if (SHEET_URL) { try { await fetch(SHEET_URL,{method:'POST',mode:'no-cors',body:new URLSearchParams(d)}); } catch(_){} }
+  $('f').innerHTML='<p class="okmsg">¡Listo, '+(d.nombre.trim().split(' ')[0].replace(/[<>&]/g,''))+'! Quedaste registrado 🙌</p>';
+});
+</script>
+</body>
+</html>
