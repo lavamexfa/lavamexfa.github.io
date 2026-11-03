@@ -140,7 +140,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 100px;color:var(--mut);fo
   <p class="sub">Mismo equipo, mismos productos profesionales, donde tú prefieras.</p>
   <div class="modes">
     <div class="mode"><img src="https://lavamexfa.com/det01.jpg" alt="Local Lavame x Fa en Huechuraba"><div class="in"><h3>📍 En nuestro local</h3><p>Pedro Fontova 7580, Huechuraba. Lunes a domingo de 9 a 22 h. Dejas el auto y lo retiras impecable.</p></div></div>
-    <div class="mode"><img src="https://lavamexfa.com/eco16.jpg" alt="Lavado a domicilio"><div class="in"><h3>🏠 A domicilio 24/7</h3><p>Vamos a tu casa u oficina en Huechuraba, Chicureo, La Dehesa, Vitacura, Las Condes y alrededores. Horario a convenir.</p></div></div>
+    <div class="mode"><img src="https://lavamexfa.com/eco16.jpg" alt="Lavado a domicilio"><div class="in"><h3>🏠 A domicilio</h3><p>Vamos a tu casa, condominio u oficina en Huechuraba, al mismo precio del local.</p></div></div>
     <div class="mode"><img src="https://lavamexfa.com/condominio.jpg" alt="Lavado en condominios y empresas"><div class="in"><h3>🏢 Condominios y empresas</h3><p>Más de 4 autos en un mismo punto tienen descuento. Planes para flotas y estacionamientos.</p></div></div>
   </div>
 </div></section>
@@ -230,15 +230,17 @@ footer{border-top:1px solid var(--line);padding:30px 0 100px;color:var(--mut);fo
 const R="https://reservasimple.com/lavamexfa",W="56987709905",IMG="https://lavamexfa.com/";
 const SZ=["citycar","sedán","SUV/pickup mediana","SUV/pickup XL"];
 const S=[
- {id:12640,n:"Sellado cerámico 6 a 12 meses",img:"clip11.jpg",star:"⭐ Producto estrella",d:"Abrillantado de la pintura con protección: repele agua y suciedad y tu auto se lava fácil por meses.",l:["Pulido en 3 pasos","Cerámico en carrocería y vidrios","Ruedas de regalo","Listo el mismo día"],p:[100000,120000,140000,160000],t:"El auto queda el día"},
- {id:12644,n:"Detailing Pro: exterior + interior con detallado",img:"clip04.jpg",star:"🔥 Promo lanzamiento",b2:1,d:"Lavado exterior + interior completo, con detallado de interiores según tu auto.",l:["Lavado exterior completo","Detallado de interiores según tu auto (tapiz, cuero, plásticos)","Listo el mismo día"],p:[150000,175000,210000,240000],o:[180000,210000,250000,290000],t:"El auto queda el día"},
- {id:12638,n:"Lavado exterior",img:"det11.jpg",d:"Para cuando el auto está limpio por dentro y solo necesita brillar por fuera.",l:["Carrocería","Vidrios","Llantas"],p:[16000,18000,21000,24000],t:"Aprox. 45 min"},
- {id:12637,n:"Lavado completo",img:"eco04.jpg",d:"Exterior + interior: rápido, bien hecho y sin rayar.",l:["Carrocería, vidrios y llantas","Aspirado completo","Tablero y consola"],p:[27000,30000,35000,40000],t:"Aprox. 1 hora"},
- {id:12643,n:"Interior full",img:"eco09.jpg",d:"Limpieza profunda de todo el interior, en tapiz o cuero. Chao manchas y olores.",l:["Cielo, asientos y alfombras","Puertas, tablero y ductos","Maletero"],p:[80000,90000,110000,130000],t:"Aprox. 3 horas"},
- {id:12641,n:"Cerámico 3 años",img:"eco12.jpg",d:"Protección de larga duración con brillo profundo.",l:["Corrección de pintura","Cerámico profesional","Protección UV"],p:[125000,150000,175000,200000],t:"El auto queda el día"},
- {id:12642,n:"Grafeno 5 años",img:"eco23.jpg",d:"Lo máximo en protección: brillo intenso y resistencia por años.",l:["Corrección de pintura completa","Recubrimiento de grafeno","Máxima durabilidad"],p:[150000,180000,200000,250000],t:"El auto queda 2 días"}
+ {id:12639,n:"Lavado ecológico",img:"spray.jpg",star:"🌿 Ecológico",b2:1,d:"Lavado con productos biodegradables, cuidando tu auto y el entorno. Ideal para condominios y oficinas.",l:["Productos biodegradables","En el local o a domicilio en Huechuraba","Ideal condominios y oficinas"],p:[23000,25300,28800,34500],t:"Aprox. 1 hora"},
+ {id:12637,n:"Lavado full interior + exterior",img:"eco04.jpg",star:"⭐ El más pedido",d:"Tu auto limpio por dentro y por fuera, rápido y bien hecho.",l:["Carrocería, vidrios y llantas","Aspirado completo","Tablero y consola"],p:[31100,34500,40300,46000],t:"Aprox. 1 hora"},
+ {id:12644,n:"Detailing Pro: exterior + interior con detallado",img:"clip04.jpg",star:"🔥 Promo lanzamiento",b2:1,d:"Lavado exterior + interior completo, con detallado de interiores según tu auto.",l:["Lavado exterior completo","Detallado de interiores según tu auto (tapiz, cuero, plásticos)","Listo el mismo día"],p:[172500,201300,241500,276000],o:[207000,241500,287500,333500],t:"El auto queda el día"},
+ {id:12640,n:"Sellado cerámico 6 a 12 meses",img:"clip11.jpg",star:"✨ Detailing",d:"Abrillantado de la pintura con protección: repele agua y suciedad y tu auto se lava fácil por meses.",l:["Pulido en 3 pasos","Cerámico en carrocería y vidrios","Ruedas de regalo","Listo el mismo día"],p:[115000,138000,161000,184000],t:"El auto queda el día"},
+ {id:12643,n:"Interior full",img:"eco09.jpg",d:"Limpieza profunda de todo el interior, en tapiz o cuero. Chao manchas y olores.",l:["Cielo, asientos y alfombras","Puertas, tablero y ductos","Maletero"],p:[92000,103500,126500,149500],t:"Aprox. 3 horas"},
+ {id:12638,n:"Lavado exterior",img:"det11.jpg",d:"Para cuando el auto está limpio por dentro y solo necesita brillar por fuera.",l:["Carrocería","Vidrios","Llantas"],p:[18400,20700,24200,27600],t:"Aprox. 45 min"},
+ {id:12641,n:"Cerámico 3 años",img:"eco12.jpg",d:"Protección de larga duración: corrección de pintura y cerámico profesional.",l:["Corrección de pintura","Cerámico profesional","Protección UV"],p:[143800,172500,201300,230000],t:"El auto queda el día"},
+ {id:12642,n:"Grafeno 5 años",img:"eco23.jpg",d:"Lo máximo en protección: resistencia por años.",l:["Corrección de pintura completa","Recubrimiento de grafeno","Máxima durabilidad"],p:[172500,207000,230000,287500],t:"El auto queda 2 días"},
+ {id:14495,n:"Lavado de motos",img:"rueda.jpg",d:"Tu moto limpia y cuidada. Tradicional con hidrolavadora o con vapor ($28.800, indícalo en la nota). Detailing de motos: consultar.",l:["Tradicional con hidrolavadora","Opción con vapor","Mismo precio para cualquier moto"],p:[17300,17300,17300,17300],t:"Aprox. 1 hora"}
 ];
-const E=[["Pulido y sellado de focos (par)",[40000,50000,60000,70000]],["Sellado cerámico de llantas",[30000,40000,60000,70000]],["Sellado de plásticos",[20000,30000,40000,50000]],["Sellado de neumáticos",[30000,30000,40000,50000]],["Lavado de motor con vapor",[40000,40000,50000,60000]],["Interior por zona: alfombras",[25000,25000,30000,40000]],["Interior por zona: cielo",[20000,20000,25000,30000]],["Interior por zona: puertas",[20000,20000,25000,30000]],["Interior por zona: maletero",[20000,20000,30000,40000]],["Lavado de chasis con vapor",null]];
+const E=[["Pulido y sellado de focos (par)",[46000,57500,69000,80500]],["Sellado cerámico de llantas",[34500,46000,69000,80500]],["Sellado de plásticos",[23000,34500,46000,57500]],["Sellado de neumáticos",[34500,34500,46000,57500]],["Lavado de motor con vapor",[46000,46000,57500,69000]],["Interior por zona: alfombras",[28800,28800,34500,46000]],["Interior por zona: cielo",[23000,23000,28800,34500]],["Interior por zona: puertas",[23000,23000,28800,34500]],["Interior por zona: maletero",[23000,23000,34500,46000]],["Lavado de chasis con vapor",null]];
 const f=n=>"$"+n.toLocaleString("es-CL");
 const wa=t=>"https://wa.me/"+W+"?text="+encodeURIComponent(t);
 let i=0;
@@ -251,7 +253,7 @@ function render(){
   <p class="time">${SZ[i]} · ${s.t}</p>
   <div class="acts"><a class="btn btn-ghost" target="_blank" rel="noopener" href="${wa(`Hola! Quiero cotizar ${s.n} para mi ${SZ[i]} (${f(s.p[i])}). ¿Tienen hora?`)}">Consultar</a><a class="btn btn-acc" target="_blank" rel="noopener" data-k="${k}" href="${R}?serviceId=${s.id}">Reservar</a></div>
   </div></div>`).join("");
- document.getElementById("extras").innerHTML=E.map(e=>`<div class="ex"><span>${e[0]}</span><b>${e[1]?f(e[1][i]):'desde $60.000'}</b></div>`).join("");
+ document.getElementById("extras").innerHTML=E.map(e=>`<div class="ex"><span>${e[0]}</span><b>${e[1]?f(e[1][i]):'desde $69.000'}</b></div>`).join("");
  const m=wa(`Hola! Tengo un ${SZ[i]} y quiero cotizar un servicio en Lavame x Fa.`);
  document.getElementById("waHero").href=m;document.getElementById("waFloat").href=m;
 }

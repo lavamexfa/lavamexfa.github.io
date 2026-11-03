@@ -82,7 +82,7 @@ h2{font:800 21px "Barlow Condensed";letter-spacing:.8px;margin:22px 0 3px;displa
 
 <p class="foot">Precios en pesos chilenos. Pagas al terminar el servicio. Son valores referenciales: se confirman al ver el auto (estado, suciedad extrema o pelos de mascota pueden cambiar el valor).</p>
 <div class="info">
-  <span>🏡 A domicilio: Huechuraba, Chicureo, La Dehesa, Vitacura, Las Condes y alrededores</span>
+  <span>🏡 A domicilio en Huechuraba, al mismo precio del local</span>
   <span>📍 Local: Pedro Fontova 7580, Huechuraba · lunes a domingo 9 a 22 h</span>
   <span>👥 4 autos o más en un mismo punto: descuento para todos</span>
 </div>
@@ -100,26 +100,30 @@ const T=[["🚗","Citycar","Spark, Yaris, Swift"],["🚘","Sedán","Corolla, Ela
 const TS=["Citycar","Sedán","SUV / Pick mediana","SUV / Pick XL"];
 const D=[
  {h:"🚿 Lavados",n:"Productos biodegradables · a domicilio o en local",f:[
-  {id:"ext",n:"Lavado exterior",d:"Carrocería, vidrios y llantas · aprox. 45 min",p:[16000,18000,21000,24000]},
-  {id:"sim",n:"Lavado completo",d:"Exterior + interior: aspirado, tablero y consola · aprox. 1 h",p:[27000,30000,35000,40000],tag:"RECOMENDADO"}]},
+  {id:"eco",n:"Lavado ecológico",d:"Productos biodegradables, cuidando tu auto y el entorno · ideal condominios y oficinas · aprox. 1 h",p:[23000,25300,28800,34500],tag:"🌿 ECOLÓGICO"},
+  {id:"ext",n:"Lavado exterior",d:"Carrocería, vidrios y llantas · aprox. 45 min",p:[18400,20700,24200,27600]},
+  {id:"sim",n:"Lavado full interior + exterior",d:"Carrocería, vidrios, llantas, aspirado completo, tablero y consola · aprox. 1 h",p:[31100,34500,40300,46000],tag:"RECOMENDADO"}]},
  {h:"✨ Detailing",n:"Nuestro fuerte: el auto queda como nuevo",f:[
-  {id:"sel",n:"Sellado cerámico 6 a 12 meses",d:"Abrillantado de la pintura con protección: queda brillante y repele agua y suciedad · ruedas de regalo · listo el mismo día",p:[100000,120000,140000,160000],tag:"⭐ EL MÁS PEDIDO",star:1},
-  {id:"pro",n:"Detailing Pro (lavado pro)",d:"Lavado exterior + interior completo, con detallado de interiores según tu auto (tapiz, cuero, plásticos) · listo el mismo día",p:[150000,175000,210000,240000],o:[180000,210000,250000,290000],tag:"🔥 PROMO LANZAMIENTO",star:1}]},
+  {id:"sel",n:"Sellado cerámico 6 a 12 meses",d:"Abrillantado de la pintura con protección: queda brillante y repele agua y suciedad · ruedas de regalo · listo el mismo día",p:[115000,138000,161000,184000],tag:"⭐ EL MÁS PEDIDO",star:1},
+  {id:"pro",n:"Detailing Pro (lavado pro)",d:"Lavado exterior + interior completo, con detallado de interiores según tu auto (tapiz, cuero, plásticos) · listo el mismo día",p:[172500,201300,241500,276000],o:[207000,241500,287500,333500],tag:"🔥 PROMO LANZAMIENTO",star:1}]},
  {h:"🛡️ Protección larga duración",n:"",f:[
-  {id:"c3",n:"Cerámico 3 años",d:"Corrección de pintura + cerámico profesional · el auto queda el día",p:[125000,150000,175000,200000]},
-  {id:"g5",n:"Grafeno 5 años",d:"Máxima protección · el auto queda 2 días",p:[150000,180000,200000,250000]}]},
+  {id:"c3",n:"Cerámico 3 años",d:"Corrección de pintura + cerámico profesional · el auto queda el día",p:[143800,172500,201300,230000]},
+  {id:"g5",n:"Grafeno 5 años",d:"Máxima protección · el auto queda 2 días",p:[172500,207000,230000,287500]}]},
  {h:"🛋️ Interior",n:"Tapiz o cuero, mismo precio",f:[
-  {id:"int",n:"Interior full",d:"Cielo, asientos, alfombras, puertas, tablero, ductos y maletero · aprox. 3 h",p:[80000,90000,110000,130000]}]},
+  {id:"int",n:"Interior full",d:"Cielo, asientos, alfombras, puertas, tablero, ductos y maletero · aprox. 3 h",p:[92000,103500,126500,149500]}]},
+ {h:"🏍️ Motos",n:"Mismo precio para cualquier moto",f:[
+  {id:"mot1",n:"Lavado de moto tradicional",d:"Con hidrolavadora",p:[17300,17300,17300,17300]},
+  {id:"mot2",n:"Lavado de moto con vapor",d:"Detailing de motos: consultar",p:[28800,28800,28800,28800]}]},
  {h:"➕ Extras",n:"Súmalos a tu servicio (puedes marcar varios)",x:1,f:[
-  {id:"cie",n:"Limpieza de cielo",p:[20000,20000,25000,30000]},
-  {id:"pue",n:"Limpieza de puertas",p:[20000,20000,25000,30000]},
-  {id:"alf",n:"Limpieza de alfombras",p:[25000,25000,30000,40000]},
-  {id:"mal",n:"Limpieza de maletero",p:[20000,20000,30000,40000]},
-  {id:"pla",n:"Sellado de plásticos",d:"Brillo y protección 2 a 3 meses",p:[20000,30000,40000,50000]},
-  {id:"neu",n:"Sellado de neumáticos",p:[30000,30000,40000,50000]},
-  {id:"lla",n:"Sellado cerámico de llantas",p:[30000,40000,60000,70000]},
-  {id:"foc",n:"Pulido y sellado de focos (el par)",p:[40000,50000,60000,70000]},
-  {id:"mot",n:"Lavado de motor con vapor",d:"Con autorización firmada",p:[40000,40000,50000,60000]}]}
+  {id:"cie",n:"Limpieza de cielo",p:[23000,23000,28800,34500]},
+  {id:"pue",n:"Limpieza de puertas",p:[23000,23000,28800,34500]},
+  {id:"alf",n:"Limpieza de alfombras",p:[28800,28800,34500,46000]},
+  {id:"mal",n:"Limpieza de maletero",p:[23000,23000,34500,46000]},
+  {id:"pla",n:"Sellado de plásticos",d:"Brillo y protección 2 a 3 meses",p:[23000,34500,46000,57500]},
+  {id:"neu",n:"Sellado de neumáticos",p:[34500,34500,46000,57500]},
+  {id:"lla",n:"Sellado cerámico de llantas",p:[34500,46000,69000,80500]},
+  {id:"foc",n:"Pulido y sellado de focos (el par)",p:[46000,57500,69000,80500]},
+  {id:"mot",n:"Lavado de motor con vapor",d:"Con autorización firmada",p:[46000,46000,57500,69000]}]}
 ];
 const ALL={};D.forEach(s=>s.f.forEach(r=>{r.x=!!s.x;ALL[r.id]=r}));
 const $=s=>document.getElementById(s),f=n=>"$"+n.toLocaleString("es-CL");
